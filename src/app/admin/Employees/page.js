@@ -72,7 +72,7 @@ export default function page() {
       <div className="icon">
         {/* Replace the src below with the actual path to your image */}
         <img
-          src="\icons\con.svg"
+          src="\icons\confar.png"
           alt="Icon"
           className="icon-image"
         />
