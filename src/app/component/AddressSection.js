@@ -89,7 +89,7 @@ function AddressSection() {
       <div className="modal-overlay">
         <div className="modal-container">
           <button className="modal-close-btn">
-            <i className="fa fa-times" onClick={toggleModal}></i>
+            <i className="fa fa-times" onClick={(e) => { e.stopPropagation(); toggleModal(); }}></i>
           </button>
           <h3 style={{marginTop:'10px',marginBottom:'10px'}}>Edit Address</h3>
         <form className="addressform">
