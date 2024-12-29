@@ -1,7 +1,7 @@
-import React from 'react'
+
 import "../CreateAccount.css";
 
-function Login() {
+function Page() {
     return (
         <div className='main' >
             <div className="left-container">
@@ -30,4 +30,4 @@ function Login() {
     );
 }
 
-export default Login
+export default Page

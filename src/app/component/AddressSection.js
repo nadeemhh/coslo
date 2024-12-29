@@ -88,9 +88,11 @@ function AddressSection() {
      {ModalOpen && (
       <div className="modal-overlay">
         <div className="modal-container">
-          <button className="modal-close-btn">
-            <i className="fa fa-times" onClick={(e) => { e.stopPropagation(); toggleModal(); }}></i>
+          <div style={{display:'flex',justifyContent:'flex-end'}}>
+          <button onClick={toggleModal} className="modal-close-btn">
+            <i className="fa fa-times"></i>
           </button>
+          </div>
           <h3 style={{marginTop:'10px',marginBottom:'10px'}}>Edit Address</h3>
         <form className="addressform">
           

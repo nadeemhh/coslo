@@ -33,8 +33,8 @@ const NavBar = () => {
         </div>
         </Link>
         
-        <a href="/home/createaccount">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true}> Sign In </Button>
+        <a href="/home/login">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true}>  log in </Button>
         </a>
         </div>
 
@@ -62,14 +62,17 @@ const NavBar = () => {
        
         <div className="action-buttons hide">
        
+        <a href="/home/createaccountsup">
           <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
-          
-          <a href="/home/createaccount">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true}> Sign In </Button>
+          </a>
+
+          <a href="/home/login">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true}>  log in </Button>
         </a>
 
+        <a href="/home/createaccount">
       <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
-          
+          </a>
          
         </div>
       </div>

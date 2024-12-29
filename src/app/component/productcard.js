@@ -42,7 +42,7 @@ export default function Productcard() {
         <div className="product-actions">
 
         <h4 className="price">₹ 2560/-</h4>
-        <CounterComponent/>
+        {/* <CounterComponent/> */}
 
         </div>
         {/* Actions */}

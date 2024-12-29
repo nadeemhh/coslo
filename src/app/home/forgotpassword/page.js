@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "../CreateAccount.css";
 
 function ForgotPassword() {

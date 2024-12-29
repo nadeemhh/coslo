@@ -277,19 +277,21 @@ export default function Products() {
       
       {ModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-container">
-            <button className="modal-close-btn">
-              <i className="fa fa-times" onClick={(e) => { e.stopPropagation(); toggleModal(); }}></i>
-            </button>
+          <div className="mymodal-container">
+          <div style={{display:'flex',justifyContent:'flex-end'}}>
+          <button onClick={toggleModal} className="modal-close-btn">
+            <i className="fa fa-times"></i>
+          </button>
+          </div>
             <h2>Ask your queries here!</h2>
             <p>The Supplier will get back to you soon!</p>
-            <form className='modalform'>
+            <div className='modalform'>
               <input type="text" placeholder="Type your name *" required />
               <input type="text" placeholder="Type your phone no*" required />
               <input type="email" placeholder="Type your email*" required />
               <textarea placeholder="Type details"></textarea>
               <button type="submit">Submit</button>
-            </form>
+            </div>
           </div>
         </div>
       )}

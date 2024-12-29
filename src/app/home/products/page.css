@@ -237,7 +237,7 @@ justify-content: center;
   padding: 10px;
 }
 
-.modal-container {
+.mymodal-container {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -249,13 +249,13 @@ justify-content: center;
   gap: 20px;
 }
 
-.modal-container  h2 {
+.mymodal-container  h2 {
   margin: 0;
   font-size: 24px;
   color: #333;
 }
 
-.modal-container p {
+.mymodal-container p {
   font-size: 14px;
   color: #777;
 }
@@ -298,7 +298,6 @@ justify-content: center;
 }
 
 .modal-close-btn {
-text-align: right;
   background: none;
   border: none;
   font-size: 24px;

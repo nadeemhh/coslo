@@ -1,5 +1,5 @@
 
-import "../CreateAccount.css";
+import "../../supplier/CreateAccount.css";
 
 
 function Page() {
@@ -14,8 +14,8 @@ function Page() {
             </div>
             <div className='right-container'>
                 <div className="form">
-                    <h1 className="">Create Account</h1>
-                    <p>Streamline your business operations with our marketplace</p>
+                    <h1 className="">We will get back to you soon!</h1>
+                    <p> I want add Sell directly to Buyers With ZERO Commission</p>
                     <div className="form-tab">
                         <label>Enter Name</label>
                         <input type="text" placeholder="Enter Your Name" className="" />
@@ -29,24 +29,12 @@ function Page() {
                         <input type="email" placeholder="@gmail.com" className="" />
                     </div>
                     <div className='form-tab'>
-                        <label>Enter Password</label>
-                        <input type="password" placeholder="********" className="" />
+                        <label>Enter Company Name *</label>
+                        <input type="text" placeholder="" className="" />
                     </div>
-                    <div className="form-tab">
-                        <label>Confirm Password</label>
-                        <input type="password" placeholder="********" className="" />
-                    </div>
-                    <div className='radio-btn form-tab '>
-                        <div className='radio-ret'>
-                            <input type='radio' className='btn' name='group1'/>
-                            <label>Retailer</label>
-                        </div>
-                        <div className='radio-self'>
-                            <input type='radio' className='btn' name='group1'/>
-                            <label>Self Use</label>
-                        </div>
-                    </div>
-                    <button className="form-tab">Create Account ➜</button>
+                  
+                   
+                    <button className="form-tab">Request Registration ➜</button>
                 </div>
             </div>
         </div>

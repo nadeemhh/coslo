@@ -48,7 +48,7 @@ export default function Page() {
         <div className="product-actions">
 
         <h4 className="price">₹ 2560/-</h4>
-        <CounterComponent/>
+        {/* <CounterComponent/> */}
 
         </div>
         {/* Actions */}
@@ -96,7 +96,7 @@ export default function Page() {
         <div className="product-actions">
 
         <h4 className="price">₹ 2560/-</h4>
-        <CounterComponent/>
+        {/* <CounterComponent/> */}
 
         </div>
         {/* Actions */}
@@ -144,7 +144,7 @@ export default function Page() {
         <div className="product-actions">
 
         <h4 className="price">₹ 2560/-</h4>
-        <CounterComponent/>
+        {/* <CounterComponent/> */}
 
         </div>
         {/* Actions */}
@@ -193,7 +193,7 @@ export default function Page() {
         <div className="product-actions">
 
         <h4 className="price">₹ 2560/-</h4>
-        <CounterComponent/>
+        {/* <CounterComponent/> */}
 
         </div>
         {/* Actions */}

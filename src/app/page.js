@@ -20,8 +20,8 @@ export default function Home() {
           <h1>Coslo.com</h1>
         </div>
         </Link>
-        <a href="/home/createaccount">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true}> Sign In </Button>
+        <a href="/home/login ">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true}> log in </Button>
         </a>
         </div>
 
@@ -47,20 +47,23 @@ export default function Home() {
         <div className="action-buttons">
        
         
-
+        <a href="/home/createaccountsup">
           <Button rightIcon="icons\right.svg" className='hide'>Want to Sell</Button>
-          
-          <a href="/home/createaccount">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> Sign In </Button>
+          </a>
+
+          <a href="/home/login">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> log in </Button>
         </a>
+
+        <a href="/home/createaccount">
       <Button rightIcon="icons\right.svg" className='hide'> Want to Buy</Button>
-          
+          </a>
          
         </div>
       </div>
 
 
-      <div className="categories">
+      {/* <div className="categories">
         <a href="#" style={{display:'flex'}}>All Categories <img src="icons\3dot.svg" alt="" /></a>
         <a href="#">
           Electronics Supplies <i className="fas fa-angle-down"></i>
@@ -71,7 +74,7 @@ export default function Home() {
         <a href="#">
           Food & Beverage <i className="fas fa-angle-down"></i>
         </a>
-      </div>
+      </div> */}
     </nav>
 
     {/* Hero Section */}
@@ -83,10 +86,18 @@ export default function Home() {
         Effortless Trade
         </h1>
         <div className="hero-buttons">
-        <Button rightIcon="icons\right.svg" >Explore</Button>
-        <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Sell</Button>
-        <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Buy</Button>
 
+        <a href="/home" >
+        <Button rightIcon="icons\right.svg" >Explore</Button>
+        </a>
+
+        <a href="/home/createaccountsup" >
+        <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Sell</Button>
+        </a>
+
+        <a href="/home/createaccount" >
+        <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Buy</Button>
+        </a>
           {/* <a href="#" className="b1">Explore →</a>
           <a href="#" className="b2">Want to Sell →</a>
           <a href="#" className="b2">Want to Buy →</a> */}
