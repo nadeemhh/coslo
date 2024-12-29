@@ -23,7 +23,7 @@ const Usersidebar = () => {
   return (
     <div className="side-bar sidebar" id="sidebar">
   
-<img src="\icons\Coslo Employee Admin.svg" alt="" style={{marginBottom:'20px'}}/>
+<img src="\icons\Coslo Employee Admin.svg" alt="" style={{marginBottom:'20px',width:'180px'}}/>
       {/* Menu Items */}
       <div className="menu">
         {menuItems.map((item) => (

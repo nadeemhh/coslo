@@ -81,7 +81,8 @@ export default function Page() {
       <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
       <div className="price-summary">
         <p>Total Price : <strong style={{color:'#097CE1'}}> ₹ 24542/-</strong> </p>
-        <p>Total Taxes : <strong style={{color:'#097CE1'}}> 5%</strong></p>
+        <p>Total CGST : <strong style={{color:'#097CE1'}}> 5%</strong></p>
+        <p>Total SGST : <strong style={{color:'#097CE1'}}> 5%</strong></p>
         <p>Shipping Charges : <strong style={{color:'#097CE1'}}> ₹ 128/-</strong></p>
         <p className='totalp'>Total : <strong style={{color:'#097CE1'}}> ₹ 27392/-</strong></p>
       </div>

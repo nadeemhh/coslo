@@ -42,7 +42,8 @@ export default function page() {
           <div style={{textAlign:'right'}}>
           <div className="plan-price">₹ 24542</div>
           <span style={{color:"#7A7D7E",fontWeight:'500',fontSize:'24px'}}>monthly</span>
-          <div className="plan-description">Subscription charge include 5% GST</div>
+          {/* <div className="plan-description">Subscription charge include 5% GST</div> */}
+          <div className="plan-description"> 5% CGST + 5% SGST</div>
           </div>
 
           </div>

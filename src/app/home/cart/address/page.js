@@ -52,7 +52,10 @@ const AddressPage = () => {
             <span>Total Price:</span> <span>₹ 24542/-</span>
           </div>
           <div className="summary-row">
-            <span>Total Taxes:</span> <span>5%</span>
+            <span>Total CGST:</span> <span>5%</span>
+          </div>
+          <div className="summary-row">
+            <span>Total SGST:</span> <span>5%</span>
           </div>
           <div className="summary-row">
             <span>Shipping Charges:</span> <span>₹ 128/-</span>

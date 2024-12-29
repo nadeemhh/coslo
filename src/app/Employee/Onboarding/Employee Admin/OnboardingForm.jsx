@@ -125,6 +125,19 @@ function OnboardingForm() {
                                 <label>Commission Model</label>
                             </div>
                         </div>
+
+                        <div className="radio-tab">
+                            <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Role</p>
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"Coslo Provided Delivery"} onChange={handleOnChange} />
+                                <label>Supplier</label>
+                            </div>
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"Self Delivery Model"} onChange={handleOnChange} />
+                                <label>Manufacturer</label>
+                            </div>
+                        </div>
+
                         <div className="radio-tab">
                             <p htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Delivery Type</p>
                             <div className='fo2'>

@@ -49,6 +49,7 @@ export default function Page() {
       <p className="user-email">Email : faiziqbal@gmail.com</p>
       <p className="user-phone">Phone : +91 9876543210</p>
       <p className="user-company">Company : FarmFresh Supplies Inc.</p>
+      <p className="user-company">Role : Supplier</p>
     </div>
   </div>
   

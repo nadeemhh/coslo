@@ -76,23 +76,41 @@ export default function home() {
             <Link href="/home/Categories/subCategories">
             <Productcategory/>
             </Link>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
           </>:
 
             <>
             <Link href="/home/products">
             <Productcard />
             </Link>
+            <Link href="/home/products">
             <Productcard />
+            </Link>
+            <Link href="/home/products">
             <Productcard />
+            </Link>
+
+            <Link href="/home/products">
             <Productcard />
+            </Link>
+
+            <Link href="/home/products">
             <Productcard />
-            <Productcard />
-            <Productcard />
+            </Link>
             </>}
           </div>
         </div>
