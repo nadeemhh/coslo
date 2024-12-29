@@ -1,0 +1,7 @@
+.ordersp{padding: 0px 50px;}
+
+.card-title{color: black;}
+
+@media (max-width: 768px) {
+    .ordersp{padding: 0px 0px;}  
+}

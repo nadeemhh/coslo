@@ -1,0 +1,179 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.order-details {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+gap: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.user-name {
+  font-weight: bold;
+  color: #555;
+}
+
+.order-summary-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.order-box {
+  background: #ffffff;
+  border: 1px solid #aaaaaa;
+  padding: 15px;
+  border-radius: 8px;
+  width: 30%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-box h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #007bff;
+}
+
+.order-box p {
+padding: 5px;
+}
+
+.status-buttons {
+  display: flex;
+ gap: 20px;
+  margin: 40px 0;
+}
+
+.status-buttons select {
+  background-color: #F4F7FB;
+  color: #000000;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.status-buttons select option{
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+.product-details {
+
+  padding: 15px;
+width: 600px;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+
+.product-info {
+  flex-grow: 1;
+}
+
+.product-quantity {
+  width: 50px;
+  text-align: center;
+  margin-right: 15px;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.price-summary {
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.price-summary p{
+text-align: left;
+  padding: 5px;
+}
+
+.totalp{border-top: 1px solid black;}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+}
+
+.cancel-button {
+  background-color: #ff443700;
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.Completed {
+  font-size: 14px;
+  background-color: #E8FFF3;
+  color: #179757;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  white-space: nowrap;
+}
+
+
+.allstatus {
+  font-size: 14px;
+  background-color: #D9F0FF;
+  color: #1389F0;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  white-space: nowrap;
+}

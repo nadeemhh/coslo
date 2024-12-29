@@ -1,0 +1,57 @@
+/* NotificationCard.css */
+.notification-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-width: 500px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.Notifications{font-size: 20px;font-weight: 500;text-align: left;margin-bottom: 20px;}
+
+.icon {
+  color: green !important;
+  font-size: 12px;
+}
+
+.icon-gray{ color: gray;
+    font-size: 12px;}
+
+
+.text-content {
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+.message {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #666;
+  text-align: left;
+}
+
+.close-icon {
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-icon:hover {
+  color: #333;
+}

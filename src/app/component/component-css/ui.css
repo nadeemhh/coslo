@@ -1,0 +1,171 @@
+/* General page layout */
+.main-container {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.custom-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.custom-section {
+  margin-bottom: 30px;
+ 
+}
+
+h5 {
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+
+button:active{transform: scale(0.95);}
+/* Common button styles */
+.custom-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Small button */
+.small-btn {
+  background-color: #007bff;
+  color: white;
+  font-size: 12px;
+}
+
+/* Medium button */
+.medium-btn {
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+}
+
+/* Large button */
+.large-btn {
+  background-color: #ffc107;
+  color: white;
+  font-size: 16px;
+}
+
+/* Full-width button */
+.full-btn {
+  background-color: #17a2b8;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Buttons with icons */
+.icon-btn {
+  padding: 10px 20px;
+  color: white;
+  background-color: var(--primary-light);
+  font-size: 14px;
+}
+
+.left-icon .icon,
+.right-icon .icon {
+  margin: 0 5px;
+}
+
+/* Input Fields */
+
+/* Common input styles */
+.custom-input {
+  border-radius: 4px;
+  padding: 7px;
+  font-size: 14px;
+  border: 2px solid #007bff;
+  outline: none;
+}
+
+/* Input size variations */
+.small-input {
+  width: 100px;
+}
+
+.medium-input {
+  width: 200px;
+}
+
+.large-input {
+  width: 300px;
+}
+
+.full-width-input {
+  width: 100%;
+}
+
+/* Select Dropdowns */
+
+/* Common select styles */
+.custom-select {
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Size Variants */
+.small-select {
+  width: 100px;
+}
+
+.medium-select {
+  width: 200px;
+}
+
+.large-select {
+  width: 300px;
+}
+
+.full-width-select {
+  width: 100%;
+}
+
+
+/* counter */
+
+/* Parent container with border and flexbox */
+.counter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid gray;
+  padding: 5px;
+  width: 85px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+/* Style for clickable areas */
+.counter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 30px;
+  color: #007bff;
+}
+
+/* Style for the text input in the center */
+.counter-input {
+  text-align: center;
+  width: 40px;
+  padding: 1px 2px;
+outline:none;
+  font-size: 16px;
+  border: none;
+}
+
+/* counter end */

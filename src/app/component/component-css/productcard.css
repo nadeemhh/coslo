@@ -1,0 +1,139 @@
+
+/* Overall Card Container */
+
+
+.product-card {
+    width: 250px;
+    background-color: #ffffff;
+    border-radius: 10px;
+   border: 1px solid rgba(85, 85, 85, 0.568);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  
+  /* Product Image Section */
+  .product-image {
+    background-color: #ffecec; /* Light pink */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+  }
+  
+  .product-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Cart Icon */
+  .cart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    border: 2px solid rgb(116, 116, 116);
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .mylocation{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    font-weight: 600;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 2px;
+  }
+  
+  
+  .cart-icon:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Product Details */
+  .product-details {
+    padding: 15px;
+  }
+  
+  /* Location Section */
+  .location {
+    font-size: 12px;
+    color: #555;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .icon {
+    margin-right: 5px;
+    color: #007bff;
+  }
+  
+  /* Product Title and Supplier */
+  .product-title {
+    margin: 8px 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .product-supplier {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Price */
+  .price {
+    color: #097CE1;
+    font-size: 18px;
+    margin: 8px 0;
+  }
+  
+  /* Actions Section */
+  .product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+  
+  }
+  
+  
+  
+  /* Contact Supplier Button */
+  .contact-btn ,.Add-to-Cart{
+    background-color: #1389F0;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+  
+  }
+  
+  .Remove-btn{  background-color: #EC5959;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+  
+  }
+  
+  
+  
+  .contact-btn:hover {
+    background-color: #0056b3;
+  }

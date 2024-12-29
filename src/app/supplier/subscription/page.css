@@ -1,0 +1,294 @@
+.header {
+  display: flex;
+  align-items: center;
+gap: 20px;
+}
+
+
+.orders-container h2 {
+  margin-bottom: 10px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.orders-table th {
+  background-color: #f4f4f4;
+}
+
+.orders-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.orders-table .status {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #fff;
+  display: inline-block;
+}
+
+.orders-table .status.shipped {
+  background-color: #4caf50;
+}
+
+.orders-table td .edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  
+}
+
+.orders-table td .edit-btn:hover {
+  color: #0056b3;
+}
+
+
+/* subscription */
+
+
+.subscription-header {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.subscription-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.plan-details {
+background-color: #D9F0FF;
+width: 430px;
+height: 245px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding: 20px;
+border-radius: 20px;
+}
+
+.plan-title {
+  margin: 0;
+  font-size: 25px;
+  font-weight: bold;
+  color: #000;
+}
+
+.plan-price {
+  margin: 5px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.plan-description,
+.plan-validity {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.pay-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pay-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button {
+  padding: 10px 20px;
+  background-color: #EC5959;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cancel-button:hover {
+  background-color: #cc0000;
+}
+
+.change-plan-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.change-plan-label {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.plan-select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.current-plan {
+  font-size: 14px;
+  color: #555;
+  text-align: left;
+  margin-bottom: 50px;
+}
+
+.current-plan-label {
+  font-weight: bold;
+}
+
+.current-plan-dates {
+  font-style: italic;
+  color: #1389F0;
+}
+
+.general-subscription{font-size: 20px;margin-right: 20px;white-space: nowrap;}
+
+.validity{color: #1389F0;}
+
+
+
+/* pagination */
+
+.pagination{display: flex;gap: 10px;margin-top: 30px;align-items: center;}
+
+.pagination > *{cursor: pointer;}
+.pagination button{background-color: #00000000;color: rgb(0, 0, 0);padding: 5px 10px;border: none;}
+
+.activepage{background-color: #000000 !important;color: rgb(255, 255, 255) !important;border-radius: 2px;}
+
+.pre{color: rgb(144, 144, 144);}
+.pre i{margin-right: 10px;}
+.next i{margin-left: 10px;}
+
+/* pagination end */
+
+
+
+
+
+/* modal  start*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.modal-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* modal  start end*/
+
+
+/* confarmation box */
+
+
+.confirmation-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.icon {
+  margin-bottom: 20px;
+}
+
+.icon-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.message {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.no-button {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.yes-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.yes-button:hover {
+  background-color: #0056b3;
+}
+
+/* confarmation box end */

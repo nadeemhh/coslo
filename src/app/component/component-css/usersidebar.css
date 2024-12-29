@@ -1,0 +1,88 @@
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    border: 2px solid #D7DADB;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+  }
+  
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #000000;
+  }
+  
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .profile-info h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+  }
+  
+  .logout-btn {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius:5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .logout-btn:hover {
+    background-color: #e63946;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-item i {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #888;
+  }
+  
+  .menu-item span {
+    font-weight: 500;
+  }
+  
+  .menu-item:hover {
+    background-color: #e6f7ff;
+  }
+  
+  .menu-item.active {
+    background-color: #e6f7ff;
+    color: #1890ff;
+  }
+  
+  .menu-item.active i {
+    color: #1890ff;
+  }

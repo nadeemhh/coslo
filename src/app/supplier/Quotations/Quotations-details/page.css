@@ -1,0 +1,119 @@
+.header {
+  display: flex;
+  align-items: center;
+gap: 20px;
+}
+
+.enquiry-container {
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  padding: 20px;
+  border: 1px solid #aaaaaa;
+  border-radius: 8px;
+}
+
+.enquiry-row h1 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+
+.enquiry-row select {
+  background-color: #F4F7FB;
+  color: #000000;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.enquiry-row select option{
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid rgb(82, 82, 82);
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.enquiry-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.enquiry-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  
+}
+
+.label {
+  font-weight: bold;
+  color: #555;
+
+
+}
+
+.Description{  font-weight: bold;
+  color: #555;
+margin-bottom: 10px;}
+
+.EnquiryStatus{
+  color: #000000;
+}
+
+.value {
+  color: #333;
+}
+
+.enquiry-description {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.update-button,
+.cancel-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.update-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.cancel-button {
+  background-color: #dddddd00;
+  color: #000000;
+  border: 1px solid black;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}

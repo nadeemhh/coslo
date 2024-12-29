@@ -1,0 +1,103 @@
+.header {
+  display: flex;
+  align-items: center;
+gap: 20px;
+}
+
+
+.orders-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.orders-container h2 {
+  margin-bottom: 10px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.orders-table th {
+  background-color: #f4f4f4;
+}
+
+.orders-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.orders-table .status {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #fff;
+  display: inline-block;
+}
+
+.orders-table .status.shipped {
+  background-color: #4caf50;
+}
+
+.orders-table td .edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  
+}
+
+.orders-table td .edit-btn:hover {
+  color: #0056b3;
+}
+
+
+.shipped {
+  font-size: 14px;
+  background-color: #D9F0FF;
+  color: #1389F0;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  white-space: nowrap;
+}
+
+.delivered{
+font-size: 14px;
+background-color: #c5f6dd;
+color: #179757;
+margin-bottom: 10px;
+padding: 5px 10px;
+border-radius: 5px;
+border: none;
+white-space: nowrap;
+}
+
+.returned{
+font-size: 14px;
+background-color: #F8EAEA;
+color: #EC5959;
+margin-bottom: 10px;
+padding: 5px 10px;
+border-radius: 5px;
+border: none;
+white-space: nowrap;
+}
+
+
+.Inactive{color: #EC5959;}
+
+.Active{color: #179757;}

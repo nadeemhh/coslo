@@ -1,0 +1,181 @@
+
+.order-details-container {
+   
+    max-width: 800px;
+ 
+  }
+  
+  .order-details-title {
+    font-size: 21px;
+    font-weight:500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .order-details-title i {
+    cursor: pointer;
+    
+  }
+  
+  .order-details-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  
+    border-radius: 8px;
+   
+  
+  }
+  
+  /* Order Summary Section */
+  .order-summary, .shipping-address {
+    flex: 1 1 calc(50% - 20px);
+    min-width: 300px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    padding: 10px;
+  }
+  
+  .heading69 {
+    margin-bottom: 20px;
+    color: #007bff;
+    font-size: 19px;
+    font-weight: 600;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #007bff00;
+    border: 1px solid #000000;
+    color: rgb(0, 0, 0);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .download-btn i {
+    font-size: 16px;
+  }
+  
+  .download-btn:hover {
+    background: #007bff;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .order-details-content {
+      flex-direction: column;
+    }
+
+    .hgfhg{flex-direction: column;align-items: flex-start;}
+  }
+
+
+  /* tracking */
+
+  .tracking-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+  }
+  
+  .tracking-title {
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .tracking-timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  
+  .tracking-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  
+  .tracking-date-time {
+    flex: 1;
+    text-align: right;
+    padding-right: 20px;
+  }
+  
+  .tracking-date {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .tracking-time {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  .tracking-circle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .tracking-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #007bff;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .tracking-line {
+    width: 2px;
+    height: 70px;
+    background-color: #d3d3d3;
+    position: absolute;
+    top: 12px;
+  }
+  
+  /* .tracking-status-info {
+ 
+  } */
+  
+  .tracking-status {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+  }
+  
+  .tracking-location {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+
+  @media (max-width: 768px) {
+  
+     
+  .tracking-row {
+   
+    gap: 0px;
+  }
+  
+    .tracking-line {
+      height: 90px;
+    
+    }
+}

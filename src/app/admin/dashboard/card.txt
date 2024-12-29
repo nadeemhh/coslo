@@ -1,0 +1,141 @@
+
+<div className="cards-container">
+      {/* Card 1 */}
+      <div className="card">
+        <div className="card-header">Summary</div>
+        <div className="card-content">
+          <div className="card-item">
+            <i className="fas fa-handshake icon blue"></i>
+            <span>
+              <strong>130</strong> Vendors
+            </span>
+          </div>
+          <div className="card-item">
+            <i className="fas fa-box icon blue"></i>
+            <span>
+              <strong>1031</strong> Products
+            </span>
+          </div>
+          <div className="card-item">
+            <i className="fas fa-cubes icon blue"></i>
+            <span>
+              <strong>89</strong> Categories
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Card 2 */}
+      <div className="card">
+        <div className="card-header">
+         <span>Subscribers</span>  <i className="fas fa-gem icon blue"></i>
+        </div>
+        <div className="card-content">
+          <strong className="big-value">128</strong>
+          <div className="badgee green">20%</div>
+        </div>
+      </div>
+
+      {/* Card 3 */}
+      <div className="card">
+        <div className="card-header">
+         <span> Pending to Pay</span> <i className="fas fa-clock icon orange"></i>
+        </div>
+        <div className="card-content">
+          <strong className="big-value">56</strong>
+          <span>People this month</span>
+        </div>
+      </div>
+
+      {/* Card 4 */}
+      <div className="card">
+        <div className="card-header">
+         <span>Leads Sent</span> <i className="fas fa-chart-bar icon blue"></i>
+        </div>
+        <div className="card-content">
+          <strong className="big-value">20</strong>
+          <span>to subscribed suppliers</span>
+        </div>
+      </div>
+    </div>
+
+
+    css 
+
+      /* card for super admin */
+
+.cards-container {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+}
+
+.card {
+  width: 200px;
+  height: 150px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-content {
+  
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.big-value {
+  font-size: 36px;
+  font-weight: 600;
+  color: #333;
+}
+
+.badgee {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+  align-self: flex-start;
+  justify-content: flex-end;
+}
+
+.green {
+  background-color: #e6ffed;
+  color: #27a745;
+}
+
+.blue {
+  color: #007bff;
+}
+
+.orange {
+  color: #f39c12;
+}
+
+
+  /* card for super admin ends */
