@@ -16,14 +16,19 @@ export default function Page() {
  <Link href="/home/Categories/subCategories">
             <Productcategory/>
             </Link>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
-<Productcategory/>
+
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
+            <Link href="/home/Categories/subCategories">
+            <Productcategory/>
+            </Link>
 </div>
 
 

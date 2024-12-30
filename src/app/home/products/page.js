@@ -12,7 +12,12 @@ export default function Products() {
   const productsContainerRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [zoomScale, setZoomScale] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [ModalOpen, setModalOpen] = useState(false);
+
+  const handleChange = (event) => {
+    setQuantity(event.target.value);
+  };
 
   const toggleModal = () => {
   
@@ -173,7 +178,7 @@ export default function Products() {
           <div className="quantity-section">
            <div style={{display:'flex',flexDirection:'column',gap:'5px',marginRight:'20px'}}>
            <label style={{fontSize:'13px',color:'#1389F0'}}>Enter Quantity</label>
-           <input type="number"  min={1} />
+           <input type="number" value={quantity}    onChange={handleChange} />
            </div>
            
             <span className="save-info">You Saved Total ₹520!</span>

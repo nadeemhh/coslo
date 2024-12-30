@@ -11,7 +11,7 @@ export default function Productcard() {
       {/* Product Image */}
       <div className="product-image">
         <img
-          src="images\gameee.png" // Replace with actual image URL
+          src="\images\gameee.png" // Replace with actual image URL
           alt="Havit HV-G92 Gamepad"
         />
         <button className="cart-icon">

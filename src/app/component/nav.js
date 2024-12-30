@@ -78,7 +78,7 @@ const NavBar = () => {
       </div>
 
 
-      <div className="categories hide">
+      {/* <div className="categories hide">
         <a href="#" style={{display:'flex'}}>All Categories <img src="\icons\3dot.svg" alt="" /></a>
         <a href="#">
           Electronics Supplies <i className="fas fa-angle-down"></i>
@@ -89,7 +89,7 @@ const NavBar = () => {
         <a href="#">
           Food & Beverage <i className="fas fa-angle-down"></i>
         </a>
-      </div>
+      </div> */}
     </nav>
       </>
     );
