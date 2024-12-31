@@ -69,7 +69,7 @@ export default function home() {
           <div
             className="products-container"
             ref={(el) => (categoryRefs.current[0] = el)}
-            style={{display:'flex',flexDirection:'column',gap:'40px'}}
+            style={{display:'flex',flexDirection:'column',gap:'30px'}}
           >
                  
                  <div style={{display:'flex',gap:'15px'}}>
