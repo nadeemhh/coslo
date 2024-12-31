@@ -31,7 +31,6 @@ export default function home() {
   };
 
   const categories = [
-    { name: 'Our Categories', title: 'Browse by Categories',Categories:true },
     { name: 'Best Sellers', title: 'Best Sellers this Month' },
     { name: 'Trending Now', title: 'Most Popular this Week' },
 
@@ -41,8 +40,91 @@ export default function home() {
     <>
       <Imageslider />
 
+
+      <div className="category-list">
+          <div className="category-name">
+            <img src="icons/Rectangle 2.svg" alt="" />
+            <p>Our Categories</p>
+          </div>
+
+          <div className="category-title">
+            <p style={{ fontWeight: '500' }}>Browse by Categories</p>
+
+            <div style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
+              <img
+                src="icons/Leftar.svg"
+                alt="Left Arrow"
+                className="left-arrow lfarsh"
+                onClick={() => scrollLeft(0)}
+              />
+              <img
+                src="icons/Rightar.svg"
+                alt="Right Arrow"
+                className="right-arrow lfarsh"
+                onClick={() => scrollRight(0)}
+              />
+            </div>
+          </div>
+
+          <div
+            className="products-container"
+            ref={(el) => (categoryRefs.current[0] = el)}
+            style={{display:'flex',flexDirection:'column',gap:'40px'}}
+          >
+                 
+                 <div style={{display:'flex',gap:'15px'}}>
+
+
+                 {[...Array(10)].map((_, i) => (
+ <Link href="/home/Categories/subCategories"  key={i}>
+           
+ <div className="product-category-h" >
+
+<div className="category-name-image-h">
+<img src="\images\elc.jpg" alt=""/>
+</div>
+
+<div className="category-name-product-h">
+<p>Mobile, Electronics & Supplies</p>
+</div>
+
+</div>
+
+ </Link>
+            ))}
+           
+           
+            </div>
+
+            <div style={{display:'flex',gap:'15px'}}>
+           
+            {[...Array(10)].map((_, i) => (
+ <Link href="/home/Categories/subCategories"  key={i}>
+           
+ <div className="product-category-h" >
+
+<div className="category-name-image-h">
+<img src="\images\elc.jpg" alt=""/>
+</div>
+
+<div className="category-name-product-h">
+<p>Mobile, Electronics & Supplies</p>
+</div>
+
+</div>
+
+ </Link>
+            ))}
+
+            </div>
+            
+          </div>
+        </div>
+
+
+
       {categories.map((category, index) => (
-        <div className="category-list" key={index}>
+        <div className="category-list" key={index + 1}>
           <div className="category-name">
             <img src="icons/Rectangle 2.svg" alt="" />
             <p>{category.name}</p>
@@ -55,45 +137,22 @@ export default function home() {
               <img
                 src="icons/Leftar.svg"
                 alt="Left Arrow"
-                className="left-arrow"
-                onClick={() => scrollLeft(index)}
+                className="left-arrow lfarsh"
+                onClick={() => scrollLeft(index + 1)}
               />
               <img
                 src="icons/Rightar.svg"
                 alt="Right Arrow"
-                className="right-arrow"
-                onClick={() => scrollRight(index)}
+                className="right-arrow lfarsh"
+                onClick={() => scrollRight(index + 1)}
               />
             </div>
           </div>
 
           <div
             className="products-container"
-            ref={(el) => (categoryRefs.current[index] = el)}
+            ref={(el) => (categoryRefs.current[index + 1] = el)}
           >
-          { category.Categories? <>
-
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-          </>:
-
-            <>
             <Link href="/home/products">
             <Productcard />
             </Link>
@@ -111,7 +170,6 @@ export default function home() {
             <Link href="/home/products">
             <Productcard />
             </Link>
-            </>}
           </div>
         </div>
       ))}

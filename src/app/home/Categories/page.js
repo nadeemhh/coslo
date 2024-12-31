@@ -11,7 +11,7 @@ export default function Page() {
 <h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}}>Our Categories</h3>
 </div>
 
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
+<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>
 
  <Link href="/home/Categories/subCategories">
             <Productcategory/>

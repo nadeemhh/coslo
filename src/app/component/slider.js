@@ -135,10 +135,10 @@ function CustomSlider({ children }) {
           e.preventDefault();
           slideNext();
         }}
-        style={{marginRight:'15px'}}
+        style={{marginRight:'5px'}}
       >
 
-       <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+       <svg className="lfarsh" width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="23" cy="23" r="23" fill="white"/>
 <path d="M14.5 23H31M31 23L24 16M31 23L24 30" stroke="#2F3234" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
@@ -150,9 +150,9 @@ function CustomSlider({ children }) {
           e.preventDefault();
           slidePrev();
         }}
-        style={{marginLeft:'15px'}}
+        style={{marginLeft:'5px'}}
       >
-       <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+       <svg className="lfarsh" width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="23" cy="23" r="23" transform="matrix(-1 0 0 1 46 0)" fill="white"/>
 <path d="M31.5 23H15M15 23L22 16M15 23L22 30" stroke="#2F3234" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
