@@ -192,8 +192,8 @@ export default function Products() {
     >
           <div className='mylocationp'>
    <span className="location">
-  <img src="\icons\whatsappi.svg" width={'15px'} alt="" />
-  Share Url
+  <img src="\icons\share.svg" width={'15px'} alt="" />
+  Share
           </span> 
   
           </div>
@@ -203,7 +203,7 @@ export default function Products() {
           <a href="https://wa.me/+919880866978">
           <div className='mylocationp'>
    <span className="location">
-  <img src="\icons\whatsappi.svg" width={'15px'} alt="" />
+  <img src="\icons\whatsappi.svg" width={'18px'} alt="" />
   Contact
           </span> 
   
