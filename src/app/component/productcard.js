@@ -10,7 +10,7 @@ import {useState} from 'react';
 import Link from 'next/link';
 
 
-export default function Productcard() {
+export default function Productcard({veri=false}) {
 
   const [ModalOpen, setModalOpen] = useState(false);
 
@@ -31,9 +31,15 @@ export default function Productcard() {
           alt="Havit HV-G92 Gamepad"
         />
         </Link>
-        <button className="cart-icon">
+        {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
+        </button> */}
+        {veri && <button className="verified">
+        Verified
+         <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>
+        }
+
 
          {/* Location */}
  <div className='mylocation'>

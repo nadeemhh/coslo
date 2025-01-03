@@ -45,6 +45,23 @@
     cursor: pointer;
   }
   
+
+  .verified{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: #1389F0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    color: white;
+    padding: 3px;
+    border: none;
+    font-size: 11px;
+  }
+
   .mylocation{
     position: absolute;
     bottom: 0;

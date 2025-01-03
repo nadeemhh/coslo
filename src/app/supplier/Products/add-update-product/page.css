@@ -355,6 +355,124 @@ input:checked + .slider:before {
 
 /* toggle end */
 
+
+
+
+/* compare  */
+
+.compareContainer995 {
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 50px;
+}
+
+.compareHeading995 {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.compareSubtext995 {
+  font-size: 14px;
+  text-align: center;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.compareGrid995 {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.cardContainer975 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.header975 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.logo975 {
+  width: 90px;
+  height: auto;
+}
+
+.OurPrice{color: #007bff;font-size: 20px;}
+
+.imageContainer975 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.productImage975 {
+  width: 100%;
+
+}
+
+.details975 {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.details975 p{
+padding: 5px;
+}
+
+.productTitle975 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.seller975 {
+  font-size: 14px;
+  color: #777;
+}
+
+.price975 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 16px;
+}
+
+.label975 {
+ 
+  color: #555;
+}
+
+.value975 {
+  font-weight: bold;
+  color: #1a7f00;
+}
+
+
+
+
+/* comare end */
+
+
+
+
+
 .action-buttons {
   display: flex;
   gap: 20px;

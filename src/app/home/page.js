@@ -153,7 +153,7 @@ export default function home() {
             className="products-container"
             ref={(el) => (categoryRefs.current[index + 1] = el)}
           >
-           <Productcard />
+           <Productcard veri={true}/>
            <Productcard />
            <Productcard />
            <Productcard />

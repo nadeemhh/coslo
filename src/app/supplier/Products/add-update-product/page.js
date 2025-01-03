@@ -11,6 +11,7 @@ export default function Page() {
   const [ModalOpen, setModalOpen] = useState(false);
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [addcategory, setaddcategory] = useState(false);
+  const [Compareprice, setCompareprice] = useState(false);
   const [showinput,setshowinput]=useState(false);
   const [showinput2,setshowinput2]=useState(false);
 
@@ -23,6 +24,10 @@ export default function Page() {
   ]);
 
 
+  const toggleCompareprice = () => {
+  
+    setCompareprice(!Compareprice);
+  };
 
   const toggleaddcategory = () => {
   
@@ -127,7 +132,7 @@ export default function Page() {
     </div>
 
     <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
-    <div className="image-uploader">
+    <div className="image-uploader" style={{marginBottom:'50px'}}>
  
       <div className="add-image">
         <input
@@ -157,8 +162,11 @@ export default function Page() {
       </div>
     </div>
 
+<div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
+    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>
+    </div>
 
-    <div className="container">
+    <div className="container" style={{marginTop:'50px'}}>
       <div className="pricing-section">
         <h2 className="section-title">Pricing</h2>
         {pricings.map((pricing, index) => (
@@ -327,7 +335,7 @@ export default function Page() {
       )}
 
       <>{addcategory && (<Addcategory toggleaddcategory={toggleaddcategory}/>)}</>
-
+      <>{Compareprice && (<Comparepriceother toggleCompareprice={toggleCompareprice}/>)}</>
 
     </div>
   );
@@ -407,6 +415,191 @@ export default function Page() {
       </div>
       </div>
     </div>
+
+           </div>
+    
+  )
+}
+
+
+function Comparepriceother({toggleCompareprice}) {
+
+
+ 
+
+  return (
+      <div className="modal-overlay">
+
+      <div style={{width:'80vw',height:'80vh', backgroundColor:'white',padding:'15px',borderRadius:'10px',overflowY:'auto'}}>
+
+      <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
+          
+            <i onClick={toggleCompareprice} style={{cursor:'pointer',fontSize:'20px'}} className="fa fa-times"></i>
+          
+          </div>
+          
+<p style={{fontSize:'22px',textAlign:'left'}}>Compare Product Price</p>
+
+      <div style={{display:'flex',justifyContent:'space-between',margin:'20px 0px'}}>
+<div  style={{backgroundColor:'rgb(233 233 233)',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px'}}>
+<i className="fas fa-search" style={{cursor:'pointer'}}></i>
+<input type="text" placeholder='Search Item' style={{border:'none',outline:'none',backgroundColor:'rgb(233 233 233)',width:'300px'}}/>
+</div>
+
+</div>
+
+
+<div className="compareContainer995">
+      <p style={{marginBottom:'50px',fontSize:'22px',textAlign:'left'}}>Amazon Results</p>
+      <div className="compareGrid995">
+
+      <div className="cardContainer975">
+      <div className="header975">
+      <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹240.00</span>
+      </div>
+    </div>
+
+    <div className="cardContainer975">
+      <div className="header975">
+      <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹323.00</span>
+      </div>
+    </div>
+
+    <div className="cardContainer975">
+      <div className="header975">
+        <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹348.00</span>
+      </div>
+    </div>
+
+        
+      </div>
+    </div>
+
+
+    
+<div className="compareContainer995">
+      <p style={{marginBottom:'50px',fontSize:'22px',textAlign:'left'}}>Flipkart Results</p>
+      <div className="compareGrid995">
+
+      <div className="cardContainer975">
+      <div className="header975">
+      <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹240.00</span>
+      </div>
+    </div>
+
+    <div className="cardContainer975">
+      <div className="header975">
+        <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹323.00</span>
+      </div>
+    </div>
+
+    <div className="cardContainer975">
+      <div className="header975">
+      <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
+        
+      </div>
+      <div className="imageContainer975">
+        <img
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          alt="NanoCharge 5000mAh Battery Module"
+          className="productImage975"
+        />
+      </div>
+      <div className="details975">
+        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
+        <p className="seller975">Seller Random</p>
+      </div>
+      <div className="price975">
+        <span className="label975">PRICE</span>
+        <span className="value975">₹348.00</span>
+      </div>
+    </div>
+
+        
+      </div>
+    </div>
+
+      </div>
 
            </div>
     
