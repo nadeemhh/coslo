@@ -13,28 +13,13 @@ export default function Page() {
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
 
-<Link href="/home/products">
 <Productcard/>
-</Link>
-
-<Link href="/home/products">
 <Productcard/>
-</Link>
-<Link href="/home/products">
 <Productcard/>
-</Link>
-<Link href="/home/products">
 <Productcard/>
-</Link>
-<Link href="/home/products">
 <Productcard/>
-</Link>
-<Link href="/home/products">
 <Productcard/>
-</Link>
-<Link href="/home/products">
 <Productcard/>
-</Link>
 
 </div>
 

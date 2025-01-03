@@ -137,3 +137,157 @@
   .contact-btn:hover {
     background-color: #0056b3;
   }
+
+  
+/* ////// price table */
+
+.priceTableContainer56 {
+  width: 100%;
+  overflow-x: auto !important;
+}
+
+.priceTable56 {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #b8b8b8;
+  border-radius: 8px;
+
+}
+
+.tableHeader56 {
+  font-weight: bold;
+}
+
+.headerRow56 th {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #c8c8c8;
+  color: black;
+  font-size: 11px;
+  white-space: wrap !important;
+}
+
+
+.tableRow56 td {
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #c8c8c8;
+  font-size: 11px;
+  color: black;
+  white-space: wrap !important;
+}
+
+.tableRow56 td:nth-child(2) {
+  color: #007bff;
+}
+
+
+
+/* price table */
+
+
+.whatsapp{
+ 
+  background-color: white;
+  
+  border-radius: 5px;
+  padding: 2px;
+}
+
+
+/* Location Section */
+.whatsappi {
+  font-size: 12px;
+  color: #555;
+  display: flex;
+  gap: 5px;
+}
+
+
+
+/* modal  start*/
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.mymodal-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+ 
+}
+
+.mymodal-container  h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.mymodal-container p {
+  font-size: 14px;
+  color: #777;
+}
+
+.modalform input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #b7b7b7;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.modalform textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #b7b7b7;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.modalform  textarea {
+  resize: vertical;
+  height: 150px;
+}
+
+.modalform button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalform button:hover {
+  background-color: #0056b3;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+
+/* modal end */

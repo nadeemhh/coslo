@@ -31,8 +31,8 @@ export default function home() {
   };
 
   const categories = [
-    { name: 'Best Sellers', title: 'Best Sellers this Month' },
-    { name: 'Trending Now', title: 'Most Popular this Week' },
+    { name: 'Recommended Sellers', title: 'Best Sellers this Month' },
+    { name: 'Machines', title: 'Papper Cutting Machines' },
 
   ];
 
@@ -153,23 +153,12 @@ export default function home() {
             className="products-container"
             ref={(el) => (categoryRefs.current[index + 1] = el)}
           >
-            <Link href="/home/products">
-            <Productcard />
-            </Link>
-            <Link href="/home/products">
-            <Productcard />
-            </Link>
-            <Link href="/home/products">
-            <Productcard />
-            </Link>
-
-            <Link href="/home/products">
-            <Productcard />
-            </Link>
-
-            <Link href="/home/products">
-            <Productcard />
-            </Link>
+           <Productcard />
+           <Productcard />
+           <Productcard />
+           <Productcard />
+           <Productcard />
+           <Productcard />
           </div>
         </div>
       ))}

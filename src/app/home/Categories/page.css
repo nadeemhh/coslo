@@ -1,0 +1,33 @@
+.category-name-image-h img{
+    width: 100%;
+    height:200px;
+    border-radius: 10px;
+      background-repeat: no-repeat;
+    object-fit: cover;
+    background-position: center;
+  }
+  
+  
+  
+  .category-name-product-h p{ color: rgb(0, 0, 0);font-size: 15px;text-align: center;padding: 2px;}
+  
+  
+  @media (max-width: 768px) {
+    .product-category-h {
+      width: 120px;
+  
+    }
+    
+    
+    
+    .category-name-image-h img{
+      width: 100%;
+      height:120px;
+    }
+    
+  
+    .category-name-product-h p{font-size: 12px;font-weight: 500;}
+  
+  
+  }
+  

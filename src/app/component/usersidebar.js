@@ -20,6 +20,7 @@ const Usersidebar = () => {
     { path: '/user/myaccount', icon: 'fas fa-user', label: 'My Account' },
     { path: '/user/notification', icon: 'fas fa-bell', label: 'Notifications' },
     { path: '/user/wishlist', icon: 'fas fa-heart', label: 'Wishlist' },
+    { path: '/user/feedback', icon: 'fas fa-comment', label: 'Feedback' },
   ];
 
   return (

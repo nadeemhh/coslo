@@ -20,8 +20,14 @@ export default function Home() {
           <h1>Coslo.com</h1>
         </div>
         </Link>
-        <a href="/home/login ">
+
+        {/* <a href="/home/login">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true}> log in </Button>
+        </a> */}
+
+        
+        <a href="#">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true}>About Us</Button>
         </a>
         </div>
 
@@ -47,17 +53,20 @@ export default function Home() {
         <div className="action-buttons">
        
         
-        <a href="/home/createaccountsup">
-          <Button rightIcon="icons\right.svg" className='hide'>Want to Sell</Button>
-          </a>
+        <a href="#">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>Contact Us</Button>
+        </a>
+        <a href="#">
+        <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
+        </a>
 
           <a href="/home/login">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> log in </Button>
         </a>
 
-        <a href="/home/createaccount">
+        {/* <a href="/home/createaccount">
       <Button rightIcon="icons\right.svg" className='hide'> Want to Buy</Button>
-          </a>
+          </a> */}
          
         </div>
       </div>
@@ -81,9 +90,10 @@ export default function Home() {
     <section className="hero">
       <div className="hero-content">
         <h1>
-          India’s Leading B2B & B2C<br />
-          ecommerce platform for<br />
-        Effortless Trade
+      
+         India's First Hybrid E commerce Platform.<br />
+         B2B, B2C & D2C in a single platform for effortless trade.<br />
+      
         </h1>
         <div className="hero-buttons">
 
@@ -128,7 +138,7 @@ export default function Home() {
       <div className="features-container">
         <div className="feature-box">
           <h3>Millions of business offerings</h3>
-          <p>Explore products and suppliers for your business from millions of offerings worldwide.</p>
+          <p>Explore products and suppliers for your business from millions of offerings in India.</p>
         </div>
         <div className="feature-box">
           <h3>Assured quality and transactions</h3>
@@ -156,7 +166,7 @@ export default function Home() {
           <div className="step">
             <div className="circle">1</div>
             <h4>Sign Up</h4>
-            <p>Create your free business account.</p>
+            <p>Create your free account.</p>
           </div>
           <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
           <div className="step">
@@ -211,47 +221,73 @@ export default function Home() {
     </section>
 
     {/* Pricing Section */}
-    <section className="pricing-container">
-      <h1 className="title">Subscription Plans</h1>
-      <div className="pricing-plans">
-        <div className="plan free">
-          <h2>FREE</h2>
-          <p className="price">₹ 0 <span>/month</span>
-          </p>
-          <ul>
-            <li>🌟 Detailed Order Analytics</li>
-            <li>🌟 Seamless Inventory Management</li>
-          </ul>
-          <button className="btn">PURCHASE PLAN ➔</button>
-        </div>
+  
+    <section className="pricing-table-101">
 
-        <div className="plan monthly most-popular">
-          <div className="badge">Most Popular</div>
-          <h2>MONTHLY</h2>
-          <p className="price">₹ 1,000 <span>/month</span>
-          </p>
-          <ul>
-            <li>🌟 Up to 70 /Month</li>
-            <li>🌟 Dedicated Customer Support</li>
-            <li>🌟 Detailed Order Analytics</li>
-            <li>🌟 Seamless Inventory Management</li>
-          </ul>
-          <button className="btn">PURCHASE PLAN ➔</button>
-        </div>
+      <h1 className="title101">Subscription Plans</h1>
 
-        <div className="plan yearly">
-          <h2>YEARLY</h2>
-          <p className="price">₹ 10,000 <span>/year</span>
-          </p>
-          <ul>
-            <li>🌟 Up to 80 Leads/Month</li>
-            <li>🌟 Dedicated Customer Support</li>
-            <li>🌟 Detailed Order Analytics</li>
-            <li>🌟 Seamless Inventory Management</li>
-          </ul>
-          <button className="btn">PURCHASE PLAN ➔</button>
-        </div>
-      </div>
+      <table className="table-101">
+        <thead className="thead-101">
+          <tr>
+            <th className="feature-header-101">Features</th>
+            <th className="plan-header-101">Free</th>
+            <th className="plan-header-101">Monthly</th>
+            <th className="plan-header-101">Yearly</th>
+          </tr>
+        </thead>
+        <tbody className="tbody-101">
+          <tr>
+            <td>Leads</td>
+            <td>0 /Month</td>
+            <td>70 /Month</td>
+            <td>80 /Month</td>
+          </tr>
+          <tr>
+            <td>Customer Support</td>
+            <td><i className="fas fa-times not-available"></i></td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Order Analytics</td>
+            <td><i className="fas fa-times not-available"></i></td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Inventory Management</td>
+            <td><i className="fas fa-check available"></i></td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+            <td>
+            <i className="fas fa-check available"></i>
+            </td>
+          </tr>
+         
+          <tr>
+            <td>Purchase Plan</td>
+            <td>
+              
+            </td>
+            <td>
+                <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+            </td>
+            <td>
+                <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
     </section>
 
     {/* Testimonials Section */}

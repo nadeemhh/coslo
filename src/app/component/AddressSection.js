@@ -4,10 +4,15 @@ import { useState } from "react";
 
 function AddressSection() {
   const [selectedAddress, setSelectedAddress] = useState(0);
-
-  
   const [ModalOpen, setModalOpen] = useState(false);
+  const [showadd,setshowadd]=useState(false);
+  function showaddres(e) {
+    e.preventDefault();
+    setshowadd(true)
+  }
   
+
+
   const toggleModal = () => {
   
     setModalOpen(!ModalOpen);
@@ -61,9 +66,10 @@ function AddressSection() {
 
       {/* Add New Address */}
       <div className="add-address">
-        <h3>Add new Address</h3>
+      {showadd && <> <h3>Add new Address</h3></>}
         <form className="addressform">
           
+         {showadd && <>
           <label htmlFor="">Enter Full Address *</label>
           <input type="text" placeholder="" />
           <label htmlFor="">Enter City *</label>
@@ -76,10 +82,17 @@ function AddressSection() {
           <input type="text" placeholder="" />
           <label htmlFor="">Enter Email Address</label>
           <input type="email" placeholder="" />
+</>}
 
           <div className="buttons">
-            <button type="button" className="cancel">Cancel</button>
-            <button type="submit" className="add">Add Address</button>
+          {showadd ? <>
+            <button className="cancel" onClick={(e)=>{
+               e.preventDefault();
+              setshowadd(false)
+              }}>Cancel</button>
+            <button className="add">Submit</button>
+            </>:<button className="add" onClick={showaddres}>Add New Address</button>}
+            
           </div>
         </form>
       </div>
@@ -110,7 +123,7 @@ function AddressSection() {
           <input type="email" placeholder="" />
 
           <div className="buttons">
-            <button type="submit" className="add">Edit Address</button>
+            <button className="add">Edit Address</button>
           </div>
         </form>
         </div>

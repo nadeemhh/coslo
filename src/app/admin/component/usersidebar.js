@@ -21,6 +21,7 @@ const Usersidebar = () => {
     { path: '/admin/manufacturerssuppliers', icon: 'fas fa-industry', label: 'Manufacturers/Suppliers' },
     { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
     { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
+    { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
   ];
 
   return (

@@ -1,7 +1,6 @@
 
 import './page.css'
 import Link from 'next/link';
-import Productcategory from '../../component/Productcategory.js'
 
 export default function Page() {
   
@@ -13,22 +12,24 @@ export default function Page() {
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>
 
- <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
+{[...Array(10)].map((_, i) => (
 
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
+ <Link href="/home/Categories/subCategories" key={i}>
+ <div className="product-category-h" >
+
+<div className="category-name-image-h">
+<img src="\images\elc.jpg" alt=""/>
+</div>
+
+<div className="category-name-product-h">
+<p>Mobile, Electronics & Supplies</p>
+</div>
+
+</div>
             </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
-            <Link href="/home/Categories/subCategories">
-            <Productcategory/>
-            </Link>
+                 ))}
+
+         
 </div>
 
 

@@ -5,7 +5,7 @@ import Reviews from '../../component/Detail-tab/Detail.jsx'
 import icon from '../../../../public/icons/locationmark.svg'
 import Link from 'next/link';
 
-import { useRef ,useState} from 'react';
+import { useRef ,useState,useEffect} from 'react';
 
 export default function Products() {
   
@@ -14,6 +14,15 @@ export default function Products() {
   const [zoomScale, setZoomScale] = useState(1);
   const [quantity, setQuantity] = useState(0);
   const [ModalOpen, setModalOpen] = useState(false);
+
+  const [pageUrl, setPageUrl] = useState('');
+
+  useEffect(() => {
+    // Get the current page URL when the component mounts
+    setPageUrl(window.location.href);
+    console.log(window.location.href)
+  }, []);
+
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
@@ -72,6 +81,9 @@ export default function Products() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+
+
 
   return (
     <>
@@ -171,9 +183,68 @@ export default function Products() {
           </span> 
   
           </div>
+
+
+          <a
+      href={`https://api.whatsapp.com/send?text=Check%20this%20out%20${encodeURIComponent(pageUrl)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+          <div className='mylocationp'>
+   <span className="location">
+  <img src="\icons\whatsappi.svg" width={'15px'} alt="" />
+  Share Url
+          </span> 
+  
+          </div>
+
+          </a>
+
+          <a href="https://wa.me/+919880866978">
+          <div className='mylocationp'>
+   <span className="location">
+  <img src="\icons\whatsappi.svg" width={'15px'} alt="" />
+  Contact
+          </span> 
+  
+          </div>
+          </a>
   
           </div>
           
+
+
+          <div className="priceTableContainer565">
+          <table className="priceTable565">
+      <thead className="tableHeader565">
+        <tr className="headerRow565">
+          <th className="tableCell565">Quantity</th>
+          <th className="tableCell565">Discount</th>
+          <th className="tableCell565">Price net</th>
+        </tr>
+      </thead>
+      <tbody className="tableBody565">
+        <tr className="tableRow565">
+          <td className="tableCell565">20-99 items</td>
+          <td className="tableCell565">20%</td>
+          <td className="tableCell565">₹29.99 net</td>
+        </tr>
+        <tr className="tableRow565">
+          <td className="tableCell565">100-299 items</td>
+          <td className="tableCell565">30%</td>
+          <td className="tableCell565">₹25.35 net</td>
+        </tr>
+        <tr className="tableRow565">
+          <td className="tableCell565">300-499 items</td>
+          <td className="tableCell565">40%</td>
+          <td className="tableCell565">₹23.35 net</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
           {/* Quantity Section */}
           <div className="quantity-section">
            <div style={{display:'flex',flexDirection:'column',gap:'5px',marginRight:'20px'}}>

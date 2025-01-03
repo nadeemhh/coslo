@@ -305,7 +305,7 @@ display: none;
   
   .commission-box .commission {
       font-size: 0.8rem;
-      font-weight: bold;
+      font-weight: 900;
       color: #7a7a7a;
       text-transform: uppercase;
   }
@@ -517,113 +517,65 @@ display: none;
   
   /* ## pricing section   */
   
-  .pricing-container {
-      padding: 2rem 1rem;
-      max-width: 1200px;
-      margin: auto;
+
+  .title101{
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .pricing-table-101 {
+    width: 100%;
+    margin: 20px auto;
+    overflow-x: auto;
   }
   
-  .title {
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      text-align: center;
+  .table-101 {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
   }
   
-  /* Flexbox container */
-  .pricing-plans {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      gap: 50px;
+  .table-101 th,
+  .table-101 td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: wrap !important;
   }
   
-  /* Individual Plan Styles */
-  .plan {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgb(57, 57, 57);
-      padding: 2rem;
-      text-align: left;
-      width: 100%;
-      max-width: 300px;
-      position: relative;
-      transition: transform 0.3s ease;
+  .thead-101 th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    font-size: 1rem;
   }
   
-  .plan:hover {
-      transform: translateY(-10px);
+  .plan-header-101 {
+    background-color: #e8f5e9;
   }
   
-  .plan h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+  .tbody-101 tr:nth-child(even) {
+    background-color: #f9f9f9;
   }
   
-  .price {
-      font-size: 2rem;
-      color: #007bff;
-      margin-bottom: 1rem;
+  .tbody-101 td {
+    font-size: 0.9rem;
   }
   
-  .price span {
-      font-size: 1rem;
-      color: #666;
+  .available {
+    color: #4caf50;
   }
   
-  .plan ul {
-      list-style: none;
-      margin-bottom: 1.5rem;
+  .not-available {
+    color: #f44336;
   }
   
-  .plan li {
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+  small {
+    font-size: 0.8rem;
+    color: #666;
   }
   
-  .btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border-radius: 5px;
-      text-transform: uppercase;
-  }
-  
-  .btn:hover {
-      background-color: #0056b3;
-  }
-  
-  /* Most Popular Plan */
-  .most-popular {
-      background-color: #e7f1ff;
-      border: 2px solid #007bff;
-  }
-  
-  .badge {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #007bff;
-      color: #fff;
-      font-size: 0.9rem;
-      padding: 0.3rem 1rem;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      text-transform: uppercase;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-      .pricing-plans {
-          flex-direction: column;
-          align-items: center;
-      }
-  }
   
   /* pricing section  end  */
       
@@ -789,6 +741,14 @@ display: none;
       }
       
        .footer-section-parent{display: flex;justify-content: space-around;gap: 10px;margin-top: 20px;}
+
+       .testimonials-section h1 {
+        font-size: 1.7rem;
+      }
+
+      .testimonial-card {
+        width: 250px;
+      }
   }
   
   
