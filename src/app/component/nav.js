@@ -48,12 +48,14 @@ const NavBar = () => {
         <img src="\icons\pre.svg" alt=""  className="show" onClick={handleGoBack}/>
 
         <div className="search-bar">
-          <div className="dropdown hide">
-            <button className="dropdown-btn">
-              Products <i className="fas fa-angle-down"></i>
-            </button>
+          <div className="dropdown">
+            <select name="" id="" className="dropdown-btn">
+               <option value="">Products</option>
+               <option value="">Supplier</option>
+               </select>
+          
           </div>
-          <input type="text" placeholder="Cameras Invisible 30mm" />
+          <input type="text" placeholder="Search" />
           <button className="search-btn">
             <i className="fas fa-search"></i>
           </button>

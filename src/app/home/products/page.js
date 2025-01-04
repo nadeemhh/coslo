@@ -319,7 +319,7 @@ export default function Products() {
         <p className="seller975">Seller Random</p>
       </div>
       <div className="price975">
-        <span className="label975">PRICE</span>
+        <span className="label975">Price</span>
         <span className="value975">₹240.00</span>
       </div>
     </div>
@@ -341,7 +341,7 @@ export default function Products() {
         <p className="seller975">Seller Random</p>
       </div>
       <div className="price975">
-        <span className="label975">PRICE</span>
+        <span className="label975">Price</span>
         <span className="value975">₹323.00</span>
       </div>
     </div>
@@ -363,7 +363,7 @@ export default function Products() {
         <p className="seller975">Seller Random</p>
       </div>
       <div className="price975">
-        <span className="label975">PRICE</span>
+        <span className="label975">Price</span>
         <span className="value975">₹348.00</span>
       </div>
     </div>

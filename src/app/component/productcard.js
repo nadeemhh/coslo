@@ -35,7 +35,7 @@ export default function Productcard({veri=false}) {
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
         {veri && <button className="verified">
-        Verified
+          Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>
         }
