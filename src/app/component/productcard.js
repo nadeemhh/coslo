@@ -73,7 +73,7 @@ export default function Productcard({veri=false}) {
         <tr className="headerRow56">
           <th className="tableCell56">Quantity</th>
           <th className="tableCell56">Discount</th>
-          <th className="tableCell56">Price net</th>
+          <th className="tableCell56">Net Price</th>
         </tr>
       </thead>
       <tbody className="tableBody56">

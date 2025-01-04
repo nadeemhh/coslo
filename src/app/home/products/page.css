@@ -87,6 +87,7 @@
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     font-weight: 550;
+    text-align: left;
   }
   .seller {
     display: flex;
@@ -95,8 +96,8 @@
    white-space: nowrap;
    gap: 5px;
     font-size: 0.9rem;
-    color: #555;
     margin-bottom: 1rem;
+    width: 40vw;
   }
   
   .quantity-section {
@@ -365,8 +366,13 @@ padding: 5px;
     }
 .pb{padding: 10px !important;white-space: nowrap;}
 
+.product-details .productname {
+  text-align: center;
+}
+
 .seller {
 justify-content: center;
+width: auto;
 }
 
 .imgparent{

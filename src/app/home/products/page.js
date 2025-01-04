@@ -184,7 +184,15 @@ export default function Products() {
   
           </div>
 
+          <div className='mylocationp' style={{backgroundColor:'#1389f0',borderTopRightRadius:'8px',borderBottomLeftRadius:'8px'}}>
+   <span className="location" style={{color:'white',fontWeight:'500'}}>
+   <img src="\icons\veri.svg" width={'12px'} alt="" />
+   Recommended
+          </span> 
+  
+          </div>
 
+          
           <a
       href='#'
       target="_blank"
@@ -193,7 +201,7 @@ export default function Products() {
           <div className='mylocationp'>
    <span className="location">
   <img src="\icons\Compliance.svg" width={'15px'} alt="" />
-  Compliance Certificate
+  Quality Certificate
           </span> 
   
           </div>
@@ -235,7 +243,7 @@ export default function Products() {
         <tr className="headerRow565">
           <th className="tableCell565">Quantity</th>
           <th className="tableCell565">Discount</th>
-          <th className="tableCell565">Price net</th>
+          <th className="tableCell565">Net Price</th>
         </tr>
       </thead>
       <tbody className="tableBody565">

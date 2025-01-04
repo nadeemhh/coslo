@@ -79,7 +79,7 @@ export default function page() {
           </div>
 
           <Link href="payment/ordercomplete">
-          <button className="checkout-btn">Proceed to Checkout →</button>
+          <button className="checkout-btn">Proceed to Checkout</button>
   </Link>
         
         </div>

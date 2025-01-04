@@ -49,13 +49,13 @@ const NavBar = () => {
 
         <div className="search-bar">
           <div className="dropdown">
-            <select name="" id="" className="dropdown-btn">
+            <select name="" id="" className="dropdown-btn hide">
                <option value="">Products</option>
                <option value="">Supplier</option>
                </select>
           
           </div>
-          <input type="text" placeholder="Search" />
+          <input type="text" placeholder="Search Products" />
           <button className="search-btn">
             <i className="fas fa-search"></i>
           </button>

@@ -76,7 +76,7 @@ const CartPage = () => {
             <span>Total:</span> <span>₹ 27392/-</span>
           </div>
           <Link href="cart/address">
-          <button className="checkout-btn">Proceed to Checkout →</button>
+          <button className="checkout-btn">Proceed to Checkout</button>
           </Link>
           
         </div>

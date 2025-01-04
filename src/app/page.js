@@ -39,11 +39,13 @@ export default function Home() {
 
         <div className="search-bar">
           <div className="dropdown">
-            <button className="dropdown-btn">
-              Products <i className="fas fa-angle-down"></i>
-            </button>
+            <select name="" id="" className="dropdown-btn hide">
+               <option value="">Products</option>
+               <option value="">Supplier</option>
+               </select>
+          
           </div>
-          <input type="text" placeholder="Cameras Invisible 30mm" />
+          <input type="text" placeholder="Search Products" />
           <button className="search-btn">
             <i className="fas fa-search"></i>
           </button>
@@ -92,7 +94,7 @@ export default function Home() {
         <h1>
       
          India's First Hybrid E commerce Platform.<br />
-         B2B, B2C & D2C in a single platform for effortless trade.<br />
+         B2B, B2C & D2C in a single platform.<br />
       
         </h1>
         <div className="hero-buttons">

@@ -65,7 +65,7 @@ const AddressPage = () => {
             <span>Total:</span> <span>₹ 27392/-</span>
           </div>
           <Link href="address/payment">
-          <button className="checkout-btn">Proceed to Checkout →</button>
+          <button className="checkout-btn">Proceed to Checkout</button>
           </Link>
         </div>
       </div>
