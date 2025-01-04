@@ -184,7 +184,7 @@ export default function Products() {
   
           </div>
 
-          <div className='mylocationp' style={{backgroundColor:'#1389f0',borderTopRightRadius:'8px',borderBottomLeftRadius:'8px'}}>
+          <div className='mylocationp' style={{backgroundColor:'#1389f0',borderRadius:'0 8px 0 8px'}}>
    <span className="location" style={{color:'white',fontWeight:'500'}}>
    <img src="\icons\veri.svg" width={'12px'} alt="" />
    Recommended

@@ -28,7 +28,7 @@
 }
 
 .form-tab {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     text-align:left ;
 }
 
@@ -122,6 +122,18 @@ button {
     border-radius: 8px;
   }
   
+  .upload-image{
+    width: 200px;
+    height: 200px;
+    background-color: #E8FFF3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+  }
+
+
   .add-image-label {
     display: flex;
     flex-direction: column;
@@ -185,4 +197,13 @@ button {
   
   
   /* image upload end*/
+  
+
+  .image-uploader-container-767 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 20px;
+  }
   

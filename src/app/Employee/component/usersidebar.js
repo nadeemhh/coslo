@@ -17,6 +17,7 @@ const Usersidebar = () => {
 
   const menuItems = [
     { path: '/Employee/Onboarding', icon: 'fas fa-user-plus', label: 'Seller Onboarding' },
+    { path: '/Employee/Sellers', icon: 'fas fa-users', label: 'Sellers' },
 
   ];
 
