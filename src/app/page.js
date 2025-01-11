@@ -9,13 +9,17 @@ export default function Home() {
   return (
     <>
 
+<div className="navbar" style={{backgroundColor:'blue'}}>
+    <h3 style={{color:'white'}}>Under Construction 🚧 launching on 15 March</h3>
+    </div>
+
 {/* nav */}
 
 <nav className="navbar">
       <div className="navbar-container">
         
         <div className='bnamehide'>
-      <Link href="/home">
+      <Link href="#">
         <div className="logo">
           <h1>Coslo.com</h1>
         </div>
@@ -31,7 +35,7 @@ export default function Home() {
         </a>
         </div>
 
-        <Link href="/home">
+        <Link href="#">
         <div className="logo logodesk">
           <h1>Coslo.com</h1>
         </div>
@@ -62,7 +66,7 @@ export default function Home() {
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
         </a>
 
-          <a href="/home/login">
+          <a href="#">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> log in </Button>
         </a>
 
@@ -99,15 +103,15 @@ export default function Home() {
         </h1>
         <div className="hero-buttons">
 
-        <a href="/home" >
+        <a href="#" >
         <Button rightIcon="icons\right.svg" >Explore</Button>
         </a>
 
-        <a href="/home/createaccountsup" >
+        <a href="#" >
         <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Sell</Button>
         </a>
 
-        <a href="/home/createaccount" >
+        <a href="#" >
         <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Buy</Button>
         </a>
           {/* <a href="#" className="b1">Explore →</a>

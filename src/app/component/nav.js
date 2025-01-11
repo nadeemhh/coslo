@@ -62,6 +62,7 @@ const NavBar = () => {
         </div>
         </div>
        
+       
         <div className="action-buttons hide">
        
         <a href="/home/createaccountsup">
@@ -75,8 +76,27 @@ const NavBar = () => {
         <a href="/home/createaccount">
       <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
           </a>
+
+          {/* <div className="profile0">
+        <img
+          src="/images/user1.png"
+          alt="Profile"
+          className="profile-image0"
+        />
+        <div className="profile-info0">
+          <p style={{fontWeight:'600'}}>Welcome Faiz</p>
+         <p>My Account & Orders</p>
+        </div>
+      </div>
+
+          <a href="/home/createaccount">
+      <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button>
+          </a> */}
          
         </div>
+
+       
+
       </div>
 
 
