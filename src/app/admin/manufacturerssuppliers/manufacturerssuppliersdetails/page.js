@@ -53,11 +53,11 @@ export default function Page() {
     </div>
   </div>
   
-  <Link href="/supplier/dashboard">
+  <a href="/supplier/dashboard">
   <button className="btnn visit-btn">
             Visit Manufacturer <i className="fas fa-arrow-right"></i>
           </button>
-          </Link>
+          </a>
   </div>
 
   <div style={{display:'flex',justifyContent:'space-between',marginBottom:'50px'}}>
