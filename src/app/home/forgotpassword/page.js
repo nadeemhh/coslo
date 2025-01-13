@@ -23,7 +23,7 @@ function ForgotPassword() {
                         <label>Additional Information</label>
                         <input type="text" placeholder="" className="" />
                     </div>
-                    <button className="form-tab">Reguest Password Change ➜</button>
+                    <button className="form-tab">Request Password Change ➜</button>
                 </div>
             </div>
         </div>

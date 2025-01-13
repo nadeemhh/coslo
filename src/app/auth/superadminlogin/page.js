@@ -1,7 +1,7 @@
 
 import "../CreateAccount.css";
 
-function ForgotPassword() {
+function Login() {
     return (
         <div className='main' >
             <div className="left-container">
@@ -13,21 +13,21 @@ function ForgotPassword() {
             </div>
             <div className='right-container'>
                 <div className="form">
-                    <h1 className="">Forgot Password</h1>
-                    <p></p>
+                    <h1 className="">Super Admin Login</h1>
+                    <p> Streamline your business operations with our marketplace</p>
                     <div className="form-tab">
                         <label>Enter Email</label>
                         <input type="email" placeholder="@gmail.com" className="" />
                     </div>
                     <div className='form-tab'>
-                        <label>Additional Information</label>
-                        <input type="text" placeholder="" className="" />
+                        <label>Enter Password</label>
+                        <input type="password" placeholder="********" className="" />
                     </div>
-                    <button className="form-tab">Reguest Password Change ➜</button>
+                    <button className="form-tab">Admin Login ➜</button>
                 </div>
             </div>
         </div>
     );
 }
 
-export default ForgotPassword
+export default Login

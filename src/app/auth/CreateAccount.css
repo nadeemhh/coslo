@@ -70,7 +70,7 @@
  
 
   
-  .right-container button {
+  button {
     background-color: #007bff;
     border-radius: 10px;
     border: none;
@@ -100,3 +100,4 @@
     }
   }
   
+  .menu{display: none;}

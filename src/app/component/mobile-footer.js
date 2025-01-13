@@ -1,22 +1,25 @@
+import Link from 'next/link';
+
+
 const MobileFooter = () => (
     <div className="mobile-footer">
       <div className="footer-nav">
-        <a href="/home" className="nav-item">
+        <Link href="/home" className="nav-item">
           <i className="fas fa-home"></i>
           <span>Home</span>
-        </a>
-        <a href="/home/Categories" className="nav-item">
+        </Link>
+        <Link href="/home/Categories" className="nav-item">
           <i className="fas fa-th-list"></i>
           <span>Category</span>
-        </a>
-        <a href="/user/sidebar" className="nav-item">
+        </Link>
+        <Link href="/user/sidebar" className="nav-item">
           <i className="fas fa-user"></i>
           <span>Profile</span>
-        </a>
-        <a href="/home/cart" className="nav-item">
+        </Link>
+        <Link href="/home/cart" className="nav-item">
           <i className="fas fa-shopping-cart"></i>
           <span>Cart</span>
-        </a>
+        </Link>
       </div>
     </div>
   );

@@ -63,9 +63,9 @@ export default function Productcard({veri=false}) {
         <p className="product-supplier">Faiz Corporation LLP</p>
         </Link>
         {/* Price */}
-        {/* <div className="product-actions">
+        <div className="product-actions">
         <h4 className="price">₹ 2560/-</h4>
-        </div> */}
+        </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
           <table className="priceTable56">

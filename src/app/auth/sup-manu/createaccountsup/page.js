@@ -1,5 +1,5 @@
 
-import "../../supplier/CreateAccount.css";
+import "../../CreateAccount.css";
 
 
 function Page() {

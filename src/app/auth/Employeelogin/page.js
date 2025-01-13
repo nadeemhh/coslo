@@ -13,8 +13,8 @@ function Login() {
             </div>
             <div className='right-container'>
                 <div className="form">
-                    <h1 className="">Admin Login</h1>
-                    <p> I want add Sell directly to Buyers With ZERO Commission</p>
+                    <h1 className="">Employee Login</h1>
+                    <p> Streamline your business operations with our marketplace</p>
                     <div className="form-tab">
                         <label>Enter Email</label>
                         <input type="email" placeholder="@gmail.com" className="" />

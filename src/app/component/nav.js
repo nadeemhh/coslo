@@ -65,7 +65,7 @@ const NavBar = () => {
        
         <div className="action-buttons hide">
        
-        <a href="/home/createaccountsup">
+        <a href="/auth/sup-manu/createaccountsup">
           <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
           </a>
 
