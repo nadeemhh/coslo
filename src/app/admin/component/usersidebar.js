@@ -3,9 +3,12 @@
 import '../../component/component-css/usersidebar.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import useAuthCheck from '../../useAuthCheck.js';
 
 const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
+
+  useAuthCheck();
 
   useEffect(() => {
     console.log(window.location.pathname)
@@ -15,12 +18,21 @@ const Usersidebar = () => {
     }
   }, []);
 
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    
+    // Redirect to the login page
+    window.location.href = '/auth/superadminlogin';
+  };
+
   const menuItems = [
     { path: '/admin/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
     { path: '/admin/Employees', icon: 'fas fa-users', label: 'Employees' },
     { path: '/admin/manufacturerssuppliers', icon: 'fas fa-industry', label: 'Manufacturers/Suppliers' },
     { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
     { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
+    { path: '/admin/CreateAdmin', icon: 'fas fa-user-plus', label: 'Create Admin' },
     { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
   ];
 
@@ -41,6 +53,10 @@ const Usersidebar = () => {
           </a>
         ))}
 
+          <div className='menu-item' onClick={handleLogout}>
+              <i className='fas fa-sign-out-alt' style={{color:'red'}}></i>
+              <span>Log Out</span>
+            </div>
 
 <p style={{textAlign:'left',marginTop:'40px',marginBottom:'15px',fontSize:'18px'}}>Misc</p>
 <a href="/admin/PlatformCustomisation">

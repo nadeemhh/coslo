@@ -4,6 +4,7 @@ import NavBar from './component/nav.js';
 import Usersidebar from './component/usersidebar.js';
 import MainContent from './component/main.js';
 
+
 export default function RootLayout({ children }) {
   return (
 
@@ -31,9 +32,10 @@ export default function RootLayout({ children }) {
 
     </div>
   </>
-       
+      
 
       </body>
     </html>
   );
 }
+
