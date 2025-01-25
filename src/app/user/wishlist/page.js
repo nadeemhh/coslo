@@ -11,7 +11,7 @@ export default function Page() {
     <>
     <p className='order-details-title'>wishlist</p>
 
-    <div className="products-container">
+    <div className="products-container77">
 
     <div className="product-card">
       {/* Product Image */}

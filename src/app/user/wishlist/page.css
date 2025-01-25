@@ -7,7 +7,7 @@
     margin-bottom: 20px;
   }
   
-  .products-container {
+  .products-container77 {
     display: flex;
    flex-wrap: wrap;
    gap: 20px;
@@ -16,7 +16,7 @@
 
   @media (max-width: 768px) {
   
-    .products-container {
+    .products-container77 {
     
      justify-content: center;
     }

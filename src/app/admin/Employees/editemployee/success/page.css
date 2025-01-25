@@ -1,0 +1,41 @@
+.onboarding-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+
+
+
+.onboarding-message {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  color: #555;
+  margin-top: 30px;
+}
+
+.onboarding-button {
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.onboarding-button:hover {
+  background-color: #0056b3;
+}

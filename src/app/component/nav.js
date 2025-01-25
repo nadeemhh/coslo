@@ -3,10 +3,11 @@ import "../landing-page.css";
 import Button from '../component/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState ,useEffect} from 'react';
 
 const NavBar = () => {
   const router = useRouter();
-
+  const [user, setuser] = useState(null);
 
   const handleGoBack = () => {
     router.back(); // Navigate to the previous URL
@@ -16,6 +17,11 @@ const NavBar = () => {
       document.getElementById('sidebar').style.transform = 'translateY(0)';
     };
   
+    useEffect(() => {
+      console.log(JSON.parse(localStorage.getItem('buyer')))
+      setuser(JSON.parse(localStorage.getItem('buyer')))
+    }, []);
+
     return (
       <>
         {/* <span>nav bar</span>
@@ -65,7 +71,31 @@ const NavBar = () => {
        
         <div className="action-buttons hide">
        
-        <a href="/auth/sup-manu/createaccountsup">
+       {user ? <> 
+       
+       <Link href="/user/orders">
+        <div className="profile0">
+        <img
+          src={user.profilePicture}
+          alt="Profile"
+          className="profile-image0"
+        />
+        <div className="profile-info0">
+          <p style={{fontWeight:'600'}}>Welcome {user.name}</p>
+         <p>My Account & Orders</p>
+        </div>
+      </div>
+      </Link>
+
+          <Link href="/home/cart">
+      <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button>
+          </Link>
+
+     </> 
+:
+
+<>
+<a href="/auth/sup-manu/choose">
           <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
           </a>
 
@@ -76,22 +106,7 @@ const NavBar = () => {
         <a href="/home/createaccount">
       <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
           </a>
-
-          {/* <div className="profile0">
-        <img
-          src="/images/user1.png"
-          alt="Profile"
-          className="profile-image0"
-        />
-        <div className="profile-info0">
-          <p style={{fontWeight:'600'}}>Welcome Faiz</p>
-         <p>My Account & Orders</p>
-        </div>
-      </div>
-
-          <a href="/home/createaccount">
-      <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button>
-          </a> */}
+          </>}
          
         </div>
 

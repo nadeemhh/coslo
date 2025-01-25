@@ -1,33 +1,76 @@
-
+'use client'
 import "../CreateAccount.css";
+import { useState } from 'react';
+
 
 function ForgotPassword() {
-    return (
-        <div className='main' >
-            <div className="left-container">
-                <img
-                    src="\images\img2.png"
-                    alt="Profile"
-                    className="profile-pic"
-                />
-            </div>
-            <div className='right-container'>
-                <div className="form">
-                    <h1 className="">Forgot Password</h1>
-                    <p>Streamline your business operations with our marketplace</p>
-                    <div className="form-tab">
-                        <label>Enter Email</label>
-                        <input type="email" placeholder="@gmail.com" className="" />
-                    </div>
-                    <div className='form-tab'>
-                        <label>Additional Information</label>
-                        <input type="text" placeholder="" className="" />
-                    </div>
-                    <button className="form-tab">Request Password Change ➜</button>
-                </div>
-            </div>
-        </div>
-    );
+     const [email, setemail] = useState('');
+     const [error, setError] = useState('');
+   
+     const handleLogin = (e) => {
+       e.preventDefault();
+   
+       document.querySelector('.loaderoverlay').style.display='flex';
+   
+       const userData = {
+         email
+       };
+   
+        // Retrieve the token from localStorage, if it exists
+   
+   
+       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/reset-password-email-link`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(userData),
+       })
+         .then((response) => {
+           if (response.ok) {
+             return response.json();
+           } else {
+             return response.json().then((errorData) => {
+               throw new Error(errorData.message || 'Failed. Please try again.');
+             });
+           }
+         })
+         .then((data) => {
+            console.log(data)
+            document.querySelector('.loaderoverlay').style.display='none';
+            window.location.href = '/home/login';
+   alert(data.message)
+           
+         })
+         .catch((err) => {
+           document.querySelector('.loaderoverlay').style.display='none';
+           setError(err.message);
+         });
+     };
+   
+       return (
+           <div className='main' >
+               <div className="left-container">
+                   <img
+                       src="\images\img2.png"
+                       alt="Profile"
+                       className="profile-pic"
+                   />
+               </div>
+               <div className='right-container'>
+                   <div className="form">
+                       <h1 className="">You will receive an email to reset your password.</h1>
+                       {error && <p style={{color:'red',padding:'10px'}}>{error}</p>}
+                       <div className='form-tab'>
+                           <label>Enter Registered Email ID</label>
+                           <input type="email" className=""  value={email}
+                 onChange={(e) => setemail(e.target.value)}/>
+                       </div>
+                       <button className="form-tab"   onClick={handleLogin}>Send Email ➜</button>
+                   </div>
+               </div>
+           </div>
+       );
 }
 
 export default ForgotPassword

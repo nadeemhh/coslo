@@ -11,10 +11,38 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     
-  
+
+    const handledata = () => {
+
+      const token = localStorage.getItem('token');
+
+       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/get-admin`, {
+         method: 'GET',
+         headers: {
+           'Content-Type': 'application/json',
+           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+         },
+       })
+         .then((response) => {
+           if (response.ok) {
+             return response.json();
+           } else {
+             return response.json().then((errorData) => {
+               throw new Error(errorData.message || 'Failed. Please try again.');
+             });
+           }
+         })
+         .then((data) => {
+               console.log('=>',data)
+               localStorage.setItem('admindata',JSON.stringify(data));
+               window.location.href = '/admin/dashboard';
+         })
+         .catch((err) => {
+           console.log(err)
+         });
+     };
 
 
-    
     const handleLogin = (e) => {
         e.preventDefault();
       
@@ -43,14 +71,13 @@ function Login() {
             }
           })
           .then((data) => {
-            
+            console.log(data)
             document.querySelector('.loaderoverlay').style.display='none';
                 // Save token to localStorage
         localStorage.setItem('token', data.token);
-        
-            // Successfully logged in
+        handledata()
             
-              window.location.href = '/admin/dashboard';
+           
           })
           .catch((err) => {
            

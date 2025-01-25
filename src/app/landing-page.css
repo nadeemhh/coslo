@@ -163,6 +163,7 @@ display: none;
   flex-direction: column;
   gap: 5px;
   text-align: left;
+  color: #000;
 }
 
 .profile-info0 h3{

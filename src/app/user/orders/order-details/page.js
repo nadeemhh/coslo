@@ -20,7 +20,7 @@ export default function Page() {
       <Goback/> Order Details
     </p>
     <div className="order-details-content">
-      <div className="order-summary">
+      <div className="order-summary44">
         <p className='heading69'>Order Summary</p>
         <p><strong>Order Id:</strong> 408-8653092-2885903</p>
         <p><strong>Total:</strong> ₹ 478734/-</p>
@@ -30,7 +30,7 @@ export default function Page() {
         Download Invoice
         </button>
       </div>
-      <div className="shipping-address">
+      <div className="shipping-address44">
         <p className='heading69'>Shipping Address</p>
         <p>Faiz Iqbal</p>
         <p>A 25/4 Batla House</p>

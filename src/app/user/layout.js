@@ -5,7 +5,7 @@ import Usersidebar from '../component/usersidebar.js';
 import MainContent from '../component/main.js';
 import Footer from '../component/footer.js';
 import MobileFooter from '../component/mobile-footer.js';
-
+import Mygloballoader from '../Mygloballoader.js'
 export default function RootLayout({ children }) {
   return (
 
@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
     <MobileFooter />
   </>
        
-
+<Mygloballoader/>
       </body>
     </html>
   );

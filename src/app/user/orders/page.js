@@ -16,7 +16,7 @@ export default function Page() {
 
       <div className='card-container' style={{marginTop:"20px"}}>
 
-      <a href="orders/order-details" className="card" style={{maxWidth:'600px'}}>
+      <Link href="orders/order-details" className="card" style={{maxWidth:'600px'}}>
       
     <div className="prodictimg">
       <img src="\images\Image.jpg" alt="" />
@@ -35,7 +35,7 @@ export default function Page() {
       <button className="cancel-btn">Cancel</button>
     </div>
   
-  </a>
+  </Link>
 
   <div className="card" style={{maxWidth:'600px'}}>
     <div className="prodictimg">

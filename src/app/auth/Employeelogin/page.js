@@ -42,7 +42,7 @@ function Login() {
             localStorage.setItem('token', data.token);
             
                 // Successfully logged in
-                window.location.href = '/Employee/Onboarding';
+                window.location.href = '/Employee/Sellers';
                
               })
               .catch((err) => {

@@ -1,0 +1,101 @@
+
+
+{
+  "productName": "Awesome T-Shirt",
+  "description": "A comfortable and stylish t-shirt made of 100% cotton.",
+  "productVideo": "https://www.example.com/video.mp4",
+  "commonAttributes": [
+    {
+      "key": "Material",
+      "value": "100% Cotton"
+    },
+    {
+      "key": "Color",
+      "value": "Blue"
+    }
+  ],    "category": "64b0b3e7d7a3c7a7e8a1b2c3",
+
+}
+
+
+[
+  {
+    "mrp": 29.99,
+    "gst": 5,
+    "stock": 100,
+    "divertIndividualOrder": false,
+    "lowStockThreshold": 10,
+    "priceSlabs": [
+      {
+        "type": "individual",
+        "min": 1,
+        "max": 5,
+        "discount": 0,
+        "deliveryFee": 5
+      },
+      {
+        "type": "retailer",
+        "min": 6,
+        "max": 20,
+        "discount": 10
+      },
+      {
+        "type": "wholesaler",
+        "min": 21,
+        "max": 1000,
+        "discount": 20
+      }
+    ],
+    "isReturnable": true,
+    "returnDays": 14,
+    "repeatBuyerDiscount": 5,
+    "dimensions": {
+      "length": 10,
+      "width": 8,
+      "height": 2
+    },
+    "weight": 0.5,
+    "attributes": [
+      {
+        "key": "Size",
+        "value": "Large"
+      },
+              {
+        "key": "Sleeve Length",
+        "value": "Short"
+      }
+    ]
+  },
+  {
+    "mrp": 34.99,
+    "gst": 5,
+    "stock": 50,
+    "lowStockThreshold": 5,
+    "priceSlabs": [
+      {
+        "type": "individual",
+        "min": 1,
+        "max": 5,
+        "discount": 2
+      },
+      {
+        "type": "retailer",
+        "min": 6,
+        "max": 20,
+        "discount": 12
+      }
+    ],
+    "dimensions": {
+      "length": 12,
+      "width": 10,
+      "height": 2.5
+    },
+    "weight": 0.6,
+    "attributes": [
+      {
+        "key": "Size",
+        "value": "X-Large"
+      }
+    ]
+  }
+]

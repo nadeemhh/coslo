@@ -1,5 +1,5 @@
 /* NotificationCard.css */
-.notification-card {
+.notification-card44 {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,22 +15,22 @@
 
 .Notifications{font-size: 20px;font-weight: 500;text-align: left;margin-bottom: 20px;}
 
-.icon {
+.icon44 {
   color: green !important;
   font-size: 12px;
 }
 
-.icon-gray{ color: gray;
+.icon-gray44{ color: gray;
     font-size: 12px;}
 
 
-.text-content {
+.text-content44 {
   flex-grow: 1;
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.title {
+.title44 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
@@ -38,20 +38,20 @@
   text-align: left;
 }
 
-.message {
+.message44 {
   margin: 4px 0 0;
   font-size: 14px;
   color: #666;
   text-align: left;
 }
 
-.close-icon {
+.close-icon44 {
   color: #999;
   font-size: 20px;
   cursor: pointer;
   transition: color 0.2s;
 }
 
-.close-icon:hover {
+.close-icon44:hover {
   color: #333;
 }

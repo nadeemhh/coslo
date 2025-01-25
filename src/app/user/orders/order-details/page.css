@@ -11,7 +11,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px !important;
+    
   }
   
   .order-details-title i {
@@ -30,7 +31,7 @@
   }
   
   /* Order Summary Section */
-  .order-summary, .shipping-address {
+  .order-summary44, .shipping-address44 {
     flex: 1 1 calc(50% - 20px);
     min-width: 300px;
     border: 1px solid #ddd;
@@ -45,7 +46,7 @@
     font-weight: 600;
   }
   
-  p {
+  .order-details-container p {
     margin: 5px 0;
   }
   

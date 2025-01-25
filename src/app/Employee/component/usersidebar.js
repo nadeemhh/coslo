@@ -3,11 +3,12 @@
 import '../../component/component-css/usersidebar.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
+import useAuthCheck from '../../useAuthCheck.js';
 
 const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
-
+  useAuthCheck('/auth/Employeelogin');
+  
   useEffect(() => {
     const token = localStorage.getItem('token');
 

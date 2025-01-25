@@ -4,7 +4,7 @@
     padding: 20px;
   }
   
-  h1 {
+  /* h1 {
     font-size: 2rem;
     color: #333;
   }
@@ -16,7 +16,7 @@
     font-size: 1.5rem;
     margin-bottom: 10px;
     margin-top: 30px;
-}
+} */
 
   .orders-container {
     padding: 20px;
@@ -44,9 +44,6 @@
     border: 1px solid #b4b4b4;
   }
   
-  .orders-table th {
-    background-color: #ffffff;
-  }
   
  
  

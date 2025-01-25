@@ -11,7 +11,7 @@ function Success() {
           <img src="\icons\Congrats.png" alt="" />
         </div>
         <p className="onboarding-message">Mail Sent Successfully</p>
-        <Link href="/Employee/Onboarding">
+        <Link href="/Employee/Sellers">
         <button className="onboarding-button">Onboard Next →</button>
         </Link>
       </div>

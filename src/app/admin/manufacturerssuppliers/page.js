@@ -1,20 +1,109 @@
 'use client'
 import './page.css'
 import Link from 'next/link'
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 export default function page() {
-  const orders = [
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Active" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Active" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Inactive" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Inactive" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Active" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Active" },
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com", Mobile: "0000000000", GST: "783737131222",Company: "FarmFresh Supplies..", Subscription: "Inactive" },
-  ];
+  const [data,setdata] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
+   const [confirmationOpen, setconfirmationOpen] = useState(false);
+   const [selectedId, setSelectedId] = useState(null);
+ 
+   const toggleconfirmation = (id = null) => {
+     setSelectedId(id);
+     setconfirmationOpen(!confirmationOpen);
+   };
+  
+ 
+ 
+    const handledata = () => {
+      
+   
+       document.querySelector('.loaderoverlay').style.display='flex';
+   
+      const token = localStorage.getItem('token');
+   
+   
+       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/`, {
+         method: 'GET',
+         headers: {
+           'Content-Type': 'application/json',
+           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+         },
+       })
+         .then((response) => {
+           if (response.ok) {
+             return response.json();
+           } else {
+             return response.json().then((errorData) => {
+               throw new Error(errorData.message || 'Failed. Please try again.');
+             });
+           }
+         })
+         .then((data) => {
+               console.log(data)
+               setdata([...data])
+              document.querySelector('.loaderoverlay').style.display='none';
+           // Successfully logged in
+          // window.location.href = '/Employee/Onboarding';
+          
+         })
+         .catch((err) => {
+           document.querySelector('.loaderoverlay').style.display='none';
+           console.log(err)
+         });
+     };
+   
+    
+     const handlesearch = (keyword) => {
+      setSearchTerm(keyword);
+
+      if (keyword.trim() === "") {
+        handledata(); // Reload all data if search is cleared
+        return;
+      }
+
+      
+  
+     const token = localStorage.getItem('token');
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/search?searchTerm=${keyword}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+              setdata([...data])
+          // Successfully logged in
+         // window.location.href = '/Employee/Onboarding';
+         
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+    };
+  
+
+     useEffect(() => {
+       handledata();
+      
+     },[]);
+ 
   return (
     <div className="orders-container">
          <div className="header">
@@ -39,13 +128,13 @@ export default function page() {
       
      <div  style={{backgroundColor:'#F4F7FB',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px'}}>
      <i className="fas fa-search" style={{cursor:'pointer'}}></i>
-      <input type="text" placeholder='Search by Name, Email' style={{border:'none',outline:'none',backgroundColor:'#F4F7FB'}}/>
+      <input type="text" placeholder='Search by Name, Email' style={{border:'none',outline:'none',backgroundColor:'#F4F7FB'}} onChange={(e) => handlesearch(e.target.value)}/>
      </div>
       </div>
       
       <div className="table-wrapper">
         <table className="orders-table">
-          <thead>
+        <thead>
             <tr>
               <th>ID</th>
               <th>Name</th>
@@ -58,143 +147,30 @@ export default function page() {
             </tr>
           </thead>
           <tbody>
-            {/* {orders.map((order, index) => ( */}
-              
-              {/* <tr key={index}> */}
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Active'>Active <span style={{color:'#7A7D7E'}}>Monthly</span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
+            {data.length > 0 ? (
+              data.map((seller, index) => (
+                <tr  key={seller._id || index}>
+                  <td>#{index + 1}</td>
+                  <td>{seller.name}</td>
+                  <td>{seller.email}</td>
+                  <td>{seller.phone}</td>
+                  <td>{seller.gstNumber}</td>
+                  <td>{seller.businessName}</td>
+                  <td className={seller.status === 'APPROVED' ? 'Active' : 'Inactive'}>
+                  Active <span style={{ color: '#7A7D7E' }}>{seller.subscriptionPlan}</span>
+                  </td>
+                  <td>
+                    <Link href={`/admin/manufacturerssuppliers/manufacturerssuppliersdetails/?id=${seller._id}`}>
+                      <i className="fas fa-external-link-alt" style={{ color: 'black' }}></i>
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center' }}>No data available</td>
               </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Active'>Active <span style={{color:'#7A7D7E'}}>Yearly</span></td>
-               
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Inactive'>Inactive <span style={{color:'#7A7D7E'}}></span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Inactive'>Inactive <span style={{color:'#7A7D7E'}}></span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Active'>Active <span style={{color:'#7A7D7E'}}>Monthly</span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Active'>Active <span style={{color:'#7A7D7E'}}>Monthly</span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-
-              <tr >
-                <td>#1</td>
-                <td>Faiz Iqbal</td>
-                <td>faiziqbal@gmail.com</td>
-                <td>
-                0000000000
-                </td>
-                <td>783737131222</td>
-                <td>
-                FarmFresh Supplies..	
-                </td>
-                <td className='Active'>Active <span style={{color:'#7A7D7E'}}>Yearly</span></td>
-                <td>
-                  <Link href="/admin/manufacturerssuppliers/manufacturerssuppliersdetails">
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
-                </Link>
-                </td>
-              </tr>
-             {/* ))} */}
+            )}
           </tbody>
         </table>
       </div>

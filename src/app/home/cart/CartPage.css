@@ -159,13 +159,13 @@
   padding: 15px;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
   gap: 10px;
 }
 
-.address-card:hover,
+
 .address-card.selected {
-  border-color: #007bff;
+  border: 2px solid #007bff;
+ 
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 

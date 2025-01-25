@@ -1,17 +1,18 @@
 'use client'
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import './Employee.css'
-import { useState } from 'react'
-
+import { useState,useEffect } from 'react'
+import { useSearchParams } from "next/navigation";
 
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
-
+ 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImages([{ name: file.name, file }]);
+      setImages([file]);
       setIsUploaded(true);
     }
   };
@@ -43,6 +44,9 @@ function ImageUploader({ title, images, setImages, id }) {
 }
 
 export default function OnboardingForm() {
+  const params = useParams();
+  const requestid = params.requestId;
+  console.log(requestid)
   const [gstImages, setGstImages] = useState([]);
   const [complianceImages, setComplianceImages] = useState([]);
   const [user, setUser] = useState({
@@ -51,13 +55,83 @@ export default function OnboardingForm() {
     phoneNo: "",
     company: "",
     location: "",
-    businessType: "",
-    password: "",
+    city:"",
+    state:"",
+    pincode:"",
     gstNo: "",
     DeliveryType: "",
     SubscriptionType: "",
+    role: "",
     ComplianceNo: "",
+    password:"",
+    panNumber:"",
   });
+console.log(user)
+ 
+
+
+    const handledata = () => {
+     
+  
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+     const token = localStorage.getItem('token');
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/pending-requests/${requestid}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+             
+             document.querySelector('.loaderoverlay').style.display='none';
+      
+             setUser({
+                name: data.name || "",
+                email: data.email || "",
+                phoneNo: data.phone || "",
+                company: data.businessName || "",
+                location: data.address?.addressLine || "",  // Mapping addressLine to location
+                city: data.address?.city || "",
+                state: data.address?.state || "",
+                pincode: data.address?.pincode || "",
+                gstNo: data.gstNumber || "",
+                DeliveryType: data.deliveryType || "",
+                SubscriptionType: data.subscriptionPlan || "",
+                role: data.businessType || "",
+                password: "", // Keeping password empty for security
+                panNumber: "", // Assuming panNumber is not available in API
+                ComplianceNo: data.ComplianceNo || "",
+            });
+        
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+  
+  
+    useEffect(() => {
+      handledata();
+    },[]);
+  
+
+
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -65,25 +139,78 @@ export default function OnboardingForm() {
   };
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    formData.append('user', JSON.stringify(user));
-    if (gstImages[0]) formData.append('gstCertificate', gstImages[0].file);
-    if (complianceImages[0]) formData.append('complianceCertificate', complianceImages[0].file);
 
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      if (response.ok) {
-        alert('Form submitted successfully!');
-      } else {
-        alert('Failed to submit the form.');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+  
+    const formData = new FormData();
+    
+    // Append text fields as shown in the image
+    formData.append("gstNumber", user.gstNo);
+    formData.append("businessType", user.role);
+    formData.append("deliveryType", user.DeliveryType);
+    formData.append("subscriptionPlan", user.SubscriptionType);
+    formData.append("address[addressLine]", user.location);
+    formData.append("address[city]", user.city);
+    formData.append("address[state]", user.state);
+    formData.append("address[pincode]", user.pincode);
+    formData.append("address[phone]", user.phoneNo);  // Keep as string
+    formData.append("panNumber", user.panNumber);
+    formData.append("qualityCert", user.ComplianceNo);
+   
+    if (gstImages.length > 0 && gstImages[0] instanceof File) {
+      formData.append("gstCertificateFile", gstImages[0]); 
+    } else if (gstImages.length > 0 && gstImages[0].file instanceof File) {
+      formData.append("gstCertificateFile", gstImages[0].file); // ✅ Extract actual File
     }
+    
+    if (complianceImages.length > 0 && complianceImages[0] instanceof File) {
+      formData.append("complianceCertificateFile", complianceImages[0]);
+    } else if (complianceImages.length > 0 && complianceImages[0].file instanceof File) {
+      formData.append("complianceCertificateFile", complianceImages[0].file); // ✅ Extract actual File
+    }
+  
+    console.log("FormData Entries:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    
+
+   const token = localStorage.getItem('token');
+
+   console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`)
+
+fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`, {
+  method: "POST",
+  headers: {
+    ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+  },
+  body: formData,
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return response.json().then((errorData) => {
+        throw new Error(errorData.message || 'Failed to submit the form.');
+      });
+    }
+  }) .then((data) => {
+
+  console.log(data)
+alert(data.message)
+
+window.location.href = '/Employee/Onboarding/success';
+
+})
+  .catch((error) => {
+    console.error("Error submitting form:", error.message);
+    alert(error.message)
+    document.querySelector('.loaderoverlay').style.display='none';
+  });
+
   };
+  
 
   return (
     <div className="mymain">
@@ -100,26 +227,44 @@ export default function OnboardingForm() {
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone No</label>
-            <input type="text" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} />
+            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} />
           </div>
+          {/* <div className="form-tab">
+            <label htmlFor="password">Enter Password</label>
+            <input type="text" name="password" value={user.password} onChange={handleOnChange} />
+          </div> */}
           <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
             <input type="text" name="company" value={user.company} onChange={handleOnChange} />
           </div>
           <div className="form-tab">
-            <label htmlFor="location">Enter Full Location</label>
+            <label htmlFor="location">Enter Address</label>
             <input type="text" name="location" value={user.location} onChange={handleOnChange} />
           </div>
+
           <div className="form-tab">
-            <label htmlFor="businessType">Enter Business Type</label>
-            <input type="text" name="businessType" value={user.businessType} onChange={handleOnChange} />
+            <label htmlFor="location">Enter City</label>
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} />
           </div>
           <div className="form-tab">
-            <label htmlFor="password">Create Password</label>
-            <input type="password" name="password" value={user.password} onChange={handleOnChange} />
+            <label htmlFor="location">Enter State</label>
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} />
           </div>
           <div className="form-tab">
-            <label htmlFor="gstNo">Enter GST No.</label>
+            <label htmlFor="location">Enter Pincode</label>
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} />
+          </div>
+          
+          
+          <div className="form-tab">
+            <label htmlFor="panNumber">Enter Pan Number</label>
+            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
+          </div>
+
+         
+
+          <div className="form-tab">
+            <label htmlFor="gstNo">Enter GST Number</label>
             <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
           </div>
 
@@ -132,7 +277,7 @@ export default function OnboardingForm() {
           />
 
           <div className="form-tab">
-            <label htmlFor="ComplianceNo">Enter Compliance No.</label>
+            <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
             <input type="text" name="ComplianceNo" value={user.ComplianceNo} onChange={handleOnChange} />
           </div>
 
@@ -147,27 +292,27 @@ export default function OnboardingForm() {
 <div className="radio-tab">
                             <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"Monthly Subscription"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='SubscriptionType' value={"MONTHLY"} onChange={handleOnChange} />
                                 <label>Monthly Subscription</label>
                             </div>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"Yearly Subscription"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='SubscriptionType' value={"YEARLY"} onChange={handleOnChange} />
                                 <label>Yearly Subscription</label>
                             </div>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"Commission Model"} onChange={handleOnChange} />
-                                <label>Commission Model</label>
+                                <input type='radio' className='btn' name='SubscriptionType' value={"FREE"} onChange={handleOnChange} />
+                                <label>Free Model</label>
                             </div>
                         </div>
 
                         <div className="radio-tab">
                             <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Role</p>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='role' value={"Coslo Provided Delivery"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
                                 <label>Supplier</label>
                             </div>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='role' value={"Self Delivery Model"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='role' value={"MANUFACTURER"} onChange={handleOnChange} />
                                 <label>Manufacturer</label>
                             </div>
                         </div>
@@ -175,23 +320,90 @@ export default function OnboardingForm() {
                         <div className="radio-tab">
                             <p htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Delivery Type</p>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='DeliveryType' value={"Coslo Provided Delivery"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='DeliveryType' value={"COSLO"} onChange={handleOnChange} />
                                 <label>Coslo Provided Delivery</label>
                             </div>
                             <div className='fo2'>
-                                <input type='radio' className='btn' name='DeliveryType' value={"Self Delivery Model"} onChange={handleOnChange} />
+                                <input type='radio' className='btn' name='DeliveryType' value={"SELF"} onChange={handleOnChange} />
                                 <label>Self Delivery Model</label>
                             </div>
                         </div>
 
-                        <Link href="/Employee/Onboarding/success">
+                       
         
-                        <button className="fo2">Send Account Creation Mail ➜</button>
-                        </Link>
+                        <button className="fo2"onClick={handleSubmit}>Send Account Creation Mail ➜</button>
+                        
 
-          {/* <button className="fo2" onClick={handleSubmit}>
-            Send Account Creation Mail ➜
-          </button> */}
+          
+    {/* Pricing Section */}
+  
+    <section className="pricing-table-101">
+
+<h1 className="title101">Subscription Plans</h1>
+
+<table className="table-101">
+  <thead className="thead-101">
+    <tr>
+      <th className="feature-header-101">Features</th>
+      <th className="plan-header-101">Free</th>
+      <th className="plan-header-101">Monthly</th>
+      <th className="plan-header-101">Yearly</th>
+    </tr>
+  </thead>
+  <tbody className="tbody-101">
+    <tr>
+      <td>Leads</td>
+      <td>0 /Month</td>
+      <td>70 /Month</td>
+      <td>80 /Month</td>
+    </tr>
+    <tr>
+      <td>Customer Support</td>
+      <td><i className="fas fa-times not-available"></i></td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+    </tr>
+    <tr>
+      <td>Order Analytics</td>
+      <td><i className="fas fa-times not-available"></i></td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+    </tr>
+    <tr>
+      <td>Inventory Management</td>
+      <td><i className="fas fa-check available"></i></td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+      <td>
+      <i className="fas fa-check available"></i>
+      </td>
+    </tr>
+   
+    <tr>
+      <td>Purchase Plan</td>
+      <td>
+        
+      </td>
+      <td>
+          <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+      </td>
+      <td>
+          <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+</section>
         </div>
       </div>
     </div>
@@ -242,3 +454,32 @@ export default function OnboardingForm() {
 //       </div>
 //     );
 //   }
+
+
+// const businessDetails = {
+//   businessType: user.businessType,
+//   gstCertificate: gstImages[0]
+//     ? {
+//         certificateNumber: user.gstNo,
+//         validFrom: "2023-01-01", // Replace with actual date fields if needed
+//         validTo: "2024-01-01", // Replace with actual date fields if needed
+//         certificateFile: gstImages[0].file.name,
+//       }
+//     : null,
+//   complianceCertificate: complianceImages[0]
+//     ? {
+//         certificateNumber: user.ComplianceNo,
+//         validFrom: "2023-03-15", // Replace with actual date fields if needed
+//         validTo: "2024-03-15", // Replace with actual date fields if needed
+//         certificateFile: complianceImages[0].file.name,
+//       }
+//     : null,
+//   address: {
+//     addressLine: user.location,
+//     city: user.city,
+//     state: user.state,
+//     pincode: user.pincode,
+//     phone: Number(user.phoneNo),
+//   },
+
+// };

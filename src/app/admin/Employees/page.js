@@ -2,24 +2,93 @@
 import '../mylayout.css'
 import './page.css'
 import Link from 'next/link';
-import  { useState } from "react";
+import  { useState,useEffect } from "react";
 
 export default function page() {
 
-  const [confirmationOpen, setconfirmationOpen] = useState(false);
+  const [data,setdata] = useState([]);
 
-  const toggleconfirmation = () => {
-  
+  const [confirmationOpen, setconfirmationOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  const toggleconfirmation = (id = null) => {
+    setSelectedId(id);
     setconfirmationOpen(!confirmationOpen);
   };
-  const orders = [
-    { id: "#1", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-    { id: "#2", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-    { id: "#3", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-    { id: "#4", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-    { id: "#5", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-    { id: "#6", Name: "Faiz Iqbal", Email: "faiziqbal@gmail.com"},
-  ];
+ 
+
+
+   const handledata = () => {
+     
+  
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+     const token = localStorage.getItem('token');
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+              setdata([...data])
+             document.querySelector('.loaderoverlay').style.display='none';
+          // Successfully logged in
+         // window.location.href = '/Employee/Onboarding';
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+  
+    const deleteFunc = (id) => {
+      console.log(id)
+      if (!id) return;
+  
+      const token = localStorage.getItem('token');
+
+      fetch(`http://localhost:3000/employee/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to delete the employee.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data)
+          setdata((prevData) => prevData.filter((item) => item._id !== id));
+          toggleconfirmation();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  
+    useEffect(() => {
+      handledata();
+    },[]);
+
 
   return (
     <div className="orders-container">
@@ -48,15 +117,18 @@ export default function page() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {data.map((data, index) => (
               <tr key={index}>
-                <td>{order.id}</td>
-                <td>{order.Name}</td>
-                <td>{order.Email}</td>
+                <td>#{index + 1}</td>
+                <td>{data.name}</td>
+                <td>{data.email}</td>
                 <td>
-                <Link href="/admin/Employees/newemployee">
+                <Link href={`/admin/Employees/newemployee/?employeeid=${data._id}`}>
                   <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
-             </Link>
+                  </Link>
+                  &nbsp;
+                  <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
+         
                 </td>
              
               </tr>
@@ -80,7 +152,7 @@ export default function page() {
       <p className="message">Are you sure ?</p>
       <div className="button-group">
         <button className="button no-button" onClick={toggleconfirmation}>No</button>
-        <button className="button yes-button">Yes</button>
+        <button className="button yes-button" onClick={() => deleteFunc(selectedId)}>Yes</button>
       </div>
     </div>
              </div>

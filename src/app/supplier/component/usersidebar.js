@@ -3,9 +3,11 @@
 import '../../component/component-css/usersidebar.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import useAuthCheck from '../../useAuthCheck.js';
 
 const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
+  useAuthCheck('/auth/sup-manu/login');
 
   useEffect(() => {
     console.log(window.location.pathname)
@@ -14,6 +16,14 @@ const Usersidebar = () => {
       setCurrentPath(window.location.pathname);
     }
   }, []);
+
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
+    
+    // Redirect to the login page
+    window.location.href = '/auth/sup-manu/login';
+  };
 
   const menuItems = [
     { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
@@ -41,6 +51,10 @@ const Usersidebar = () => {
           </a>
         ))}
 
+<div className='menu-item' onClick={handleLogout}>
+              <i className='fas fa-sign-out-alt' style={{color:'red'}}></i>
+              <span>Log Out</span>
+            </div>
 
 <p style={{textAlign:'left',marginTop:'40px',marginBottom:'15px',fontSize:'18px'}}>Support</p>
 <a href="/supplier/CustomerSupport">
