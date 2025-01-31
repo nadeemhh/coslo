@@ -28,8 +28,9 @@ const CartPage = () => {
         }
       })
       .then((data) => {
+        console.log(data)
         document.querySelector('.loaderoverlay').style.display = 'none';
-        alert(data.message)
+       
       })
       .catch((err) => {
         document.querySelector('.loaderoverlay').style.display = 'none';
@@ -39,7 +40,11 @@ const CartPage = () => {
       });
   };
 
-  getdata()
+  useEffect(() => {
+    getdata()
+  }, []);
+
+ 
   return (<>
   
   {/* %%% Cart Items status */}
