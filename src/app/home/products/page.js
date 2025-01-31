@@ -83,7 +83,50 @@ export default function Products() {
   };
 
 
+function addtocart(productId,variationId,quantity) {
+  console.log(productId,variationId,quantity);
+  
 
+  
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+  
+    const userData = {
+      productId,variationId,quantity
+    };
+  
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/add`, {
+      method: 'POST',
+       headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+           
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert(data.message)
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+        alert(err);
+       
+      });
+
+  
+}
 
   return (
     <>
@@ -286,11 +329,13 @@ export default function Products() {
   
           {/* Buttons */}
           <div className="button-group">
-          <Link href="/home/cart">
-            <button className="add-to-cart pb">
+          {/* <Link href="/home/cart"> */}
+
+            <button className="add-to-cart pb" onClick={()=>{addtocart("67904ee018837e20468ef02e","67904ee018837e20468ef022",10)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
             </button>
-            </Link>
+
+            {/* </Link> */}
             <button className="contact-supplier pb"  onClick={toggleModal} >
               Contact Supplier <i className="fas fa-arrow-right"></i>
             </button>

@@ -3,8 +3,43 @@ import Link from 'next/link';
 
 import "./CartPage.css";
 import Cartcar from '../../component/cartcard.js'
+import {useState,useEffect} from 'react';
 
 const CartPage = () => {
+
+  const getdata = () => {
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart`, {
+      method: 'GET',
+       headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+           
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert(data.message)
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+        alert(err);
+       
+      });
+  };
+
+  getdata()
   return (<>
   
   {/* %%% Cart Items status */}

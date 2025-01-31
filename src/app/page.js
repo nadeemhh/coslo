@@ -285,10 +285,14 @@ export default function Home() {
               
             </td>
             <td>
+              <a href="/home/success">
                 <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+                </a>
             </td>
             <td>
+            <a href="/home/success">
                 <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
+                </a>
             </td>
           </tr>
 

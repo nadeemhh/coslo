@@ -1,22 +1,84 @@
 'use client'
 import './page.css'
 import Link from 'next/link'
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 export default function page() {
-  const orders = [
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status:"Completed" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-    { id: "#872", date: "27th Oct 2024", buyer: "Faiz Iqbal", email: "faiziqbal@gmail.com", status: "Pending" },
-  ];
+  
+  const [data,setdata] = useState([]);
+
+  const handledata = () => {
+     
+  
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+   const token = localStorage.getItem('token');
+
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/apprating/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+            console.log(data.appRatings)
+            setdata([...data.appRatings])
+           document.querySelector('.loaderoverlay').style.display='none';
+        // Successfully logged in
+       // window.location.href = '/Employee/Onboarding';
+       
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display='none';
+        console.log(err)
+      });
+  };
+
+ useEffect(() => {
+      handledata();
+    },[]);
+
+    const deleteFunc = (id) => {
+      console.log(id)
+      if (!id) return;
+  
+      const token = localStorage.getItem('token');
+
+      fetch(`http://localhost:3000/apprating/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to delete the employee.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data)
+          setdata((prevData) => prevData.filter((item) => item._id !== id));
+          alert(data.message)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
 
   return (
     <div className="orders-container">
@@ -48,30 +110,36 @@ export default function page() {
         <table className="orders-table">
           <thead>
             <tr>
-              <th>Sr No.</th>
+              <th>##</th>
               <th>Name</th>
               <th>Date</th>
               <th>Email</th>
-              <th>Status</th>
-              <th>Details</th>
+              <th>Rating</th>
+              <th>Feedback</th>
+              <th>Actions</th>
+              {/* <th>Details</th> */}
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
+            {data.map((data, index) => (
               
               <tr key={index}>
-                <td>{order.id}</td>
-                <td>{order.buyer}</td>
-                <td>{order.date}</td>
+                 <td>#{index + 1}</td>
+                <td>{data.user.name}</td>
+                <td>{data.user.name}</td>
                 <td>
-                    {order.email}
+                    {data.user.email}
                 </td>
-                <td className={order.status}>{order.status}</td>
+                <td>{data.rating}/5</td>
+                <td>{data.feedback}</td>
                 <td>
+                  <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => deleteFunc(data._id)}/>
+                </td>
+                {/* <td>
                   <Link href="/admin/feedback/feedback-details">
                   <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
                 </Link>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
