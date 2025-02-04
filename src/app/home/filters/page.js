@@ -2,16 +2,11 @@
 import './page.css'
 import Link from 'next/link';
 import Productcard from '../../component/productshowcard'
-import { useSearchParams } from 'next/navigation';
 import { useState ,useEffect} from 'react';
 
 export default function Page() {
 
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get('query');
-  const [products, setProducts] = useState([]);   // Store fetched products
 
-  console.log(searchQuery)
 
   const fetchProducts = async () => {
     if (!searchQuery) return;
@@ -49,41 +44,7 @@ export default function Page() {
   
   return (
     <div>
-<div>
-<div style={{display:'flex',whiteSpace:'nowrap',marginBottom:'20px'}}>
-        <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
-        
-          
-      <select name="" id="" style={{border:'none'}}>
-        <option value="">Filters</option>
-        <option value="">By Location</option>
-        <option value="">By Category</option>
-      </select>
-      </button>
-
-      <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-      <i className="fas fa-sort" style={{marginRight:'10px'}}></i>
-      
-        
-    <select name="" id="" style={{border:'none'}}>
-      <option value="" >Sort</option>
-    </select>
-    </button>
-      </div>
-</div>
-
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
-
-{products.map((data, index) => (
-
-<Productcard pname={data.productName} pimage={data.productImages[0]} variation={data.variations[0]} key={index}/>
-
- ))}
-
-</div>
+<h1>h</h1>
 
 
     </div>
