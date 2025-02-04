@@ -1,85 +1,158 @@
-
+'use client'
 import './page.css'
 import Link from 'next/link';
 import Goback from '../../../back.js'
+import { useState,useEffect } from "react";
 
 export default function page() {
+
+    const [data,setdata] = useState(null);
+   
+    const [status, setStatus] = useState(''); 
+
+
+
+     const handledata = (id) => {
+        
+     
+       document.querySelector('.loaderoverlay').style.display='flex';
+   
+      const token = localStorage.getItem('token');
+   
+   
+       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/${id}`, {
+         method: 'GET',
+         headers: {
+           'Content-Type': 'application/json',
+           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+         },
+       })
+         .then((response) => {
+           if (response.ok) {
+             return response.json();
+           } else {
+             return response.json().then((errorData) => {
+               throw new Error(errorData.message || 'Failed. Please try again.');
+             });
+           }
+         })
+         .then((data) => {
+               console.log(data)
+               setdata(data)
+               setStatus(data.status);
+              document.querySelector('.loaderoverlay').style.display='none';
+           // Successfully logged in
+          // window.location.href = '/Employee/Onboarding';
+          
+         })
+         .catch((err) => {
+           document.querySelector('.loaderoverlay').style.display='none';
+           console.log(err)
+         });
+     };
+   
+    useEffect(() => {
+
+      const id = new URLSearchParams(window.location.search).get("id");
+
+
+         handledata(id);
+       },[]);
+
+
+
+       const handleChange = (e) => {
+        setStatus(e.target.value);
+      };
+    
+    
+      const updatestatus = (e) => {
+        e.preventDefault();
+      
+      document.querySelector('.loaderoverlay').style.display='flex';
+      
+      
+        const userData = {
+          status
+        };
+      
+      
+        const token = localStorage.getItem('token');
+        const id = new URLSearchParams(window.location.search).get("id");
+      
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          },
+          body: JSON.stringify(userData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+                throw new Error(errorData.message || 'Failed. Please try again.');
+              });
+            }
+          })
+          .then((data) => {
+                
+                alert(data.message)
+                document.querySelector('.loaderoverlay').style.display='none';
+           
+          })
+          .catch((err) => {
+          
+            alert(err.message);
+            document.querySelector('.loaderoverlay').style.display='none';
+          });
+      };
+
   return (
     <>
     <div className="header">
     <Goback/>
     
-    <h3>Quotations #4783</h3>
+    <h3>Quotations</h3>
  
   </div>
 
-    <div className="enquiry-container">
+   { data && <div className="enquiry-container">
       <p style={{textAlign:'left',color:'#007bff',marginBottom:'40px',fontSize:'22px',fontWeight:'500'}}>Quotations Details</p>
       <div className="enquiry-card">
         <div className="enquiry-row">
           <span className="label">Enquiry Id :</span>
-          <span className="value">7372</span>
+          <span className="value">{data.id}</span>
         </div>
         <div className="enquiry-row">
           <span className="label">Buyer Name :</span>
-          <span className="value">Faiz Iqbal</span>
-        </div>
-        <div className="enquiry-row">
-          <span className="label">Enquiry Date :</span>
-          <span className="value">16th August 2024</span>
+          <span className="value">{data.buyer}</span>
         </div>
         <div className="enquiry-row">
           <span className="label">Buyer Email :</span>
-          <span className="value">faiziqbal@gmail.com</span>
+          <span className="value">{data.email}</span>
         </div>
         <div className="enquiry-description">
-          <span className="Description">Description :</span>
+          <span className="Description">Description</span>
           <p className="value">
-            I hope this message finds you well. My name is Priya Singh, and I am
-            reaching out on behalf of HomeComfort Co., a home decor retailer
-            based in New Delhi. We specialize in offering high-quality,
-            customizable bedding products to our clients across India. <br />
-            <br />
-            We came across your company, RuiCraft Supplies, and were impressed
-            by your range of custom-sized pillows with organic rui filling. We
-            are interested in exploring a potential partnership and would like
-            to inquire about your products and services. Specifically, we are
-            looking for:
+          {data.desription}
           </p>
-          <ul className="value">
-            <li>
-              A product catalog showcasing available sizes, types of rui, and
-              customization options.
-            </li>
-            <li>
-              Bulk pricing details, including minimum order quantities and any
-              tiered discount structures.
-            </li>
-            <li>Average production lead times for orders of 1,000 units or more.</li>
-            <li>
-              Payment terms, including any upfront requirements or credit
-              facilities you may offer.
-            </li>
-          </ul>
-          <p className="value">
-            Additionally, we would appreciate if you could send us a sample of
-            your product to evaluate its quality before committing to a large
-            order.
-          </p>
+          
         </div>
         <div className="enquiry-row">
           <span className="EnquiryStatus">Enquiry Status :</span>
-          <select className="dropdown">
-            <option value="Pending">Pending</option>
-            <option value="Approved">Completed</option>
+          <select className="dropdown" value={status} onChange={handleChange}>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
           </select>
         </div>
         <div className="button-row">
-          <button className="update-button">Update</button>
-          <button className="cancel-button">Cancel</button>
+          <button className="update-button" onClick={updatestatus}>Update</button>
         </div>
       </div>
-    </div>
+    </div>}
     </>
   );
 }

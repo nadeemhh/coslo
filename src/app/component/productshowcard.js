@@ -10,8 +10,8 @@ import {useState} from 'react';
 import Link from 'next/link';
 
 
-export default function Productcard({veri=false}) {
-
+export default function Productcard({veri=false , pname,pimage,variation}) {
+console.log(pname,pimage,variation)
   
 
   return (
@@ -21,7 +21,7 @@ export default function Productcard({veri=false}) {
       <div className="product-image">
       <Link href="/home/products">
         <img
-          src="\images\gameee.png" // Replace with actual image URL
+          src={pimage} // Replace with actual image URL
           alt="Havit HV-G92 Gamepad"
         />
         </Link>
@@ -36,13 +36,13 @@ export default function Productcard({veri=false}) {
 
 
          {/* Location */}
- <div className='mylocation'>
+ {/* <div className='mylocation'>
  <span className="location">
 <img src="\icons\locationmark.svg" alt="" />
 
           Lucknow
         </span>
-        </div>
+        </div> */}
       </div>
 
 
@@ -53,12 +53,12 @@ export default function Productcard({veri=false}) {
 
         {/* Title and Supplier */}
         <Link href="/home/products">
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
+        <p className="product-title">{pname}</p>
+        <p className="product-supplier">Company Name</p>
         </Link>
         {/* Price */}
         <div className="product-actions">
-        <h4 className="price">₹ 2560/-</h4>
+        <h4 className="price">₹ {variation.mrp}/-</h4>
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
@@ -71,21 +71,18 @@ export default function Productcard({veri=false}) {
         </tr>
       </thead>
       <tbody className="tableBody56">
-        <tr className="tableRow56">
-          <td className="tableCell56">20-99 items</td>
-          <td className="tableCell56">20%</td>
-          <td className="tableCell56">₹29.99 net</td>
+
+        {variation.priceSlabs.map((sdata, index) => (
+        
+        <tr className="tableRow56" key={index}>
+          <td className="tableCell56">{sdata.min}-{sdata.max} items</td>
+          <td className="tableCell56">{sdata.discount}%</td>
+          <td className="tableCell56">₹{variation.mrp} net</td>
         </tr>
-        <tr className="tableRow56">
-          <td className="tableCell56">100-299 items</td>
-          <td className="tableCell56">30%</td>
-          <td className="tableCell56">₹25.35 net</td>
-        </tr>
-        <tr className="tableRow56">
-          <td className="tableCell56">300-499 items</td>
-          <td className="tableCell56">40%</td>
-          <td className="tableCell56">₹23.35 net</td>
-        </tr>
+       
+       
+      ))}
+      
       </tbody>
     </table>
     </div>

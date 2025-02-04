@@ -154,17 +154,27 @@ import { createContext, useContext, useState } from 'react';
 }
 
 
-const CounterComponent = () => {
-  const [value, setValue] = useState(0);
+const CounterComponent = ({quantity,productid,variationid}) => {
+  const [value, setValue] = useState(quantity);
 
   // Handle decrement
   const handleDecrement = () => {
-    setValue((prev) => prev - 1);
+    setValue((prev) => {
+      const updatedValue = prev - 1;
+      updatequantity(updatedValue)
+      return updatedValue;
+  });
+ 
   };
 
   // Handle increment
   const handleIncrement = () => {
-    setValue((prev) => prev + 1);
+    setValue((prev) => {
+      const updatedValue = prev + 1;
+      updatequantity(updatedValue)
+      return updatedValue;
+  });
+   
   };
 
   // Handle manual input change
@@ -172,9 +182,66 @@ const CounterComponent = () => {
     const newValue = e.target.value;
 
     if (/^-?\d*$/.test(newValue)) {
-      setValue(Number(newValue));
+ 
+      setValue((prevValue) => {
+        const updatedValue = Number(newValue);
+        updatequantity(updatedValue); // Call update function with updated value
+        return updatedValue;
+      });
+     
     }
+ 
   };
+
+  const handledata = (e) => {
+    e.preventDefault();
+
+    
+
+  };
+
+function updatequantity(quantity) {
+
+ console.log(quantity);
+
+    const userData = {
+      productId:productid,
+      variationId:variationid,
+      quantity,
+    };
+
+console.log(userData)
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+            console.log(data)
+       
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+ 
+}
+
+
+
 
   return (
     <div className="counter-container">
@@ -188,7 +255,7 @@ const CounterComponent = () => {
         type="text"
         value={value}
         onChange={handleChange}
-        className="counter-input"
+        className="counter-input counter-inputValue"
       />
 
       {/* Increase Area */}

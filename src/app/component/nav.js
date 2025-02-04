@@ -7,6 +7,7 @@ import { useState ,useEffect} from 'react';
 
 const NavBar = () => {
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
 
   const handleGoBack = () => {
@@ -16,6 +17,21 @@ const NavBar = () => {
     const handleShowSidebar = () => {
       document.getElementById('sidebar').style.transform = 'translateY(0)';
     };
+
+      // ✅ Handles search on button click
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+
   
     useEffect(() => {
       console.log(JSON.parse(localStorage.getItem('buyer')))
@@ -61,8 +77,12 @@ const NavBar = () => {
                </select>
           
           </div>
-          <input type="text" placeholder="Search Products" />
-          <button className="search-btn">
+
+          <input type="text" placeholder="Search Products" className="SearchProducts"  value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}/>
+
+          <button className="search-btn" onClick={handleSearch}>
             <i className="fas fa-search"></i>
           </button>
         </div>

@@ -59,15 +59,17 @@
 
 /* reviews  */
 .reviews-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   margin: 20px 0;
+
 }
 
 .reviews-section,
 .rating-section {
-  flex: 1 1 45%;
+  flex-grow: 1;
 }
 
 .title {
@@ -185,6 +187,22 @@ align-items: flex-start;
   cursor: pointer;
 }
 
+.feedback-star565 {
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.feedback-star565.filled565 {
+  color: #f39c12;
+}
+
+.feedback-star565:hover {
+  color: #f39c12;
+}
+
+
 @media (max-width: 768px) {
   .reviews-section,
   .rating-section {
@@ -195,3 +213,4 @@ align-items: flex-start;
     padding: 0 10px;
   }
 }
+

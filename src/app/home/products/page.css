@@ -53,7 +53,7 @@
   .thumbnail-container {
     display: flex;
     gap: 0.5rem;
-    width: 250px;
+    max-width: 250px;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 3px;
@@ -112,7 +112,7 @@
     font-size: 1rem;
   }
   .save-info {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: #00a34d;
   }
   
@@ -123,10 +123,16 @@
     margin: 1rem 0;
   }
   .current-price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
+    font-size: 1.8rem;
+    
+    color: #000000;
   }
+
+  .price-mrp{ 
+     font-size: 1.5rem;
+    color: #000000;
+  }
+
   .original-price {
     text-decoration: line-through;
     color: #888;

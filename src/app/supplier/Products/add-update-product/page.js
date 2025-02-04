@@ -98,20 +98,33 @@ export default function Page() {
   const handleImageUpload = (event) => {
 
     const myfiles = Array.from(event.target.files);
-    setproductimages((prevImages) => [...prevImages, ...myfiles]);
+    setproductimages((prevImages) =>{
+      setVariation((prev) => ({
+        ...prev,
+        productImages: [...prevImages, ...myfiles],
+      }));
+      return [...prevImages, ...myfiles];
+      
+      });
 
     const files = Array.from(event.target.files);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...imageUrls]);
+
+    
   };
 
   const removeImage = (index) => {
     setproductimages(productimages.filter((_, i) => i !== index));
     setImages(images.filter((_, i) => i !== index));
 
+    setVariation((prev) => ({
+      ...prev,
+      productImages: productimages.filter((_, i) => i !== index),
+    }));
   };
 
-console.log(productimages)
+console.log(productimages,images)
   
 
   const addPricing = () => {
@@ -178,6 +191,7 @@ console.log(productimages)
     divertIndividualOrder: false,
       isReturnable: false,
           returnDays: '',
+          productImages:[]
   });
 
 console.log(variation)
@@ -231,6 +245,7 @@ const removePriceSlab = (index) => {
     divertIndividualOrder: false,
     isReturnable: false,
         returnDays: '',
+        productImages:[]
   });
   setShowReturnDaysInput(false);
 };
@@ -329,8 +344,11 @@ const removePriceSlab = (index) => {
       divertIndividualOrder: false,
       isReturnable: false,
           returnDays: '',
+          productImages:[]
     });
   
+    setproductimages([])
+setImages([])
     
 
     // Close modal
@@ -341,28 +359,64 @@ const removePriceSlab = (index) => {
 
   const handleSubmit = async () => {
    
-    let productData=userData.productData;
+   let userDatacopy =structuredClone(userData);
 
-    try{
+   try{
 
-    productData.category=document.querySelector('.active342').getAttribute('categoryid');
+    userDatacopy.productData.category=document.querySelector('.active342').getAttribute('categoryid');
+
   }catch(er){
     alert('Select Category')
     return;
   }
 
-    console.log( productData, userData.variationsData)
-    const formData = new FormData();
+  if(userDatacopy.variationsData.length===0){
+    alert('Add Price')
+    return;
+  }
 
-    
-    formData.append("productData", JSON.stringify(productData));
-    formData.append("variationsData", JSON.stringify(userData.variationsData));
+    async function convertImagesToBase64(productData) {
+      const variations = productData.variationsData;
   
-    // Append multiple images
-    productimages.forEach((image, index) => {
-    formData.append("productImages", image); // Ensure your backend supports multiple images
+      const convertToBase64 = (file) => {
+          return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = (error) => reject(error);
+          });
+      };
+  
+      for (const variation of variations) {
+          const images = variation.productImages;
+  
+          for (let i = 0; i < images.length; i++) {
+              const imageFile = images[i];
+  
+              if (imageFile instanceof File) { // Check if the item is a File object
+                  try {
+                      const base64String = await convertToBase64(imageFile);
+                      images[i] =  base64String; // Replace the file with Base64
+                  } catch (error) {
+                      console.error('Error converting image to Base64:', error);
+                  }
+              }
+          }
+      }
+  
+      return productData;
+  }
+  
+  // Example usage
+  // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
+  convertImagesToBase64(userDatacopy).then((result) => {
+      console.log('Converted Product Data:', result);
+      postdata(result)
   });
+
   
+  async function postdata(data) {
+   
     try {
       document.querySelector('.loaderoverlay').style.display='flex';
 
@@ -371,9 +425,10 @@ const removePriceSlab = (index) => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, {
         method: "POST",
         headers: {
+          'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
         },
-        body: formData,
+        body: JSON.stringify(data),
       });
   
       if (response.ok) {
@@ -391,6 +446,9 @@ const removePriceSlab = (index) => {
       document.querySelector('.loaderoverlay').style.display='none';
       alert("Something went wrong!");
     }
+  }
+
+
   };
   
 
@@ -406,9 +464,16 @@ const removePriceSlab = (index) => {
     setVariation({...selectedVariations});
     let newState = selectedVariations.isReturnable;
     setShowReturnDaysInput(newState);
+
+    setproductimages([...selectedVariations.productImages])
+    const files = Array.from(selectedVariations.productImages);
+    const imageUrls = files.map((file) => URL.createObjectURL(file));
+setImages([...imageUrls])
+
     setisupdate(true)
     setupdateindex(index)
     toggleModal(false);
+    
 
   };
 console.log(variation)
@@ -534,7 +599,7 @@ console.log(variation)
       </div>
     </div>
 
-    <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
+    {/* <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
     <div className="image-uploader" style={{marginBottom:'50px'}}>
  
       <div className="add-image">
@@ -563,10 +628,10 @@ console.log(variation)
           </div>
         ))}
       </div>
-    </div>
+    </div> */}
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
-    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>
+    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>
     </div>
 
     <div className="container" style={{marginTop:'50px'}}>
@@ -651,7 +716,7 @@ console.log(variation)
       
       {ModalOpen && (
         <div className="modal-overlay">
-          <form className="form" style={{ height: "90vh", overflowY: "auto" }}  onSubmit={(e)=>{
+          <form className="form" style={{ height: "90vh", overflowY: "auto"}}  onSubmit={(e)=>{
                 e.preventDefault();
 
                 isupdate ? saveVariation(true) : saveVariation()
@@ -720,6 +785,41 @@ console.log(variation)
                 onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
               />
             </div>
+
+
+            <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
+    <div className="image-uploader" style={{marginBottom:'50px'}}>
+ 
+      <div className="add-image">
+        <input
+          type="file"
+          id="imageInput"
+          multiple
+          onChange={handleImageUpload}
+          accept="image/*"
+        />
+        <label htmlFor="imageInput" className="add-image-label">
+        <img src="\icons\upcross.svg" alt=""  width={'30px'}/>
+          <p>Add Image</p>
+        </label>
+      </div>
+      <div className="image-preview">
+        {images.map((image, index) => (
+          <div className="image-container" key={index}>
+            <img src={image} alt={`preview-${index}`} />
+            <button
+              className="remove-button"
+              onClick={(e) => {
+                e.preventDefault();
+                removeImage(index)}}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+
 
             {/* Add Attributes */}
             <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Attributes</strong>
@@ -947,6 +1047,10 @@ console.log(variation)
             if (variation.priceSlabs.length > 0) {
               removePriceSlab(variation.priceSlabs.length - 1);
             }
+
+            setproductimages([])
+setImages([])
+
             setModalOpen(!ModalOpen); // Close the modal
             
           }}

@@ -79,6 +79,16 @@ export default function page() {
         });
     };
 
+    function extractDate(isoString) {
+      if (!isoString) return null;
+      
+      try {
+          return isoString.split("T")[0]; // Extracts the date portion before 'T'
+      } catch (error) {
+          console.error("Invalid ISO string format", error);
+          return null;
+      }
+  }
 
   return (
     <div className="orders-container">
@@ -89,7 +99,7 @@ export default function page() {
       </div>
       
       <div style={{display:'flex',justifyContent:'space-between',margin:'20px'}}>
-      <div style={{textAlign:'left'}}>
+      {/* <div style={{textAlign:'left'}}>
         <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
@@ -101,7 +111,7 @@ export default function page() {
         <option value="">Pending</option>
       </select>
       </button>
-      </div>
+      </div> */}
       
       <DateRangePicker/>
       </div>
@@ -126,7 +136,7 @@ export default function page() {
               <tr key={index}>
                  <td>#{index + 1}</td>
                 <td>{data.user.name}</td>
-                <td>{data.user.name}</td>
+                <td>{extractDate(data.createdAt)}</td>
                 <td>
                     {data.user.email}
                 </td>

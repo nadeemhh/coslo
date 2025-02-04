@@ -21,7 +21,7 @@ export default function Home() {
         <div className='bnamehide'>
       <Link href="#">
         <div className="logo">
-          <h1>Coslo.com</h1>
+          <h1>coslomart.com</h1>
         </div>
         </Link>
 
@@ -37,7 +37,7 @@ export default function Home() {
 
         <Link href="#">
         <div className="logo logodesk">
-          <h1>Coslo.com</h1>
+          <h1>coslomart.com</h1>
         </div>
         </Link>
 

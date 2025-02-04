@@ -16,17 +16,17 @@
   
   /* Product Image Section */
   .product-image {
-    background-color: #ffecec; /* Light pink */
+
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 10px;
   }
   
   .product-image img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    object-fit: cover;
   }
   
   /* Cart Icon */

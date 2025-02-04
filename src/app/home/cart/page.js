@@ -3,9 +3,14 @@ import Link from 'next/link';
 
 import "./CartPage.css";
 import Cartcar from '../../component/cartcard.js'
+import CounterComponent from '../../component/global_component.js'
 import {useState,useEffect} from 'react';
 
 const CartPage = () => {
+
+  const [data,setdata] = useState([]);
+
+
 
   const getdata = () => {
     const token = localStorage.getItem('token');
@@ -28,7 +33,13 @@ const CartPage = () => {
         }
       })
       .then((data) => {
-        console.log(data)
+        console.log(data.cart)
+        if(data.cart){
+          setdata([...data.cart.items])
+        }else{
+          setdata([])
+        }
+      
         document.querySelector('.loaderoverlay').style.display = 'none';
        
       })
@@ -40,9 +51,67 @@ const CartPage = () => {
       });
   };
 
+
+
+  const deleteFunc = () => {
+  
+
+    const token = localStorage.getItem('token');
+
+    fetch(`http://localhost:3000/cart/delete-all`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to delete the employee.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        getdata()
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getdata()
   }, []);
+
+
+  const deleteFuncone = (id) => {
+    console.log(id)
+    if (!id) return;
+  
+    const token = localStorage.getItem('token');
+  
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/delete/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to delete the employee.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data)
+        getdata()
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
  
   return (<>
@@ -83,14 +152,36 @@ const CartPage = () => {
         {/* Cart Items Section */}
         <div className="cart-items">
           <div style={{display:'flex',justifyContent:'space-between'}}>
-          <p style={{fontSize:'19px',fontWeight:'500'}}>Cart (8)</p>
-          <button className="clear-cart">Clear Cart</button>
+          <p style={{fontSize:'19px',fontWeight:'500'}}>Cart ({data.length})</p>
+          {data.length ? <button className="clear-cart" onClick={() => deleteFunc()}>Clear Cart</button>:''}
           </div>
 
-          <div className="card-container">
-     
-          <Cartcar show={true}/>
-          <Cartcar show={true}/>
+          <div className="card-container09">
+
+          
+
+          {data.map((data, index) => (
+
+            <div className="card09" key={index}>
+    <div className="prodictimg">
+      <img src={data.productImage} alt="" />
+    </div>
+    <div className="card-details">
+      <p className="card-title">
+      {data.productName}
+      </p>
+      <p className="card-price">₹{data.priceBreakdown.basePrice}</p>
+      {/* <p className="card-date">24th August '24</p> */}
+    </div>
+    <div className="card-status">
+      
+    <CounterComponent quantity={data.quantity} productid={data.product} variationid={data.variation}/>
+    <img src="\icons\dustbin.svg" alt="" style={{width:'40px',cursor:'pointer'}}  onClick={() => deleteFuncone(data.variation)}/>
+
+    </div>
+  </div>
+          ))}
+          
 
     </div>
 

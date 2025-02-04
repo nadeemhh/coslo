@@ -14,18 +14,59 @@ export default function Products() {
   const [zoomScale, setZoomScale] = useState(1);
   const [quantity, setQuantity] = useState(0);
   const [ModalOpen, setModalOpen] = useState(false);
-
   const [pageUrl, setPageUrl] = useState('');
+  const [data,setdata] = useState();
+  const [isdata,setisdata] = useState(false);
+  const [showslab,setshowslab] = useState(0);
+  const [saved,setsaved] = useState(0);
 
-  useEffect(() => {
-    // Get the current page URL when the component mounts
-    setPageUrl(window.location.href);
-    console.log(window.location.href)
-  }, []);
-
+console.log(data);
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
+
+    let quantity= event.target.value;
+let price=data.variations[showslab].mrp;
+
+    console.log(quantity,price)
+
+    const discountData = data.variations[showslab].priceSlabs;
+
+    function calculatePrice(quantity, price) {
+      quantity = parseInt(quantity, 10); // Ensure quantity is a number
+  
+    
+  
+      let selectedCategory = discountData.find(item => quantity >= item.min && quantity <= item.max);
+  
+      // If quantity is greater than max range, apply the highest discount
+      if (!selectedCategory && quantity > Math.max(...discountData.map(item => item.max))) {
+          selectedCategory = discountData.reduce((prev, curr) => (curr.discount > prev.discount ? curr : prev), { discount: 0, deliveryFee: 0 });
+      }
+  
+      // If quantity does not match any range, set discount to 0
+      if (!selectedCategory) {
+          selectedCategory = { type: "none", discount: 0, deliveryFee: 0 };
+          
+      }
+  
+      let discountAmount = (price * selectedCategory.discount) / 100;
+      let finalPrice = price - discountAmount;
+      let savings = discountAmount.toFixed(2); // Amount saved
+  
+      setsaved(savings)
+      return {
+          category: selectedCategory.type,
+          originalPrice: price,
+          discount: selectedCategory.discount,
+          discountedPrice: finalPrice,
+          savings: savings,
+          deliveryFee: selectedCategory.deliveryFee
+      };
+  }
+  
+  // Example Usage
+  console.log(calculatePrice(quantity, price));
   };
 
   const toggleModal = () => {
@@ -83,15 +124,60 @@ export default function Products() {
   };
 
 
-function addtocart(productId,variationId,quantity) {
-  console.log(productId,variationId,quantity);
-  
+  function getproductdetails(productId) {
 
+    
+    console.log(productId);
+    
+        document.querySelector('.loaderoverlay').style.display = 'flex';
+
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${productId}`)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+               
+                throw new Error(errorData.error || 'Failed');
+              });
+            }
+          })
+          .then((data) => {
+          console.log(data.data)
+         
+          setdata(data.data)
+          setisdata(true)
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          })
+          .catch((err) => {
+            document.querySelector('.loaderoverlay').style.display = 'none';
+            console.log(err)
+           
+           
+          });
+    
+      
+    }
+
+   
+
+
+function addtocart(productId,variationId) {
   
+let pquantity=Number(quantity);
+
+if(!pquantity){
+  alert('Add Quantity')
+return;}
+
+console.log(productId,variationId,pquantity);
+
     document.querySelector('.loaderoverlay').style.display = 'flex';
   
     const userData = {
-      productId,variationId,quantity
+      productId,
+      variationId,
+      quantity:pquantity
     };
   
     const token = localStorage.getItem('token');
@@ -128,7 +214,76 @@ function addtocart(productId,variationId,quantity) {
   
 }
 
+
+useEffect(() => {
+  // Get the current page URL when the component mounts
+  setPageUrl(window.location.href);
+  console.log(window.location.href)
+  getproductdetails("67a07903d56977fa5c74ae55")
+}, []);
+
+
+const sendquotation = (e) => {
+  e.preventDefault();
+
+      // Accessing input fields using querySelector
+      const name = document.querySelector('.modalform input[name="name"]').value;
+      const phone = document.querySelector('.modalform input[name="phone"]').value;
+      const email = document.querySelector('.modalform input[name="email"]').value;
+      const details = document.querySelector('.modalform textarea[name="details"]').value;
+  
+      console.log({ name, phone, email, details });
+
+    
+
+document.querySelector('.loaderoverlay').style.display='flex';
+
+
+  const userData = {
+    subject:'nothing',
+    message:details,
+    productId:'67904ee018837e20468ef02e',
+    phone,
+
+  };
+
+
+  const token = localStorage.getItem('token');
+
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || 'Failed. Please try again.');
+        });
+      }
+    })
+    .then((data) => {
+          
+          alert(data.message)
+          document.querySelector('.loaderoverlay').style.display='none';
+          toggleModal()
+     
+    })
+    .catch((err) => {
+    
+      alert(err.message);
+      document.querySelector('.loaderoverlay').style.display='none';
+    });
+};
+
+
   return (
+    <> {isdata &&
     <>
       <p className='breadcumb'>Electronics / Gadgets / Nanocharge Batt..</p>
 
@@ -152,7 +307,7 @@ function addtocart(productId,variationId,quantity) {
             />
 
             <img
-              src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
+              src={data.variations[showslab].productImages[0]}
               alt="Product"
               className="main-image"
             />
@@ -162,41 +317,16 @@ function addtocart(productId,variationId,quantity) {
             <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
 
             <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
+
+            {data.variations[showslab].productImages.map((url, index) => (
               <img
-                src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
+                src={url}
                 alt="Thumbnail 1"
-                id='active'
+                id={index==0?'active':''}
+                key={index}
               />
-              <img
-                src="https://blog.playstation.com/tachyon/2024/09/16554ba2a0ada3fc7c2f05187300c4a3fb1966f1.jpg?resize=1088%2C612&crop_strategy=smart"
-                alt="Thumbnail 2"
-              />
-              <img
-                src="https://bsmedia.business-standard.com/_media/bs/img/article/2023-10/11/thumb/featurecrop/1200X900/1697008191-1052.jpg"
-                alt="Thumbnail 3"
-              />
-              <img
-                src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
-                alt="Thumbnail 4"
-              />
-
-<img
-                src="https://bsmedia.business-standard.com/_media/bs/img/article/2023-10/11/thumb/featurecrop/1200X900/1697008191-1052.jpg"
-                alt="Thumbnail 2"
-              />
-              <img
-                src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
-                alt="Thumbnail 3"
-              />
-
-<img
-                src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
-                alt="Thumbnail 2"
-              />
-              <img
-                src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart"
-                alt="Thumbnail 3"
-              />
+            ))}
+             
             </div>
 
             <img src="\icons\smallright.svg" alt="Scroll Right" onClick={scrollRight} />
@@ -205,27 +335,27 @@ function addtocart(productId,variationId,quantity) {
 
  {/* Right Section - Product Details */}
  <div className="product-details" style={{padding:'0px'}}>
-          <p className='productname'>NanoCharge 5000mAh Battery Module</p>
+          <p className='productname'>{data.productName}</p>
           <div className="seller">
-            <p>ElectroMart Direct  </p>
+            <p>{data.BrandName}</p>
             
-            <div className='mylocationp'>
+            {/* <div className='mylocationp'>
    <span className="location">
   <img src="\icons\locationmark.svg" alt="" />
   
             Lucknow
           </span> 
   
-          </div> 
+          </div>  */}
           
-          <div className='mylocationp'>
+          {data.variations[showslab].isReturnable && <div className='mylocationp'>
    <span className="location">
   <img src="\icons\rightgreen.svg" alt="" />
   
   Return Available
           </span> 
   
-          </div>
+          </div>}
 
           <div className='mylocationp' style={{backgroundColor:'#1389f0',borderRadius:'0 8px 0 8px'}}>
    <span className="location" style={{color:'white',fontWeight:'500'}}>
@@ -279,6 +409,13 @@ function addtocart(productId,variationId,quantity) {
           </div>
           
 
+{/* Pricing Section */}
+<div className="pricing">
+          <span className="price-mrp">mrp</span>
+            <span className="current-price">₹{data.variations[showslab].mrp}</span>
+            {/* <span className="original-price">₹ 667.00</span> */}
+          </div>
+
 
           <div className="priceTableContainer565">
           <table className="priceTable565">
@@ -290,26 +427,39 @@ function addtocart(productId,variationId,quantity) {
         </tr>
       </thead>
       <tbody className="tableBody565">
-        <tr className="tableRow565">
-          <td className="tableCell565">20-99 items</td>
-          <td className="tableCell565">20%</td>
-          <td className="tableCell565">₹29.99 net</td>
+      {data.variations[showslab].priceSlabs.map((sdata, index) => (
+        
+        <tr className="tableRow565" key={index}>
+          <td className="tableCell565">{sdata.min}-{sdata.max} items</td>
+          <td className="tableCell565">{sdata.discount}%</td>
+          <td className="tableCell565">₹{data.variations[showslab].mrp} net</td>
         </tr>
-        <tr className="tableRow565">
-          <td className="tableCell565">100-299 items</td>
-          <td className="tableCell565">30%</td>
-          <td className="tableCell565">₹25.35 net</td>
-        </tr>
-        <tr className="tableRow565">
-          <td className="tableCell565">300-499 items</td>
-          <td className="tableCell565">40%</td>
-          <td className="tableCell565">₹23.35 net</td>
-        </tr>
+       
+       
+      ))}
       </tbody>
     </table>
     </div>
 
 
+    <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+
+<p style={{fontSize:'20px',fontWeight:'600',color:'#007bff'}}>Product Details :-</p>
+
+    {data.commonAttributes.map((data, index) => (
+
+<p key={index} style={{fontSize:'17px'}}><strong>{data.key}:</strong> {data.value}</p>
+
+))}
+
+    {data.variations[showslab].attributes.map((data, index) => (
+
+                        <p key={index} style={{fontSize:'17px'}}><strong>{data.key}:</strong> {data.value}</p>
+
+                      ))}
+
+                    </div>
+                    
 
           {/* Quantity Section */}
           <div className="quantity-section">
@@ -318,33 +468,32 @@ function addtocart(productId,variationId,quantity) {
            <input type="number" value={quantity}    onChange={handleChange} />
            </div>
            
-            <span className="save-info">You Saved Total ₹520!</span>
+            <span className="save-info">You Saved Total ₹{saved}!</span>
           </div>
   
-          {/* Pricing Section */}
-          <div className="pricing">
-            <span className="current-price">₹ 552.00</span>
-            <span className="original-price">₹ 667.00</span>
-          </div>
+          
   
           {/* Buttons */}
           <div className="button-group">
           {/* <Link href="/home/cart"> */}
 
-            <button className="add-to-cart pb" onClick={()=>{addtocart("67904ee018837e20468ef02e","67904ee018837e20468ef022",10)}}>
+            <button className="add-to-cart pb" onClick={()=>{addtocart("67904ee018837e20468ef02e","67904ee018837e20468ef022")}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
             </button>
 
             {/* </Link> */}
             <button className="contact-supplier pb"  onClick={toggleModal} >
-              Contact Supplier <i className="fas fa-arrow-right"></i>
+            Request Quotation <i className="fas fa-arrow-right"></i>
             </button>
           </div>
   
           {/* Variations */}
           <div className="variations">
-            <button className='variations-selected'>Variation 1</button>
-            <button>Variation 2</button>
+             {data.variations.map((data, index) => (
+
+            <button className={index===showslab?'variations-selected':''} key={index} onClick={()=>{setshowslab(index)}}>Variation {index+1}</button>
+         
+             ))}
           </div>
         </div>
 
@@ -493,7 +642,7 @@ function addtocart(productId,variationId,quantity) {
         </div>
       )}
 
-      <Reviews />
+      <Reviews pid={data._id} description={data.description}/>
 
       
       {ModalOpen && (
@@ -506,18 +655,19 @@ function addtocart(productId,variationId,quantity) {
           </div>
             <h2>Ask your queries here!</h2>
             <p>The Supplier will get back to you soon!</p>
-            <div className='modalform'>
-              <input type="text" placeholder="Type your name *" required />
-              <input type="text" placeholder="Type your phone no*" required />
-              <input type="email" placeholder="Type your email*" required />
-              <textarea placeholder="Type details"></textarea>
+            <form className='modalform' onSubmit={sendquotation}>
+            <input type="text" name="name" placeholder="Type your name *" required />
+        <input type="number" name="phone" placeholder="Type your phone no*" required />
+        <input type="email" name="email" placeholder="Type your email*" required />
+        <textarea name="details" placeholder="Type details" required></textarea>
               <button type="submit">Submit</button>
-            </div>
+            </form>
           </div>
         </div>
       )}
   
     </>
+    } </>
   );
   }
 

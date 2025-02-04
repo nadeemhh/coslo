@@ -1,9 +1,51 @@
-
+'use client'
 import './page.css'
 import Link from 'next/link';
-import Productcard from '../../component/productcard'
+import Productcard from '../../component/productshowcard'
+import { useSearchParams } from 'next/navigation';
+import { useState ,useEffect} from 'react';
 
 export default function Page() {
+
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('query');
+  const [products, setProducts] = useState([]);   // Store fetched products
+
+  console.log(searchQuery)
+
+  const fetchProducts = async () => {
+    if (!searchQuery) return;
+
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?query=${encodeURIComponent(searchQuery)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+
+      const data = await response.json();
+      setProducts(data.data); // Adjust based on your API response
+      document.querySelector('.loaderoverlay').style.display = 'none';
+      console.log(data.data)
+    } catch (err) {
+      document.querySelector('.loaderoverlay').style.display = 'none';
+    } finally {
+      
+    }
+  };
+
+
+  useEffect(() => {
+
+    fetchProducts();
+  }, [searchQuery]);
   
   return (
     <div>
@@ -35,13 +77,11 @@ export default function Page() {
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
 
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
+{products.map((data, index) => (
+
+<Productcard pname={data.productName} pimage={data.productImages[0]} variation={data.variations[0]} key={index}/>
+
+ ))}
 
 </div>
 

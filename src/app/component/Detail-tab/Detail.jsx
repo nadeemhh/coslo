@@ -2,30 +2,17 @@
 import { useState } from 'react';
 import Reviews from "./Reviews";
 import '../component-css/tab.css'
-const Detail = () => {
+const Detail = ({pid,description}) => {
     const [activeTab, setActiveTab] = useState("description");
 
     const renderContent = () => {
         switch (activeTab) {
             case "description":
                 return <div>
-                    <p>
-                        Ecommerce, also known as electronic commerce or internet commerce,
-                        refers to the buying and selling of goods or services using the
-                        internet, and the transfer of money and data to execute these
-                        transactions. Ecommerce, also known as electronic commerce or
-                        internet commerce, refers to the buying and selling of goods or
-                        services using the internet, and the transfer of money and data to
-                        execute these transactions.
+                    <p style={{color:'black'}}>
+                     {description}
                     </p>
-                    <p>
-                        Ecommerce, also known as electronic commerce or internet commerce,
-                        refers to the buying and selling of goods or services using the
-                        internet, and the transfer of money and data to execute these
-                        transactions. Ecommerce, also known as electronic commerce or
-                        internet commerce, refers to the buying and selling of goods or
-                        services using the internet.
-                    </p>
+                  
                 </div>;
             case "technicalDetails":
                 return (
@@ -42,7 +29,7 @@ const Detail = () => {
                 return <div>Shipping & Payments content goes here.</div>;
             case "reviews":
                 return (
-                    <><Reviews /></>
+                    <><Reviews pid={pid}/></>
                 );
             default:
                 return null;
@@ -58,18 +45,18 @@ const Detail = () => {
                 >
                     Description
                 </button>
-                <button
+                {/* <button
                     className={activeTab === "technicalDetails" ? "active" : ""}
                     onClick={() => setActiveTab("technicalDetails")}
                 >
                     Technical Details
-                </button>
-                <button
+                </button> */}
+                {/* <button
                     className={activeTab === "shippingPayments" ? "active" : ""}
                     onClick={() => setActiveTab("shippingPayments")}
                 >
                     Shipping & Payments
-                </button>
+                </button> */}
                 <button
                     className={activeTab === "reviews" ? "active" : ""}
                     onClick={() => setActiveTab("reviews")}
