@@ -21,7 +21,10 @@ const NavBar = () => {
       // ✅ Handles search on button click
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
-      router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}`);
+      const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
+        const selectedName = selectedOption.getAttribute("value"); 
+console.log(selectedName)
+      router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`);
     }
   };
 
@@ -55,9 +58,10 @@ const NavBar = () => {
         </div>
         </Link>
         
-        <a href="/home/login">
+        {user === null && <a href="/home/login">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true}>  log in </Button>
-        </a>
+        </a>}
+
         </div>
 
         <Link href="/home">
@@ -71,9 +75,9 @@ const NavBar = () => {
 
         <div className="search-bar">
           <div className="dropdown">
-            <select name="" id="" className="dropdown-btn hide">
-               <option value="">Products</option>
-               <option value="">Supplier</option>
+            <select name="" id="" className="dropdown-btn hide filtertype">
+               <option value="Products">Products</option>
+               <option value="seller">seller</option>
                </select>
           
           </div>

@@ -18,8 +18,9 @@ const AdminDashboard = () => {
       { path: '/admin/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
       { path: '/admin/Employees', icon: 'fas fa-users', label: 'Employees' },
       { path: '/admin/manufacturerssuppliers', icon: 'fas fa-industry', label: 'Manufacturers/Suppliers' },
-      { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
-      { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
+      // { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
+      // { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
+      { path: '/admin/banners', icon: 'fas fa-image', label: 'Add Banner' },
       { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
     ];
 
@@ -54,6 +55,8 @@ const Usersidebar = ({menuItems}) => {
   }, []);
 
   const handleLogout = () => {
+     // Remove the token 
+     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     localStorage.removeItem('token');
     localStorage.removeItem('admindata')
     window.location.href = '/auth/superadminlogin';

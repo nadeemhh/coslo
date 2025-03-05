@@ -2,11 +2,60 @@
 import '../mylayout.css'
 import './page.css'
 import Link from 'next/link';
-
+import  { useState,useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer ,Legend } from "recharts";
 
 
 export default function page() {
+
+  const [data,setdata] = useState(null);
+
+
+  const handledata = () => {
+     
+  
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+   const token = localStorage.getItem('token');
+
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/analytics`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+            console.log(data.data)
+            setdata(data.data)
+           document.querySelector('.loaderoverlay').style.display='none';
+        // Successfully logged in
+       // window.location.href = '/Employee/Onboarding';
+       
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display='none';
+        console.log(err)
+      });
+  };
+
+
+  useEffect(() => {
+    handledata();
+  },[]);
+
+
+
 
   const orders = [
     { id: "1.", BuyerId: "#6545", BuyerName: "Jane Cooper", City: "Sydney", OrderDate: "01 Oct | 11:29 am",status: "Paid",Amount:'₹ 64' },
@@ -19,6 +68,8 @@ export default function page() {
 
   return (
     <>
+    {
+   data &&   <>
    <h3 style={{textAlign:'left'}}>Dashboard</h3>
 
    <div className="cards-container" style={{marginTop:'50px'}}>
@@ -48,14 +99,17 @@ export default function page() {
     </div>
 
 
-    <div style={{display:'flex',justifyContent:'space-evenly',flexWrap:'wrap',marginTop:'50px' }}>
+    {/* <div style={{display:'flex',justifyContent:'space-evenly',flexWrap:'wrap',marginTop:'50px' }}>
       <WeeklyRevenueChart />
       <CustomerReturn />
-    </div>
+    </div> */}
     
-      <RevenueOrderChart />
+      {/* <RevenueOrderChart /> */}
 
-      <div className="orders-container">
+      <RevenueChart  data2={data.revenue.monthly}/>
+      <OrdersChart  data2={data.orders.monthly}/>
+      
+      {/* <div className="orders-container">
          <div className="header">
        
         <h3>Recent Invoice</h3>
@@ -99,7 +153,9 @@ export default function page() {
           </tbody>
         </table>
       </div>
-    </div>
+    </div> */}
+    </>
+      }
       </>
   );
 }
@@ -215,4 +271,45 @@ const CustomerReturn = () => {
   );
 };
 
+
+
+
+const RevenueChart = ({data2}) => {
+  return (
+    <div style={{ border:'1px solid #a2a2a2',padding:'15px',textAlign:'left',marginTop:'50px',boxShadow: '0px 2px 4px rgb(0 0 0 / 28%)'}}>
+      <p style={{fontSize:'25px',marginBottom:'30px'}}>Total Revenue</p>
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data2} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="revenue" stroke="#8884d8" name="Revenue" />
+      </LineChart>
+    </ResponsiveContainer>
+       </div>
+  );
+};
+
+
+
+
+const OrdersChart = ({data2}) => {
+  return (
+    <div style={{ border:'1px solid #a2a2a2',padding:'15px',textAlign:'left',marginTop:'50px',boxShadow: '0px 2px 4px rgb(0 0 0 / 28%)'}}>
+      <p style={{fontSize:'25px',marginBottom:'30px'}}>Total Orders</p>
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data2} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="count" stroke="#8884d8" name="count" />
+      </LineChart>
+    </ResponsiveContainer>
+       </div>
+  );
+};
 

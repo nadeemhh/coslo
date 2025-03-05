@@ -135,7 +135,7 @@ export default function page() {
           <span className="value">{data.email}</span>
         </div>
         <div className="enquiry-description">
-          <span className="Description">Description</span>
+          <span className="Description">Description :-</span>
           <p className="value">
           {data.desription}
           </p>

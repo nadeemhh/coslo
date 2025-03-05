@@ -15,6 +15,7 @@ const Mygloballoader = () => {
       justifyContent: "center",
       alignItems: "center",
       padding: "10px",
+      zIndex:'20'
     }}
     className="loaderoverlay"
   >

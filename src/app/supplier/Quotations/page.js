@@ -2,20 +2,25 @@
 import './page.css'
 import Link from 'next/link'
 import { useState,useEffect } from "react";
-
+import DateRangePicker from '../../component/DateRangePicker.js';
+import extractDate from '../../component/extdate.js';
 
 export default function page() {
   const [data,setdata] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [searchquery, setsearchquery] = useState([]);
  
    const handledata = () => {
-      
    
      document.querySelector('.loaderoverlay').style.display='flex';
  
     const token = localStorage.getItem('token');
+
+    let filter = `${searchquery.length ? `&${searchquery[0]}${searchquery[1]}` : ''}`;
+
  
- 
-     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/`, {
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/?page=${page}&limit=25${filter}`, {
        method: 'GET',
        headers: {
          'Content-Type': 'application/json',
@@ -32,35 +37,58 @@ export default function page() {
          }
        })
        .then((data) => {
-             console.log(data)
-             setdata([...data])
+
+        if (data.data.length === 0) {
+          setHasMore(false);
+
+          if(page!==1){ setPage((prevPage) => prevPage - 1);}
+          setdata(data.data);
+
+          console.log( hasMore,page)
+        } else {
+          console.log(data)
+          setdata(data.data);
+        }
+
+        
             document.querySelector('.loaderoverlay').style.display='none';
-         // Successfully logged in
-        // window.location.href = '/Employee/Onboarding';
         
        })
        .catch((err) => {
          document.querySelector('.loaderoverlay').style.display='none';
+         alert(err.message)
          console.log(err)
        });
    };
  
-  useEffect(() => {
-       handledata();
-     },[]);
+   useEffect(() => {
+    handledata();
+  }, [page,searchquery]);
 
 
-     function extractDate(isoString) {
-      if (!isoString) return null;
-      
-      try {
-          return isoString.split("T")[0]; // Extracts the date portion before 'T'
-      } catch (error) {
-          console.error("Invalid ISO string format", error);
-          return null;
-      }
-  }
+  const nextPage = () => {
+   setPage((prevPage) => prevPage + 1);
+  
+ };
 
+ const prevPage = () => {
+   setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+   setHasMore(true);
+ };
+
+
+ const handleFilterChange = (event) => {
+   const selectedOption = event.target.options[event.target.selectedIndex]; // Get selected <option>
+   const selectedName = selectedOption.getAttribute("name"); // Get 'name' attribute
+   const selectedValue = event.target.value;
+   
+   // setsearchquery((prev) => [...prev, [selectedName, selectedValue]]);
+   setsearchquery([`${selectedName}=`, selectedValue]);
+ 
+ };
+
+
+  
 
   return (
     <div className="orders-container">
@@ -77,15 +105,22 @@ export default function page() {
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
           
-      <select name="" id="" style={{border:'none'}}>
+      <select name="" id="" style={{border:'none'}}  onChange={(e)=>{
+    
+          handleFilterChange(e)
+          }}>
         <option value="">Filter by Status</option>
-        <option value="">Completed</option>
-        <option value="">Pending</option>
+        <option value="completed" name="status">completed</option>
+        <option value="pending" name="status">pending</option>
       </select>
       </button>
+
+      {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
+      
       </div>
       
-      <DateRangePicker/>
+      <DateRangePicker setsearchquery={setsearchquery}/>
+
       </div>
       
       <div className="table-wrapper">
@@ -125,70 +160,20 @@ export default function page() {
           </tbody>
         </table>
       </div>
+
+      <div className="pagination">
+       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
+        <i className="fas fa-arrow-left"></i> Previous
+      </span>
+
+      <span className="page-number">Page {page}</span>
+
+    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
+        Next <i className="fas fa-arrow-right"></i>
+      </span>}
+      </div>
+
     </div>
   );
 }
 
-
-
-const DateRangePicker = () => {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [isRangeSelected, setIsRangeSelected] = useState(false);
-
-  const handleApply = () => {
-    console.log(`Selected Range: Start Date - ${startDate}, End Date - ${endDate}`);
-    setIsRangeSelected(true);
-  };
-
-  const handleClear = () => {
-    setStartDate("");
-    setEndDate("");
-    setIsRangeSelected(false);
-  };
-
-  const handleDateChange = (type, value) => {
-    if (type === "start") setStartDate(value);
-    if (type === "end") setEndDate(value);
-
-    if (startDate && endDate) {
-      setIsRangeSelected(true);
-    }
-  };
-
-  return (
-    <div className="date-range-picker">
-      <label htmlFor="">Start Date</label>
-      <div className="date-input">
-        
-        <input
-          type="date"
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => handleDateChange("start", e.target.value)}
-        />
-      </div>
-      <label htmlFor="">End Date</label>
-      <div className="date-input">
-      
-        <input
-          type="date"
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => handleDateChange("end", e.target.value)}
-        />
-      </div>
-      {!isRangeSelected && (
-        <button className="apply-button" onClick={handleApply}>
-          Apply
-        </button>
-      )}
-      {isRangeSelected && (
-        <button className="clear-button" onClick={handleClear}>
-          Clear
-        </button>
-      )}
-    </div>
-  );
-
-};

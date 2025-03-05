@@ -5,30 +5,36 @@ import './component-css/productcard.css'
 // import CounterComponent from '../component/global_component'
 
 import {useState} from 'react';
-
+import getDiscountedPrice from './discountpricecalc.js'
 
 import Link from 'next/link';
 
 
-export default function Productcard({veri=false , pname,pimage,variation}) {
-console.log(pname,pimage,variation)
-  
+export default function Productcard({veri=false , pname,seller,pimage,variation,pid}) {
+
+  function formatPhoneNumber(number) {
+    number = number.toString(); // Ensure it's a string
+    return number.startsWith("91") ? number : "91" + number;
+}
+
+
 
   return (
    
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <Link href="/home/products">
+      <Link href={`/home/products?id=${pid}`}>
         <img
           src={pimage} // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
+          alt={pname}
+          className='showimg'
         />
         </Link>
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
-        {veri && <button className="verified">
+        {seller.subscriptionPlan !== 'FREE' && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>
@@ -52,9 +58,9 @@ console.log(pname,pimage,variation)
        
 
         {/* Title and Supplier */}
-        <Link href="/home/products">
+        <Link href={`/home/products?id=${pid}`}>
         <p className="product-title">{pname}</p>
-        <p className="product-supplier">Company Name</p>
+        <p className="product-supplier">{seller.businessName}</p>
         </Link>
         {/* Price */}
         <div className="product-actions">
@@ -77,7 +83,7 @@ console.log(pname,pimage,variation)
         <tr className="tableRow56" key={index}>
           <td className="tableCell56">{sdata.min}-{sdata.max} items</td>
           <td className="tableCell56">{sdata.discount}%</td>
-          <td className="tableCell56">₹{variation.mrp} net</td>
+          <td className="tableCell56">₹{getDiscountedPrice(sdata.discount,variation.mrp)} net</td>
         </tr>
        
        
@@ -91,12 +97,12 @@ console.log(pname,pimage,variation)
         {/* Actions */}
         <div className="product-actions">
 
-        <a href="https://wa.me/+919880866978">
+        <a href={`https://wa.me/+${formatPhoneNumber(seller.phone)}`}>
 <img src="\icons\whatsappi.svg" alt=""  width={'30px'}/>
 </a>
 
          
-<Link href="/home/products">
+<Link href={`/home/products?id=${pid}`}>
           <button className="contact-btn">Check Details</button>
           </Link>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}

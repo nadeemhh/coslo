@@ -1,30 +1,18 @@
+import Allproducts from './allproductscontant.js'
 
-import './page.css'
-import Link from 'next/link';
-import Productcard from '../../../../component/productcard'
+export const metadata = {
+  title: "all products of a category",
+  description: "Shop the latest products at the best prices. Fast shipping and great discounts!",
+  keywords: "ecommerce, online shopping, best deals, fast delivery",
+ 
+};
+
 
 export default function Page() {
-  
+
+
   return (
-    <div>
-<div>
-<h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}}>Electronic Components</h3>
-</div>
-
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'10px'}}>
-
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-<Productcard/>
-
-</div>
-
-
-    </div>
+ <Allproducts />
   );
   }
 

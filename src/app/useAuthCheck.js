@@ -4,13 +4,22 @@ import { useEffect } from 'react';
  const useAuthCheck = (url) => {
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
 
-     // Check if the token exists
-     if (!token) {
-      // Redirect to the login page
-      window.location.href = url;
-    }
+    function getCookie(name) {
+      let cookies = document.cookie.split("; ");
+      for (let cookie of cookies) {
+          let [key, value] = cookie.split("=");
+          if (key === name) return value;
+      }
+      return null;
+  }
+  
+     
+  if (!getCookie("token")) {
+  // Redirect to the login page
+  localStorage.removeItem('token')
+  window.location.href = url;
+}
 
 
   },[]);

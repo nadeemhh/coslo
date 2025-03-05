@@ -2,6 +2,70 @@
 
 .card-title{color: black;}
 
+
+/* OrderCard.css */
+
+.card-container22{ display: flex;flex-wrap: wrap;}
+
+.ordp{
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.336);
+    max-width: 400px;
+    margin: 16px;
+}
+
+.suborder{margin-bottom: 40px;}
+
+.order-card22 {
+    display: flex;
+    flex-direction: row;
+gap: 10px;
+margin-bottom: 20px;
+  }
+  
+  
+  
+  .order-image22 {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 16px;
+  }
+  
+  .order-details22 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    color: #333;
+    gap: 5px;
+    text-align: left;
+  }
+  
+.cdt{    font-size: 14px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;}
+
+  @media (max-width: 768px) {
+    .order-card22 {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .order-image22 {
+      margin-right: 0;
+      margin-bottom: 12px;
+    }
+  }
+  
+
 @media (max-width: 768px) {
     .ordersp{padding: 0px 0px;}  
 }

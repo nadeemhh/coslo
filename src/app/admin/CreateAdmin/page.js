@@ -63,7 +63,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
             <div className='right-container'>
                 <div className="form">
                     <h1 className="">Create Admin Account</h1>
-                    <p> Streamline your business operations with our marketplace</p>
+                   
                     {error && <p style={{color:'red'}}>{error}</p>}
                     <div className="form-tab">
                         <label>Enter Name</label>

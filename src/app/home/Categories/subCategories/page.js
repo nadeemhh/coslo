@@ -1,5 +1,5 @@
 
-//import './page.css'
+import './page.css'
 import Subcategory from './subcategory.js'
 
 export default function Page() {

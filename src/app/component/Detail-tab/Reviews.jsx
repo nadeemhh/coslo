@@ -171,7 +171,7 @@ function extractDate(isoString) {
                         </div>
                         <div className="review-body">
                             <p className="date">{extractDate(review.createdAt)}</p>
-                            <p style={{color:'black',textAlign:'left',fontSize:'20px'}}>{review.review}</p>
+                            <p style={{color:'black',textAlign:'left',fontSize:'18px'}}>{review.review}</p>
                         </div>
                         
                     </div>

@@ -56,20 +56,27 @@ export default function Category() {
   
   {data.map((data, i) => (
   
-  <Link href={`/home/Categories/subCategories?id=${data.id}`} key={i}>
+  <div   key={i} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px' }}>
+           
+ <div className="product-category-h" >
 
-   <div className="product-category-h" >
-  
-  <div className="category-name-image-h">
-  <img src={data.image} alt=""/>
-  </div>
-  
-  <div className="category-name-product-h">
-  <p>{data.name}</p>
-  </div>
-  
-  </div>
-              </Link>
+ <div className="category-name-image-h">
+<Link href={`/home/Categories/subCategories?id=${data.id}&category=${data.name}`}>
+<img src={data.image} alt={data.name}/>
+</Link>
+</div>
+
+<div className="category-name-product-h">
+<Link href={`/home/Categories/subCategories?id=${data.id}&category=${data.name}`}>
+<p>{data.name}</p>
+</Link>
+</div>
+
+<Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link>
+
+</div>
+
+ </div>
                    ))}
   
            

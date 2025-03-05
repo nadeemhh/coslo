@@ -9,7 +9,8 @@ import {useState,useEffect} from 'react';
 const CartPage = () => {
 
   const [data,setdata] = useState([]);
-
+const [OrderSummary, setOrderSummary]=useState(null);
+console.log(OrderSummary);
 
 
   const getdata = () => {
@@ -35,7 +36,32 @@ const CartPage = () => {
       .then((data) => {
         console.log(data.cart)
         if(data.cart){
-          setdata([...data.cart.items])
+          setdata([...data.cart.sellerCarts])
+
+          const totalBaseAmount = data.cart.cartFinalAmount-data.cart.cartCgstAmount-data.cart.cartSgstAmount-data.cart.cartTotalShippingFee+data.cart.cartTotalDiscountAmount;
+
+
+          setOrderSummary({
+            finalAmount:data.cart.cartFinalAmount,
+            cgstAmount:data.cart.cartCgstAmount,
+            sgstAmount:data.cart.cartSgstAmount,
+            shippingFee:data.cart.cartTotalShippingFee,
+            cartTotalDiscountAmount:data.cart.cartTotalDiscountAmount,
+            totalBaseAmount
+          })
+
+          const cartData = {
+            finalAmount:data.cart.cartFinalAmount,
+            cgstAmount:data.cart.cartCgstAmount,
+            sgstAmount:data.cart.cartSgstAmount,
+            shippingFee:data.cart.cartTotalShippingFee,
+            cartTotalDiscountAmount:data.cart.cartTotalDiscountAmount,
+            totalBaseAmount
+        };
+        
+        // Save to session storage
+        sessionStorage.setItem("cartData", JSON.stringify(cartData));
+
         }else{
           setdata([])
         }
@@ -73,6 +99,8 @@ const CartPage = () => {
       })
       .then((data) => {
         console.log(data)
+        setOrderSummary(null)
+        sessionStorage.removeItem("cartData");
         getdata()
       })
       .catch((err) => {
@@ -106,6 +134,8 @@ const CartPage = () => {
       })
       .then((data) => {
         console.log(data)
+        setOrderSummary(null)
+        sessionStorage.removeItem("cartData");
         getdata()
       })
       .catch((err) => {
@@ -160,7 +190,9 @@ const CartPage = () => {
 
           
 
-          {data.map((data, index) => (
+          {data.map((sellercart, i) => (
+
+sellercart.items.map((data, index) => (
 
             <div className="card09" key={index}>
     <div className="prodictimg">
@@ -170,16 +202,17 @@ const CartPage = () => {
       <p className="card-title">
       {data.productName}
       </p>
-      <p className="card-price">₹{data.priceBreakdown.basePrice}</p>
+      <p className="card-price">₹{data.priceBreakdown.productBasePrice}</p>
       {/* <p className="card-date">24th August '24</p> */}
     </div>
     <div className="card-status">
       
-    <CounterComponent quantity={data.quantity} productid={data.product} variationid={data.variation}/>
+    <CounterComponent quantity={data.quantity} productid={data.product} variationid={data.variation} getdata={getdata}/>
     <img src="\icons\dustbin.svg" alt="" style={{width:'40px',cursor:'pointer'}}  onClick={() => deleteFuncone(data.variation)}/>
 
     </div>
   </div>
+))
           ))}
           
 
@@ -188,29 +221,33 @@ const CartPage = () => {
         </div>
 
         {/* Order Summary Section */}
-        <div className="order-summary">
+      { OrderSummary && <div className="order-summary">
           <h3>Order Summary</h3>
           <div className="summary-row">
-            <span>Total Price:</span> <span>₹ 24542/-</span>
+            <span>Sub Total:</span> <span>₹ {OrderSummary.totalBaseAmount}/-</span>
           </div>
           <div className="summary-row">
-            <span>Total CGST:</span> <span>5%</span>
+            <span>Total Discount:</span> <span>₹ {OrderSummary.cartTotalDiscountAmount}/-</span>
+          </div>
+         
+          <div className="summary-row">
+            <span>Total CGST:</span> <span>₹ {OrderSummary.cgstAmount}</span>
           </div>
           <div className="summary-row">
-            <span>Total SGST:</span> <span>5%</span>
+            <span>Total SGST:</span> <span>₹ {OrderSummary.sgstAmount}</span>
           </div>
           <div className="summary-row">
-            <span>Shipping Charges:</span> <span>₹ 128/-</span>
+            <span>Shipping Charges:</span> <span>₹ {OrderSummary.shippingFee}/-</span>
           </div>
           <hr />
           <div className="summary-total">
-            <span>Total:</span> <span>₹ 27392/-</span>
+            <span>Total:</span> <span>₹ {OrderSummary.finalAmount}/-</span>
           </div>
           <Link href="cart/address">
           <button className="checkout-btn">Proceed to Checkout</button>
           </Link>
           
-        </div>
+        </div>}
       </div>
     </div>
 

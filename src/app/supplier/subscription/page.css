@@ -88,6 +88,19 @@ padding: 20px;
 border-radius: 20px;
 }
 
+
+.plan-detailsex {
+  /* background-color: #D9F0FF; */
+  background-color: #F8EAEA;
+  width: 430px;
+  height: 245px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 20px;
+  }
+
 .plan-title {
   margin: 0;
   font-size: 25px;
@@ -101,6 +114,14 @@ border-radius: 20px;
   font-weight: bold;
   color: #007bff;
 }
+
+.plan-priceex {
+  margin: 5px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #EC5959;
+}
+
 
 .plan-description,
 .plan-validity {
@@ -119,6 +140,18 @@ border-radius: 20px;
   cursor: pointer;
   font-size: 16px;
 }
+
+.pay-buttonex {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #EC5959;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 
 .pay-button:hover {
   background-color: #0056b3;
@@ -159,8 +192,16 @@ border-radius: 20px;
   font-size: 14px;
   color: #555;
   text-align: left;
+  margin-bottom: 10px;
+}
+
+.next-plan {
+  font-size: 14px;
+  color: #555;
+  text-align: left;
   margin-bottom: 50px;
 }
+
 
 .current-plan-label {
   font-weight: bold;
@@ -175,7 +216,7 @@ border-radius: 20px;
 
 .validity{color: #1389F0;}
 
-
+.validityex{color: #EC5959;}
 
 /* pagination */
 

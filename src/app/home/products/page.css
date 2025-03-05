@@ -150,6 +150,17 @@
     font-size: 1rem;
     cursor: pointer;
   }
+
+  .watchpvideo{  font-size: 15px;
+    background-color: rgb(19, 137, 240);
+    padding: 5px 20px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-top: 5px;
+    cursor: pointer;}
+
+
   .add-to-cart {
     background-color: #f2f2f200;
     color: #333;
@@ -166,6 +177,7 @@
   .variations {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
   .variations button {
     padding: 1rem 1rem;

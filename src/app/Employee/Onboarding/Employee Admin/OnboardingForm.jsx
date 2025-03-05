@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import './Employee.css'
 import { useState,useEffect } from 'react'
 import { useSearchParams } from "next/navigation";
-
+import Planstable from "../../../component/planstables.js";
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -65,6 +65,10 @@ export default function OnboardingForm() {
     ComplianceNo: "",
     password:"",
     panNumber:"",
+    AccountHolderName:"",
+    AccountNumber:"",
+    IFSCCode:"",
+    BankName:"",
   });
 console.log(user)
  
@@ -113,8 +117,13 @@ console.log(user)
                 SubscriptionType: data.subscriptionPlan || "",
                 role: data.businessType || "",
                 password: "", // Keeping password empty for security
-                panNumber: "", // Assuming panNumber is not available in API
+                panNumber: data.panNumber || "", // Assuming panNumber is not available in API
                 ComplianceNo: data.ComplianceNo || "",
+                AccountHolderName:data.bankDetails?.accountHolderName || "",
+    AccountNumber:data.bankDetails?.accountNumber || "",
+    IFSCCode:data.bankDetails?.ifscCode || "",
+    BankName:data.bankDetails?.bankName || "",
+                
             });
         
          
@@ -157,6 +166,10 @@ console.log(user)
     formData.append("address[phone]", user.phoneNo);  // Keep as string
     formData.append("panNumber", user.panNumber);
     formData.append("qualityCert", user.ComplianceNo);
+    formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
+    formData.append("bankDetails[accountNumber]", user.AccountNumber);
+    formData.append("bankDetails[ifscCode]", user.IFSCCode);
+    formData.append("bankDetails[bankName]", user.BankName);
    
     if (gstImages.length > 0 && gstImages[0] instanceof File) {
       formData.append("gstCertificateFile", gstImages[0]); 
@@ -192,7 +205,7 @@ fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`, {
       return response.json();
     } else {
       return response.json().then((errorData) => {
-        throw new Error(errorData.message || 'Failed to submit the form.');
+        throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
       });
     }
   }) .then((data) => {
@@ -205,7 +218,7 @@ window.location.href = '/Employee/Onboarding/success';
 })
   .catch((error) => {
     console.error("Error submitting form:", error.message);
-    alert(error.message)
+    alert(error.message || error.error || 'Failed to submit the form.')
     document.querySelector('.loaderoverlay').style.display='none';
   });
 
@@ -289,6 +302,31 @@ window.location.href = '/Employee/Onboarding/success';
             id="complianceUploader"
           />
 
+
+<p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p>
+
+<div className="form-tab">
+<label htmlFor="AccountHolderName">Account Holder Name</label>
+<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+</div>
+
+<div className="form-tab">
+<label htmlFor="AccountNumber">Account Number</label>
+<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
+</div>
+
+<div className="form-tab">
+<label htmlFor="IFSCCode">IFSC Code</label>
+<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
+</div>
+
+<div className="form-tab">
+<label htmlFor="BankName">Bank Name</label>
+<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
+</div>
+
+
+
 <div className="radio-tab">
                             <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>
                             <div className='fo2'>
@@ -337,73 +375,8 @@ window.location.href = '/Employee/Onboarding/success';
           
     {/* Pricing Section */}
   
-    <section className="pricing-table-101">
+  <Planstable showbuybuttons={false}/>
 
-<h1 className="title101">Subscription Plans</h1>
-
-<table className="table-101">
-  <thead className="thead-101">
-    <tr>
-      <th className="feature-header-101">Features</th>
-      <th className="plan-header-101">Free</th>
-      <th className="plan-header-101">Monthly</th>
-      <th className="plan-header-101">Yearly</th>
-    </tr>
-  </thead>
-  <tbody className="tbody-101">
-    <tr>
-      <td>Leads</td>
-      <td>0 /Month</td>
-      <td>70 /Month</td>
-      <td>80 /Month</td>
-    </tr>
-    <tr>
-      <td>Customer Support</td>
-      <td><i className="fas fa-times not-available"></i></td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-    </tr>
-    <tr>
-      <td>Order Analytics</td>
-      <td><i className="fas fa-times not-available"></i></td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-    </tr>
-    <tr>
-      <td>Inventory Management</td>
-      <td><i className="fas fa-check available"></i></td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-      <td>
-      <i className="fas fa-check available"></i>
-      </td>
-    </tr>
-   
-    <tr>
-      <td>Purchase Plan</td>
-      <td>
-        
-      </td>
-      <td>
-          <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
-      </td>
-      <td>
-          <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
-      </td>
-    </tr>
-
-  </tbody>
-</table>
-</section>
         </div>
       </div>
     </div>

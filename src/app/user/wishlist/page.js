@@ -1,49 +1,132 @@
-
+'use client'
  import './page.css'
  import '../../component/component-css/productcard.css'
-import CounterComponent from '../../component/global_component'
-
+import Link from 'next/link';
+import {useState,useEffect} from 'react';
 
 export default function Page() {
  
+  const [data,setdata] = useState();
+   const [isdata,setisdata] = useState(false);
+  
+  function getproductdetails() {
+
+    
+    const token = localStorage.getItem('token');
+
+        document.querySelector('.loaderoverlay').style.display = 'flex';
+
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+               
+                throw new Error(errorData.error || 'Failed');
+              });
+            }
+          })
+          .then((data) => {
+          console.log(data.data.products)
+         
+          setdata(data.data.products)
+          setisdata(true)
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          })
+          .catch((err) => {
+            document.querySelector('.loaderoverlay').style.display = 'none';
+            console.log(err)
+           
+           
+          });
+    
+      
+    }
+
+   
+useEffect(() => {
+  getproductdetails()
+}, []);
+
+
+const deletewishlist = (id) => {
+ 
+
+  const token = localStorage.getItem('token');
+
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist?productId=${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to delete the employee.');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      getproductdetails()
+    
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
 
   return (
     <>
     <p className='order-details-title'>wishlist</p>
 
-    <div className="products-container77">
+  { isdata && <div className="products-container77">
 
-    <div className="product-card">
+    {data.map((wishlist, index) => (
+ 
+    <div className="product-card" key={index}>
       {/* Product Image */}
+      <Link href={`/home/products?id=${wishlist.product._id}`}>
       <div className="product-image">
         <img
-          src="\images\gameee.png" // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
+          src={wishlist.product.variations[0].productImages[0]} // Replace with actual image URL
+          alt={wishlist.product.productName}
         />
-        <button className="cart-icon">
+        {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
-        </button>
+        </button> */}
 
          {/* Location */}
- <div className='mylocation'>
+ {/* <div className='mylocation'>
  <span className="location">
 <img src="\icons\locationmark.svg" alt="" />
 
           Lucknow
         </span>
-        </div>
+        </div> */}
       </div>
 
-
+      </Link>
 
       {/* Product Details */}
       <div className="product-details">
        
 
         {/* Title and Supplier */}
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
-
+        <Link href={`/home/products?id=${wishlist.product._id}`}>
+        <p className="product-title">{wishlist.product.productName}</p>
+        <p className="product-supplier">{wishlist.product.sellerId.businessName}</p>
+        </Link>
         {/* Price */}
         <div className="product-actions">
 
@@ -55,157 +138,17 @@ export default function Page() {
         <div className="product-actions">
 
           {/* <button className="contact-btn">Contact Supplier</button> */}
-          <button className="Add-to-Cart">Add to Cart</button> 
-           <button className="Remove-btn">Remove</button>
+          {/* <button className="Add-to-Cart">Add to Cart</button>  */}
+           <button className="Remove-btn" onClick={()=>(deletewishlist(wishlist.product._id))}>Remove</button>
+
+           <Link href={`/home/products?id=${wishlist.product._id}`}>
+          <button className="contact-btn">Check Details</button>
+          </Link>
         </div>
       </div>
     </div>
-
-    <div className="product-card">
-      {/* Product Image */}
-      <div className="product-image">
-        <img
-          src="\images\gameee.png" // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
-        />
-        <button className="cart-icon">
-          <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
-        </button>
-
-         {/* Location */}
- <div className='mylocation'>
- <span className="location">
-<img src="\icons\locationmark.svg" alt="" />
-
-          Lucknow
-        </span>
-        </div>
-      </div>
-
-
-
-      {/* Product Details */}
-      <div className="product-details">
-       
-
-        {/* Title and Supplier */}
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
-
-        {/* Price */}
-        <div className="product-actions">
-
-        <h4 className="price">₹ 2560/-</h4>
-        {/* <CounterComponent/> */}
-
-        </div>
-        {/* Actions */}
-        <div className="product-actions">
-
-          {/* <button className="contact-btn">Contact Supplier</button> */}
-          <button className="Add-to-Cart">Add to Cart</button> 
-           <button className="Remove-btn">Remove</button>
-        </div>
-      </div>
-    </div>
-
-    <div className="product-card">
-      {/* Product Image */}
-      <div className="product-image">
-        <img
-          src="\images\gameee.png" // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
-        />
-        <button className="cart-icon">
-          <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
-        </button>
-
-         {/* Location */}
- <div className='mylocation'>
- <span className="location">
-<img src="\icons\locationmark.svg" alt="" />
-
-          Lucknow
-        </span>
-        </div>
-      </div>
-
-
-
-      {/* Product Details */}
-      <div className="product-details">
-       
-
-        {/* Title and Supplier */}
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
-
-        {/* Price */}
-        <div className="product-actions">
-
-        <h4 className="price">₹ 2560/-</h4>
-        {/* <CounterComponent/> */}
-
-        </div>
-        {/* Actions */}
-        <div className="product-actions">
-
-          {/* <button className="contact-btn">Contact Supplier</button> */}
-          <button className="Add-to-Cart">Add to Cart</button> 
-           <button className="Remove-btn">Remove</button>
-        </div>
-      </div>
-    </div>
-
-
-    <div className="product-card">
-      {/* Product Image */}
-      <div className="product-image">
-        <img
-          src="\images\gameee.png" // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
-        />
-        <button className="cart-icon">
-          <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
-        </button>
-
-         {/* Location */}
- <div className='mylocation'>
- <span className="location">
-<img src="\icons\locationmark.svg" alt="" />
-
-          Lucknow
-        </span>
-        </div>
-      </div>
-
-
-
-      {/* Product Details */}
-      <div className="product-details">
-       
-
-        {/* Title and Supplier */}
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
-
-        {/* Price */}
-        <div className="product-actions">
-
-        <h4 className="price">₹ 2560/-</h4>
-        {/* <CounterComponent/> */}
-
-        </div>
-        {/* Actions */}
-        <div className="product-actions">
-
-          {/* <button className="contact-btn">Contact Supplier</button> */}
-          <button className="Add-to-Cart">Add to Cart</button> 
-           <button className="Remove-btn">Remove</button>
-        </div>
-      </div>
-    </div>
-</div>
+      ))}
+</div>}
   </>
   )
 }

@@ -73,7 +73,7 @@
     padding: 20px;
     border-radius: 10px;
     margin-left: 20px;
-    height: 300px;
+    height: fit-content;
   }
   
   .summary-row,

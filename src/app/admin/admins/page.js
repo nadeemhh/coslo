@@ -93,14 +93,9 @@ export default function page() {
   return (
     <div className="orders-container">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-      <h3>Employees</h3>
+      <h3>Admins</h3>
 
-      
-      <Link href="/admin/Employees/newemployee">
-      <button className="AddProduct">
-      Add Employee &nbsp; <i className="fas fa-plus" style={{marginRight:'10px'}}></i>
-      </button>
-      </Link>
+     
 
       </div>
 

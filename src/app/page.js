@@ -3,7 +3,8 @@ import Link from 'next/link';
 import "./page.module.css";
 import "./landing-page.css";
 import Button from './component/button';
-
+import PlansTable from './component/planstables.js';
+import Footer from './component/footer.js'
 
 export default function Home() {
   return (
@@ -134,7 +135,9 @@ export default function Home() {
       <div className="content">
         <h2>Free For Buyers & Sellers</h2>
         <p>Cancel anytime. We’ll send you a reminder 7 days before your trial ends.</p>
+        <a href="/auth/sup-manu/choose" >
         <button className="btn">Become a Seller ➔</button>
+        </a>
       </div>
     </section>
 
@@ -163,10 +166,10 @@ export default function Home() {
 
     {/* How It Works Section */}
     
-    <section className="how-it-works">
+    <section className="how-it-works" id='HowItWorks'>
       <h2>How it works?</h2>
 
-      <div className="section">
+      <div className="section" id='ForRetailers'>
         <h3>For Wholesalers / Retailers / Buyers</h3>
         <div className="steps-container">
           <div className="step">
@@ -195,7 +198,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="section">
+      <div className="section" id='ForManufacturers'>
         <h3>For Manufacturers / Suppliers</h3>
         <p className="highlight">1st Month Free</p>
         <div className="steps-container">
@@ -232,77 +235,13 @@ export default function Home() {
 
       <h1 className="title101">Subscription Plans</h1>
 
-      <table className="table-101">
-        <thead className="thead-101">
-          <tr>
-            <th className="feature-header-101">Features</th>
-            <th className="plan-header-101">Free</th>
-            <th className="plan-header-101">Monthly</th>
-            <th className="plan-header-101">Yearly</th>
-          </tr>
-        </thead>
-        <tbody className="tbody-101">
-          <tr>
-            <td>Leads</td>
-            <td>0 /Month</td>
-            <td>70 /Month</td>
-            <td>80 /Month</td>
-          </tr>
-          <tr>
-            <td>Customer Support</td>
-            <td><i className="fas fa-times not-available"></i></td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-          </tr>
-          <tr>
-            <td>Order Analytics</td>
-            <td><i className="fas fa-times not-available"></i></td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-          </tr>
-          <tr>
-            <td>Inventory Management</td>
-            <td><i className="fas fa-check available"></i></td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-            <td>
-            <i className="fas fa-check available"></i>
-            </td>
-          </tr>
-         
-          <tr>
-            <td>Purchase Plan</td>
-            <td>
-              
-            </td>
-            <td>
-              <a href="/home/success">
-                <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
-                </a>
-            </td>
-            <td>
-            <a href="/home/success">
-                <button style={{backgroundColor:'#1389F0',padding:'2px 5px',border:'none',color:'white',borderRadius:'2px'}}>buy</button>
-                </a>
-            </td>
-          </tr>
-
-        </tbody>
-      </table>
+<PlansTable/>
+      
     </section>
 
     {/* Testimonials Section */}
    
-    <section className="testimonials-section">
+    <section className="testimonials-section" style={{marginBottom:'50px'}}>
       <h1>What our Happy users Says ?</h1>
       <div className="testimonials-container">
         <div className="testimonial-card">
@@ -311,10 +250,10 @@ export default function Home() {
           </div>
           <p>We gained new clients and expanded to new markets effortlessly!</p>
           <div className="user-info">
-            <img src="images/user.jpg" alt="User" />
+            <img src="images/coslouser.png" alt="User" />
             <div>
-              <h4>Faiz Iqbal</h4>
-              <p>CEO @ Galaxy Inc.</p>
+              <h4>Ajay Singh</h4>
+              <p>CEO</p>
             </div>
           </div>
         </div>
@@ -325,10 +264,10 @@ export default function Home() {
           </div>
           <p>The platform’s analytics helped us optimize our listings.</p>
           <div className="user-info">
-            <img src="images/user.jpg" alt="User" />
+            <img src="images/coslouser.png" alt="User" />
             <div>
-              <h4>Ibrahim Iqbal</h4>
-              <p>CEO @ Galaxy Inc.</p>
+              <h4>Rahul</h4>
+              <p>CEO</p>
             </div>
           </div>
         </div>
@@ -337,12 +276,12 @@ export default function Home() {
           <div>
             <img src="icons/quote.svg" alt="Quote" />
           </div>
-          <p>We gained new clients and expanded to new markets effortlessly!</p>
+          <p>Our business grew faster than ever—new clients, new markets, and endless opportunities!</p>
           <div className="user-info">
-            <img src="images/user.jpg" alt="User" />
+            <img src="images/coslouser.png" alt="User" />
             <div>
               <h4>Faiz Iqbal</h4>
-              <p>CEO @ Galaxy Inc.</p>
+              <p>CEO</p>
             </div>
           </div>
         </div>
@@ -351,100 +290,7 @@ export default function Home() {
 
     {/* Footer */}
    
-    <footer className="footer">
-      <div className="footer-container">
-        {/* Logo & Contact Info */}
-        <div className="footer-section company-info">
-          <h2 className="company-name">Coslo</h2>
-          <p>India’s Trusted <strong>B2B</strong> E-commerce Partner.</p>
-          <div className="contact">
-            <p>
-              <span><img src="icons\address.svg" alt="Facebook" /></span> 123 Trade Street, Business Hub,
-              <br />
-              New Delhi, India - 110001
-            </p>
-            <p>
-              <span><img src="icons\phone.svg" alt="Facebook" /></span> +91-9876543210
-            </p>
-          </div>
-          <p>social media</p>
-          <div className="social-media">
-            <a href="#">
-              <img src="icons\Social Icons1.svg" alt="Facebook" />
-            </a>
-            <a href="#">
-              <img src="icons\Social Icons2.svg" alt="Twitter/X" />
-            </a>
-            <a href="#">
-              <img src="icons\Social Icons3.svg" alt="Instagram" />
-            </a>
-            <a href="#">
-              <img src="icons\Social Icons4.svg" alt="LinkedIn" />
-            </a>
-          </div>
-        </div>
-
-        {/* Policies */}
-        <div className="footer-section-parent">
-          <div className="footer-section policies">
-            <h3>Policies</h3>
-            <ul>
-              <li>
-                <a href="#">Terms of Service</a>
-              </li>
-              <li>
-                <a href="#">Privacy Policy</a>
-              </li>
-              <li>
-                <a href="#">Refund Policy</a>
-              </li>
-              <li>
-                <a href="#">Shipping Policy</a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Solutions */}
-          <div className="footer-section solutions">
-            <h3>Our Solutions</h3>
-            <ul>
-              <li>
-                <a href="#">For Retailers</a>
-              </li>
-              <li>
-                <a href="#">For Manufacturers</a>
-              </li>
-              <li>
-                <a href="#">Product Categories</a>
-              </li>
-              <li>
-                <a href="#">How It Works</a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div className="footer-section support">
-            <h3>Support</h3>
-            <ul>
-              <li>
-                <a href="#">About Us</a>
-              </li>
-              <li>
-                <a href="#">Contact Us</a>
-              </li>
-              <li>
-                <a href="#">FAQs</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="footer-bottom">
-        <p>© 2024 Coslo. All Rights Reserved.</p>
-      </div>
-    </footer>
+  <Footer/>
 
   </>
   );

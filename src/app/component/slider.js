@@ -4,11 +4,53 @@ import { useState, useEffect } from "react";
 import '../component/component-css/slider.css'
 
 export default function Imageslider() {
+  const [images, setImages] = useState([]);
+  
+
+  const getbanners = () => {
+   
+  
+    document.querySelector('.loaderoverlay').style.display='flex';
+   
+      const token = localStorage.getItem('token');
+    
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              
+     console.log(data)
+     setImages(data.data)
+     
+     document.querySelector('.loaderoverlay').style.display='none';
+         
+        })
+        .catch((err) => {
+        
+          alert(err.message);
+          document.querySelector('.loaderoverlay').style.display='none';
+        });
+    };
+    
+  
+     useEffect(() => {
+      getbanners();
+          
+         },[]);
+
+
   return (
     <div className="slider">
       <CustomSlider>
         {images.map((image, index) => {
-          return <img key={index} src={image.imgURL} alt={image.imgAlt} />;
+          return <img key={index} src={image.url} alt="product image" />;
         })}
       </CustomSlider>
      
@@ -16,29 +58,29 @@ export default function Imageslider() {
   );
 }
 
-const images = [
-    {
-      imgURL:
-        "https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart",
-      imgAlt: "img-1"
-    },
-    {
-      imgURL:
-        "https://theformalclub.in/cdn/shop/files/B1G1FREEDOM-SALE-off-goLEN.jpg?v=1725342313&width=2000",
-      imgAlt: "img-2"
-    },
-    {
-      imgURL:
-        "https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-      imgAlt: "img-3"
-    },
-    {
-      imgURL:
-        "https://images.pexels.com/photos/54455/cook-food-kitchen-eat-54455.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-      imgAlt: "img-4"
-    }
+// const images = [
+//     {
+//       imgURL:
+//         "https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart",
+//       imgAlt: "img-1"
+//     },
+//     {
+//       imgURL:
+//         "https://theformalclub.in/cdn/shop/files/B1G1FREEDOM-SALE-off-goLEN.jpg?v=1725342313&width=2000",
+//       imgAlt: "img-2"
+//     },
+//     {
+//       imgURL:
+//         "https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+//       imgAlt: "img-3"
+//     },
+//     {
+//       imgURL:
+//         "https://images.pexels.com/photos/54455/cook-food-kitchen-eat-54455.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+//       imgAlt: "img-4"
+//     }
     
-  ];
+//   ];
   
 
 
@@ -55,7 +97,7 @@ function CustomSlider({ children }) {
         setTimeout(() => {
           slideNext();
           setSlideDone(true);
-        }, 5000)
+        }, 10000)
       );
     }
   }, [slideDone]);

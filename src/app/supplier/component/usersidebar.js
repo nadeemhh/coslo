@@ -7,37 +7,67 @@ import useAuthCheck from '../../useAuthCheck.js';
 
 const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
+  const [menuItems, setmenuItems] = useState([]);
+  const [iscosload, setiscosload] = useState(false);
+  const [issuperadmin,setissuperadmin] = useState(false);
+
   useAuthCheck('/auth/sup-manu/login');
 
   useEffect(() => {
-    console.log(window.location.pathname)
+
+    const admindata = JSON.parse(localStorage.getItem('sellerdata'))?.role;
+    const iscoslo = admindata === 'COSLO_SELLER';
+
+if(iscoslo){
+
+  setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' },
+    { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' }])
+
+    setiscosload(iscoslo);
+
+}else{
+
+  setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' },
+    { path: '/supplier/Products', icon: 'fas fa-box', label: 'Products' },
+    { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
+    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' }])
+
+}
+
+    console.log(window.location.pathname,iscoslo,admindata)
     // Set the current path when the component mounts
     if (typeof window !== 'undefined') {
       setCurrentPath(window.location.pathname);
     }
+
+    if(localStorage.getItem('issuperadmin')==='true'){
+      setissuperadmin(true)
+    }
   }, []);
 
   const handleLogout = () => {
-    // Remove the token from localStorage
+    // Remove the token 
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     localStorage.removeItem('token');
-    
+    localStorage.removeItem('sellerdata')
     // Redirect to the login page
     window.location.href = '/auth/sup-manu/login';
   };
 
-  const menuItems = [
-    { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' },
-    { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
-    { path: '/supplier/Products', icon: 'fas fa-box', label: 'Products' },
-    { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
-  ];
+
 
   return (
     <div className="side-bar sidebar" id="sidebar">
   
-<img src="\icons\Coslo Supplier Admin.svg" alt="" style={{marginBottom:'20px',width:'180px'}}/>
+  
+ {menuItems.length !== 0 && (iscosload ? <img src="\icons\Coslo Admin Supplier.svg" alt="" style={{marginBottom:'20px',width:'110px'}}/>
+ :
+<img src="\icons\Coslo Supplier Admin.svg" alt="" style={{marginBottom:'20px',width:'180px'}}/>)}
+
+
       {/* Menu Items */}
       <div className="menu">
         {menuItems.map((item) => (
@@ -51,10 +81,11 @@ const Usersidebar = () => {
           </a>
         ))}
 
-<div className='menu-item' onClick={handleLogout}>
+{issuperadmin === false && <div className='menu-item' onClick={handleLogout}>
               <i className='fas fa-sign-out-alt' style={{color:'red'}}></i>
               <span>Log Out</span>
             </div>
+            }
 
 <p style={{textAlign:'left',marginTop:'40px',marginBottom:'15px',fontSize:'18px'}}>Support</p>
 <a href="/supplier/CustomerSupport">

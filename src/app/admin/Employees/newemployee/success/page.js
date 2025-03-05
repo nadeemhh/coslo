@@ -13,7 +13,7 @@ export default function page() {
           <img src="\icons\Congrats.png" alt="" />
         </div>
         <p className="onboarding-message">Mail Sent Successfully</p>
-        <Link href="/admin/Employees/newemployee">
+        <Link href="/admin/Employees">
         <button className="onboarding-button">Add New Employees →</button>
         </Link>
       </div>

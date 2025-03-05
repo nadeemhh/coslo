@@ -39,6 +39,16 @@ function Page() {
               .then((data) => {
                     // Save token to localStorage
                     document.querySelector('.loaderoverlay').style.display='none';
+
+                    function setCookie(name, value, days) {
+                      let expires = new Date();
+                      expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+                      document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+                  }
+                  
+                  // Set a cookie named "testCookie" that expires in 1 minute
+                  setCookie("token", data.token, 1);
+
             localStorage.setItem('token', data.token);
             localStorage.setItem('buyer', JSON.stringify(data.buyer));
                 // Successfully logged in
@@ -81,6 +91,11 @@ function Page() {
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <button className="form-tab" onClick={handledata}>Login ➜</button>
                     <a href="/home/forgotpassword" style={{color:'#1389F0',textDecoration:'none'}}>Forgot Password ?</a>
+                    </div>
+
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'20px'}}>
+                    <a href="/home/createaccount" style={{color:'#1389F0',textDecoration:'none'}}>Don't have an account? Create an account.</a>
+
                     </div>
                     
                 </div>

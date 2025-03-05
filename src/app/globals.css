@@ -86,3 +86,22 @@ white-space: nowrap !important;
 
 
 /* loader */
+
+
+/* pagination */
+
+.pagination{display: flex;gap: 20px;margin-top: 30px;align-items: center;}
+
+.pagination > *{cursor: pointer;}
+.pagination button{background-color: #00000000;color: rgb(0, 0, 0);padding: 5px 10px;border: none;}
+
+.activepage{background-color: #000000 !important;color: rgb(255, 255, 255) !important;border-radius: 2px;}
+
+.pre,.next{background-color: #007bff;color: white;padding: 5px;border-radius: 5px;}
+
+.page-number{background-color: #007bff1f;color: #007bff;padding: 5px;border-radius: 5px;}
+
+.pre i{margin-right: 10px;}
+.next i{margin-left: 10px;}
+
+/* pagination end */

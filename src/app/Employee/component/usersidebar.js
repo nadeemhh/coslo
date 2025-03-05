@@ -10,14 +10,7 @@ const Usersidebar = () => {
   useAuthCheck('/auth/Employeelogin');
   
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    // Check if the token exists
-    if (!token) {
-      // Redirect to the login page
-      window.location.href = '/auth/Employeelogin';
-    }
-
+   
 
     console.log(window.location.pathname)
     // Set the current path when the component mounts
@@ -28,6 +21,7 @@ const Usersidebar = () => {
 
   const handleLogout = () => {
     // Remove the token from localStorage
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     localStorage.removeItem('token');
     
     // Redirect to the login page
@@ -36,7 +30,7 @@ const Usersidebar = () => {
 
 
   const menuItems = [
-    { path: '/Employee/Onboarding', icon: 'fas fa-user-plus', label: 'Seller Onboarding' },
+
     { path: '/Employee/Sellers', icon: 'fas fa-users', label: 'Sellers' },
 
   ];

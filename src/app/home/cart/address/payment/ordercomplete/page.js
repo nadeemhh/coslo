@@ -1,9 +1,26 @@
 'use client'
 import './ordercomp.css'
 import Link from 'next/link';
-
+import {useState,useEffect} from 'react';
 
 const Orderfullfill = () => {
+
+  const [OrderDETAILS, setOrderDETAILS]=useState(null);
+
+
+  useEffect(() => {
+  const url = new URL("http://localhost:3001/home/cart/address/payment/ordercomplete?orderId=67babe6ea63a8ff4bbec3dca&orderDate=Sun%20Feb%2023%202025%2011:51:34%20GMT+0530%20(India%20Standard%20Time)&totalAmount=200300");
+
+const orderId = url.searchParams.get("orderId");
+const orderDate = url.searchParams.get("orderDate").split('GMT')[0];
+const totalAmount = url.searchParams.get("totalAmount");
+setOrderDETAILS({ orderId, orderDate, totalAmount })
+
+
+}, []);
+
+console.log(OrderDETAILS);
+
   return (
     <div className="order-complete-container">
       {/* <nav className="breadcrumb">
@@ -22,11 +39,13 @@ const Orderfullfill = () => {
 
         <h2>Congrats! Your order is made</h2>
 
-        <div className="order-details" style={{width:'auto',whiteSpace:'nowrap'}}>
-          <p>Order Id: <strong>45626G2872837D</strong></p>
-          <p>Total Amount: <strong>₹ 83783/-</strong></p>
-          <p>Order Date: <strong>07/11/2024</strong></p>
+        {OrderDETAILS && <div className="order-details" style={{width:'auto',whiteSpace:'nowrap'}}>
+          <p>Order Id: <strong>{OrderDETAILS.orderId}</strong></p>
+          <p>Total Amount: <strong>₹ {OrderDETAILS.totalAmount}/-</strong></p>
+          <p>Order Date: <strong>{OrderDETAILS.orderDate}</strong></p>
         </div>
+        
+        }
 
         <Link href="/user/orders">
         <button className="track-order-btn">

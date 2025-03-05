@@ -123,10 +123,10 @@ export default function page() {
                 <td>{data.name}</td>
                 <td>{data.email}</td>
                 <td>
-                <Link href={`/admin/Employees/newemployee/?employeeid=${data._id}`}>
+                {/* <Link href={`/admin/Employees/newemployee/?employeeid=${data._id}`}>
                   <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
                   </Link>
-                  &nbsp;
+                  &nbsp; */}
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
          
                 </td>

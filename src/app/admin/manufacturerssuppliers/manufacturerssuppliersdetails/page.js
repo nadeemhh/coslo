@@ -10,6 +10,8 @@ export default function Page() {
 
     const [data,setdata] = useState({});
     const [showdata,setshowdata] = useState(false);
+    const [subscriptionHistory,setsubscriptionHistory] = useState([]);
+
 
   const handledata = () => {
 
@@ -40,7 +42,7 @@ export default function Page() {
             console.log(data)
             setdata(data)
             setshowdata(true)
-           document.querySelector('.loaderoverlay').style.display='none';
+            getsubscriptionHistory()
         // Successfully logged in
        // window.location.href = '/Employee/Onboarding';
        
@@ -51,22 +53,131 @@ export default function Page() {
       });
   };
 
+
+  const getsubscriptionHistory = () => {
+  
+    const token = localStorage.getItem('token');
+  
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/history/seller/`, {
+       method: 'GET',
+       headers: {
+         'Content-Type': 'application/json',
+         ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+       },
+     })
+       .then((response) => {
+         if (response.ok) {
+           return response.json();
+         } else {
+           return response.json().then((errorData) => {
+             throw new Error(errorData.message || 'Failed. Please try again.');
+           });
+         }
+       })
+       .then((data) => {
+             console.log(data)
+             setsubscriptionHistory(data.subscriptionHistory)
+            document.querySelector('.loaderoverlay').style.display='none';
+         // Successfully logged in
+        // window.location.href = '/Employee/Onboarding';
+        
+       })
+       .catch((err) => {
+         document.querySelector('.loaderoverlay').style.display='none';
+         console.log(err)
+       });
+   };
+
+
+
+
   useEffect(() => {
     handledata();
    
   },[]);
 
 
-  const orders = [
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-    { id: "#1", PaymentDate: "24 Aug 2024, 09:00 AM", Email: "faiziqbal@gmail.com", PaymentMethod: "Paytm", Amount: "₹ 1000/-" },
-  ];
+  const handlesellerdata = (token) => {
+
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/me/`, {
+       method: 'GET',
+       headers: {
+         'Content-Type': 'application/json',
+         ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+       },
+     })
+       .then((response) => {
+         if (response.ok) {
+           return response.json();
+         } else {
+           return response.json().then((errorData) => {
+             throw new Error(errorData.message || 'Failed. Please try again.');
+           });
+         }
+       })
+       .then((data) => {
+             console.log('=>',data)
+             localStorage.setItem('sellerdata',JSON.stringify(data));
+             localStorage.setItem('temptoken',localStorage.getItem('token'))
+             localStorage.setItem('token',token)
+             localStorage.setItem('issuperadmin','true')
+             window.location.href ='/supplier/dashboard';
+             
+           
+       })
+       .catch((err) => {
+         console.log(err)
+       });
+   };
+
+
+  function getsellertoken() {
+    
+    const token = localStorage.getItem('token');
+  
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/get-seller-token?email=${data.email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+            console.log(data)
+
+            handlesellerdata(data.token)
+
+       
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display='none';
+        console.log(err)
+      });
+
+  }
+
+
+  function extractDate(isoString) {
+    if (!isoString) return null;
+    
+    try {
+        return isoString.split("T")[0]; // Extracts the date portion before 'T'
+    } catch (error) {
+        console.error("Invalid ISO string format", error);
+        return null;
+    }
+}
+
+
   
   return (
     <div>
@@ -76,7 +187,7 @@ export default function Page() {
         <button className="back-button">
         <Goback/>
         </button>
-        <h2>Manufacturer/Supplier  #378434H</h2>
+        <h2>Manufacturer/Supplier</h2>
      
       </div>
 
@@ -92,42 +203,46 @@ export default function Page() {
       </div>
       <div>
       <p style={{fontSize:'20px',color:'#097CE1'}}>{data.name}</p>
-      <p>432 Orders</p>
+      {/* <p>432 Orders</p> */}
       </div>
       </div>
     <div className="card-details">
+    <p className="user-email">Name : {data.name}</p>
       <p className="user-email">Email : {data.email}</p>
       <p className="user-phone">Phone : {data.phone}</p>
       <p className="user-company">Company : {data.businessName}</p>
       <p className="user-company">Role : {data.role}</p>
+      <p className="user-company">Subscription Type : {data.subscriptionPlan}</p>
+      <p className="user-company">Subscription Status : Active</p>
+      <p className="user-company">GST Certificate File : <a href={data.gstCertificateFile} style={{color:'blue'}} target='_blank'>check file</a></p>
     </div>
   </div>
   
-  <a href="/supplier/dashboard">
-  <button className="btnn visit-btn">
-            Visit Manufacturer <i className="fas fa-arrow-right"></i>
+
+  <button className="btnn visit-btn" onClick={()=>{getsellertoken()}}>
+            Visit Seller <i className="fas fa-arrow-right"></i>
           </button>
-          </a>
+        
   </div>
 
   <div style={{display:'flex',justifyContent:'space-between',marginBottom:'50px'}}>
-  <div className="dropdowns">
+  {/* <div className="dropdowns">
           <div className="dropdown status-buttons">
-            <p>Subscription Status</p>
+            <p>Subscription Status : active</p>
             <select>
               <option>Active</option>
               <option>Inactive</option>
             </select>
           </div>
           <div className="dropdown status-buttons">
-            <p>Subscription Type</p>
+            <p>Subscription Type : {data.subscriptionPlan}</p>
             <select value={data.subscriptionPlan || "YEARLY"} onChange={(e) => setdata({ ...data, subscriptionPlan: e.target.value })}>
     <option value="MONTHLY">Monthly</option>
     <option value="YEARLY">Yearly</option>
     <option value="FREE">Free</option>
   </select>
           </div>
-        </div>
+        </div> */}
 
         {/* <button className="btnn payment-btn">
             Add Payment <i className="fas fa-plus"></i>
@@ -139,7 +254,8 @@ export default function Page() {
         <table className="orders-table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>##</th>
+              <th>Name</th>
               <th>Payment Date</th>
               <th>Email</th>
               <th>Payment Method</th>
@@ -147,16 +263,14 @@ export default function Page() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, index) => (
-              
+          {subscriptionHistory.map((subscriptionHistoryin, index) => (
               <tr key={index}>
-                <td>{order.id}</td>
-                <td>{order.PaymentDate}</td>
-                <td>{order.Email}</td>
-                <td>
-                    {order.PaymentMethod}
-                </td>
-                <td>{order.Amount}</td>
+                <td>{index+1}</td>
+                <td>{subscriptionHistoryin.sellerName}</td>
+                <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
+                <td>{subscriptionHistoryin.sellerEmail}</td>
+                <td>{subscriptionHistoryin.paymentMethod}</td>               
+                <td>{subscriptionHistoryin.amount}</td>
                
               </tr>
             ))}

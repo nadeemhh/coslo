@@ -1,10 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
 
+import { useState, useEffect,Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Subcategory() {
- 
+ function Subcategory() {
+    const [data, setData] = useState([]);
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id"); // Get the 'id' from the URL
+    const categoryname = searchParams.get("category");
+
     useEffect(() => {
         if (!id) return; // Prevent fetch if id is null
 
@@ -30,7 +35,40 @@ export default function Subcategory() {
 
     return (
         <div>
-       <h1>h</h1>
+            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{categoryname}</h3>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
+                {data.map((data) => (
+                  <div   key={data.id} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px' }}>
+           
+                  <div className="product-category-h" >
+                 
+                  <div className="category-name-image-h">
+                 <Link href={`/home/Categories/subCategories?id=${data.id}`}>
+                 <img src={data.image} alt={data.name}/>
+                 </Link>
+                 </div>
+                 
+                 <div className="category-name-product-h">
+                 <Link href={`/home/Categories/subCategories?id=${data.id}`}>
+                 <p>{data.name}</p>
+                 </Link>
+                 </div>
+                 
+                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link>
+                 </div>
+                 
+                  </div>
+                ))}
+            </div>
         </div>
     );
 }
+
+
+export default function SubCategoriesPage() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <Subcategory />
+      </Suspense>
+    );
+  }

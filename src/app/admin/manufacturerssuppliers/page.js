@@ -7,6 +7,8 @@ import { useState,useEffect } from "react";
 export default function page() {
   const [data,setdata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
    const [confirmationOpen, setconfirmationOpen] = useState(false);
    const [selectedId, setSelectedId] = useState(null);
@@ -26,7 +28,7 @@ export default function page() {
       const token = localStorage.getItem('token');
    
    
-       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/`, {
+       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/?page=${page}&limit=25`, {
          method: 'GET',
          headers: {
            'Content-Type': 'application/json',
@@ -43,11 +45,22 @@ export default function page() {
            }
          })
          .then((data) => {
+
+          if (data.sellers.length === 0) {
+            setHasMore(false);
+  
+            if(page!==1){ setPage((prevPage) => prevPage - 1);}
+            setdata(data.sellers);
+  
+            console.log( hasMore,page)
+          } else {
+            console.log(data)
+            setdata(data.sellers);
+          }
+
                console.log(data)
-               setdata([...data])
+
               document.querySelector('.loaderoverlay').style.display='none';
-           // Successfully logged in
-          // window.location.href = '/Employee/Onboarding';
           
          })
          .catch((err) => {
@@ -99,10 +112,21 @@ export default function page() {
     };
   
 
-     useEffect(() => {
-       handledata();
-      
-     },[]);
+       useEffect(() => {
+    handledata();
+  }, [page]);
+
+
+  const nextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+   
+  };
+ 
+  const prevPage = () => {
+    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+    setHasMore(true);
+  };
+
  
   return (
     <div className="orders-container">
@@ -174,6 +198,19 @@ export default function page() {
           </tbody>
         </table>
       </div>
+
+      <div className="pagination">
+       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
+        <i className="fas fa-arrow-left"></i> Previous
+      </span>
+
+      <span className="page-number">Page {page}</span>
+
+    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
+        Next <i className="fas fa-arrow-right"></i>
+      </span>}
+      </div>
+      
     </div>
   );
 }

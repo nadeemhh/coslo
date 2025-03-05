@@ -73,10 +73,22 @@ padding: 5px;
 
 .category-name-product-h p{ color: rgb(0, 0, 0);font-size: 17px;text-align: center;padding: 2px;}
 
+.seeproducts33{
+  font-size: 15px;
+  background-color: rgb(19, 137, 240);
+  padding: 5px 20px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+
 
 @media (max-width: 768px) {
   .product-category-h {
-    width: 120px;
+    width: 140px;
 
   }
   
@@ -90,7 +102,11 @@ padding: 5px;
 
   .category-name-product-h p{font-size: 12px;font-weight: 500;}
 
-
+  .seeproducts33{
+    font-size: 12px;
+    padding: 5px 5px;
+   
+  }
   .lfarsh{width: 30px;}
 }
 

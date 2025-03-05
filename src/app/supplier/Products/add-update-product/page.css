@@ -26,7 +26,7 @@ gap: 20px;
   text-align: left;
 }
 
- input,select,textarea{background-color: #F4F7FB;}
+ /* input,select,textarea{background-color: #F4F7FB;} */
 
 .add-category-location{display: flex;flex-direction: column; gap: 20px;}
 
@@ -38,8 +38,17 @@ gap: 20px;
   border-radius: 5px;
 }
 
+.basic-info2 {
+ width: 650px;
+  padding: 20px;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+}
+
+
 .basic-info h2,
 .add-category h2,
+.basic-info2 h2,
 .add-location h2 {
   font-size: 18px;
   margin-bottom: 30px;
@@ -64,6 +73,7 @@ gap: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
+  background-color: #F4F7FB;
 }
 
 .input-group textarea {

@@ -44,6 +44,8 @@ export default function Page() {
 
   const [isupdate, setisupdate] = useState(false);
   const [updateindex, setupdateindex] = useState(false);
+  const [productupdate, setproductupdate] = useState(false);
+  const [preimages, setpreimages] = useState([]);
 
 
   const [pricings, setPricings] = useState([
@@ -64,6 +66,10 @@ export default function Page() {
   useEffect(() => {
     refreshCategories(); // Load categories on mount
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
+    const pid = new URLSearchParams(window.location.search).get("pid");
+    console.log(pid)
+    if(pid){getproductdetails(pid)}
+    
   }, []);
   
   const toggleCompareprice = () => {
@@ -115,6 +121,7 @@ export default function Page() {
   };
 
   const removeImage = (index) => {
+
     setproductimages(productimages.filter((_, i) => i !== index));
     setImages(images.filter((_, i) => i !== index));
 
@@ -123,6 +130,21 @@ export default function Page() {
       productImages: productimages.filter((_, i) => i !== index),
     }));
   };
+
+  const removepreImage = (index) => {
+
+    
+
+    setpreimages(preimages.filter((_, i) => i !== index))
+
+    setVariation((prev) => ({
+      ...prev,
+      awsImages: preimages.filter((_, i) => i !== index),
+     deleteImages:[...(prev.deleteImages || []), preimages.find((_, i) => i === index)],
+    }));
+  };
+
+
 
 console.log(productimages,images)
   
@@ -349,7 +371,7 @@ const removePriceSlab = (index) => {
   
     setproductimages([])
 setImages([])
-    
+setpreimages([])
 
     // Close modal
     setModalOpen(!ModalOpen);
@@ -470,6 +492,13 @@ setImages([])
     const imageUrls = files.map((file) => URL.createObjectURL(file));
 setImages([...imageUrls])
 
+try{
+  setpreimages([...selectedVariations.awsImages])
+}catch(err){
+  setpreimages([])
+}
+
+
     setisupdate(true)
     setupdateindex(index)
     toggleModal(false);
@@ -478,6 +507,279 @@ setImages([...imageUrls])
   };
 console.log(variation)
 
+
+
+function getproductdetails(productId) {
+
+    
+  console.log(productId);
+  
+  const token = localStorage.getItem('token');
+
+      document.querySelector('.loaderoverlay').style.display = 'flex';
+
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin/${productId}`, {
+        method: 'GET',
+         headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      }
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+             
+              throw new Error(errorData.error || 'Failed');
+            });
+          }
+        })
+        .then((data) => {
+       
+
+        // Modify variations dynamically
+data.data.variations.forEach(variation => {
+  variation.awsImages = [...variation.productImages];  // Copy productImages to awsImages
+  variation.productImages = [];  // Clear productImages
+  variation.deleteImages = []; 
+});
+
+console.log(data.data)
+
+        const { variations, ...filteredData } = data.data;
+
+        setUserData({productData: filteredData,
+          variationsData: [...data.data.variations]})
+      
+          setproductupdate(true)
+       // setisdata(true)
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          console.log(err)
+         
+         
+        });
+  
+    
+  }
+
+
+
+
+  function postnewVariation(newVariation=false) {
+    let updatevariation =structuredClone(variation);
+
+
+    async function convertImagesToBase64(productData) {
+      const variations = [productData];
+  
+      const convertToBase64 = (file) => {
+          return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = (error) => reject(error);
+          });
+      };
+  
+      for (const variation of variations) {
+          const images = variation.productImages;
+  
+          for (let i = 0; i < images.length; i++) {
+              const imageFile = images[i];
+  
+              if (imageFile instanceof File) { // Check if the item is a File object
+                  try {
+                      const base64String = await convertToBase64(imageFile);
+                      images[i] =  base64String; // Replace the file with Base64
+                  } catch (error) {
+                      console.error('Error converting image to Base64:', error);
+                  }
+              }
+          }
+      }
+  
+      return productData;
+  }
+  
+  // Example usage
+  // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
+  convertImagesToBase64(updatevariation).then((result) => {
+      console.log('Converted Product Data:', result);
+      postdata(result)
+  });
+
+  
+  async function postdata(data) {
+   
+    try {
+      document.querySelector('.loaderoverlay').style.display='flex';
+
+      const token = localStorage.getItem('token');
+      let pid = new URLSearchParams(window.location.search).get("pid");
+
+      let uploadurl= newVariation ? `${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}` : `${process.env.NEXT_PUBLIC_BASE_URL}/product/updateVariation/${pid}/${data._id}`;
+
+      const response = await fetch(uploadurl, {
+        method: newVariation ? "POST" : "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (response.ok) {
+  document.querySelector('.loaderoverlay').style.display='none';
+        alert("Product Updated successfully!");
+ //     window.location=`/supplier/Products/add-update-product?pid=${pid}`;
+ window.location.reload();
+
+      } else {
+        const errorData = await response.json();
+        document.querySelector('.loaderoverlay').style.display='none';
+        alert("Failed to Update Product: " + errorData.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      document.querySelector('.loaderoverlay').style.display='none';
+      alert("Something went wrong!");
+    }
+  }
+
+  }
+
+
+
+async function Updateproductdetails() {
+  
+  try {
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+    const token = localStorage.getItem('token');
+    
+    let pid = new URLSearchParams(window.location.search).get("pid");
+
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/updateproduct/${pid}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+      body: JSON.stringify(userData.productData),
+    });
+
+    if (response.ok) {
+document.querySelector('.loaderoverlay').style.display='none';
+      alert("Product Updated successfully!");
+
+
+    } else {
+      const errorData = await response.json();
+      document.querySelector('.loaderoverlay').style.display='none';
+      alert("Failed to Update Product: " + errorData.message);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    document.querySelector('.loaderoverlay').style.display='none';
+    alert("Something went wrong!");
+  }
+
+}
+
+
+  function deletevariation(vid) {
+
+    
+    const token = localStorage.getItem('token');
+  
+    let pid = new URLSearchParams(window.location.search).get("pid");
+
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}/${vid}`, {
+          method: 'DELETE',
+           headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+               
+                throw new Error(errorData.error || 'Failed');
+              });
+            }
+          })
+          .then((data) => {
+         
+  
+          alert(data.message)
+          window.location.reload();
+          })
+          .catch((err) => {
+            document.querySelector('.loaderoverlay').style.display = 'none';
+            console.log(err)
+           
+           
+          });
+    
+      
+    }
+
+
+  useEffect(() => {
+    const preventScroll = (event) => {
+      if (document.activeElement.type === "number") {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", preventScroll, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", preventScroll);
+    };
+  }, []);
+
+
+
+  function removeattribute(index) {
+   
+    let updatedattributes = variation.attributes.filter((_, i) => i !== index);
+
+     setVariation({...variation,attributes:updatedattributes})
+
+  }
+
+
+  function removecommanattribute(index) {
+   
+    let updatedcommanattributes = userData.productData.commonAttributes.filter((_, i) => i !== index);
+    
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        commonAttributes: updatedcommanattributes,
+      },
+    }));
+
+
+  }
+
+  function remopriceslab(index) {
+   
+    let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
+
+     setVariation({...variation,priceSlabs:updatedslab})
+
+  }
 
   return (
     <div className="order-details">
@@ -490,7 +792,7 @@ console.log(variation)
       </div>
 
       <div className="add-product-container">
-      <div className="basic-info">
+      <div className={productupdate ? 'basic-info2' : 'basic-info'}>
         <h2>Basic Information</h2>
         <div className="input-group">
           <label htmlFor="product-name">Enter Product Name *</label>
@@ -525,7 +827,12 @@ console.log(variation)
       {userData.productData.commonAttributes.map((item, index) => (
         <div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
           <div className="form-group">
+          <div style={{display:'flex',justifyContent:'space-between'}}>
+
             <label className="form-label">Common Attributes</label>
+            <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                  onClick={()=>{removecommanattribute(index)}}></i>
+                  </div>
             <div className="range-container">
               <input
                 type="text"
@@ -553,7 +860,7 @@ console.log(variation)
 
        
       </div>
-      <div className="add-category-location">
+    {!productupdate &&  <div className="add-category-location">
         <div className="add-category">
           <h2>Add/Create Category</h2>
          
@@ -596,7 +903,7 @@ console.log(variation)
         </div> */}
 
 
-      </div>
+      </div>}
     </div>
 
     {/* <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
@@ -631,7 +938,9 @@ console.log(variation)
     </div> */}
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
-    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>
+    {productupdate?  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={()=>{Updateproductdetails()}}>Update</button>
+    :
+    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>}
     </div>
 
     <div className="container" style={{marginTop:'50px'}}>
@@ -643,12 +952,17 @@ console.log(variation)
               {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> / Stock: <><span style={{color:'#1389F0'}}>{pricing.stock}</span></> Units
             </span>
             <div className="actions">
+
               <button className="edit-btn" onClick={() => updatePricing(index)}>
                 <i className="fas fa-edit"></i>
               </button>
-              <button className="delete-btn" onClick={() => removePricing(index)}>
+
+           { productupdate ? <button className="delete-btn" onClick={() => deletevariation(pricing._id)}>
                 <i className="fas fa-trash-alt"></i>
-              </button>
+              </button> :  <button className="delete-btn" onClick={() => removePricing(index)}>
+                <i className="fas fa-trash-alt"></i>
+              </button>}
+
             </div>
           </div>
         ))}
@@ -707,8 +1021,10 @@ console.log(variation)
     </div>
 
     <div className="action-buttons">
-        <button className="cancel-button">Cancel</button>
+
+    {  !productupdate && <><button className="cancel-button" onClick={()=>{location.reload();}}>Cancel</button>
         <button className="update-button" onClick={handleSubmit}>Add Product</button>
+        </>}
       </div>
 
 
@@ -719,13 +1035,13 @@ console.log(variation)
           <form className="form" style={{ height: "90vh", overflowY: "auto"}}  onSubmit={(e)=>{
                 e.preventDefault();
 
-                isupdate ? saveVariation(true) : saveVariation()
+                isupdate ? (productupdate?postnewVariation():saveVariation(true)) : saveVariation()
                 
                 
                 }}>
             {/* MRP Input */}
             <div className="form-group">
-              <label className="form-label">Original Net Price</label>
+              <label className="form-label">MRP</label>
               <input
                 type="number"
                 className="form-input"
@@ -750,12 +1066,13 @@ console.log(variation)
             </div>
 
             <div className="form-group">
-              <label className="form-label">GST</label>
+              <label className="form-label">GST %</label>
               <input
                 type="number"
                 className="form-input"
-                placeholder="Eg. 1000"
+                placeholder="Eg. 10%"
                 value={variation.gst}
+                required
                 onChange={(e) => handleVariationChange("gst", e.target.value)}
               />
             </div>
@@ -783,6 +1100,7 @@ console.log(variation)
                 placeholder="Enter additional discount in (%)"
                 value={variation.repeatBuyerDiscount}
                 onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
+                required
               />
             </div>
 
@@ -817,7 +1135,24 @@ console.log(variation)
             </button>
           </div>
         ))}
+
+{preimages.map((image, index) => (
+          <div className="image-container" key={index}>
+            <img src={image} alt={`preview-${index}`} />
+            <button
+              className="remove-button"
+              onClick={(e) => {
+                e.preventDefault();
+                removepreImage(index)}}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+        ))}
       </div>
+      
+      
+
     </div>
 
 
@@ -832,7 +1167,13 @@ console.log(variation)
             {variation.attributes.map((attr, index) => (
               <div className="quantity-range" key={index}>
                 <div className="form-group">
+
+                  <div style={{display:'flex',justifyContent:'space-between'}}>
                   <label className="form-label">Attributes</label>
+                  <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                  onClick={()=>{removeattribute(index)}}></i>
+                  </div>
+
                   <div className="range-container">
                     <input
                       type="text"
@@ -869,6 +1210,7 @@ console.log(variation)
               <input
                 type="number"
                 className="form-input small-input"
+                required
                 placeholder="Length"
                 style={{width:'100px'}}
                 value={variation.dimensions.length}
@@ -879,6 +1221,7 @@ console.log(variation)
                 type="number"
                 className="form-input small-input"
                 placeholder="Height"
+                required
                 style={{width:'100px'}}
                 value={variation.dimensions.height}
                 onChange={(e) => handleDimensionChange("height", e.target.value)}
@@ -887,6 +1230,7 @@ console.log(variation)
                 type="number"
                 className="form-input small-input"
                 placeholder="Width"
+                required
                 style={{width:'100px'}}
                 value={variation.dimensions.width}
                 onChange={(e) => handleDimensionChange("width", e.target.value)}
@@ -906,6 +1250,7 @@ console.log(variation)
                 type="number"
                 className="form-input small-input"
                 placeholder="In kg"
+                required
                 value={variation.weight || ""}
                 onChange={(e) => handleVariationChange("weight", e.target.value)}
               />
@@ -921,9 +1266,15 @@ console.log(variation)
             {variation.priceSlabs.map((slab, index) => (
         <div className="quantity-range" key={index}>
           <div className="form-group">
+          <div style={{display:'flex',justifyContent:'space-between'}}>
+
             <strong className="form-label" style={{ marginBottom: "10px" }}>
               Type: {slab.type}
             </strong>
+            {/* <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                  onClick={()=>{remopriceslab(index)}}></i> */}
+
+                  </div>
 
             <label className="form-label">Enter Quantity Range</label>
             <div className="range-container">
@@ -938,6 +1289,7 @@ console.log(variation)
                   updatedSlabs[index].min = Number(e.target.value);
                   setVariation({ ...variation, priceSlabs: updatedSlabs });
                 }}
+                required
               />
               <span className="range-icon">
                 <i className="fas fa-arrow-right"></i>
@@ -953,6 +1305,7 @@ console.log(variation)
                   updatedSlabs[index].max = Number(e.target.value);
                   setVariation({ ...variation, priceSlabs: updatedSlabs });
                 }}
+                required
               />
             </div>
           </div>
@@ -969,6 +1322,7 @@ console.log(variation)
                 updatedSlabs[index].discount = Number(e.target.value);
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
               }}
+              required
             />
           </div>
 
@@ -984,6 +1338,7 @@ console.log(variation)
                 updatedSlabs[index].deliveryFee = Number(e.target.value);
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
               }}
+              required
             />
           </div>
 
@@ -1061,9 +1416,11 @@ setImages([])
 
              {isupdate ? <button type="submit" className="save-button">
                 Update Price
-              </button> : <button type="submit" className="save-button">
+              </button> : (productupdate ? <button type="submit" className="save-button" onClick={()=>{postnewVariation(true)}}>
                 Save Price
-              </button>}
+              </button> :<button type="submit" className="save-button">
+                Save Price
+              </button>)}
 
 
             </div>

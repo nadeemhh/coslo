@@ -65,6 +65,10 @@ function Page() {
         ComplianceNo: "",
         password:"",
         panNumber:"",
+        AccountHolderName:"",
+AccountNumber:"",
+IFSCCode:"",
+BankName:"",
       });
     console.log(user)
      
@@ -103,7 +107,15 @@ function Page() {
         formData.append("panNumber", user.panNumber);
         formData.append("qualityCert", user.ComplianceNo);
         formData.append("address[phone]", user.phoneNo);
+        formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
+        formData.append("bankDetails[accountNumber]", user.AccountNumber);
+        formData.append("bankDetails[ifscCode]", user.IFSCCode);
+        formData.append("bankDetails[bankName]", user.BankName);
        
+
+
+
+
         if (gstImages.length > 0 && gstImages[0] instanceof File) {
           formData.append("gstCertificateFile", gstImages[0]); 
         } else if (gstImages.length > 0 && gstImages[0].file instanceof File) {
@@ -132,7 +144,7 @@ function Page() {
           return response.json();
         } else {
           return response.json().then((errorData) => {
-            throw new Error(errorData.message || 'Failed to submit the form.');
+            throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
           });
         }
       }) .then((data) => {
@@ -144,10 +156,12 @@ function Page() {
     
     })
       .catch((error) => {
-        console.error("Error submitting form:", error.message);
-        setError(error.message);
-        document.querySelector('.loaderoverlay').style.display='none';
+        console.error("Error submitting form:", error);
         toggleconfirmation();
+        setError(error.message || error.error || 'Failed to submit the form.');
+        alert(error.message || error.error || 'Failed to submit the form.')
+        document.querySelector('.loaderoverlay').style.display='none';
+       
       });
     
       };
@@ -248,6 +262,32 @@ function Page() {
             setImages={setComplianceImages}
             id="complianceUploader"
           />
+
+
+                            <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p>
+
+                            <div className="form-tab">
+            <label htmlFor="AccountHolderName">Account Holder Name</label>
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="AccountNumber">Account Number</label>
+            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="IFSCCode">IFSC Code</label>
+            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="BankName">Bank Name</label>
+            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
+          </div>
+
+                       
+
 
 <div className="radio-tab">
                             <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>

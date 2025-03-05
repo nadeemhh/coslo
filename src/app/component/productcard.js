@@ -21,8 +21,9 @@ export default function Productcard({veri=false}) {
       <div className="product-image">
       <Link href="/home/products">
         <img
-          src="\images\gameee.png" // Replace with actual image URL
+          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart" // Replace with actual image URL
           alt="Havit HV-G92 Gamepad"
+          className='showimg'
         />
         </Link>
         {/* <button className="cart-icon">
@@ -36,13 +37,13 @@ export default function Productcard({veri=false}) {
 
 
          {/* Location */}
- <div className='mylocation'>
+ {/* <div className='mylocation'>
  <span className="location">
 <img src="\icons\locationmark.svg" alt="" />
 
           Lucknow
         </span>
-        </div>
+        </div> */}
       </div>
 
 

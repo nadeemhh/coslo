@@ -18,7 +18,7 @@ const Footer = () => (
               New Delhi, India - 110001
             </p>
             <p>
-              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91-9876543210
+              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91 98808 66978
             </p>
           </div>
           <p>social media</p>
@@ -44,17 +44,17 @@ const Footer = () => (
             <h3>Policies</h3>
             <ul>
               <li>
-                <a href="#">Terms of Service</a>
+                <a href="/home/Policies/#TermsofService">Terms & Conditions</a>
               </li>
               <li>
-                <a href="#">Privacy Policy</a>
+                <a href="/home/Policies/#PrivacyPolicy">Privacy Policy</a>
               </li>
               <li>
-                <a href="#">Refund Policy</a>
+                <a href="/home/Policies/#ReturnPolicy">Return Policy</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#">Shipping Policy</a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -63,16 +63,16 @@ const Footer = () => (
             <h3>Our Solutions</h3>
             <ul>
               <li>
-                <a href="#">For Retailers</a>
+                <a href="/#ForRetailers">For Retailers</a>
               </li>
               <li>
-                <a href="#">For Manufacturers</a>
+                <a href="/#ForManufacturers">For Manufacturers</a>
               </li>
               <li>
-                <a href="#">Product Categories</a>
+                <a href="/home/Categories">Product Categories</a>
               </li>
               <li>
-                <a href="#">How It Works</a>
+                <a href="/#HowItWorks">How It Works</a>
               </li>
             </ul>
           </div>
@@ -82,14 +82,14 @@ const Footer = () => (
             <h3>Support</h3>
             <ul>
               <li>
-                <a href="#">About Us</a>
+                <a href="/home/about-us">About Us</a>
               </li>
               <li>
-                <a href="#">Contact Us</a>
+                <a href="/home/about-us">Contact Us</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#">FAQs</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

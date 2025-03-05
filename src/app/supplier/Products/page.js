@@ -4,8 +4,12 @@ import './page.css'
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
 
+
 export default function page() {
   const [data,setdata] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [searchquery, setsearchquery] = useState([]);
 
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -18,14 +22,16 @@ export default function page() {
 
   
      const handledata = () => {
-       
+      console.log(hasMore)
+      // if (hasMore===false) return; // Stop extra calls
+      
     
         document.querySelector('.loaderoverlay').style.display='flex';
     
        const token = localStorage.getItem('token');
     
-    
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin`, {
+       console.log('called')
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?page=${page}&limit=25${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -42,17 +48,25 @@ export default function page() {
             }
           })
           .then((data) => {
-                console.log(data.data)
-                setdata([...data.data])
+
+            if (data.data.length === 0) {
+              setHasMore(false);
+              if(page!==1){ setPage((prevPage) => prevPage - 1);}
+              setdata(data.data);
+              console.log( hasMore,page)
+            } else {
+              console.log(data.data)
+              setdata(data.data);
+            }
+
                document.querySelector('.loaderoverlay').style.display='none';
-            // Successfully logged in
-           // window.location.href = '/Employee/Onboarding';
+           
            
           })
           .catch((err) => {
             document.querySelector('.loaderoverlay').style.display='none';
             console.log(err)
-          });
+          })
       };
     
       const deleteFunc = (id) => {
@@ -85,10 +99,25 @@ export default function page() {
           });
       };
     
-      useEffect(() => {
-        handledata();
-      },[]);
+
+    
+    
   
+      useEffect(() => {
+     
+          handledata();
+      }, [page,searchquery]);
+
+      const nextPage = () => {
+        setPage((prevPage) => prevPage + 1);
+       
+      };
+    
+      const prevPage = () => {
+        setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+        setHasMore(true);
+      };
+
 
       const handleActive = async (id) => {
 
@@ -125,6 +154,18 @@ export default function page() {
       };
 
 
+      const handleFilterChange = (event) => {
+        setPage(1)
+        const selectedOption = event.target.options[event.target.selectedIndex]; // Get selected <option>
+        const selectedName = selectedOption.getAttribute("name"); // Get 'name' attribute
+        const selectedValue = event.target.value;
+        
+        // setsearchquery((prev) => [...prev, [selectedName, selectedValue]]);
+        setsearchquery([selectedName, selectedValue]);
+      
+      };
+
+      console.log(searchquery)
   return (
     <div className="orders-container">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -145,16 +186,17 @@ export default function page() {
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
           
-      <select name="" id="" style={{border:'none'}}>
+      <select name="" id="" style={{border:'none'}} onChange={handleFilterChange}>
         <option value="">Filters</option>
-        <option value="">Low Stock</option>
-        <option value="">Old First</option>
-        <option value="">Not Visible</option>
-        <option value="">Most Recent</option>
+        <option value="out_of_stock" name="stockStatus">Low Stock</option>
+        <option value="asc" name="sortOrder">Old First</option>
+        <option value="active" name="visibility">Visible</option>
+        <option value="desc" name="sortOrder">Most Recent</option>
+
       </select>
       </button>
 
-      <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+      {/* <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
       <i className="fas fa-sort" style={{marginRight:'10px'}}></i>
       
@@ -162,7 +204,11 @@ export default function page() {
     <select name="" id="" style={{border:'none'}}>
       <option value="" >Sort</option>
     </select>
-    </button>
+    </button> */}
+
+
+   {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
+
       </div>
       
       <div className="table-wrapper">
@@ -198,7 +244,7 @@ export default function page() {
 
                 </td>
                 <td>
-                <Link href="/supplier/Products/add-update-product">
+                <Link href={`/supplier/Products/add-update-product?pid=${data._id}`}>
                   <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
              </Link>
                   &nbsp;
@@ -219,6 +265,19 @@ export default function page() {
             ))}
           </tbody>
         </table>
+    
+      </div>
+
+      <div className="pagination">
+       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
+        <i className="fas fa-arrow-left"></i> Previous
+      </span>
+
+      <span className="page-number">Page {page}</span>
+
+    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
+        Next <i className="fas fa-arrow-right"></i>
+      </span>}
       </div>
 
       {confirmationOpen && (

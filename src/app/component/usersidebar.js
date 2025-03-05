@@ -4,9 +4,13 @@ import './component-css/usersidebar.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import handleLogout from './handleuserLogout.js'
 
 const Usersidebar = () => {
   const pathname = usePathname();
+
+  const [user, setuser] = useState(null);
+
   // const [currentPath, setCurrentPath] = useState('');
 console.log(pathname)
   // useEffect(() => {
@@ -17,33 +21,34 @@ console.log(pathname)
   //   }
   // }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('buyer')
-    window.location.href = '/home/login';
-  };
+ 
 
   const menuItems = [
     { path: '/user/orders', icon: 'fas fa-box', label: 'My Orders' },
     { path: '/user/myaccount', icon: 'fas fa-user', label: 'My Account' },
-    { path: '/user/notification', icon: 'fas fa-bell', label: 'Notifications' },
+    // { path: '/user/notification', icon: 'fas fa-bell', label: 'Notifications' },
     { path: '/user/wishlist', icon: 'fas fa-heart', label: 'Wishlist' },
     { path: '/user/feedback', icon: 'fas fa-comment', label: 'Feedback' },
   ];
 
+
+  useEffect(() => {
+    setuser(JSON.parse(localStorage.getItem('buyer')))
+  }, []);
+
   return (
     <div className="side-bar sidebar" id="sidebar usersidebar">
-      <div className="profile">
+    {user &&  <div className="profile">
         <img
-          src="/images/user1.png"
+          src={user.profilePicture}
           alt="Profile"
           className="profile-image"
         />
         <div className="profile-info">
-          <h3>Faiz Iqbal</h3>
+          <h3>{user.name}</h3>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
-      </div>
+      </div>}
 
 <Verifybut handleLogout={handleLogout}/>
 
@@ -68,7 +73,7 @@ export default Usersidebar;
 
 
 function Verifybut({handleLogout}) {
-  const [user, setuser] = useState(false);
+  const [user, setuser] = useState(null);
 
   useEffect(() => {
     console.log(JSON.parse(localStorage.getItem('buyer')))
@@ -119,7 +124,7 @@ handleLogout()
   return(
 
     <>
-  {user === false &&  <button style={{backgroundColor:'#34b334',padding:'7px',color:'white',margin:'10px',border:'none',borderRadius:'10px'}} onClick={handledata}>Verify Your Account</button>}
+  {user !== null &&  (user ? <></>  : <button style={{backgroundColor:'#34b334',padding:'7px',color:'white',margin:'10px',border:'none',borderRadius:'10px'}} onClick={handledata}>Verify Your Email</button>)}
 
     
     </>

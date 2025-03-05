@@ -154,7 +154,7 @@ import { createContext, useContext, useState } from 'react';
 }
 
 
-const CounterComponent = ({quantity,productid,variationid}) => {
+const CounterComponent = ({quantity,productid,variationid,getdata}) => {
   const [value, setValue] = useState(quantity);
 
   // Handle decrement
@@ -205,7 +205,6 @@ function updatequantity(quantity) {
  console.log(quantity);
 
     const userData = {
-      productId:productid,
       variationId:variationid,
       quantity,
     };
@@ -231,7 +230,9 @@ console.log(userData)
         }
       })
       .then((data) => {
+        getdata()
             console.log(data)
+           
        
       })
       .catch((err) => {

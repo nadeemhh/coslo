@@ -74,6 +74,15 @@ function Login() {
             console.log(data)
             document.querySelector('.loaderoverlay').style.display='none';
                 // Save token to localStorage
+                function setCookie(name, value, days) {
+                  let expires = new Date();
+                  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+                  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+              }
+              
+            
+              setCookie("token", data.token, 1);
+
         localStorage.setItem('token', data.token);
         handledata()
             

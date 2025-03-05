@@ -1,7 +1,18 @@
+'use client'
+import { useEffect, useState } from 'react';
+
 import Link from 'next/link';
 
+ 
+const MobileFooter = () => {
+  const [user, setuser] = useState(null);
 
-const MobileFooter = () => (
+ useEffect(() => {
+  setuser(JSON.parse(localStorage.getItem('buyer')))
+}, []);
+
+  
+  return(
     <div className="mobile-footer">
       <div className="footer-nav">
         <Link href="/home" className="nav-item">
@@ -12,16 +23,16 @@ const MobileFooter = () => (
           <i className="fas fa-th-list"></i>
           <span>Category</span>
         </Link>
-        <Link href="/user/sidebar" className="nav-item">
+        <Link href={user?"/user/sidebar":"/home/login"} className="nav-item">
           <i className="fas fa-user"></i>
           <span>Profile</span>
         </Link>
-        <Link href="/home/cart" className="nav-item">
+        <Link href={user?"/home/cart":"/home/login"} className="nav-item">
           <i className="fas fa-shopping-cart"></i>
           <span>Cart</span>
         </Link>
       </div>
     </div>
-  );
+  );}
 
   export default MobileFooter;

@@ -10,6 +10,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.container2 {
+  display: flex;
+  flex-direction:column ;
+  justify-content: space-between;
+  margin: 20px auto;
+}
+
 /* Tabs styling */
 .tabs {
   display: flex;
@@ -46,6 +53,12 @@
   padding: 20px;
 }
 
+.myproductcontent {
+
+  margin-top: 40px;
+}
+
+
 .technical-details p {
   margin: 10px 0;
   font-size: 14px;
@@ -61,7 +74,6 @@
 .reviews-container {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
   gap: 20px;
   margin: 20px 0;
 
@@ -69,7 +81,7 @@
 
 .reviews-section,
 .rating-section {
-  flex-grow: 1;
+width: 50%;
 }
 
 .title {
@@ -206,7 +218,12 @@ align-items: flex-start;
 @media (max-width: 768px) {
   .reviews-section,
   .rating-section {
-    flex: 1 1 100%;
+ width: 100%;
+  }
+
+  .reviews-container{
+    
+    flex-direction: column-reverse;
   }
 
   .rating-form {
