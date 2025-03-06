@@ -1,5 +1,11 @@
 
-.Feedback{font-size: 20px;font-weight: 500;text-align: left;margin-bottom: 20px;}
+.Feedbacktitle{
+  font-size: 24px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.Feedback{text-align: left;margin-bottom: 20px;}
 
 .feedback-container565 {
   width: fit-content;

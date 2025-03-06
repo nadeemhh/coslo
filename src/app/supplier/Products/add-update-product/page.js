@@ -16,8 +16,10 @@ export default function Page() {
       description: "",
       productVideo: "",
       commonAttributes: [],
+      reasonForReturn:[],
       category: "",
-      BrandName:""
+      BrandName:"",
+      amazoneProductUrl:""
     },
     variationsData: [
     
@@ -173,6 +175,22 @@ console.log(productimages,images)
     }));
   };
 
+
+    // Add a new reason item
+    const addreason = () => {
+      setUserData((prevState) => ({
+        ...prevState,
+        productData: {
+          ...prevState.productData,
+          reasonForReturn: [
+            ...prevState.productData.reasonForReturn,
+            "", 
+          ],
+        },
+      }));
+    };
+
+
   // Handle input change for common attributes
   const handleCommonAttributeChange = (index, field, value) => {
     setUserData((prevState) => {
@@ -188,6 +206,24 @@ console.log(productimages,images)
       };
     });
   };
+
+
+    // Handle input change for reason
+    const handlereasonChange = (index,value) => {
+      setUserData((prevState) => {
+        const updatedreason = [...prevState.productData.reasonForReturn];
+        updatedreason[index] = value; // Update specific field
+  
+        return {
+          ...prevState,
+          productData: {
+            ...prevState.productData,
+            reasonForReturn: updatedreason,
+          },
+        };
+      });
+    };
+
 
   const handleProductDataChange = (field, value) => {
     setUserData((prevState) => ({
@@ -773,6 +809,23 @@ document.querySelector('.loaderoverlay').style.display='none';
 
   }
 
+
+  function removereason(index) {
+   
+    let updatedreason = userData.productData.reasonForReturn.filter((_, i) => i !== index);
+    console.log(index,updatedreason)
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        reasonForReturn: updatedreason,
+      },
+    }));
+
+
+  }
+
+
   function remopriceslab(index) {
    
     let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
@@ -816,6 +869,12 @@ document.querySelector('.loaderoverlay').style.display='none';
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
+        <div className="input-group">
+          <label htmlFor="Product-url">Enter Amazon Product url</label>
+          <input id="Product-url" type="text" placeholder="url"    value={userData.productData.amazoneProductUrl || ""}
+          onChange={(e) => handleProductDataChange("amazoneProductUrl", e.target.value)} />
+        </div>
+
         <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
         <i
@@ -857,6 +916,43 @@ document.querySelector('.loaderoverlay').style.display='none';
           </div>
         </div>
       ))}
+
+<br/>
+
+<label htmlFor="product-video" style={{marginRight:'10px'}}>Add reasons for product return.</label>
+
+<i
+className="fas fa-plus-circle"
+style={{ color: "green", fontSize: "20px", cursor: "pointer" ,margin:'20px 0px'}}
+onClick={addreason}
+></i>
+
+{userData.productData.reasonForReturn && userData.productData.reasonForReturn.map((item, index) => (
+<div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
+  <div className="form-group">
+  <div style={{display:'flex',justifyContent:'space-between'}}>
+
+    <label className="form-label">Reason {index+1}</label>
+    <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+          onClick={()=>{removereason(index)}}></i>
+          </div>
+    <div className="range-container">
+      <input
+        type="text"
+        className="form-input small-input"
+        placeholder="Write Reason"
+        style={{ width: "100px" }}
+        value={item}
+        onChange={(e) => handlereasonChange(index, e.target.value)}
+      />
+
+
+   
+    </div>
+  </div>
+</div>
+))}
+
 
        
       </div>
@@ -938,9 +1034,9 @@ document.querySelector('.loaderoverlay').style.display='none';
     </div> */}
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
-    {productupdate?  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={()=>{Updateproductdetails()}}>Update</button>
-    :
-    <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={toggleCompareprice}>Compare Pricing  <i className="fas fa-arrow-right"></i></button>}
+  
+    {productupdate &&  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={()=>{Updateproductdetails()}}>Update</button>}
+
     </div>
 
     <div className="container" style={{marginTop:'50px'}}>

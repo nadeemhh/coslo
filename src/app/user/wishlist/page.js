@@ -88,7 +88,7 @@ const deletewishlist = (id) => {
 
   return (
     <>
-    <p className='order-details-title'>wishlist</p>
+    <h2 className='wishlisttitle'>wishlist</h2>
 
   { isdata && <div className="products-container77">
 

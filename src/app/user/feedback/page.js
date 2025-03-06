@@ -70,7 +70,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
   return (
     <>
 
-<p className='Feedback'>Feedback</p>
+<h2 className='Feedbacktitle'>Feedback</h2>
 
 <div className="feedback-container565">
       <div className="feedback-header565">

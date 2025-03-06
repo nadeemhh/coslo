@@ -4,9 +4,9 @@ import Link from 'next/link';
 import Productcard from '../../component/productshowcard'
 import { useSearchParams } from 'next/navigation';
 import scrollToElement from '../../component/scrollToElement.js'
-import { useState ,useEffect} from 'react';
+import { useState ,useEffect,Suspense} from 'react';
 
-export default function Filterpagecontant() {
+function Filterpagedata() {
 
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('query');
@@ -14,6 +14,8 @@ export default function Filterpagecontant() {
   const [products, setProducts] = useState([]);   // Store fetched products
   const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+
+    const [isfirstvisit, setisfirstvisit] = useState(true);
 
   console.log(searchQuery)
 
@@ -24,7 +26,7 @@ export default function Filterpagecontant() {
 
     let filter = filtertype === 'Products' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=1&${filter}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -43,12 +45,13 @@ export default function Filterpagecontant() {
                     if(page!==1){ setPage((prevPage) => prevPage - 1);}
                     setProducts(data.data);
                     scrollToElement('main-content')
-        
+                 
                     console.log( hasMore,page)
                   } else {
                     console.log(data)
                     setProducts(data.data);
                     scrollToElement('main-content')
+                    setisfirstvisit(false)
                   }
 
      
@@ -116,7 +119,7 @@ export default function Filterpagecontant() {
 
 <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
 
-<div className="pagination">
+{page === 1 && isfirstvisit === true ? <h2>No Result Found</h2> : <div className="pagination">
 <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 1 ? 0.5 : 1 }}>
 <i className="fas fa-arrow-left"></i> Previous
 </span>
@@ -126,7 +129,8 @@ export default function Filterpagecontant() {
 { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
 Next <i className="fas fa-arrow-right"></i>
 </span>}
-</div>
+</div>}
+
 </div>
 
     </div>
@@ -134,4 +138,10 @@ Next <i className="fas fa-arrow-right"></i>
   }
 
 
-  
+  export default function Filterpagecontant() {
+      return (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Filterpagedata />
+        </Suspense>
+      );
+    }

@@ -1,3 +1,9 @@
+.ordertitle{
+  font-size: 24px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
 .ordersp{padding: 0px 50px;}
 
 .card-title{color: black;}

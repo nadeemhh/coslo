@@ -260,9 +260,9 @@ function cancelorder(suborderid) {
   return (
     <>
     {data && <div className="order-details-container">
-    <p className="order-details-title">
+    <h2 className="myorder-details-title">
       <Goback/> Order Details
-    </p>
+    </h2>
     <div className="order-details-content order-box">
       <div className="order-summary44">
         <p className='heading69'>Order Summary</p>

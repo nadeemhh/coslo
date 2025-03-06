@@ -14,6 +14,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
 
   function formatPhoneNumber(number) {
     number = number.toString(); // Ensure it's a string
+    number.replace('+','')
     return number.startsWith("91") ? number : "91" + number;
 }
 

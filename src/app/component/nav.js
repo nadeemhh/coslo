@@ -24,7 +24,8 @@ const NavBar = () => {
       const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
         const selectedName = selectedOption.getAttribute("value"); 
 console.log(selectedName)
-      router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`);
+    //  router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`);
+    window.location.href = `/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`;
     }
   };
 

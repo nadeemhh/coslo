@@ -100,7 +100,7 @@ const handleFilterChange = (event) => {
   return (
     <div className="ordersp">
       <div style={{display:'flex',justifyContent:'space-between'}}>
-        <p style={{fontSize:'20px',fontWeight:'500'}}>My Orders</p>
+        <h2 className='ordertitle'>My Orders</h2>
 
         <div style={{display:'flex',flexDirection:'column-reverse'}}> 
             {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}

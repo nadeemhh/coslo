@@ -18,10 +18,12 @@ export default function Productpagecontant() {
   const [quantity, setQuantity] = useState(0);
   const [ModalOpen, setModalOpen] = useState(false);
   const [pageUrl, setPageUrl] = useState('');
-  const [data,setdata] = useState();
+  const [data,setdata] = useState(null);
   const [isdata,setisdata] = useState(false);
   const [showslab,setshowslab] = useState(0);
   const [saved,setsaved] = useState(0);
+  const [amazonproduct,setamazonproduct] = useState(null);
+
 
 console.log(data);
 
@@ -150,6 +152,7 @@ let price=data.variations[showslab].mrp;
          
           setdata(data.data)
           setisdata(true)
+        
           document.querySelector('.loaderoverlay').style.display = 'none';
           })
           .catch((err) => {
@@ -163,7 +166,45 @@ let price=data.variations[showslab].mrp;
     }
 
    
+ 
+    function getamazonprice(url) {
+console.log(url)
+    if(!url.startsWith('http')){
+return;
+    }
+      
+         
+  
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/compare?url=${url}`)
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                return response.json().then((errorData) => {
+                 
+                  throw new Error(errorData.error || 'Failed');
+                });
+              }
+            })
+            .then((data) => {
+            console.log(data.data)
+           
+            setamazonproduct(data.data)
+          
+          
+            })
+            .catch((err) => {
+           
+              console.log(err)
+             
+             
+            });
+      
+        
+      }
 
+      
+ //if(isdata === true && amazonproduct === null){  getamazonprice(data.amazoneProductUrl)}
 
 function addtocart(variationId) {
   
@@ -344,6 +385,8 @@ document.querySelector('.loaderoverlay').style.display='flex';
 
 function formatPhoneNumber(number) {
   number = number.toString(); // Ensure it's a string
+  number.replace('+','')
+
   return number.startsWith("91") ? number : "91" + number;
 }
 
@@ -474,7 +517,7 @@ function formatPhoneNumber(number) {
           </a>
 
          
-          <a href={`https://wa.me/+${formatPhoneNumber(data.sellerDetails.phone)}`}>
+          {data.sellerDetails.subscriptionPlan !== 'FREE' && <a href={`https://wa.me/+${formatPhoneNumber(data.sellerDetails.phone)}`}>
           <div className='mylocationp'>
    <span className="location">
   <img src="\icons\whatsappi.svg" width={'18px'} alt="" />
@@ -482,7 +525,7 @@ function formatPhoneNumber(number) {
           </span> 
   
           </div>
-          </a>
+          </a>}
   
           </div>
           
@@ -539,12 +582,25 @@ function formatPhoneNumber(number) {
 
                     </div>
 
-                    <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+
+                    {data.reasonForReturn && data.reasonForReturn.length  > 0 && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+
+ {data.reasonForReturn.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff'}}>reasons to request a product return :-</p> : <></>}
+
+    {data.reasonForReturn.map((data, index) => (
+
+<p key={index} style={{fontSize:'17px'}}>{index+1}. {data}</p>
+
+))}
+                    </div>}
+
+
+                   {data.productVideo !== "" && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
 
                       {data.productVideo && <a href={data.productVideo} target="_blank" className='watchpvideo'>Watch Product Video &nbsp; <i className="fas fa-video"></i>
                        </a>}
    
-                    </div>
+                    </div>}
                     
 
           {/* Quantity Section */}
@@ -592,12 +648,12 @@ function formatPhoneNumber(number) {
 
       </div>
 
-      <div className="compareContainer995">
+    {data.amazoneProductUrl?.startsWith('http') &&  <div className="compareContainer995">
       <p className="compareHeading995">Similar Product on other platform</p>
       <p className="compareSubtext995">Price might vary, always verify yourself</p>
       <div className="compareGrid995">
 
-      <div className="cardContainer975">
+      {/* <div className="cardContainer975">
       <div className="header975">
         <span className='OurPrice'>Our Price</span>
         
@@ -617,55 +673,34 @@ function formatPhoneNumber(number) {
         <span className="label975">Price</span>
         <span className="value975">₹240.00</span>
       </div>
-    </div>
+    </div> */}
 
-    <div className="cardContainer975">
-      <div className="header975">
-        <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹323.00</span>
-      </div>
-    </div>
-
-    <div className="cardContainer975">
+   {amazonproduct === null ? <h3>Fetching... Please wait.</h3> : <div className="cardContainer975">
       <div className="header975">
         <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
         
       </div>
       <div className="imageContainer975">
         <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
+          src={amazonproduct.productImages[0]} // Replace with actual image URL
           alt="NanoCharge 5000mAh Battery Module"
           className="productImage975"
         />
       </div>
       <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
+        <p className="productTitle975">{amazonproduct.productName.split('|')[0]}</p>
+        <p className="seller975">Seller</p>
       </div>
       <div className="price975">
         <span className="label975">Price</span>
-        <span className="value975">₹348.00</span>
+        <span className="value975">₹{amazonproduct.mrp}</span>
       </div>
     </div>
+    }
 
         
       </div>
-    </div>
+    </div>}
 
 
 
