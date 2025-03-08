@@ -1,4 +1,4 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+/* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'); */
 
 .order-details {
   font-family: Arial, sans-serif;
@@ -175,4 +175,24 @@ text-align: left;
   border-radius: 5px;
   border: none;
   white-space: nowrap;
+}
+
+.shipdownload-btn {
+
+  padding: 10px 15px;
+  background: #007bff00;
+  border: 1px solid #000000;
+  color: rgb(0, 0, 0);
+  border-radius: 4px;
+  cursor: pointer;
+
+}
+
+.shipdownload-btn i {
+  font-size: 16px;
+}
+
+.shipdownload-btn:hover {
+  background: #007bff;
+  color: white;
 }

@@ -180,8 +180,11 @@ export default function page() {
                   <td>{seller.phone}</td>
                   <td>{seller.gstNumber}</td>
                   <td>{seller.businessName}</td>
-                  <td className={seller.status === 'APPROVED' ? 'Active' : 'Inactive'}>
+                  {/* <td className={seller.status === 'APPROVED' ? 'Active' : 'Inactive'}>
                   Active <span style={{ color: '#7A7D7E' }}>{seller.subscriptionPlan}</span>
+                  </td> */}
+                  <td>
+                 {seller.subscriptionPlan}
                   </td>
                   <td>
                     <Link href={`/admin/manufacturerssuppliers/manufacturerssuppliersdetails/?id=${seller._id}`}>

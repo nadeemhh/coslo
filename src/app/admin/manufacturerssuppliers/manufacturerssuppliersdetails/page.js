@@ -207,15 +207,36 @@ export default function Page() {
       </div>
       </div>
     <div className="card-details">
-    <p className="user-email">Name : {data.name}</p>
-      <p className="user-email">Email : {data.email}</p>
-      <p className="user-phone">Phone : {data.phone}</p>
-      <p className="user-company">Company : {data.businessName}</p>
-      <p className="user-company">Role : {data.role}</p>
-      <p className="user-company">Subscription Type : {data.subscriptionPlan}</p>
-      <p className="user-company">Subscription Status : Active</p>
-      <p className="user-company">GST Certificate File : <a href={data.gstCertificateFile} style={{color:'blue'}} target='_blank'>check file</a></p>
+    <p className="user-email">Name : {data.name || ''}</p>
+      <p className="user-email">Email : {data.email || ''}</p>
+      <p className="user-phone">Phone : {data.phone || ''}</p>
+      <p className="user-company">Company : {data.businessName || ''}</p>
+      <p className="user-company">Business Type : {data.businessType || ''}</p>
+      <p className="user-company">Delivery Type : {data.deliveryType || ''}</p>
+      <p className="user-company">Subscription Type : {data.subscriptionPlan || ''}</p>
+      <p className="user-company">account Holder Name : {data.bankDetails?.accountHolderName || ''}</p>
+      <p className="user-company">account Number : {data.bankDetails?.accountNumber || ''}</p>
+      <p className="user-company">bank Name : {data.bankDetails?.bankName || ''}</p>
+      <p className="user-company">ifsc Code : {data.bankDetails?.ifscCode || ''}</p>
+
+
+{/* address */}
+
+<p className="user-company">address: {data.address
+.addressLine || ''}</p>
+   <p className="user-company">city : {data.address
+.city || ''}</p>
+   <p className="user-company">pincode : {data.address
+.pincode || ''}</p>
+   <p className="user-company">state : {data.address
+.state || ''}</p>
+      
+      {/* <p className="user-company">Subscription Status : Active</p> */}
+      <p className="user-company">pan Number : {data.panNumber || ''}</p>
+      <p className="user-company">GST Number : {data.gstNumber || ''}</p>
+      <p className="user-company">GST Certificate File : <a href={data.gstCertificateFile || ''} style={{color:'blue'}} target='_blank'>check file</a></p>
     </div>
+
   </div>
   
 

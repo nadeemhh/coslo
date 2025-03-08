@@ -9,7 +9,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 export default function page() {
 
   const [data,setdata] = useState(null);
-
+  const [orderscalc,setorderscalc] = useState(null);
+  const [sellertype,setsellertype] = useState(null);
 
   const handledata = () => {
      
@@ -38,9 +39,8 @@ export default function page() {
       .then((data) => {
             console.log(data.data)
             setdata(data.data)
-           document.querySelector('.loaderoverlay').style.display='none';
-        // Successfully logged in
-       // window.location.href = '/Employee/Onboarding';
+          
+           orderscalcdata()
        
       })
       .catch((err) => {
@@ -51,9 +51,49 @@ export default function page() {
 
 
   useEffect(() => {
+   
     handledata();
   },[]);
 
+
+
+  const orderscalcdata = () => {
+
+   const token = localStorage.getItem('token');
+
+let sellertype =JSON.parse(localStorage.getItem('sellerdata')).role;
+
+setsellertype(sellertype)
+
+   let url = sellertype !== 'COSLO_SELLER' ?`${process.env.NEXT_PUBLIC_BASE_URL}/seller/coslo/seller` : `${process.env.NEXT_PUBLIC_BASE_URL}/seller/coslo/coslo-seller`;
+
+   console.log(url,sellertype !== 'COSLO_SELLER',sellertype , 'COSLO_SELLER')
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+            console.log(data)
+            setorderscalc(data)
+            document.querySelector('.loaderoverlay').style.display='none';
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display='none';
+        console.log(err)
+      });
+  };
 
 
 
@@ -75,12 +115,13 @@ export default function page() {
    <div className="cards-container" style={{marginTop:'50px'}}>
      
 
-      <div className="card">
+   { 
+ orderscalc !== null && ( sellertype !== 'COSLO_SELLER' ? <> <div className="card">
         <div className="card-header">
          <span>Handled by Coslo</span>  
         </div>
         <div className="card-content">
-          <strong className="big-value">128</strong>
+          <strong className="big-value">{orderscalc.ordersRedirected}</strong>
           {/* <div className="badgee green">20%</div> */}
         </div>
       </div>
@@ -90,11 +131,34 @@ export default function page() {
          <span>Money Owed to Coslo</span>  
         </div>
         <div className="card-content">
-          <strong className="big-value">₹ 25,565</strong>
+          <strong className="big-value">₹ {orderscalc.moneyOwed}</strong>
+          {/* <div className="badgee green">20%</div> */}
+        </div>
+      </div>
+      </> 
+:
+<>
+      <div className="card">
+        <div className="card-header">
+         <span>Orders Handled</span>  
+        </div>
+        <div className="card-content">
+          <strong className="big-value">{orderscalc.ordersHandled}</strong>
           {/* <div className="badgee green">20%</div> */}
         </div>
       </div>
 
+      <div className="card">
+        <div className="card-header">
+         <span>Commission Earned</span>  
+        </div>
+        <div className="card-content">
+          <strong className="big-value">₹ {orderscalc.commissionEarned}</strong>
+          {/* <div className="badgee green">20%</div> */}
+        </div>
+      </div>
+      </>)
+}
      
     </div>
 

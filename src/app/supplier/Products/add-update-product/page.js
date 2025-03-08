@@ -956,21 +956,11 @@ onClick={addreason}
 
        
       </div>
-    {!productupdate &&  <div className="add-category-location">
+    {!productupdate &&  <div className="add-category-location" style={{height:'650px',overflowY:'auto'}}>
         <div className="add-category">
           <h2>Add/Create Category</h2>
          
-        
-
-          <div className="category-actions">
-           
-          <NestedDropdown342 categories={categories} changeurl={setchangeurl} />
-
-       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} />}
-
-          </div>
-
-          <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginTop:'30px'}}>
+          <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginBottom:'30px'}}>
         
         <button className="create-new" onClick={()=>toggleAddCategory(false)}>
          Create Category
@@ -982,6 +972,16 @@ onClick={addreason}
        </button>}
           </div>
 
+
+          <div className="category-actions">
+           
+          <NestedDropdown342 categories={categories} changeurl={setchangeurl} />
+
+       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} />}
+
+          </div>
+
+        
 
         </div>
 

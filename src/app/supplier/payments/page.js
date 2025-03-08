@@ -2,7 +2,6 @@
 import './page.css'
 import Link from 'next/link'
 import { useState,useEffect } from "react";
-import DateRangePicker from '../../component/DateRangePicker.js';
 import extractDate from '../../component/extdate.js';
 
 export default function page() {
@@ -12,15 +11,13 @@ export default function page() {
   const [searchquery, setsearchquery] = useState([]);
  
    const handledata = () => {
+      
    
      document.querySelector('.loaderoverlay').style.display='flex';
  
     const token = localStorage.getItem('token');
-
-    let filter = `${searchquery.length ? `&${searchquery[0]}${searchquery[1]}` : ''}`;
-
  
-     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/?page=${page}&limit=25${filter}`, {
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller-payment/history?page=${page}&limit=25`, {
        method: 'GET',
        headers: {
          'Content-Type': 'application/json',
@@ -38,29 +35,28 @@ export default function page() {
        })
        .then((data) => {
         console.log(data)
-        if (data.quotations.length === 0) {
+        if (data.data.payments.length === 0) {
           setHasMore(false);
 
           if(page!==1){ setPage((prevPage) => prevPage - 1);}
-          setdata(data.quotations);
+          setdata(data.data.payments);
 
           console.log( hasMore,page)
         } else {
           console.log(data)
-          setdata(data.quotations);
+          setdata(data.data.payments);
         }
 
-        
             document.querySelector('.loaderoverlay').style.display='none';
         
        })
        .catch((err) => {
          document.querySelector('.loaderoverlay').style.display='none';
-         alert(err.message)
          console.log(err)
        });
    };
  
+
    useEffect(() => {
     handledata();
   }, [page,searchquery]);
@@ -88,79 +84,73 @@ export default function page() {
  };
 
 
-  
+ 
 
   return (
     <div className="orders-container">
          <div className="header">
        
-        <h3>Quotations</h3>
+        <h3>Payments Made From Coslo</h3>
      
       </div>
       
-      <div style={{display:'flex',justifyContent:'space-between',margin:'20px'}}>
+      {/* <div style={{display:'flex',justifyContent:'space-between',margin:'20px'}}>
       <div style={{textAlign:'left'}}>
         <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
           
-      <select name="" id="" style={{border:'none'}}  onChange={(e)=>{
-    
-          handleFilterChange(e)
-          }}>
+      <select name="" id="" style={{border:'none'}}>
         <option value="">Filter by Status</option>
-        <option value="completed" name="status">completed</option>
-        <option value="pending" name="status">pending</option>
+        <option value="">Completed</option>
+        <option value="">Pending</option>
       </select>
       </button>
-
-      {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
-      
       </div>
       
-      <DateRangePicker setsearchquery={setsearchquery}/>
-
-      </div>
+      <DateRangePicker/>
+      </div> */}
       
       <div className="table-wrapper">
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th>##</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Email</th>
-              <th>Product</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((order, index) => (
-              
-              <tr key={index}>
-                  <td>#{index + 1}</td>
-                <td>{order.buyer}</td>
-                <td>{extractDate(order.date)}</td>
-                <td>
-                    {order.email}
-                </td>
-                <td>
-                    {order.product}
-                </td>
-                <td className={order.status}>{order.status}</td>
-                <td>
-                  <Link href={`/supplier/Quotations/Quotations-details?id=${order.id}`}>
-                  <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
+         <table className="orders-table">
+                <thead>
+                  <tr>
+                    <th>##</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Coslo Margin</th>
+                    <th>Order Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((detail, index) => (
+                    
+                    <tr key={index}>
+                        <td>#{index + 1}</td>
+                      <td>{extractDate(detail.updatedAt)}</td>
+                      <td>
+                      ₹ {detail.amount}
+                      </td>
+                      <td>{detail.status}</td>
+                      <td>{detail.paymentMethod}</td>
+                      <td>{detail.cosloMargin}</td>
+                      <td>
+                <Link href={`/supplier/orders/order-details?oid=${detail.orderDetails.subOrderId}`}>
+                <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
                 </Link>
+                
                 </td>
-              </tr>
-            ))}
-          </tbody>
+                     
+                    </tr>
+                  ))}
+                </tbody>
         </table>
       </div>
 
+      
       <div className="pagination">
        <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
         <i className="fas fa-arrow-left"></i> Previous
@@ -176,4 +166,5 @@ export default function page() {
     </div>
   );
 }
+
 

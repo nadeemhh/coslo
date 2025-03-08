@@ -2,7 +2,7 @@
 import "../../CreateAccount.css";
 import "./page.css";
 import Link from 'next/link';
-import  { useState } from "react";
+import  { useState,useEffect } from "react";
 
 
 
@@ -46,7 +46,11 @@ function ImageUploader({ title, images, setImages, id }) {
 
 function Page() {
   const [confirmationOpen, setconfirmationOpen] = useState(false);
+  const [waitconfirmationOpen, setwaitconfirmationOpen] = useState(false);
+  const [stopapicall, setstopapicall] = useState(true);
+  const [referenceId, setreferenceId] = useState(false);
       const [gstImages, setGstImages] = useState([]);
+      const [gstverified, setgstverified] = useState(false);
       const [complianceImages, setComplianceImages] = useState([]);
       const [error, setError] = useState('');
       const [user, setUser] = useState({
@@ -77,6 +81,14 @@ BankName:"",
     
       setconfirmationOpen(!confirmationOpen);
     };
+
+    const waittoggleconfirmation = () => {
+    
+      setwaitconfirmationOpen(!waitconfirmationOpen);
+    };
+
+
+   
 
       const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -120,6 +132,11 @@ BankName:"",
           formData.append("gstCertificateFile", gstImages[0]); 
         } else if (gstImages.length > 0 && gstImages[0].file instanceof File) {
           formData.append("gstCertificateFile", gstImages[0].file); // ✅ Extract actual File
+        }else{
+          alert('Upload GST Certificate File')
+          toggleconfirmation();
+          document.querySelector('.loaderoverlay').style.display='none';
+          return;
         }
         
         if (complianceImages.length > 0 && complianceImages[0] instanceof File) {
@@ -166,7 +183,176 @@ BankName:"",
     
       };
       
+
+      function verifygst() {
+        console.log('verifygst',user.gstNo)
+
+        if(user.gstNo===''){
+alert('enter gst number')
+          return;
+        }
+
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/gstin/${user.gstNo}`)
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return response.json().then((errorData) => {
+        throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+      });
+    }
+  })
+  .then((data) => {
+   
+     console.log(data)
+
+  if(data?.error){
+    alert(data.error)
+  }else{
+    alert('GST Verified Successfully') 
+ 
+    let address = data.data.address;
+    setUser({ ...user, location: address.addressLine, city: address.city, pincode: address.pincode, state: address.state,company:data.data.businessName});
+    setstopapicall(false)
+    setgstverified(true)
+  }
+
+ 
+  
+  })
+  .catch((err) => {
+    document.querySelector('.loaderoverlay').style.display='none';
+    console.log(err)
+    alert(err.message || err.error || 'Failed to submit the form.')
+  });
+
+      }
+
+
     
+function verifypan() {
+  console.log('verifypan',user.panNumber)
+
+  if(user.panNumber===''){
+    alert('enter pan number')
+              return;
+            }
+            
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/pan/${user.panNumber}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+        });
+      }
+    })
+    .then((data) => {
+     
+       console.log(data)
+    
+    })
+    .catch((err) => {
+      document.querySelector('.loaderoverlay').style.display='none';
+      console.log(err)
+      alert(err.message || err.error || 'Failed to submit the form.')
+    });
+
+}
+
+
+if(gstverified && stopapicall === false){
+
+  setstopapicall(true)
+  // Initiate Bank Verification
+
+  console.log('Initiate Bank Verification')
+
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank/41317731028/SBIN0005222`)
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      return response.json().then((errorData) => {
+        throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+      });
+    }
+  })
+  .then((data) => {
+   
+     console.log(data)
+
+     if(data.success && data.status === "IN_PROCESS"){
+
+      console.log(data.success , data.status)
+
+      setwaitconfirmationOpen(true)
+      setreferenceId(data.referenceId)
+      checkbankstatus(data.referenceId)
+     }else{
+      alert(data.error)
+     }
+   
+  })
+  .catch((err) => {
+    document.querySelector('.loaderoverlay').style.display='none';
+    console.log(err)
+    alert(err.message || err.error || 'Failed to submit the form.')
+  });
+
+
+}
+
+
+function checkbankstatus(refId) {
+
+  console.log(refId)
+
+  setTimeout(() => {
+        
+    console.log('check bank status')
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank-status/${refId}`)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+        });
+      }
+    })
+    .then((data) => {
+     
+       console.log(data)
+
+       if(data.success && data.status === "COMPLETED"){
+
+if(data.accountHolderName === user.company){
+console.log(data.accountHolderName, user.company)
+
+alert('You have been verified successfully.')
+    setwaitconfirmationOpen(false)
+
+
+}else{
+alert('Names did not match.')
+
+}
+
+       }
+    
+    })
+    .catch((err) => {
+      document.querySelector('.loaderoverlay').style.display='none';
+      console.log(err)
+      alert(err.message || err.error || 'Failed to submit the form.')
+    });
+
+  }, 35000);
+}
+
     return (
         <div className='main' >
             <div className="left-container">
@@ -180,14 +366,45 @@ BankName:"",
             <div className='right-container'>
                 <form className="form" onSubmit={(e) => {
   e.preventDefault();
-  toggleconfirmation();
+
+  if(gstverified){
+    toggleconfirmation();
+  }else{
+    alert('Verify your GST and Pan number first, then click on this button.')
+  }
+
 }}>
                     <h1 className="">We will get back to you soon!</h1>
-                    <p> I want add Sell directly to Buyers With ZERO Commission</p>
+                    <p> I want to Sell directly to Buyers With ZERO Commission</p>
 
                   
 
                     {error && <p style={{color:'red'}}>{error}</p>}
+
+                    <div className="form-tab">
+            <label htmlFor="gstNo">Enter GST Number</label>
+            <div style={{display:'flex',gap:'10px',alignItems:'center'}}> 
+
+            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
+
+            <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
+              e.preventDefault();
+              verifygst()}}>verify</button>
+
+          </div>
+
+          </div>
+
+                    <div className="form-tab">
+            <label htmlFor="panNumber">Enter Pan Number</label>
+            <div style={{display:'flex',gap:'10px',alignItems:'center'}}> 
+            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
+            <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
+              e.preventDefault();
+              verifypan()}}>verify</button>
+</div>
+          </div>
+         
 
                     <div className="form-tab">
             <label htmlFor="name">Enter Name</label>
@@ -203,48 +420,40 @@ BankName:"",
           </div>
 
           <div className="form-tab">
-            <label htmlFor="password">Enter Password</label>
+            <label htmlFor="password">Create Account Password</label>
             <input type="text" name="password" value={user.password} onChange={handleOnChange} />
           </div>
 
-          <div className="form-tab">
+         {gstverified && <>
+         <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
-            <input type="text" name="company" value={user.company} onChange={handleOnChange} />
+            <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} />
+            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly/>
           </div>
 
           <div className="form-tab">
             <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} />
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly/>
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} />
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly/>
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} />
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly/>
           </div>
+          </> }
          
           
-          <div className="form-tab">
-            <label htmlFor="panNumber">Enter Pan Number</label>
-            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
-          </div>
-
          
-
-          <div className="form-tab">
-            <label htmlFor="gstNo">Enter GST Number</label>
-            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
-          </div>
 
           {/* GST Certificate Uploader */}
           <ImageUploader
-            title="ADD GST Certificate"
+            title="Upload GST Certificate"
             images={gstImages}
             setImages={setGstImages}
             id="gstUploader"
@@ -257,7 +466,7 @@ BankName:"",
 
           {/* Compliance Certificate Uploader */}
           <ImageUploader
-            title="Add Compliance Certificate"
+            title="Upload Quality Certificate"
             images={complianceImages}
             setImages={setComplianceImages}
             id="complianceUploader"
@@ -339,6 +548,10 @@ BankName:"",
                 {confirmationOpen && (
                 <TermsCard toggleconfirmation={toggleconfirmation} handleSubmit={handleSubmit}/>
               )}
+
+{waitconfirmationOpen && (
+                <Waitwindow checkbankstatus={checkbankstatus} referenceId={referenceId}/>
+              )}
             </div>
         </div>
     );
@@ -395,3 +608,44 @@ const TermsCard = ({toggleconfirmation,handleSubmit}) => {
 
 
   
+  const Waitwindow = ({checkbankstatus,referenceId}) => {
+
+    const [timeLeft, setTimeLeft] = useState(40);
+
+    useEffect(() => {
+      if (timeLeft <= 0) return;
+      
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+  
+      return () => clearInterval(timer);
+    }, [timeLeft]);
+
+    return (
+     
+        <div className="modal-overlay">
+ 
+        <div className="terms-card065">
+        
+          <div className="terms-content065">
+         
+<h3>Please wait... Within 40 seconds, ₹1 will be credited to your account.</h3>
+{timeLeft > 0 ? 
+    <div className="countdown-container">
+      <p className="countdown-text">Time Left: {timeLeft}s</p>
+    </div>
+  
+    :
+    <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
+            setTimeLeft(40)
+           checkbankstatus(referenceId)
+            }}>Retry</button>
+          }
+        
+          </div>
+        </div>
+        </div>
+     
+    );
+  };

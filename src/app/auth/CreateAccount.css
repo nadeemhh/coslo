@@ -169,6 +169,9 @@
 
 /* modal  start end*/
 
+.choosebuttons{
+  display: flex;gap: 50px;flex-wrap: wrap;
+}
 
 .active8465{background-color: rgb(0, 170, 0) !important;color: rgb(255, 255, 255) !important;
 margin: 20px 0px;}
@@ -191,6 +194,12 @@ margin: 20px 0px;}
       display: flex;
       justify-content: center;
     }
+
+    .choosebuttons{
+      display: flex;flex-direction: column; gap: 20px;align-items: flex-start;
+    }
+
+    .active8465{margin: 0px 0px;}
   }
   
   .menu{display: none;}

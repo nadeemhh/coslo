@@ -13,7 +13,7 @@ export default function Page() {
    const [data,setdata] = useState(false);
    const [paymentstatus, setpaymentstatus] = useState(''); 
    const [shippingstatus, setshippingstatus] = useState(''); 
- 
+   const [invoiceUrl,setinvoiceUrl] = useState(false);
 
    const paymentstatusChange = (e) => {
     setpaymentstatus(e.target.value);
@@ -56,7 +56,12 @@ export default function Page() {
         setdata(mydata.data)
         setpaymentstatus(mydata.data.orderSummary.paymentStatus);
         setshippingstatus(mydata.data.orderSummary.deliveryStatus);
-      
+
+        if(mydata.data.orderSummary.deliveryProvider !== "SELF"){
+          getinvoice(mydata.data.deliveryTracking.shipmentId)
+        }
+  
+
         document.querySelector('.loaderoverlay').style.display = 'none';
        
       })
@@ -132,6 +137,45 @@ export default function Page() {
   };
 
   
+  const getinvoice = (shipmentid) => {
+console.log(shipmentid)
+    
+ 
+
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/label/${shipmentid}`, {
+      method: 'GET',
+       headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+           
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+        setinvoiceUrl(data.labelUrl)
+        
+      
+        document.querySelector('.loaderoverlay').style.display = 'none';
+       
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+      
+       
+      });
+  };
+
 
   return (
     <>
@@ -203,7 +247,20 @@ export default function Page() {
 <label htmlFor="">Shipping Status : </label><label className={data.orderSummary.deliveryStatus==="DELIVERED"?`Completed`:'allstatus'}>● {data.orderSummary.deliveryStatus}</label>
 </div>
 }
+
+       
       </div>
+
+{ 
+data.orderSummary.deliveryProvider === "COSLO" && 
+<div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
+{invoiceUrl && <a href={invoiceUrl} target='_blank' className="shipdownload-btn">
+        Download Invoice
+        </a>      }
+</div>
+}
+      
+
       <div className="product-details">
       
       {data.orderSummary.items.map((order, index) => (
@@ -231,8 +288,8 @@ export default function Page() {
    
       <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
       <div className="price-summary">
-        <p>Sub Total : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.grandTotal-data.amountSummary.cgst-data.amountSummary.sgst-data.amountSummary.shippingCharges+data.amountSummary.totalDiscount}/-</strong> </p>
-        <p>Total Discount : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.totalDiscount}</strong></p>
+        <p>Sub Total : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.grandTotal-data.amountSummary.cgst-data.amountSummary.sgst-data.amountSummary.shippingCharges+data.amountSummary.discount}/-</strong> </p>
+        <p>Total Discount : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.discount}</strong></p>
         <p>Total CGST : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.cgst}</strong></p>
         <p>Total SGST : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.sgst}</strong></p>
         <p>Shipping Charges : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.shippingCharges}/-</strong></p>

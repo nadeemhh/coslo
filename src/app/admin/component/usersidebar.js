@@ -17,6 +17,7 @@ const AdminDashboard = () => {
     const baseMenuItems = [
       { path: '/admin/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
       { path: '/admin/Employees', icon: 'fas fa-users', label: 'Employees' },
+      { path: '/admin/PendingPayments', icon: 'fas fa-hourglass-half', label: 'Pending Payments' },
       { path: '/admin/manufacturerssuppliers', icon: 'fas fa-industry', label: 'Manufacturers/Suppliers' },
       // { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
       // { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
