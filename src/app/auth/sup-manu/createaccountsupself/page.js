@@ -64,7 +64,7 @@ function Page() {
         pincode:"",
         gstNo: "",
         DeliveryType: "",
-        SubscriptionType: "",
+        SubscriptionType: "FREE",
         role: "",
         ComplianceNo: "",
         password:"",
@@ -187,10 +187,12 @@ BankName:"",
       function verifygst() {
         console.log('verifygst',user.gstNo)
 
-        if(user.gstNo===''){
-alert('enter gst number')
+        if(user.gstNo==='' || user.AccountNumber==='' || user.IFSCCode===''){
+alert('enter > gst number, Account Number, IFSC Code, Pan Number')
           return;
         }
+
+        document.querySelector('.loaderoverlay').style.display='flex';
 
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/gstin/${user.gstNo}`)
   .then((response) => {
@@ -208,13 +210,14 @@ alert('enter gst number')
 
   if(data?.error){
     alert(data.error)
+    document.querySelector('.loaderoverlay').style.display='none';
   }else{
-    alert('GST Verified Successfully') 
+    alert('Your GST have been Verified Successfully') 
  
     let address = data.data.address;
     setUser({ ...user, location: address.addressLine, city: address.city, pincode: address.pincode, state: address.state,company:data.data.businessName});
-    setstopapicall(false)
-    setgstverified(true)
+    InitiateBankVerification(data.data.businessName)
+
   }
 
  
@@ -230,46 +233,45 @@ alert('enter gst number')
 
 
     
-function verifypan() {
-  console.log('verifypan',user.panNumber)
+// function verifypan() {
 
-  if(user.panNumber===''){
-    alert('enter pan number')
-              return;
-            }
+//   console.log('verifypan',user.panNumber)
+
+//   if(user.panNumber===''){
+//     alert('enter pan number')
+//               return;
+//             }
             
-  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/pan/${user.panNumber}`)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return response.json().then((errorData) => {
-          throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
-        });
-      }
-    })
-    .then((data) => {
+//   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/pan/${user.panNumber}`)
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       } else {
+//         return response.json().then((errorData) => {
+//           throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+//         });
+//       }
+//     })
+//     .then((data) => {
      
-       console.log(data)
+//        console.log(data)
     
-    })
-    .catch((err) => {
-      document.querySelector('.loaderoverlay').style.display='none';
-      console.log(err)
-      alert(err.message || err.error || 'Failed to submit the form.')
-    });
+//     })
+//     .catch((err) => {
+//       document.querySelector('.loaderoverlay').style.display='none';
+//       console.log(err)
+//       alert(err.message || err.error || 'Failed to submit the form.')
+//     });
 
-}
+// }
 
+function InitiateBankVerification(businessNamefromgst) {
 
-if(gstverified && stopapicall === false){
-
-  setstopapicall(true)
   // Initiate Bank Verification
 
   console.log('Initiate Bank Verification')
 
-  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank/41317731028/SBIN0005222`)
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank/${user.AccountNumber}/${user.IFSCCode}`)
   .then((response) => {
     if (response.ok) {
       return response.json();
@@ -289,9 +291,11 @@ if(gstverified && stopapicall === false){
 
       setwaitconfirmationOpen(true)
       setreferenceId(data.referenceId)
-      checkbankstatus(data.referenceId)
+      checkbankstatus(data.referenceId,businessNamefromgst)
+      document.querySelector('.loaderoverlay').style.display='none';
      }else{
       alert(data.error)
+      document.querySelector('.loaderoverlay').style.display='none';
      }
    
   })
@@ -305,7 +309,7 @@ if(gstverified && stopapicall === false){
 }
 
 
-function checkbankstatus(refId) {
+function checkbankstatus(refId,businessNamefromgst) {
 
   console.log(refId)
 
@@ -329,19 +333,33 @@ function checkbankstatus(refId) {
 
        if(data.success && data.status === "COMPLETED"){
 
-if(data.accountHolderName === user.company){
-console.log(data.accountHolderName, user.company)
+   console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase())
+
+if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase()){
+
+console.log(data.accountHolderName, businessNamefromgst)
+
+setUser({ ...user, AccountHolderName: data.accountHolderName});
 
 alert('You have been verified successfully.')
-    setwaitconfirmationOpen(false)
+setgstverified(true)
+setwaitconfirmationOpen(false)
 
 
 }else{
 alert('Names did not match.')
+setwaitconfirmationOpen(false)
 
 }
 
-       }
+       } else if(data.success === false){
+
+        alert(data.message)
+
+       }else{
+        alert(data.error)
+        
+        }
     
     })
     .catch((err) => {
@@ -383,39 +401,67 @@ alert('Names did not match.')
 
                     <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
-            <div style={{display:'flex',gap:'10px',alignItems:'center'}}> 
-
+            
             <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
-
-            <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
-              e.preventDefault();
-              verifygst()}}>verify</button>
-
-          </div>
 
           </div>
 
                     <div className="form-tab">
             <label htmlFor="panNumber">Enter Pan Number</label>
-            <div style={{display:'flex',gap:'10px',alignItems:'center'}}> 
             <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
-            <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
-              e.preventDefault();
-              verifypan()}}>verify</button>
-</div>
+
           </div>
          
+{/* 
+          <div className="form-tab">
+            <label htmlFor="AccountHolderName">Account Holder Name</label>
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+          </div> */}
+
+          <div className="form-tab">
+            <label htmlFor="AccountNumber">Account Number</label>
+            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="IFSCCode">IFSC Code</label>
+            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
+          </div>
+
+
+         {gstverified === false && <div className="form-tab">
+
+          <div style={{ display:'flex',gap:'10px',alignItems:'center',marginBottom:'20px'}}> 
+
+          <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'#007bff',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
+              e.preventDefault();
+              verifygst()}}>Verify Details</button>
+ </div>
+          </div>
+          }
+
+          {gstverified && <> 
+
+            <div className="form-tab">
+            <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="BankName">Enter Your Bank Name</label>
+            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
+          </div>
 
                     <div className="form-tab">
-            <label htmlFor="name">Enter Name</label>
+            <label htmlFor="name">Enter Your Name</label>
             <input type="text" name="name" value={user.name} onChange={handleOnChange} />
           </div>
           <div className="form-tab">
-            <label htmlFor="email">Enter Email</label>
+            <label htmlFor="email">Enter Email ID</label>
             <input type="email" name="email" value={user.email} onChange={handleOnChange} />
           </div>
           <div className="form-tab">
-            <label htmlFor="phoneNo">Enter Phone No</label>
+            <label htmlFor="phoneNo">Enter Phone Number</label>
             <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} />
           </div>
 
@@ -424,7 +470,7 @@ alert('Names did not match.')
             <input type="text" name="password" value={user.password} onChange={handleOnChange} />
           </div>
 
-         {gstverified && <>
+        
          <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
             <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
@@ -446,10 +492,6 @@ alert('Names did not match.')
             <label htmlFor="location">Enter Pincode</label>
             <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly/>
           </div>
-          </> }
-         
-          
-         
 
           {/* GST Certificate Uploader */}
           <ImageUploader
@@ -473,32 +515,11 @@ alert('Names did not match.')
           />
 
 
-                            <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p>
+                            {/* <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p> */}
 
-                            <div className="form-tab">
-            <label htmlFor="AccountHolderName">Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
-          </div>
+                            
 
-          <div className="form-tab">
-            <label htmlFor="AccountNumber">Account Number</label>
-            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="IFSCCode">IFSC Code</label>
-            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="BankName">Bank Name</label>
-            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
-          </div>
-
-                       
-
-
-<div className="radio-tab">
+{/* <div className="radio-tab">
                             <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='SubscriptionType' value={"MONTHLY"} onChange={handleOnChange} />
@@ -512,7 +533,7 @@ alert('Names did not match.')
                                 <input type='radio' className='btn' name='SubscriptionType' value={"FREE"} onChange={handleOnChange} />
                                 <label>Free Model</label>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="radio-tab">
                             <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Role</p>
@@ -541,7 +562,7 @@ alert('Names did not match.')
                        
         
                         <button className="fo2">Send Account Creation Mail ➜</button>
-                        
+                        </> }
                     {/* <button className="form-tab" type="submit">Submit</button> */}
                 </form>
 
@@ -638,7 +659,7 @@ const TermsCard = ({toggleconfirmation,handleSubmit}) => {
   
     :
     <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
-            setTimeLeft(40)
+      setTimeLeft(40)
            checkbankstatus(referenceId)
             }}>Retry</button>
           }

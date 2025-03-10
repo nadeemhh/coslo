@@ -36,12 +36,13 @@ export default function page() {
         })
         .then((data) => {
               console.log(data)
+              if(data.plan==='FREE'){
+                window.location.href='/#cosloplans';
+              }else{
               setdata(data)
               setcplan(data.plan);
               setshowdata(true)
-              getsubscriptionHistory()
-          // Successfully logged in
-         // window.location.href = '/Employee/Onboarding';
+              getsubscriptionHistory()}
          
         })
         .catch((err) => {

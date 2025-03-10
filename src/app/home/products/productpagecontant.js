@@ -17,6 +17,7 @@ export default function Productpagecontant() {
   const [zoomScale, setZoomScale] = useState(1);
   const [quantity, setQuantity] = useState(0);
   const [ModalOpen, setModalOpen] = useState(false);
+  const [returnmodal, setreturnmodal] = useState(false);
   const [pageUrl, setPageUrl] = useState('');
   const [data,setdata] = useState(null);
   const [isdata,setisdata] = useState(false);
@@ -204,7 +205,7 @@ return;
       }
 
       
- //if(isdata === true && amazonproduct === null){  getamazonprice(data.amazoneProductUrl)}
+ // if(isdata === true && amazonproduct === null){  getamazonprice(data.amazoneProductUrl)}
 
 function addtocart(variationId) {
   
@@ -468,6 +469,13 @@ function formatPhoneNumber(number) {
   
           </div>}
 
+          {data.variations[showslab].isReturnable && <div className='mylocationp' style={{cursor:'pointer'}}onClick={()=>(setreturnmodal(true))}>
+   <span className="location">
+ Check Reasons ?
+          </span> 
+  
+          </div>}
+
           {data.sellerDetails.subscriptionPlan !== 'FREE' && <div className='mylocationp' style={{backgroundColor:'#1389f0',borderRadius:'0 8px 0 8px'}}>
    <span className="location" style={{color:'white',fontWeight:'500'}}>
    <img src="\icons\veri.svg" width={'12px'} alt="" />
@@ -532,7 +540,7 @@ function formatPhoneNumber(number) {
 
 {/* Pricing Section */}
 <div className="pricing">
-          <span className="price-mrp">mrp</span>
+          <span className="price-mrp">Mrp</span>
             <span className="current-price">₹{data.variations[showslab].mrp}</span>
             {/* <span className="original-price">₹ 667.00</span> */}
           </div>
@@ -554,7 +562,7 @@ function formatPhoneNumber(number) {
         <tr className="tableRow565" key={index}>
           <td className="tableCell565">{sdata.min}-{sdata.max} items</td>
           <td className="tableCell565">{sdata.discount}%</td>
-          <td className="tableCell565">₹{getDiscountedPrice(sdata.discount,data.variations[showslab].mrp)} net</td>
+          <td className="tableCell565">₹{getDiscountedPrice(sdata.discount,data.variations[showslab].mrp)} </td>
         </tr>
        
        
@@ -581,18 +589,6 @@ function formatPhoneNumber(number) {
                       ))}
 
                     </div>
-
-
-                    {data.reasonForReturn && data.reasonForReturn.length  > 0 && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-
- {data.reasonForReturn.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff'}}>reasons to request a product return :-</p> : <></>}
-
-    {data.reasonForReturn.map((data, index) => (
-
-<p key={index} style={{fontSize:'17px'}}>{index+1}. {data}</p>
-
-))}
-                    </div>}
 
 
                    {data.productVideo !== "" && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
@@ -794,6 +790,28 @@ function formatPhoneNumber(number) {
         </div>
       )}
   
+  {returnmodal && (
+        <div className="modal-overlay">
+          <div className="mymodal-container">
+          <div style={{display:'flex',justifyContent:'flex-end'}}>
+          <button onClick={()=>(setreturnmodal(false))} className="modal-close-btn">
+            <i className="fa fa-times"></i>
+          </button>
+          </div>
+            {data.variations[showslab].isReturnable && data?.reasonForReturn.length  > 0 && <div className="technical-details" style={{textAlign:'left'}}>
+
+ {data.reasonForReturn.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>reasons to request a product return :-</p> : <></>}
+
+    {data.reasonForReturn.map((data, index) => (
+
+<p key={index} style={{fontSize:'17px'}}>{index+1}. {data}</p>
+
+))}
+                    </div>}
+          </div>
+        </div>
+      )}
+
     </>
     } </>
   );

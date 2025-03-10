@@ -152,7 +152,7 @@ const handleSelectAll = () => {
           <thead>
             <tr>
               <th>##</th>
-              <th>Select <input type="checkbox"  
+              <th>Select All <input type="checkbox"  
                   style={{width:'15px',height:'15px'}}
                   onChange={handleSelectAll} 
                   checked={isAllSelected} 

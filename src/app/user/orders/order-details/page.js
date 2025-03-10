@@ -257,6 +257,15 @@ function cancelorder(suborderid) {
       }
 
 
+      function getFormattedDate() {
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    }
+
+    function isSecondDateGreater(date1, date2) {
+      return new Date(date2) > new Date(date1);
+  }
+
   return (
     <>
     {data && <div className="order-details-container">
@@ -312,12 +321,12 @@ data.orderSummary.items.map((order, index) => (
 <div className="card-status">
 {/* <CounterComponent/>
 <img src="\icons\dustbin.svg" alt="" style={{width:'40px',cursor:'pointer'}}/> */}
-{order.isReturnable && <button className="cancel-btn" onClick={()=>{
+{order.isReturnable &&  (isSecondDateGreater(extendDate(data.orderSummary.orderDate,order.returnDays||0),getFormattedDate()) === false && <button className="cancel-btn" onClick={()=>{
   toggleModal2()
   const suborderid = new URLSearchParams(window.location.search).get("oid");
   setsubOrderId(suborderid)
 setitemVariationId(order.variationId)
-  }}>Return</button>}
+  }}>Return</button>)}
 <button className="cancel-btn" style={{backgroundColor:'#ff000000',border:'1px solid black',color:'black'}}onClick={()=>{
   const suborderid = new URLSearchParams(window.location.search).get("oid");
   cancelorder(suborderid)

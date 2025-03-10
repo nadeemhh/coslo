@@ -26,6 +26,8 @@ export default function Page() {
     ],
   });
 
+  const [activeCategory, setActiveCategory] = useState(null);
+
   const [ModalOpen, setModalOpen] = useState(false);
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [Compareprice, setCompareprice] = useState(false);
@@ -975,9 +977,9 @@ onClick={addreason}
 
           <div className="category-actions">
            
-          <NestedDropdown342 categories={categories} changeurl={setchangeurl} />
+          <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
 
-       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} />}
+       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>}
 
           </div>
 
@@ -1452,7 +1454,14 @@ onClick={addreason}
             className="input-group"
             style={{ width: "130px", marginBottom: "0px" }}
             value={variation.returnDays}
-            onChange={(e) => handleVariationChange("returnDays", e.target.value)}
+            onChange={(e) => {
+              console.log(e.target.value)
+              if(Number(e.target.value)<1){
+                handleVariationChange("returnDays",'1')
+              }else{
+              handleVariationChange("returnDays", e.target.value)
+            }
+            }}
             required
           />
         )}
@@ -1464,9 +1473,9 @@ onClick={addreason}
               const newState = !variation.isReturnable;
               setShowReturnDaysInput(newState);
               handleVariationChange("isReturnable", newState);
-              if (!newState) {
-                handleVariationChange("returnDays", null); // Reset return days if return is disabled
-              }
+              // if (!newState) {
+              //   handleVariationChange("returnDays", null); // Reset return days if return is disabled
+              // }
             }}
           />
           <span className="slider round"></span>
@@ -1556,7 +1565,7 @@ setImages([])
 
 
 
-function Addcategory({ toggleaddcategory, refreshCategories ,subcategory}) {
+function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeCategory, setActiveCategory}) {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
   const [categoryImages, setCategoryImages] = useState([]);
@@ -1612,6 +1621,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory}) {
   
       if (response.ok) {
         alert("Category added successfully!");
+        setActiveCategory(null)
         toggleaddcategory();
         refreshCategories(); // Reload category list
       } else {
@@ -1959,10 +1969,10 @@ const generatePaths = (categories, parentPath = '') => {
 };
 
 
-const NestedDropdown342 = ({changeurl,categories}) => {
+const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCategory}) => {
  
   const [openCategories, setOpenCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(null);
+//  const [activeCategory, setActiveCategory] = useState(null);
 
 
 

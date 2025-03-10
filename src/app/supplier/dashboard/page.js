@@ -11,6 +11,7 @@ export default function page() {
   const [data,setdata] = useState(null);
   const [orderscalc,setorderscalc] = useState(null);
   const [sellertype,setsellertype] = useState(null);
+  // const [delverytype,setdelverytype] = useState(null);
 
   const handledata = () => {
      
@@ -63,7 +64,19 @@ export default function page() {
 
 let sellertype =JSON.parse(localStorage.getItem('sellerdata')).role;
 
+let typeofdelivery=JSON.parse(localStorage.getItem('sellerdata')).deliveryType;
+
 setsellertype(sellertype)
+
+// if(typeofdelivery !== 'SELF'){
+//   setsellertype(sellertype)
+// }else{
+//   setdelverytype(typeofdelivery)
+//   document.querySelector('.loaderoverlay').style.display='none';
+//   return;
+// }
+
+
 
    let url = sellertype !== 'COSLO_SELLER' ?`${process.env.NEXT_PUBLIC_BASE_URL}/seller/coslo/seller` : `${process.env.NEXT_PUBLIC_BASE_URL}/seller/coslo/coslo-seller`;
 

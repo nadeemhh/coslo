@@ -108,7 +108,7 @@ export default function page() {
       </div>
 
       {/* Card 3 */}
-      <div className="card">
+      {/* <div className="card">
         <div className="card-header">
          <span> Pending to Pay</span>  <img src="\icons\i5.svg" alt="" />
         </div>
@@ -116,7 +116,7 @@ export default function page() {
           <strong className="big-value">56</strong>
           <span>People this month</span>
         </div>
-      </div>
+      </div> */}
 
       {/* Card 4 */}
       <div className="card">

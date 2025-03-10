@@ -42,7 +42,7 @@ export default function Page() {
             console.log(data)
             setdata(data)
             setshowdata(true)
-            getsubscriptionHistory()
+            getsubscriptionHistory(data._id)
         // Successfully logged in
        // window.location.href = '/Employee/Onboarding';
        
@@ -54,11 +54,11 @@ export default function Page() {
   };
 
 
-  const getsubscriptionHistory = () => {
+  const getsubscriptionHistory = (id) => {
   
     const token = localStorage.getItem('token');
   
-     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/history/seller/`, {
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/history/admin/${id}`, {
        method: 'GET',
        headers: {
          'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ export default function Page() {
     <div style={{display:'flex',gap:'10px',alignItems:'center',textAlign:'left',marginBottom:'10px'}}>
       <div>
       <img
-        src="\images\user2.png"
+        src="/images/coslouser.png"
         alt="Profile"
         className="profile-image"
       />
