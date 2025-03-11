@@ -19,7 +19,7 @@ const Productbyusertype = () => {
         document.querySelector('.loaderoverlay').style.display = 'flex';
     
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${activeTab==='Individual'?'individual':'wholeseller'}?page=${page}&limit=12`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${activeTab==='Individual'?'individual':'wholeseller'}?page=${page}&limit=10`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -53,17 +53,7 @@ const Productbyusertype = () => {
         }
       };
     
-      const nextPage = () => {
-        setPage((prevPage) => prevPage + 1);
-       
-      };
-    
-      const prevPage = () => {
-        setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-        setHasMore(true);
-      };
-
-
+     
      
 
     
@@ -141,20 +131,7 @@ const Productbyusertype = () => {
 
               <div ref={ref} style={{ height: "10px",  }}></div>
               
-              {/* <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
-
-              <div className="pagination">
-       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 1 ? 0.5 : 1 }}>
-        <i className="fas fa-arrow-left"></i> Previous
-      </span>
-
-      <span className="page-number">Page {page}</span>
-
-    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
-        Next <i className="fas fa-arrow-right"></i>
-      </span>}
-      </div>
-              </div> */}
+            
               </div>
         </div>
     );

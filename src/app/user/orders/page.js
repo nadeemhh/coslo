@@ -5,6 +5,7 @@ import "../../component/component-css/ui.css";
 import Link from 'next/link';
 import {useState,useEffect} from 'react';
 import extractDate from '../../component/extdate.js'
+import { useInView } from "react-intersection-observer";
 import scrollToElement from '../../component/scrollToElement.js'
 
 export default function Page() {
@@ -13,14 +14,15 @@ export default function Page() {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [searchquery, setsearchquery] = useState([]);
-  
+    const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
+
     const getdata = () => {
 
       document.querySelector('.loaderoverlay').style.display = 'flex';
 
       const token = localStorage.getItem('token');
   
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=10${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=4`, {
         method: 'GET',
          headers: {
         'Content-Type': 'application/json',
@@ -42,15 +44,11 @@ export default function Page() {
               if (data.data.orders.length === 0) {
                               setHasMore(false);
                   
-                              if(page!==1){ setPage((prevPage) => prevPage - 1);}
-                              setdata(data.data.orders);
-                              scrollToElement('main-content')
-                  
                               console.log( hasMore,page)
                             } else {
                               console.log(data)
-                              setdata(data.data.orders);
-                              scrollToElement('main-content')
+                              setdata((pre)=>([...pre,...data.data.orders]));
+                              setPage((prevPage) => prevPage + 1);
                             }
 
           console.log(data.data.orders)
@@ -70,15 +68,7 @@ export default function Page() {
 console.log(data)
 
  
-const nextPage = () => {
-  setPage((prevPage) => prevPage + 1);
- 
-};
 
-const prevPage = () => {
-  setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-  setHasMore(true);
-};
 
 const handleFilterChange = (event) => {
   setPage(1)
@@ -88,14 +78,70 @@ const handleFilterChange = (event) => {
   
   // setsearchquery((prev) => [...prev, [selectedName, selectedValue]]);
   setsearchquery([selectedName, selectedValue]);
-
+ 
 };
 
     useEffect(() => {
-      getdata()
-    }, [page,searchquery]);
+
+      if(hasMore && inView && searchquery.length===0){getdata()}
+
+   
+    }, [inView]);
 
     console.log(searchquery)
+
+
+
+
+    const getfilterdata = () => {
+
+      document.querySelector('.loaderoverlay').style.display = 'flex';
+
+      const token = localStorage.getItem('token');
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?${searchquery.length ? `${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
+        method: 'GET',
+         headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+             
+              throw new Error(errorData.error || 'Failed');
+            });
+          }
+        })
+        .then((data) => {
+
+          setdata(data.data.orders);
+
+          console.log(data.data.orders)
+       
+          document.querySelector('.loaderoverlay').style.display = 'none';
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          console.log(err)
+          alert(err);
+         
+        });
+    };
+
+
+
+    useEffect(() => {
+
+    if(searchquery.length > 0){
+      getfilterdata();
+    }
+    
+  }, [searchquery]);
 
   return (
     <div className="ordersp">
@@ -156,20 +202,10 @@ Check Details
 
       </div>
 
-    { isdata && <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
+    <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
 
-<div className="pagination">
-<span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 1 ? 0.5 : 1 }}>
-<i className="fas fa-arrow-left"></i> Previous
-</span>
-
-<span className="page-number">Page {page}</span>
-
-{ hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
-Next <i className="fas fa-arrow-right"></i>
-</span>}
+    <div ref={ref} style={{ height: "10px",  }}></div>
 </div>
-</div>}
 
     </div>
   )

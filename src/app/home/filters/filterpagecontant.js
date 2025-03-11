@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Productcard from '../../component/productshowcard'
 import { useSearchParams } from 'next/navigation';
 import scrollToElement from '../../component/scrollToElement.js'
+import { useInView } from "react-intersection-observer";
 import { useState ,useEffect,Suspense} from 'react';
 
 function Filterpagedata() {
@@ -14,8 +15,8 @@ function Filterpagedata() {
   const [products, setProducts] = useState([]);   // Store fetched products
   const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
 
-    const [isfirstvisit, setisfirstvisit] = useState(true);
 
   console.log(searchQuery)
 
@@ -26,7 +27,7 @@ function Filterpagedata() {
 
     let filter = filtertype === 'Products' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=1&${filter}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -41,17 +42,12 @@ function Filterpagedata() {
 
      if (data.data.length === 0) {
                     setHasMore(false);
-        
-                    if(page!==1){ setPage((prevPage) => prevPage - 1);}
-                    setProducts(data.data);
-                    scrollToElement('main-content')
                  
                     console.log( hasMore,page)
                   } else {
                     console.log(data)
-                    setProducts(data.data);
-                    scrollToElement('main-content')
-                    setisfirstvisit(false)
+                    setProducts((pre)=>([...pre,...data.data]));
+                    setPage((prevPage) => prevPage + 1);
                   }
 
      
@@ -66,23 +62,18 @@ function Filterpagedata() {
   };
 
      
-  const nextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-   
-  };
-
-  const prevPage = () => {
-    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-    setHasMore(true);
-  };
-
-
+ 
 
 
   useEffect(() => {
+    console.log(inView,hasMore)
 
-    fetchProducts();
-  }, [searchQuery,page]);
+    if(hasMore && inView){  fetchProducts();}
+      
+    
+      }, [searchQuery,inView]);
+
+
 
 
   const handleHideSidebar = () => {
@@ -117,19 +108,11 @@ function Filterpagedata() {
 
 </div>
 
-<div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
+{hasMore === false && products.length === 0 && <h2>No Result Found</h2> }
 
-{page === 1 && isfirstvisit === true ? <h2></h2> : <div className="pagination">
-<span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 1 ? 0.5 : 1 }}>
-<i className="fas fa-arrow-left"></i> Previous
-</span>
+<div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'20px'}}>
 
-<span className="page-number">Page {page}</span>
-
-{ hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
-Next <i className="fas fa-arrow-right"></i>
-</span>}
-</div>}
+<div ref={ref} style={{ height: "10px",  }}></div>
 
 </div>
 
