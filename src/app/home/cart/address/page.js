@@ -9,7 +9,7 @@ import {useState,useEffect} from 'react';
 const AddressPage = () => {
   
     const [OrderSummary, setOrderSummary]=useState(null);
-
+    const [isaddress, setisaddress]=useState(false);
 
     useEffect(() => {
       const storedCartData = JSON.parse(sessionStorage.getItem("cartData"));
@@ -51,12 +51,12 @@ const AddressPage = () => {
       <div className="cart-content">
         {/* Cart Items Section */}
         <div className="cart-items">
-        <AddressSection/>
+        <AddressSection isaddress={isaddress} setisaddress={setisaddress}/>
 
         </div>
 
         {/* Order Summary Section */}
-        { OrderSummary && <div className="order-summary">
+        { OrderSummary && isaddress && <div className="order-summary">
           <h3>Order Summary</h3>
           <div className="summary-row">
             <span>Sub Total:</span> <span>₹ {OrderSummary.totalBaseAmount}/-</span>

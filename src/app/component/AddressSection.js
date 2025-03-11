@@ -2,7 +2,7 @@
 
 import { useState,useEffect } from "react";
 
-function AddressSection() {
+function AddressSection({isaddress, setisaddress}) {
   const [ModalOpen, setModalOpen] = useState(false);
   const [showadd,setshowadd]=useState(false);
   const [addresses,setaddresses]=useState([])
@@ -25,6 +25,11 @@ function AddressSection() {
         .then((response) => response.json())
         .then((data) => {
           console.log(data)
+
+          if(data.shippingAddresses.length>0){
+            setisaddress(true)
+          }
+
           setaddresses(data.shippingAddresses)
         })
         .catch((error) => console.error("Error fetching categories:", error));

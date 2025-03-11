@@ -167,7 +167,8 @@ BankName:"",
       }) .then((data) => {
     
       console.log(data)
-    alert(data.message)
+      alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+   // alert(data.message)
     
     window.location.href = '/home';
     
