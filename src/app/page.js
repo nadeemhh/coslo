@@ -20,7 +20,7 @@ export default function Home() {
       <div className="navbar-container">
         
         <div className='bnamehide'>
-      <Link href="#">
+      <Link href="/home">
         <div className="logo">
           <h1>coslomart.com</h1>
         </div>
@@ -31,12 +31,12 @@ export default function Home() {
         </a> */}
 
         
-        <a href="#">
+        <a href="/home/about-us">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true}>About Us</Button>
         </a>
         </div>
 
-        <Link href="#">
+        <Link href="/home">
         <div className="logo logodesk">
           <h1>coslomart.com</h1>
         </div>
@@ -60,14 +60,14 @@ export default function Home() {
         <div className="action-buttons">
        
         
-        <a href="#">
+        <a href="/home/about-us">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>Contact Us</Button>
         </a>
-        <a href="#">
+        <a href="/home/about-us">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
         </a>
 
-          <a href="#">
+          <a href="/home/login">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> log in </Button>
         </a>
 
@@ -104,15 +104,15 @@ export default function Home() {
         </h1>
         <div className="hero-buttons">
 
-        <a href="#" >
+        <a href="/home" >
         <Button rightIcon="icons\right.svg" >Explore</Button>
         </a>
 
-        <a href="#" >
+        <a href="/auth/sup-manu/choose" >
         <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Sell</Button>
         </a>
 
-        <a href="#" >
+        <a href="/home/createaccount" >
         <Button rightIcon="icons\right2.svg" backgroundColor = '#ffffff' textColor="black" >Want to Buy</Button>
         </a>
           {/* <a href="#" className="b1">Explore →</a>

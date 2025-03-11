@@ -117,6 +117,7 @@ const Productbyusertype = () => {
                 <button
                     className={activeTab === "Individual" ? "active" : ""}
                     onClick={() => {
+                      setProducts([])
                       setHasMore(true);
                       setPage(1)
                       setActiveTab("Individual")}}
@@ -127,6 +128,7 @@ const Productbyusertype = () => {
                 <button
                     className={activeTab === "Retailer/Wholesaler" ? "active" : ""}
                     onClick={() => {
+                      setProducts([])
                       setHasMore(true);
                       setPage(1)
                       setActiveTab("Retailer/Wholesaler")}}

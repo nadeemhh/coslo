@@ -92,19 +92,19 @@ function Filterpagedata() {
   return (
     <div>
 <div>
-<div style={{display:'flex',whiteSpace:'nowrap',marginBottom:'40px'}}>
+{/* <div style={{display:'flex',whiteSpace:'nowrap',marginBottom:'40px'}}>
         <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}} onClick={handleHideSidebar}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         Filters
-      </button>
+      </button> */}
 
       {/* <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
       <i className="fas fa-sort" style={{marginRight:'10px'}}></i>
       Sort
     </button> */}
-      </div>
+      {/* </div> */}
 </div>
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',alignItems:'flex-start',marginTop:'50px'}}>
@@ -119,7 +119,7 @@ function Filterpagedata() {
 
 <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
 
-{page === 1 && isfirstvisit === true ? <h2>No Result Found</h2> : <div className="pagination">
+{page === 1 && isfirstvisit === true ? <h2></h2> : <div className="pagination">
 <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 1 ? 0.5 : 1 }}>
 <i className="fas fa-arrow-left"></i> Previous
 </span>
