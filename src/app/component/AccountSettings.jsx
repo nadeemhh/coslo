@@ -1,14 +1,55 @@
 'use client'
 import '../component/component-css/accountsetting.css'
 import { useEffect, useState } from 'react';
-import handleLogout from '../component/handleuserLogout.js'
+
 
 function AccountSettings() {
   const [user, setuser] = useState(null);
 
+console.log(user)
+  function getaccountdetails() {
+
+    
+    const token = localStorage.getItem('token');
+
+        document.querySelector('.loaderoverlay').style.display = 'flex';
+
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+               
+                throw new Error(errorData.error || 'Failed');
+              });
+            }
+          })
+          .then((data) => {
+          console.log(data)
+          setuser(data.data)
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          })
+          .catch((err) => {
+            document.querySelector('.loaderoverlay').style.display = 'none';
+            console.log(err)
+           
+           
+          });
+    
+      
+    }
+
+
   useEffect(() => {
 
-    setuser(JSON.parse(localStorage.getItem('buyer')))
+    getaccountdetails()
 
   }, []);
 
@@ -42,7 +83,7 @@ function AccountSettings() {
         .then((data) => {
               
               document.querySelector('.loaderoverlay').style.display='none';
-              handleLogout();
+            
         })
         .catch((err) => {
         alert(err.message)
@@ -79,7 +120,7 @@ function AccountSettings() {
               </div>
               
             </div>
-            <button className="save-button" onClick={()=>send()}>
+            <button className="save-button" onClick={()=>{send()}}>
               <i className="fas fa-save"></i> Save Changes
             </button>
           </div>}

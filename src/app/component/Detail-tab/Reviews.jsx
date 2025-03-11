@@ -64,7 +64,12 @@ function Reviews({pid}) {
             document.querySelector('.username').value='';
             setRating(0)
             document.querySelector('.loaderoverlay').style.display='none';
-            alert('Log in, then purchase this product to add a review.');
+            if(err.message !== "No token provided"){
+                alert(err.message);
+              }else{
+                alert('Log in, then purchase this product to add a review.');
+              }
+           
           });
       };
 

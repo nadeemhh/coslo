@@ -101,6 +101,7 @@ const deletewishlist = (id) => {
         <img
           src={wishlist.product.variations[0].productImages[0]} // Replace with actual image URL
           alt={wishlist.product.productName}
+          style={{width:'auto',height:'200px'}}
         />
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
