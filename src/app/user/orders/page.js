@@ -20,9 +20,9 @@ export default function Page() {
 
       document.querySelector('.loaderoverlay').style.display = 'flex';
 
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('buyertoken');
   
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=4`, {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=10`, {
         method: 'GET',
          headers: {
         'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const handleFilterChange = (event) => {
 
       document.querySelector('.loaderoverlay').style.display = 'flex';
 
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('buyertoken');
   
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?${searchquery.length ? `${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
         method: 'GET',

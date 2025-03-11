@@ -14,7 +14,7 @@ export default function Page() {
   
   document.querySelector('.loaderoverlay').style.display='flex';
  
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
   
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/platform/`)
       .then((response) => {
@@ -51,7 +51,7 @@ export default function Page() {
   document.querySelector('.loaderoverlay').style.display='flex';
   
   console.log(data)
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
   
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/platform/`, {
       method: 'PUT',

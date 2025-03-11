@@ -1,7 +1,7 @@
 'use client'
 import { useEffect } from 'react';
 
- const useAuthCheck = (url) => {
+ const useAuthCheck = (url,token) => {
 
   useEffect(() => {
 
@@ -15,9 +15,9 @@ import { useEffect } from 'react';
   }
   
      
-  if (!getCookie("token")) {
+  if (!getCookie(token)) {
   // Redirect to the login page
-  localStorage.removeItem('token')
+  localStorage.removeItem(token)
   window.location.href = url;
 }
 

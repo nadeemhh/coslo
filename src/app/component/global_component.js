@@ -210,7 +210,7 @@ function updatequantity(quantity) {
     };
 
 console.log(userData)
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/update`, {
       method: 'POST',

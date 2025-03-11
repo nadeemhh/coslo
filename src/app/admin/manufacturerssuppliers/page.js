@@ -25,7 +25,7 @@ export default function page() {
    
        document.querySelector('.loaderoverlay').style.display='flex';
    
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('admintoken');
    
    
        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/?page=${page}&limit=25`, {
@@ -80,7 +80,7 @@ export default function page() {
 
       
   
-     const token = localStorage.getItem('token');
+     const token = localStorage.getItem('admintoken');
   
   
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/search?searchTerm=${keyword}`, {

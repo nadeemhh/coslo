@@ -28,10 +28,9 @@ const NavBar = () => {
 
       const handleGoBackpanel = () => {
 
-        localStorage.setItem('token',localStorage.getItem('temptoken'))
-
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         localStorage.removeItem('issuperadmin')
-  localStorage.removeItem('temptoken')
+  localStorage.removeItem('token')
   localStorage.removeItem('sellerdata');
 
         window.location.href ='/admin/manufacturerssuppliers/';

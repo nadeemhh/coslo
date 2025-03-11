@@ -8,7 +8,7 @@ import useAuthCheck from '../../useAuthCheck.js';
 const AdminDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
 
-  useAuthCheck('/auth/superadminlogin');
+  useAuthCheck('/auth/superadminlogin','admintoken');
   
   useEffect(() => {
     const admindata = JSON.parse(localStorage.getItem('admindata'))?.role;
@@ -56,9 +56,9 @@ const Usersidebar = ({menuItems}) => {
   }, []);
 
   const handleLogout = () => {
-     // Remove the token 
-     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    localStorage.removeItem('token');
+     
+     document.cookie = "admintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    localStorage.removeItem('admintoken');
     localStorage.removeItem('admindata')
     window.location.href = '/auth/superadminlogin';
   };

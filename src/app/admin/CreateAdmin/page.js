@@ -23,7 +23,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
                   password,
                 };
             console.log(userData)
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('admintoken');
 
                 fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/register`, {
                   method: 'POST',

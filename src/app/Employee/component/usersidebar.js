@@ -7,7 +7,7 @@ import useAuthCheck from '../../useAuthCheck.js';
 
 const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
-  useAuthCheck('/auth/Employeelogin');
+  useAuthCheck('/auth/Employeelogin','employeetoken');
   
   useEffect(() => {
    
@@ -21,8 +21,8 @@ const Usersidebar = () => {
 
   const handleLogout = () => {
     // Remove the token from localStorage
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    localStorage.removeItem('token');
+    document.cookie = "employeetoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    localStorage.removeItem('employeetoken');
     
     // Redirect to the login page
     window.location.href = '/auth/Employeelogin';

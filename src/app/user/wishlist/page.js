@@ -12,7 +12,7 @@ export default function Page() {
   function getproductdetails() {
 
     
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
         document.querySelector('.loaderoverlay').style.display = 'flex';
 
@@ -59,7 +59,7 @@ useEffect(() => {
 const deletewishlist = (id) => {
  
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('buyertoken');
 
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist?productId=${id}`, {
     method: 'DELETE',

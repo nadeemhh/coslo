@@ -51,7 +51,7 @@ export default function Page() {
   
   document.querySelector('.loaderoverlay').style.display='flex';
  
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
   
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`)
       .then((response) => {
@@ -132,7 +132,7 @@ export default function Page() {
     async function postdata(data) {
 console.log(data)
 
- const token = localStorage.getItem('token');
+ const token = localStorage.getItem('admintoken');
   
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`, {
@@ -169,7 +169,7 @@ console.log(data)
 
   async function deletebanner(id) {
 
-     const token = localStorage.getItem('token');
+     const token = localStorage.getItem('admintoken');
      
 
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner?bannerId=${id}`, {

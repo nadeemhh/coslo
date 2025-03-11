@@ -47,9 +47,9 @@ function Page() {
                   }
                   
                   // Set a cookie named "testCookie" that expires in 1 minute
-                  setCookie("token", data.token, 1);
+                  setCookie("buyertoken", data.token, 1);
 
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('buyertoken', data.token);
             localStorage.setItem('buyer', JSON.stringify(data.buyer));
                 // Successfully logged in
                 window.location.href = '/home';

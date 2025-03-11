@@ -47,9 +47,9 @@ function Login() {
                   }
                   
                   
-                  setCookie("token", data.token, 1);
+                  setCookie("employeetoken", data.token, 1);
 
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('employeetoken', data.token);
             
                 // Successfully logged in
                 window.location.href = '/Employee/Sellers';

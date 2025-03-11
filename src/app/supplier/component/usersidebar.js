@@ -11,7 +11,7 @@ const Usersidebar = () => {
   const [iscosload, setiscosload] = useState(false);
   const [issuperadmin,setissuperadmin] = useState(false);
 
-  useAuthCheck('/auth/sup-manu/login');
+  useAuthCheck('/auth/sup-manu/login','token');
 
   useEffect(() => {
 

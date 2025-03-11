@@ -43,7 +43,7 @@ console.log(user)
   
       document.querySelector('.loaderoverlay').style.display='flex';
   
-     const token = localStorage.getItem('token');
+     const token = localStorage.getItem('employeetoken');
   
   
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/pending-requests/${requestid}`, {
@@ -109,7 +109,7 @@ console.log(user)
       
        
     
-       const token = localStorage.getItem('token');
+       const token = localStorage.getItem('employeetoken');
     
        console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`)
     

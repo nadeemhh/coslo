@@ -5,6 +5,7 @@ import '../../../component/component-css/cartcard.css'
 import Link from 'next/link';
 import Goback from '../../../back.js'
 import { useState,useEffect } from "react";
+import extractDate from '../../../component/extdate.js'
 
 export default function Page() {
 
@@ -17,7 +18,7 @@ export default function Page() {
 
     document.querySelector('.loaderoverlay').style.display='flex';
 
-   const token = localStorage.getItem('token');
+   const token = localStorage.getItem('admintoken');
    const params = new URLSearchParams(window.location.search);
    const id = params.get('id');
    console.log(id); // Outputs: 678b2610e07656f4cfb728ff
@@ -56,7 +57,7 @@ export default function Page() {
 
   const getsubscriptionHistory = (id) => {
   
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
   
      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/history/admin/${id}`, {
        method: 'GET',
@@ -117,8 +118,17 @@ export default function Page() {
        })
        .then((data) => {
              console.log('=>',data)
+
+             function setCookie(name, value, days) {
+              let expires = new Date();
+              expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+              document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+          }
+          
+         
+          setCookie("token",token, 1);
+
              localStorage.setItem('sellerdata',JSON.stringify(data));
-             localStorage.setItem('temptoken',localStorage.getItem('token'))
              localStorage.setItem('token',token)
              localStorage.setItem('issuperadmin','true')
              window.location.href ='/supplier/dashboard';
@@ -133,7 +143,7 @@ export default function Page() {
 
   function getsellertoken() {
     
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
   
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/get-seller-token?email=${data.email}`, {
       method: 'GET',
@@ -166,16 +176,6 @@ export default function Page() {
   }
 
 
-  function extractDate(isoString) {
-    if (!isoString) return null;
-    
-    try {
-        return isoString.split("T")[0]; // Extracts the date portion before 'T'
-    } catch (error) {
-        console.error("Invalid ISO string format", error);
-        return null;
-    }
-}
 
 
   

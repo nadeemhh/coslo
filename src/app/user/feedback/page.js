@@ -31,7 +31,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
   };
 
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('buyertoken');
 
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/apprating`, {
     method: 'POST',

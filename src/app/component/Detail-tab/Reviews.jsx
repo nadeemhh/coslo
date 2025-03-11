@@ -29,7 +29,7 @@ function Reviews({pid}) {
         };
       
       
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('buyertoken');
       
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/review`, {
           method: 'POST',

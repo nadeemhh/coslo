@@ -26,7 +26,7 @@ export default function Page() {
         };
     
          // Retrieve the token from localStorage, if it exists
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('admintoken');
 
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/register`, {
           method: 'POST',

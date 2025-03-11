@@ -13,7 +13,7 @@ export default function page() {
 
     document.querySelector('.loaderoverlay').style.display='flex';
 
-   const token = localStorage.getItem('token');
+   const token = localStorage.getItem('employeetoken');
 
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/pending-requests`, {

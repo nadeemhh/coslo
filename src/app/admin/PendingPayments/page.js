@@ -16,7 +16,7 @@ export default function page() {
    
      document.querySelector('.loaderoverlay').style.display='flex';
  
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
 
      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller-payment/admin/pending`, {
        method: 'GET',
@@ -76,7 +76,7 @@ export default function page() {
 
     document.querySelector('.loaderoverlay').style.display='flex';
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admintoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller-payment/admin/process`, {
       method: 'POST',

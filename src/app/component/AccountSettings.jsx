@@ -6,11 +6,10 @@ import { useEffect, useState } from 'react';
 function AccountSettings() {
   const [user, setuser] = useState(null);
 
-console.log(user)
   function getaccountdetails() {
 
     
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
         document.querySelector('.loaderoverlay').style.display = 'flex';
 
@@ -54,14 +53,13 @@ console.log(user)
   }, []);
 
 
-  console.log(user);
   
   const send = () => {
     document.querySelector('.loaderoverlay').style.display='flex';
     console.log({name:user.name,phone:user.phone,email:user.email,});
     
     
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('buyertoken');
     
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/`, {
         method: 'PUT',
@@ -82,7 +80,16 @@ console.log(user)
         })
         .then((data) => {
               
-              document.querySelector('.loaderoverlay').style.display='none';
+         
+
+          let buyer=JSON.parse(localStorage.getItem('buyer'));
+buyer.name=user.name;
+buyer.phone=user.phone;
+buyer.email=user.email;
+
+localStorage.setItem('buyer',JSON.stringify(buyer))
+
+             location.reload()
             
         })
         .catch((err) => {

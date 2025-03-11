@@ -12,7 +12,7 @@ export default function Imageslider() {
   
     document.querySelector('.loaderoverlay').style.display='flex';
    
-      const token = localStorage.getItem('token');
+    
     
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`)
         .then((response) => {

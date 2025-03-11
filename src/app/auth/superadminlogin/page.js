@@ -14,7 +14,7 @@ function Login() {
 
     const handledata = () => {
 
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('admintoken');
 
        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/get-admin`, {
          method: 'GET',
@@ -81,9 +81,9 @@ function Login() {
               }
               
             
-              setCookie("token", data.token, 1);
+              setCookie("admintoken", data.token, 1);
 
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('admintoken', data.token);
         handledata()
             
            

@@ -225,7 +225,7 @@ console.log(variationId,pquantity);
       quantity:pquantity
     };
   
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/add`, {
       method: 'POST',
@@ -266,7 +266,7 @@ function addtowishlist(productId) {
       document.querySelector('.loaderoverlay').style.display = 'flex';
     
     
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('buyertoken');
   
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist?productId=${productId}`, {
         method: 'POST',
@@ -350,7 +350,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
   };
 
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('buyertoken');
 
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/`, {
     method: 'POST',

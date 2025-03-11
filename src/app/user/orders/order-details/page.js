@@ -58,7 +58,7 @@ console.log(productimages)
         document.querySelector('.loaderoverlay').style.display = 'flex';
         const oid = new URLSearchParams(window.location.search).get("oid");
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('buyertoken');
     
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer/${oid}`, {
           method: 'GET',
@@ -98,7 +98,7 @@ console.log(productimages)
 
         const suborderid = new URLSearchParams(window.location.search).get("oid");
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('buyertoken');
     
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/invoice/${suborderid}`, {
           method: 'GET',
@@ -178,7 +178,7 @@ formData.append("itemVariationId", itemVariationId);
           alert('upload product image')
         }
         
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/return/create`, {
       method: "POST",
@@ -216,7 +216,7 @@ formData.append("itemVariationId", itemVariationId);
 
 function cancelorder(suborderid) {
   
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('buyertoken');
 
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/cancel-order/${suborderid}`, {
     method: "POST",

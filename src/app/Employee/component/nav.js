@@ -12,7 +12,7 @@ const NavBar = () => {
       <>
 
 <nav className="navbar" style={{padding:'5px',backgroundColor:'#F4F7FB'}}>
-<h3 style={{margin:'0px',textAlign:'right'}}>Faiz</h3>
+<h3 style={{margin:'0px',textAlign:'right'}}>Employee</h3>
     </nav>
       </>
     );

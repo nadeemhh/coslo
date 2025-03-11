@@ -108,7 +108,7 @@ function Filterpagedata() {
 
 </div>
 
-{hasMore === false && products.length === 0 && <h2>No Result Found</h2> }
+{hasMore === false && products.length === 0 && <h3>No Result Found</h3> }
 
 <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'20px'}}>
 

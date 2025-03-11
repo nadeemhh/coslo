@@ -80,7 +80,7 @@ export default function Allproducts() {
 
 </div>
 
-{hasMore === false && products.length === 0 && <h2>There are no products in this category.</h2> }
+{hasMore === false && products.length === 0 && <h3>There are no products in this category.</h3> }
 
 <div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
 

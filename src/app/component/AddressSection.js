@@ -15,7 +15,7 @@ function AddressSection({isaddress, setisaddress}) {
   
 
    const refreshCategories = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/address/all`,{
         headers: {
@@ -48,7 +48,7 @@ function AddressSection({isaddress, setisaddress}) {
   const submitaddress = async (e) => {
     e.preventDefault();
   
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
     
     // Collect form data
     const formData = {
@@ -93,7 +93,7 @@ function AddressSection({isaddress, setisaddress}) {
   
     if (!selectedAddressData) return;
   
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
   
     // Collect updated form data
     const updatedData = {
@@ -140,7 +140,7 @@ const SelectedAddressfun = async (index,id) => {
   console.log(index,id)
  
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('buyertoken');
 
   try {
     const response = await fetch(

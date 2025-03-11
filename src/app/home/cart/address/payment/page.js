@@ -20,7 +20,7 @@ export default function page() {
   const handleSubmit = () => {
     document.querySelector('.loaderoverlay').style.display='flex';
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create`, {
       method: 'POST',

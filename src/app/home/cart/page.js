@@ -14,7 +14,7 @@ console.log(OrderSummary);
 
 
   const getdata = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart`, {
       method: 'GET',
@@ -82,7 +82,7 @@ console.log(OrderSummary);
   const deleteFunc = () => {
   
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
 
     fetch(`http://localhost:3000/cart/delete-all`, {
       method: 'DELETE',
@@ -117,7 +117,7 @@ console.log(OrderSummary);
     console.log(id)
     if (!id) return;
   
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buyertoken');
   
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/delete/${id}`, {
       method: 'DELETE',

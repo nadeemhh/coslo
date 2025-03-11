@@ -23,7 +23,7 @@ export default function page() {
   
       document.querySelector('.loaderoverlay').style.display='flex';
   
-     const token = localStorage.getItem('token');
+     const token = localStorage.getItem('admintoken');
   
   
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/`, {
@@ -60,7 +60,7 @@ export default function page() {
       console.log(id)
       if (!id) return;
   
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('admintoken');
 
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
         method: 'DELETE',
