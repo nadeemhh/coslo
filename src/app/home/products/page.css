@@ -375,9 +375,9 @@ padding: 5px;
 
   /* Responsive */
   @media (max-width: 768px) {
-    .product-container {
+    /* .product-container {
       flex-direction: column;
-    }
+    } */
     .product-details {
       text-align: center;
       width: 100%;

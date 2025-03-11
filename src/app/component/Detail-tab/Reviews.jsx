@@ -64,7 +64,7 @@ function Reviews({pid}) {
             document.querySelector('.username').value='';
             setRating(0)
             document.querySelector('.loaderoverlay').style.display='none';
-            alert(err.message);
+            alert('Log in, then purchase this product to add a review.');
           });
       };
 

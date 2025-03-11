@@ -190,7 +190,7 @@ return;
             .then((data) => {
             console.log(data.data)
            
-            setamazonproduct(data.data)
+            //setamazonproduct(data.data)
           
           
             })
@@ -644,7 +644,7 @@ function formatPhoneNumber(number) {
 
       </div>
 
-    {data.amazoneProductUrl?.startsWith('http') &&  <div className="compareContainer995">
+    {data.amazoneProductUrl?.startsWith('httpi') &&  <div className="compareContainer995">
       <p className="compareHeading995">Similar Product on other platform</p>
       <p className="compareSubtext995">Price might vary, always verify yourself</p>
       <div className="compareGrid995">
@@ -798,11 +798,11 @@ function formatPhoneNumber(number) {
             <i className="fa fa-times"></i>
           </button>
           </div>
-            {data.variations[showslab].isReturnable && data?.reasonForReturn.length  > 0 && <div className="technical-details" style={{textAlign:'left'}}>
+            {data.variations[showslab].isReturnable && data?.reasonForReturn?.length  > 0 && <div className="technical-details" style={{textAlign:'left'}}>
 
- {data.reasonForReturn.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>reasons to request a product return :-</p> : <></>}
+ {data?.reasonForReturn?.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>reasons to request a product return :-</p> : <></>}
 
-    {data.reasonForReturn.map((data, index) => (
+    {data?.reasonForReturn.map((data, index) => (
 
 <p key={index} style={{fontSize:'17px'}}>{index+1}. {data}</p>
 
