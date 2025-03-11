@@ -97,7 +97,7 @@ function CustomSlider({ children }) {
         setTimeout(() => {
           slideNext();
           setSlideDone(true);
-        }, 10000)
+        }, 5000)
       );
     }
   }, [slideDone]);
