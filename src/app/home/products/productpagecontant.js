@@ -104,12 +104,20 @@ let price=data.variations[showslab].mrp;
     thumbnails.forEach((img) => img.removeAttribute('id'));
 
     const clickedImage = event.target;
-    clickedImage.id = 'active';
 
-    const mainImage = document.querySelector('.main-image');
-    if (mainImage) {
-      mainImage.src = clickedImage.src;
-    }
+
+if(!clickedImage.classList.contains("thumbnail-container")){
+
+  clickedImage.id = 'active';
+
+  const mainImage = document.querySelector('.main-image');
+  if (mainImage) {
+    mainImage.src = clickedImage.src;
+  }
+  
+}
+   
+
   };
 
   const handleZoomClick = () => {

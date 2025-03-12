@@ -33,15 +33,12 @@ const Sidebar = () => {
       }
     };
 
-    // Initial logic execution
-    handleSidebarVisibility();
+   
+   // handleSidebarVisibility();
 
-    // Add event listener to handle window resize
-   // window.addEventListener('resize', handleSidebarVisibility);
-
-    // Cleanup event listener on unmount
+  
     return () => {
-     // window.removeEventListener('resize', handleSidebarVisibility);
+     
     };
   }, [pathname]);  // Add `pathname` as a dependency so it re-runs when the path changes
 
@@ -98,13 +95,13 @@ const Sidebar = () => {
 };
 
 
-useEffect(() => {
-  data.forEach((category) => {
-    if (!childCategories[category.id]) {
-      fetchChildCategories(category.id);
-    }
-  });
-}, [data]);
+// useEffect(() => {
+//   data.forEach((category) => {
+//     if (!childCategories[category.id]) {
+//       fetchChildCategories(category.id);
+//     }
+//   });
+// }, [data]);
 
   return (
     show ?

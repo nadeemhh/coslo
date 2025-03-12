@@ -52,6 +52,7 @@ function Page() {
       const [gstImages, setGstImages] = useState([]);
       const [gstverified, setgstverified] = useState(false);
       const [complianceImages, setComplianceImages] = useState([]);
+      const [policydata,setpolicydata] = useState(null);
       const [error, setError] = useState('');
       const [user, setUser] = useState({
         name: "",
@@ -77,6 +78,48 @@ BankName:"",
     console.log(user)
      
     
+
+
+    
+    const handlepolicydata = () => {
+         
+      
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+   
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/platform`, {
+        method: 'GET',
+       
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+
+              console.log(data)
+              setpolicydata(data)
+             document.querySelector('.loaderoverlay').style.display='none';
+
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+  
+    useEffect(() => {
+      handlepolicydata();
+    },[]);
+
+
+
     const toggleconfirmation = () => {
     
       setconfirmationOpen(!confirmationOpen);
@@ -96,6 +139,8 @@ BankName:"",
       };
     
       const handleSubmit = async () => {
+
+        
     
         document.querySelector('.loaderoverlay').style.display='flex';
 
@@ -189,7 +234,7 @@ BankName:"",
         console.log('verifygst',user.gstNo)
 
         if(user.gstNo==='' || user.AccountNumber==='' || user.IFSCCode===''){
-alert('enter > gst number, Account Number, IFSC Code, Pan Number')
+alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Number.')
           return;
         }
 
@@ -342,7 +387,7 @@ console.log(data.accountHolderName, businessNamefromgst)
 
 setUser({ ...user, AccountHolderName: data.accountHolderName});
 
-alert('You have been verified successfully.')
+alert('You have been verified successfully. Please fill in the other details below to create your account.')
 setgstverified(true)
 setwaitconfirmationOpen(false)
 
@@ -387,6 +432,16 @@ setwaitconfirmationOpen(false)
   e.preventDefault();
 
   if(gstverified){
+    if(!user.role){
+      alert('Select a role: whether you are a supplier or a manufacturer.')
+      return;
+     }
+
+     if(!user.DeliveryType){
+       alert('Select a delivery type: whether you will deliver your product to buyers or you want Coslo to deliver it to them.')
+         return;
+      }
+      
     toggleconfirmation();
   }else{
     alert('Verify your GST and Pan number first, then click on this button.')
@@ -537,7 +592,10 @@ setwaitconfirmationOpen(false)
                         </div> */}
 
                         <div className="radio-tab">
-                            <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Role</p>
+                          <p style={{marginTop:'50px'}}>
+                            <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>whether you are a supplier or a manufacturer.</span>
+                            </p>
+
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
                                 <label>Supplier</label>
@@ -549,7 +607,11 @@ setwaitconfirmationOpen(false)
                         </div>
 
                         <div className="radio-tab">
-                            <p htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Delivery Type</p>
+                             
+                             <p>
+                            <span htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Delivery Type:</span> <span> whether you will deliver your product to buyers or you want Coslo to deliver it to them.</span>
+                            </p>
+
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='DeliveryType' value={"COSLO"} onChange={handleOnChange} />
                                 <label>Coslo Provided Delivery</label>
@@ -562,13 +624,13 @@ setwaitconfirmationOpen(false)
 
                        
         
-                        <button className="fo2">Send Account Creation Mail ➜</button>
+                        <button className="fo2">Send Account Creation Email ➜</button>
                         </> }
                     {/* <button className="form-tab" type="submit">Submit</button> */}
                 </form>
 
                 {confirmationOpen && (
-                <TermsCard toggleconfirmation={toggleconfirmation} handleSubmit={handleSubmit}/>
+                <TermsCard toggleconfirmation={toggleconfirmation} handleSubmit={handleSubmit} policydata={policydata}/>
               )}
 
 {waitconfirmationOpen && (
@@ -584,7 +646,7 @@ export default Page;
 
 
 
-const TermsCard = ({toggleconfirmation,handleSubmit}) => {
+const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
     return (
      
         <div className="modal-overlay">
@@ -598,25 +660,22 @@ const TermsCard = ({toggleconfirmation,handleSubmit}) => {
             <p>
               Welcome to Coslo! By using our website, you agree to the following terms and conditions. Please read them carefully.
             </p>
-            <h3>1. Acceptance of Terms</h3>
+            <h3>1. Terms Of Service</h3>
             <p>
-              By accessing or using coslo.com you acknowledge that you have read, understood, and agree to be bound by these Terms & Conditions.
+            {policydata.termsOfService}
             </p>
-            <h3>2. Use of the Website</h3>
+
+            
+            <h3>2. Privacy Policy</h3>
             <p>
-              You must be at least 18 years old to use our services. You agree to use the website only for lawful purposes and in compliance with all applicable laws. Unauthorized use of the website may result in termination of your access.
+            {policydata.privacyPolicy}
             </p>
-            <h3>3. Intellectual Property</h3>
+
+            <h3>3. Return Policy</h3>
             <p>
-              All content, logos, designs, and graphics on [Website Name] are the property of [Company Name]. Unauthorized use or reproduction is strictly prohibited.
+            {policydata.returnPolicy}
             </p>
-            <h3>4. Privacy Policy</h3>
-            <p>Your use of the website is also governed by our Privacy Policy.</p>
-            <h3>5. Limitation of Liability</h3>
-            <p>
-              Coslo is not responsible for any direct, indirect, or consequential damages arising from your use of the website.
-            </p>
-            <h3>6. Changes to Terms</h3>
+
           </div>
           <div className="terms-footer065">
             <button className="accept-btn065" onClick={handleSubmit}>Accept</button>
