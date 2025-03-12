@@ -345,7 +345,7 @@ setitemVariationId(order.variationId)
 
 {ModalOpen2 && (
         <div className="modal-overlay" style={{zIndex:'2'}}>
-          <div className="mymodal-container" style={{height: '90vh',overflowY: 'auto'}}>
+          <div className="mymodal-container" style={{height: '80vh',overflowY: 'auto'}}>
           <div style={{display:'flex',justifyContent:'flex-end'}}>
           <button onClick={toggleModal2} className="modal-close-btn">
             <i className="fa fa-times"></i>

@@ -315,7 +315,7 @@ useEffect(() => {
 }
 
 // Check if "token" exists
-if (getCookie("token")) {
+if (getCookie("buyertoken")) {
    setisuser(true)
 }
 
