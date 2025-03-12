@@ -2,14 +2,13 @@
 import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
+import BuyerAuthCheck from './buyerauthcheck.js';
 
  
 const MobileFooter = () => {
   const [user, setuser] = useState(null);
 
- useEffect(() => {
-  setuser(JSON.parse(localStorage.getItem('buyer')))
-}, []);
+  BuyerAuthCheck(setuser)
 
   
   return(

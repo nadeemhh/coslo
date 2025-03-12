@@ -4,12 +4,17 @@ import Button from '../component/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState ,useEffect} from 'react';
+import BuyerAuthCheck from '../component/buyerauthcheck.js';
 
 const NavBar = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
 
+
+  BuyerAuthCheck(setuser)
+
+  
   const handleGoBack = () => {
     router.back(); // Navigate to the previous URL
   };
@@ -35,13 +40,7 @@ console.log(selectedName)
     }
   };
 
-
-  
-    useEffect(() => {
-      console.log(JSON.parse(localStorage.getItem('buyer')))
-      setuser(JSON.parse(localStorage.getItem('buyer')))
-    }, []);
-
+     
     return (
       <>
         {/* <span>nav bar</span>
