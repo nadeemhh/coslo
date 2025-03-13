@@ -119,9 +119,11 @@ export default function page() {
                 </td>
                 <td>{order.businessName}</td>
                 <td>
-                <Link href={order.status !== 'SELF-PENDING' ? `/Employee/Onboarding/${order._id}` : `/Employee/verifyseller/${order._id}`}>
+
+               {order.status !== 'APPROVED' && <Link href={`/Employee/Onboarding/${order._id}`}>
                   <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
-             </Link>
+             </Link>}
+             
                 </td>
                
               </tr>

@@ -634,7 +634,7 @@ setwaitconfirmationOpen(false)
               )}
 
 {waitconfirmationOpen && (
-                <Waitwindow checkbankstatus={checkbankstatus} referenceId={referenceId}/>
+                <Waitwindow checkbankstatus={checkbankstatus} referenceId={referenceId} companyname={user.company}/>
               )}
             </div>
         </div>
@@ -689,7 +689,7 @@ const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
 
 
   
-  const Waitwindow = ({checkbankstatus,referenceId}) => {
+  const Waitwindow = ({checkbankstatus,referenceId,companyname}) => {
 
     const [timeLeft, setTimeLeft] = useState(40);
 
@@ -720,7 +720,7 @@ const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
     :
     <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
       setTimeLeft(40)
-           checkbankstatus(referenceId)
+           checkbankstatus(referenceId,companyname)
             }}>Retry</button>
           }
         

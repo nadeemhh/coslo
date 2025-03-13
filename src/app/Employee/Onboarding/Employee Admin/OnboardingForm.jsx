@@ -47,6 +47,9 @@ export default function OnboardingForm() {
   const params = useParams();
   const requestid = params.requestId;
   console.log(requestid)
+  const [waitconfirmationOpen, setwaitconfirmationOpen] = useState(false);
+  const [referenceId, setreferenceId] = useState(false);
+  const [gstverified, setgstverified] = useState(false);
   const [gstImages, setGstImages] = useState([]);
   const [complianceImages, setComplianceImages] = useState([]);
   const [user, setUser] = useState({
@@ -60,7 +63,7 @@ export default function OnboardingForm() {
     pincode:"",
     gstNo: "",
     DeliveryType: "",
-    SubscriptionType: "",
+    SubscriptionType: "FREE",
     role: "",
     ComplianceNo: "",
     password:"",
@@ -72,6 +75,12 @@ export default function OnboardingForm() {
   });
 console.log(user)
  
+
+const waittoggleconfirmation = () => {
+    
+  setwaitconfirmationOpen(!waitconfirmationOpen);
+};
+
 
 
     const handledata = () => {
@@ -113,9 +122,9 @@ console.log(user)
                 state: data.address?.state || "",
                 pincode: data.address?.pincode || "",
                 gstNo: data.gstNumber || "",
-                DeliveryType: data.deliveryType || "",
-                SubscriptionType: data.subscriptionPlan || "",
-                role: data.businessType || "",
+                DeliveryType: "",
+                SubscriptionType:"FREE",
+                role:"",
                 password: "", // Keeping password empty for security
                 panNumber: data.panNumber || "", // Assuming panNumber is not available in API
                 ComplianceNo: data.ComplianceNo || "",
@@ -149,7 +158,6 @@ console.log(user)
 
   const handleSubmit = async () => {
 
-    document.querySelector('.loaderoverlay').style.display='flex';
 
   
     const formData = new FormData();
@@ -175,6 +183,10 @@ console.log(user)
       formData.append("gstCertificateFile", gstImages[0]); 
     } else if (gstImages.length > 0 && gstImages[0].file instanceof File) {
       formData.append("gstCertificateFile", gstImages[0].file); // ✅ Extract actual File
+    }else{
+      alert('Upload GST Certificate File')
+      document.querySelector('.loaderoverlay').style.display='none';
+      return;
     }
     
     if (complianceImages.length > 0 && complianceImages[0] instanceof File) {
@@ -212,7 +224,7 @@ fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`, {
 
   console.log(data)
 alert(data.message)
-
+document.querySelector('.loaderoverlay').style.display='none';
 window.location.href = '/Employee/Onboarding/success';
 
 })
@@ -225,22 +237,235 @@ window.location.href = '/Employee/Onboarding/success';
   };
   
 
+
+
+  
+  function verifygst() {
+    console.log('verifygst',user.gstNo)
+
+    if(user.gstNo==='' || user.AccountNumber==='' || user.IFSCCode===''){
+alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Number.')
+      return;
+    }
+
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/gstin/${user.gstNo}`)
+.then((response) => {
+if (response.ok) {
+  return response.json();
+} else {
+  return response.json().then((errorData) => {
+    throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+  });
+}
+})
+.then((data) => {
+
+ console.log(data)
+
+if(data?.error){
+alert(data.error)
+document.querySelector('.loaderoverlay').style.display='none';
+}else{
+alert('Your GST have been Verified Successfully') 
+
+let address = data.data.address;
+setUser({ ...user, location: address.addressLine, city: address.city, pincode: address.pincode, state: address.state,company:data.data.businessName});
+InitiateBankVerification(data.data.businessName)
+
+}
+
+
+
+})
+.catch((err) => {
+document.querySelector('.loaderoverlay').style.display='none';
+console.log(err)
+alert(err.message || err.error || 'Failed to submit the form.')
+});
+
+  }
+
+
+
+// function verifypan() {
+
+//   console.log('verifypan',user.panNumber)
+
+//   if(user.panNumber===''){
+//     alert('enter pan number')
+//               return;
+//             }
+        
+//   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/pan/${user.panNumber}`)
+//     .then((response) => {
+//       if (response.ok) {
+//         return response.json();
+//       } else {
+//         return response.json().then((errorData) => {
+//           throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+//         });
+//       }
+//     })
+//     .then((data) => {
+ 
+//        console.log(data)
+
+//     })
+//     .catch((err) => {
+//       document.querySelector('.loaderoverlay').style.display='none';
+//       console.log(err)
+//       alert(err.message || err.error || 'Failed to submit the form.')
+//     });
+
+// }
+
+function InitiateBankVerification(businessNamefromgst) {
+
+// Initiate Bank Verification
+
+console.log('Initiate Bank Verification')
+
+fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank/${user.AccountNumber}/${user.IFSCCode}`)
+.then((response) => {
+if (response.ok) {
+  return response.json();
+} else {
+  return response.json().then((errorData) => {
+    throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+  });
+}
+})
+.then((data) => {
+
+ console.log(data)
+
+ if(data.success && data.status === "IN_PROCESS"){
+
+  console.log(data.success , data.status)
+
+  setwaitconfirmationOpen(true)
+  setreferenceId(data.referenceId)
+  checkbankstatus(data.referenceId,businessNamefromgst)
+
+ }else{
+  alert(data.error)
+  document.querySelector('.loaderoverlay').style.display='none';
+ }
+
+})
+.catch((err) => {
+document.querySelector('.loaderoverlay').style.display='none';
+console.log(err)
+alert(err.message || err.error || 'Failed to submit the form.')
+});
+
+
+}
+
+
+function checkbankstatus(refId,businessNamefromgst) {
+
+console.log(refId)
+
+setTimeout(() => {
+    
+console.log('check bank status')
+
+fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank-status/${refId}`)
+.then((response) => {
+  if (response.ok) {
+    return response.json();
+  } else {
+    return response.json().then((errorData) => {
+      throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
+    });
+  }
+})
+.then((data) => {
+ 
+   console.log(data)
+
+   if(data.success && data.status === "COMPLETED"){
+
+console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase())
+
+if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase()){
+
+console.log(data.accountHolderName, businessNamefromgst)
+
+setUser({ ...user, AccountHolderName: data.accountHolderName});
+
+alert('You have been verified successfully.')
+setgstverified(true)
+setwaitconfirmationOpen(false)
+handleSubmit();
+
+}else{
+alert('Names did not match.')
+setwaitconfirmationOpen(false)
+document.querySelector('.loaderoverlay').style.display='none';
+}
+
+   } else if(data.success === false){
+
+    alert(data.message)
+    document.querySelector('.loaderoverlay').style.display='none';
+   }else{
+    alert(data.error)
+    document.querySelector('.loaderoverlay').style.display='none';
+    }
+
+})
+.catch((err) => {
+  document.querySelector('.loaderoverlay').style.display='none';
+  console.log(err)
+  alert(err.message || err.error || 'Failed to submit the form.')
+});
+
+}, 35000);
+}
+
+
+
   return (
     <div className="mymain">
       <h1>Manufacturer/Supplier Onboarding Form</h1>
       <div>
-        <div className="form">
+        <form className="form" onSubmit={(e) => {
+  e.preventDefault();
+
+console.log(user.role,!user.role)
+    if(!user.role){
+      alert('Select a role: whether you are a supplier or a manufacturer.')
+      return;
+     }
+
+     if(!user.DeliveryType){
+       alert('Select a delivery type: whether you will deliver your product to buyers or you want Coslo to deliver it to them.')
+         return;
+      }
+
+      if (gstImages.length === 0) {
+        alert('Upload GST Certificate File')
+        return;
+      }
+      
+      verifygst()
+
+}}>
           <div className="form-tab">
             <label htmlFor="name">Enter Name</label>
-            <input type="text" name="name" value={user.name} onChange={handleOnChange} />
+            <input type="text" name="name" value={user.name} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="email">Enter Email</label>
-            <input type="email" name="email" value={user.email} onChange={handleOnChange} />
+            <input type="email" name="email" value={user.email} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone No</label>
-            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} />
+            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
           {/* <div className="form-tab">
             <label htmlFor="password">Enter Password</label>
@@ -248,37 +473,37 @@ window.location.href = '/Employee/Onboarding/success';
           </div> */}
           <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
-            <input type="text" name="company" value={user.company} onChange={handleOnChange} />
+            <input type="text" name="company" value={user.company} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} />
+            <input type="text" name="location" value={user.location} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">
             <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} />
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} />
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} />
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} required/>
           </div>
           
           
           <div className="form-tab">
             <label htmlFor="panNumber">Enter Pan Number</label>
-            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
+            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} required/>
           </div>
 
          
 
           <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
-            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
+            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} required/>
           </div>
 
           {/* GST Certificate Uploader */}
@@ -307,27 +532,27 @@ window.location.href = '/Employee/Onboarding/success';
 
 <div className="form-tab">
 <label htmlFor="AccountHolderName">Account Holder Name</label>
-<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required />
 </div>
 
 <div className="form-tab">
 <label htmlFor="AccountNumber">Account Number</label>
-<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
+<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} required/>
 </div>
 
 <div className="form-tab">
 <label htmlFor="IFSCCode">IFSC Code</label>
-<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
+<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} required/>
 </div>
 
 <div className="form-tab">
 <label htmlFor="BankName">Bank Name</label>
-<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
+<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
 </div>
 
 
 
-<div className="radio-tab">
+{/* <div className="radio-tab">
                             <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='SubscriptionType' value={"MONTHLY"} onChange={handleOnChange} />
@@ -341,10 +566,10 @@ window.location.href = '/Employee/Onboarding/success';
                                 <input type='radio' className='btn' name='SubscriptionType' value={"FREE"} onChange={handleOnChange} />
                                 <label>Free Model</label>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="radio-tab">
-                            <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Role</p>
+                            <p htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Role</p>
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
                                 <label>Supplier</label>
@@ -369,7 +594,7 @@ window.location.href = '/Employee/Onboarding/success';
 
                        
         
-                        <button className="fo2"onClick={handleSubmit}>Send Account Creation Mail ➜</button>
+                        <button className="fo2" type='submit'>Send Account Creation Email ➜</button>
                         
 
           
@@ -377,7 +602,12 @@ window.location.href = '/Employee/Onboarding/success';
   
   <Planstable showbuybuttons={false}/>
 
-        </div>
+        </form>
+
+        {waitconfirmationOpen && (
+                <Waitwindow checkbankstatus={checkbankstatus} referenceId={referenceId} companyname={user.company}/>
+              )}
+
       </div>
     </div>
   );
@@ -385,74 +615,46 @@ window.location.href = '/Employee/Onboarding/success';
 
 
 
-// export  function ImageUploader({ title, images, setImages, id }) {
-//     const handleImageUpload = (event) => {
-//       const files = Array.from(event.target.files);
-//       const imageUrls = files.map((file) => URL.createObjectURL(file));
-//       setImages((prevImages) => [...prevImages, ...imageUrls]);
-//     };
-  
-//     const removeImage = (index) => {
-//       setImages(images.filter((_, i) => i !== index));
-//     };
-  
-//     return (
-//       <div className="image-uploader">
-//         <div className="add-image">
-//           <input
-//             type="file"
-//             id={id}
-//             multiple
-//             onChange={handleImageUpload}
-//             accept="image/*,application/pdf"
-//           />
-//           <label htmlFor={id} className="add-image-label">
-//             <img src="/icons/upcross.svg" alt="" width={'30px'} />
-//             <p>{title}</p>
-//           </label>
-//         </div>
-//         <div className="image-preview">
-//           {images.map((image, index) => (
-//             <div className="image-container" key={index}>
-//               <img src={image} alt={`preview-${index}`} />
-//               <button
-//                 className="remove-button"
-//                 onClick={() => removeImage(index)}
-//               >
-//                 <i className="fas fa-times"></i>
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     );
-//   }
 
 
-// const businessDetails = {
-//   businessType: user.businessType,
-//   gstCertificate: gstImages[0]
-//     ? {
-//         certificateNumber: user.gstNo,
-//         validFrom: "2023-01-01", // Replace with actual date fields if needed
-//         validTo: "2024-01-01", // Replace with actual date fields if needed
-//         certificateFile: gstImages[0].file.name,
-//       }
-//     : null,
-//   complianceCertificate: complianceImages[0]
-//     ? {
-//         certificateNumber: user.ComplianceNo,
-//         validFrom: "2023-03-15", // Replace with actual date fields if needed
-//         validTo: "2024-03-15", // Replace with actual date fields if needed
-//         certificateFile: complianceImages[0].file.name,
-//       }
-//     : null,
-//   address: {
-//     addressLine: user.location,
-//     city: user.city,
-//     state: user.state,
-//     pincode: user.pincode,
-//     phone: Number(user.phoneNo),
-//   },
+const Waitwindow = ({checkbankstatus,referenceId,companyname}) => {
 
-// };
+  const [timeLeft, setTimeLeft] = useState(40);
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  return (
+   
+      <div className="modal-overlay">
+
+      <div className="terms-card065">
+      
+        <div className="terms-content065">
+       
+<h3>Please wait... Within 40 seconds, ₹1 will be credited to your account.</h3>
+{timeLeft > 0 ? 
+  <div className="countdown-container">
+    <p className="countdown-text">Time Left: {timeLeft}s</p>
+  </div>
+
+  :
+  <button style={{textAlign:'left',marginTop:'10px',border:'1px solid black',backgroundColor:'green',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={(e)=>{
+    setTimeLeft(40)
+         checkbankstatus(referenceId,companyname)
+          }}>Retry</button>
+        }
+      
+        </div>
+      </div>
+      </div>
+   
+  );
+};

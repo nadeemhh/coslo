@@ -60,6 +60,8 @@ import Link from "next/link";
                   </div>
                 ))}
             </div>
+
+            { data.length === 0 && <h3>There are no sub category in this category.</h3> }
         </div>
     );
 }

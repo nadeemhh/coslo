@@ -502,7 +502,7 @@ function formatPhoneNumber(number) {
           </div>}
 
           
-          {data.sellerDetails.subscriptionPlan !== 'FREE' && (data.sellerDetails.complianceCertificateFile !== '' && <a
+          {data.sellerDetails.subscriptionPlan !== 'FREE' && (data.sellerDetails?.complianceCertificateFile !== '' && <a
       href={data.sellerDetails.complianceCertificateFile}
       target="_blank"
       rel="noopener noreferrer"
