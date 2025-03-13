@@ -5,7 +5,7 @@ import Reviews from '../../component/Detail-tab/Detail.jsx'
 import icon from '../../../../public/icons/locationmark.svg'
 import Link from 'next/link';
 import getDiscountedPrice from '../../component/discountpricecalc.js'
-
+import scrollToElement from '../../component/scrollToElement.js'
 
 import { useRef ,useState,useEffect} from 'react';
 
@@ -454,7 +454,7 @@ function formatPhoneNumber(number) {
         </div>
 
  {/* Right Section - Product Details */}
- <div className="product-details" style={{padding:'0px'}}>
+ <div className="product-details89" style={{padding:'0px'}}>
           <p className='productname'>{data.productName}</p>
           <div className="seller">
             <p>{data.BrandName}</p>
@@ -644,7 +644,10 @@ function formatPhoneNumber(number) {
           <div className="variations">
              {data.variations.map((data, index) => (
 
-            <button className={index===showslab?'variations-selected':''} key={index} onClick={()=>{setshowslab(index)}}>Variation {index+1}</button>
+            <button className={index===showslab?'variations-selected':''} key={index} onClick={()=>{
+              scrollToElement('main-content')
+              setshowslab(index)
+            }}>Variation {index+1}</button>
          
              ))}
           </div>

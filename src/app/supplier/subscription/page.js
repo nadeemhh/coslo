@@ -227,6 +227,7 @@ async function handlebuy(plan) {
           <thead>
             <tr>
               <th>##</th>
+              <th>Plan</th>
               <th>Payment Date</th>
               <th>Email</th>
               <th>Payment Method</th>
@@ -237,6 +238,7 @@ async function handlebuy(plan) {
             {subscriptionHistory.map((subscriptionHistoryin, index) => (
               <tr key={index}>
                 <td>{index+1}</td>
+                <td>{subscriptionHistoryin.plan}</td>
                 <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
                 <td>{subscriptionHistoryin.seller.email}</td>
                 <td>{subscriptionHistoryin.paymentInfo.paymentMethod}</td>               

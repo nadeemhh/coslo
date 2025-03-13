@@ -184,7 +184,7 @@ export default function page() {
                   Active <span style={{ color: '#7A7D7E' }}>{seller.subscriptionPlan}</span>
                   </td> */}
                   <td>
-                 {seller.subscriptionPlan}
+                 {seller?.subscription?.plan}
                   </td>
                   <td>
                     <Link href={`/admin/manufacturerssuppliers/manufacturerssuppliersdetails/?id=${seller._id}`}>

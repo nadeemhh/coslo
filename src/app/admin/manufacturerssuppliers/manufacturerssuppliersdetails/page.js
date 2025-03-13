@@ -213,7 +213,7 @@ export default function Page() {
       <p className="user-company">Company : {data.businessName || ''}</p>
       <p className="user-company">Business Type : {data.businessType || ''}</p>
       <p className="user-company">Delivery Type : {data.deliveryType || ''}</p>
-      <p className="user-company">Subscription Type : {data.subscriptionPlan || ''}</p>
+      <p className="user-company">Subscription Type : {data?.subscription?.plan || ''}</p>
       <p className="user-company">account Holder Name : {data.bankDetails?.accountHolderName || ''}</p>
       <p className="user-company">account Number : {data.bankDetails?.accountNumber || ''}</p>
       <p className="user-company">bank Name : {data.bankDetails?.bankName || ''}</p>
@@ -276,7 +276,7 @@ export default function Page() {
           <thead>
             <tr>
               <th>##</th>
-              <th>Name</th>
+              <th>Plan</th>
               <th>Payment Date</th>
               <th>Email</th>
               <th>Payment Method</th>
@@ -287,7 +287,7 @@ export default function Page() {
           {subscriptionHistory.map((subscriptionHistoryin, index) => (
               <tr key={index}>
                 <td>{index+1}</td>
-                <td>{subscriptionHistoryin.sellerName}</td>
+                <td>{subscriptionHistoryin.plan}</td>
                 <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
                 <td>{subscriptionHistoryin.sellerEmail}</td>
                 <td>{subscriptionHistoryin.paymentMethod}</td>               
