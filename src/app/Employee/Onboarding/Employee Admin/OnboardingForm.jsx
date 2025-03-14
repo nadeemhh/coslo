@@ -395,7 +395,10 @@ if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim()
 
 console.log(data.accountHolderName, businessNamefromgst)
 
-setUser({ ...user, AccountHolderName: data.accountHolderName});
+setUser(prevUser => ({
+  ...prevUser,
+  AccountHolderName: data.accountHolderName
+}));
 
 alert('You have been verified successfully.')
 setgstverified(true)

@@ -385,7 +385,10 @@ if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim()
 
 console.log(data.accountHolderName, businessNamefromgst)
 
-setUser({ ...user, AccountHolderName: data.accountHolderName});
+setUser(prevUser => ({
+  ...prevUser,
+  AccountHolderName: data.accountHolderName
+}));
 
 alert('You have been verified successfully. Please fill in the other details below to create your account.')
 setgstverified(true)
@@ -500,30 +503,30 @@ setwaitconfirmationOpen(false)
 
             <div className="form-tab">
             <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">
             <label htmlFor="BankName">Enter Your Bank Name</label>
-            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
+            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
           </div>
 
                     <div className="form-tab">
             <label htmlFor="name">Enter Your Name</label>
-            <input type="text" name="name" value={user.name} onChange={handleOnChange} />
+            <input type="text" name="name" value={user.name} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="email">Enter Email ID</label>
-            <input type="email" name="email" value={user.email} onChange={handleOnChange} />
+            <input type="email" name="email" value={user.email} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone Number</label>
-            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} />
+            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">
             <label htmlFor="password">Create Account Password</label>
-            <input type="text" name="password" value={user.password} onChange={handleOnChange} />
+            <input type="text" name="password" value={user.password} onChange={handleOnChange} required/>
           </div>
 
         

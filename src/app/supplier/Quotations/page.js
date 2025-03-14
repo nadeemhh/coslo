@@ -38,16 +38,16 @@ export default function page() {
        })
        .then((data) => {
         console.log(data)
-        if (data.quotations.length === 0) {
+        if (data.data.length === 0) {
           setHasMore(false);
 
           if(page!==1){ setPage((prevPage) => prevPage - 1);}
-          setdata(data.quotations);
+          setdata(data.data);
 
           console.log( hasMore,page)
         } else {
           console.log(data)
-          setdata(data.quotations);
+          setdata(data.data);
         }
 
         

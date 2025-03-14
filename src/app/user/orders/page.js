@@ -22,7 +22,7 @@ export default function Page() {
 
       const token = localStorage.getItem('buyertoken');
   
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=10`, {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/buyer?page=${page}&limit=30`, {
         method: 'GET',
          headers: {
         'Content-Type': 'application/json',
@@ -155,8 +155,7 @@ const handleFilterChange = (event) => {
         <select name="" id="" style={{backgroundColor:'#0000ff00',padding:'5px',borderRadius:'5px'}} onChange={handleFilterChange}>
             <option value="">filter orders by days</option>
             <option value="30days" name="timeFilter">last 30 days</option>
-            <option value="20days" name="timeFilter">last 20 days</option>
-            <option value="10days" name="timeFilter">last 10 days</option>
+            <option value="1year" name="timeFilter">last 1 year</option>
         </select>
 
         </div>

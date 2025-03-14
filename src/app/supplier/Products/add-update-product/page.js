@@ -854,11 +854,11 @@ document.querySelector('.loaderoverlay').style.display='none';
           <input id="product-name" type="text" placeholder="John Doe"    value={userData.productData.productName || ""}
           onChange={(e) => handleProductDataChange("productName", e.target.value)}/>
         </div>
-        <div className="input-group">
+        {/* <div className="input-group">
           <label htmlFor="brand-name">Enter Brand Name *</label>
           <input id="brand-name" type="text" placeholder="John Doe" value={userData.productData.BrandName || ""}
           onChange={(e) => handleProductDataChange("BrandName", e.target.value)}/>
-        </div>
+        </div> */}
         <div className="input-group">
           <label htmlFor="description">Enter Description</label>
           <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
@@ -1456,7 +1456,7 @@ onClick={addreason}
             value={variation.returnDays}
             onChange={(e) => {
               console.log(e.target.value)
-              if(Number(e.target.value)<1){
+              if(Number(e.target.value)<1 || variation.returnDays === null){
                 handleVariationChange("returnDays",'1')
               }else{
               handleVariationChange("returnDays", e.target.value)

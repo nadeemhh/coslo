@@ -188,7 +188,7 @@ export default function page() {
           
       <select name="" id="" style={{border:'none'}} onChange={handleFilterChange}>
         <option value="">Filters</option>
-        <option value="out_of_stock" name="stockStatus">Low Stock</option>
+        <option value="low_stock" name="stockStatus">Low Stock</option>
         <option value="asc" name="sortOrder">Old First</option>
         <option value="active" name="visibility">Visible</option>
         <option value="desc" name="sortOrder">Most Recent</option>

@@ -27,7 +27,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
       <div className="product-image">
       <Link href={`/home/products?id=${pid}`}>
         <img
-          src={pimage} // Replace with actual image URL
+          src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
           alt={pname}
           className='showimg'
         />
