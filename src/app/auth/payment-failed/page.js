@@ -8,9 +8,9 @@ function Page() {
         <div style={{height:'100vh', display:'flex',justifyContent:'center',alignItems:'center'}}>
         <div className="failure-box2">
         <p className="message2">Your payment has failed.</p>
-        <Link href="/">
+        <a href="/#cosloplans">
         <button className="retry-button2">Retry</button>
-        </Link>
+        </a>
       </div>
       </div>
     );

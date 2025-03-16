@@ -8,9 +8,9 @@ function Page() {
         <div style={{height:'100vh', display:'flex',justifyContent:'center',alignItems:'center'}}>
         <div className="success-box">
         <p className="message2">You have successfully purchased the plan.</p>
-        <Link href="/auth/sup-manu/login">
-        <button className="login-button2">Login To Your Account</button>
-        </Link>
+        <a href="/supplier/subscription">
+        <button className="login-button2">Go To Your Account</button>
+        </a>
       </div>
       </div>
     );

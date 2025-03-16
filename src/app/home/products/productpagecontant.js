@@ -309,6 +309,8 @@ function addtowishlist(productId) {
 
 
 useEffect(() => {
+  
+  scrollToElement('navbar')
   // Get the current page URL when the component mounts
   setPageUrl(window.location.href);
   console.log(window.location.href)
@@ -502,7 +504,7 @@ function formatPhoneNumber(number) {
           </div>}
 
           
-          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && (data.sellerDetails?.complianceCertificateFile !== '' && <a
+          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && (data.sellerDetails?.complianceCertificateFile && <a
       href={data.sellerDetails.complianceCertificateFile}
       target="_blank"
       rel="noopener noreferrer"
