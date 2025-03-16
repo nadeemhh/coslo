@@ -79,6 +79,7 @@ console.log(productimages)
           })
           .then((data) => {
             console.log(data.data)
+         
        setdata(data.data)
        getinvoice();
           
@@ -148,7 +149,6 @@ console.log(productimages)
 
       const requestreturn = () => {
     
-        document.querySelector('.loaderoverlay').style.display='flex';
 
       
         const formData = new FormData();
@@ -176,8 +176,12 @@ formData.append("itemVariationId", itemVariationId);
           }
         }else{
           alert('upload product image')
+          return;
         }
         
+        
+        document.querySelector('.loaderoverlay').style.display='flex';
+
         const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/return/create`, {
@@ -216,13 +220,37 @@ formData.append("itemVariationId", itemVariationId);
 
 function cancelorder(suborderid) {
   
+  let canceldata;
+
+  if(data.orderSummary.paymentMethod === 'ONLINE'){
+
+    const AccountHolderName = document.querySelector('.modalform input[name="AccountHolderName"]').value;
+    const AccountNumber = document.querySelector('.modalform input[name="AccountNumber"]').value;
+    const IFSCCode = document.querySelector('.modalform input[name="IFSCCode"]').value;
+    const BankName = document.querySelector('.modalform input[name="BankName"]').value;
+    const reason = document.querySelector('.modalform textarea[name="reason"]').value;
+  
+     canceldata = {bankDetails:{accountHolderName:AccountHolderName,accountNumber:AccountNumber,ifscCode:IFSCCode,bankName:BankName,},reason}
+
+  }else{
+    const reason = document.querySelector('.modalform textarea[name="reason"]').value;
+  
+    canceldata = {reason}
+  }
+
+
+  console.log(canceldata);
+
+        document.querySelector('.loaderoverlay').style.display='flex';
+  
   const token = localStorage.getItem('buyertoken');
 
-  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/cancel-order/${suborderid}`, {
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/cancel/${suborderid}`, {
     method: "POST",
     headers: {
       ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-    }
+    },
+    body: JSON.stringify(canceldata),
   })
     .then((response) => {
       if (response.ok) {
@@ -236,6 +264,8 @@ function cancelorder(suborderid) {
   
     console.log(data)
   alert(data.message)
+ 
+  toggleModal2();
   document.querySelector('.loaderoverlay').style.display='none';
   
   })
@@ -244,7 +274,7 @@ function cancelorder(suborderid) {
    
       alert(error.message || error.error || 'Failed to submit the form.')
       document.querySelector('.loaderoverlay').style.display='none';
-     
+      toggleModal2();
     });
 
 }
@@ -281,10 +311,21 @@ function cancelorder(suborderid) {
         <p><strong>Payment Method:</strong> {data.orderSummary.paymentMethod}</p>
         <p><strong>Delivery Status:</strong> {data.orderSummary.deliveryStatus}</p>
        
+       <div style={{display:'flex',gap:'10px',justifyContent:"center",flexWrap:'wrap'}}>
+
        {invoiceUrl && <a href={invoiceUrl} target='_blank' className="download-btn">
         Download Invoice
         </a>}
-        
+
+      {data.orderSummary.deliveryStatus === 'PENDING' &&  <button className="ordercancel-btn" style={{backgroundColor:'#ff000000',border:'1px solid black',color:'black'}}onClick={()=>{
+
+  toggleModal2()
+ 
+  
+  }}>Cancel Order</button>}
+
+    </div>
+
       </div>
       <div className="shipping-address44 order-box">
         <p className='heading69'>Shipping Address</p>
@@ -309,7 +350,7 @@ data.orderSummary.items.map((order, index) => (
 <p className="card-title">
   {order.name}
 </p>
-{order.isReturnable && <p className="card-date">Return is available till {extendDate(data.orderSummary.orderDate,order.returnDays||0)}</p>}
+{data.orderSummary.deliveryStatus === 'DELIVERED' && (order.isReturnable && <p className="card-date">Return is available till {extendDate(data.orderSummary.orderDate,order.returnDays||0)}</p>)}
 <p className="card-date">Quantity - {order.quantity}</p>
 <div style={{display:'flex',gap:'15px'}} className='hgfhg'>
 <p className="card-price">₹ {order.price}/-</p>
@@ -321,17 +362,15 @@ data.orderSummary.items.map((order, index) => (
 <div className="card-status">
 {/* <CounterComponent/>
 <img src="\icons\dustbin.svg" alt="" style={{width:'40px',cursor:'pointer'}}/> */}
-{order.isReturnable &&  (isSecondDateGreater(extendDate(data.orderSummary.orderDate,order.returnDays||0),getFormattedDate()) === false && <button className="cancel-btn" onClick={()=>{
+
+{data.orderSummary.deliveryStatus === 'DELIVERED' && (order.isReturnable &&  (isSecondDateGreater(extendDate(data.orderSummary.orderDate,order.returnDays||0),getFormattedDate()) === false && <button className="cancel-btn" onClick={()=>{
   toggleModal2()
   const suborderid = new URLSearchParams(window.location.search).get("oid");
   setsubOrderId(suborderid)
 setitemVariationId(order.variationId)
-  }}>Return</button>)}
-<button className="cancel-btn" style={{backgroundColor:'#ff000000',border:'1px solid black',color:'black'}}onClick={()=>{
-  const suborderid = new URLSearchParams(window.location.search).get("oid");
-  cancelorder(suborderid)
-  
-  }}>cancel</button>
+  }}>Return</button>))
+  }
+
 
 
 </div>
@@ -354,15 +393,36 @@ setitemVariationId(order.variationId)
             <h2>Fill Details</h2>
             <form className='modalform' onSubmit={(e)=>{
               e.preventDefault();
+
+            if(data.orderSummary.deliveryStatus === 'DELIVERED'){
               requestreturn()
+            }else{
+                const suborderid = new URLSearchParams(window.location.search).get("oid");
+  cancelorder(suborderid)
+
+            }
+             
+
               }}>
-            <input type="text" name="BankName" placeholder="Enter Bank Name" required />
+
+       { data.orderSummary.deliveryStatus === 'DELIVERED' ? <>  <input type="text" name="BankName" placeholder="Enter Bank Name" required />
             <input type="text" name="AccountHolderName" placeholder="Enter Bank Account Holder Name" required />
         <input type="text" name="AccountNumber" placeholder="Enter Account Number" required />
         <input type="text" name="IFSCCode" placeholder="Enter IFSC Code" required />
-        <textarea name="reason" placeholder="write reason for return" required></textarea>
+        <textarea name="reason" placeholder={data.orderSummary.deliveryStatus === 'DELIVERED'?"write reason for return":"write reason for order cancellation"} required></textarea>
+        </> 
+        :
+        (data.orderSummary.paymentMethod === 'ONLINE' ? <>  <input type="text" name="BankName" placeholder="Enter Bank Name" required />
+          <input type="text" name="AccountHolderName" placeholder="Enter Bank Account Holder Name" required />
+      <input type="text" name="AccountNumber" placeholder="Enter Account Number" required />
+      <input type="text" name="IFSCCode" placeholder="Enter IFSC Code" required />
+      <textarea name="reason" placeholder={data.orderSummary.deliveryStatus === 'DELIVERED'?"write reason for return":"write reason for order cancellation"} required></textarea>
+      </>: <textarea name="reason" placeholder={data.orderSummary.deliveryStatus === 'DELIVERED'?"write reason for return":"write reason for order cancellation"} required></textarea>)
+        }
 
-        <p style={{margin:'40px 0px',textAlign:'left'}}>Upload Product Image</p>
+       {data.orderSummary.deliveryStatus === 'DELIVERED' && <> 
+
+       <p style={{margin:'40px 0px',textAlign:'left'}}>Upload Product Image</p>
     <div className="image-uploader" style={{marginBottom:'50px'}}>
  
       <div className="add-image">
@@ -395,7 +455,8 @@ setitemVariationId(order.variationId)
 
       </div>
     </div>
-
+    </>
+}
               <button type="submit" className='submitreturn'>Submit</button>
             </form>
           </div>
@@ -411,7 +472,7 @@ setitemVariationId(order.variationId)
 
           <div className="tracking-row" key={index}>
             <div className="tracking-date-time">
-              <p className="tracking-date">{extractDate(step.updatedAt)}</p>
+              <p className="tracking-date">{extractDate(step.updatedAt || step.date)}</p>
               {/* <p className="tracking-time">@ {step.time}</p> */}
             </div>
             <div className="tracking-circle">

@@ -15,12 +15,12 @@ const Page = () => {
             </p>
       </section>
       
-      <section className="policy-section" id='PrivacyPolicy'>
+      {/* <section className="policy-section" id='PrivacyPolicy'>
       <h3>Contact Us</h3>
             <p>
           +91 7788665544
             </p>
-      </section>
+      </section> */}
       
    
     </div>

@@ -479,12 +479,12 @@ function formatPhoneNumber(number) {
 
           {data.variations[showslab].isReturnable && <div className='mylocationp' style={{cursor:'pointer'}}onClick={()=>(setreturnmodal(true))}>
    <span className="location">
- Check Reasons ?
+   Return Reasons ?
           </span> 
   
           </div>}
 
-          {data.sellerDetails.subscriptionPlan !== 'FREE' && <div className='mylocationp' style={{backgroundColor:'#1389f0',borderRadius:'0 8px 0 8px'}}>
+          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <div className='mylocationp' style={{backgroundColor:'#1389f0',borderRadius:'0 8px 0 8px'}}>
    <span className="location" style={{color:'white',fontWeight:'500'}}>
    <img src="\icons\veri.svg" width={'12px'} alt="" />
    Recommended
@@ -502,7 +502,7 @@ function formatPhoneNumber(number) {
           </div>}
 
           
-          {data.sellerDetails.subscriptionPlan !== 'FREE' && (data.sellerDetails?.complianceCertificateFile !== '' && <a
+          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && (data.sellerDetails?.complianceCertificateFile !== '' && <a
       href={data.sellerDetails.complianceCertificateFile}
       target="_blank"
       rel="noopener noreferrer"

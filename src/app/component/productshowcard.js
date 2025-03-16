@@ -35,7 +35,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
-        {seller.subscriptionPlan !== 'FREE' && <button className="verified">
+        {seller.subscriptionDetails.plan !== 'FREE' &&  seller.subscriptionDetails.status === "ACTIVE" && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>

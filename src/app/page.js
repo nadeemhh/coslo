@@ -6,12 +6,19 @@ import Button from './component/button';
 import PlansTable from './component/planstables.js';
 import Footer from './component/footer.js'
 
+export const metadata = {
+  title: "coslo Store - Best Online Shopping",
+  description: "Shop the latest products at the best prices. Fast shipping and great discounts!",
+  keywords: "ecommerce, online shopping, best deals, fast delivery",
+ 
+};
+
 export default function Home() {
   return (
     <>
 
 <div className="navbar" style={{backgroundColor:'blue'}}>
-    <h3 style={{color:'white'}}>Under Construction 🚧 launching on 15 March</h3>
+    <h3 style={{color:'white'}}>Under Construction 🚧 comming soon</h3>
     </div>
 
 {/* nav */}
@@ -42,7 +49,7 @@ export default function Home() {
         </div>
         </Link>
 
-        <div className="search-bar">
+        <a className="search-bar" href='/home'>
           <div className="dropdown">
             <select name="" id="" className="dropdown-btn hide">
                <option value="">Products</option>
@@ -54,15 +61,15 @@ export default function Home() {
           <button className="search-btn">
             <i className="fas fa-search"></i>
           </button>
-        </div>
+        </a>
 
        
         <div className="action-buttons">
        
         
-        <a href="/home/about-us">
+        {/* <a href="/home/about-us">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>Contact Us</Button>
-        </a>
+        </a> */}
         <a href="/home/about-us">
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
         </a>

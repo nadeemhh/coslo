@@ -33,7 +33,12 @@ if(iscoslo){
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
     { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
     { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
-    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' }])
+    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
+    { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' }
+  
+  ]
+  
+  )
 
 }
 

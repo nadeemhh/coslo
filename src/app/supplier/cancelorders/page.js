@@ -19,7 +19,7 @@ export default function page() {
     let filter = `${searchquery.length ? `&${searchquery[0]}${searchquery[1]}` : ''}`;
 
  
-     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/return/seller?page=${page}&limit=25${filter}`, {
+     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/cancel/requests?page=${page}&limit=25${filter}`, {
        method: 'GET',
        headers: {
          'Content-Type': 'application/json',
@@ -36,16 +36,16 @@ export default function page() {
          }
        })
        .then((data) => {
-        if (data.returns.length === 0) {
+        if (data.data.length === 0) {
           setHasMore(false);
 
           if(page!==1){ setPage((prevPage) => prevPage - 1);}
-          setdata(data.returns);
+          setdata(data.data);
 
           console.log( hasMore,page)
         } else {
           console.log(data)
-          setdata(data.returns);
+          setdata(data.data);
         }
 
             document.querySelector('.loaderoverlay').style.display='none';
@@ -91,7 +91,7 @@ export default function page() {
     <div className="orders-container">
          <div className="header">
        
-        <h3>Order Return Requests</h3>
+        <h3>Order Cancel Requests</h3>
      
       </div>
       
@@ -121,8 +121,9 @@ export default function page() {
               <th>Buyer Name</th>
               <th>Seller Name</th>
               <th>Date</th>
-              <th>Amount</th>
-              <th>Seller Response</th>
+              <th>Payment Method</th>
+              <th>Refund Amount</th>
+              <th>Refund Status</th>
               <th>Details</th>
             </tr>
           </thead>
@@ -131,15 +132,20 @@ export default function page() {
               
               <tr key={index}>
                   <td>#{index + 1}</td>
-                <td>{order.buyerName}</td>
+                <td>{order.customerName}</td>
                 <td>{order.sellerName}</td>
-                <td>{extractDate(order.date)}</td>
+                <td>{extractDate(order.cancelledAt)}</td>
                 <td>
-                ₹ {order.amount}
+                ₹ {order.paymentMethod}
                 </td>
-                <td className={order.refundStatus}>{order.sellerResponse}</td>
                 <td>
-                  <Link href={`/supplier/Return/returndetails?id=${order._id}`}>
+                ₹ {order.refundAmount}
+                </td>
+                <td>
+                {order.refundStatus}
+                </td>
+                <td>
+                  <Link href={`/supplier/cancelorders/canceldetails?id=${order.requestId}`}>
                   <i className="fas fa-external-link-alt" style={{color:'black'}}></i>
                 </Link>
                 </td>

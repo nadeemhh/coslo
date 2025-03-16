@@ -64,7 +64,7 @@ function Page() {
 
 
     return (
-        <div className='main' >
+        <div className='main mymain' >
             <div className="left-container">
                 <img
                     src="\images\img2.png"
