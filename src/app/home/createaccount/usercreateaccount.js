@@ -58,7 +58,7 @@ function Createaccount() {
     };
 
     return (
-        <div className='main'>
+        <div className='main mymain'>
             <div className="left-container">
                 <img src="/images/img1.png" alt="Profile" className="profile-pic" />
             </div>

@@ -45,7 +45,7 @@ console.log(pathname)
           className="profile-image"
         />
         <div className="profile-info">
-          <h3>{user.name}</h3>
+          {/* <h3>{user.name}</h3> */}
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </div>}
