@@ -56,7 +56,8 @@ console.log(OrderSummary);
             sgstAmount:data.cart.cartSgstAmount,
             shippingFee:data.cart.cartTotalShippingFee,
             cartTotalDiscountAmount:data.cart.cartTotalDiscountAmount,
-            totalBaseAmount
+            totalBaseAmount,
+            id:data.cart._id
         };
         
         // Save to session storage

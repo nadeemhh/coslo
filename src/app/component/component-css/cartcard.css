@@ -35,7 +35,11 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    width: 100%;
+    width: fit-content;
+  }
+
+  .mycard{
+    min-width: 400px;
   }
   
   .card87 {
@@ -164,6 +168,10 @@
      
     }
   
+    .mycard{
+      min-width: 200px;
+    }
+
     .card09 {
       flex-direction: column;
      

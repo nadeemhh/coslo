@@ -178,7 +178,7 @@ export default function page() {
    
         <div className="button-row">
 
-      <button className="update-button" onClick={()=>{updatestatus()}}>Update</button>
+      <button className="update-button" onClick={()=>{updatestatus()}}>Approve</button>
 
         </div>
       </div>

@@ -44,8 +44,8 @@ export default function page() {
             console.log(data)
             
             if(paymentMethod==='COD'){
-              alert(data.message)
-              window.location='/user/orders';
+              window.location=`/home/cart/address/payment/ordercomplete?orderId=${OrderSummary.id}&orderDate=${encodeURIComponent(new Date().toLocaleString())}&totalAmount=${OrderSummary.finalAmount}`;
+
             }else{
               console.log(paymentMethod)
           window.location=data.redirectUrl;

@@ -2,6 +2,7 @@
 import './page.css'
 import Link from 'next/link';
 import Goback from '../../../back.js'
+import '../../../component/component-css/cartcard.css'
 import { useState,useEffect } from "react";
 
 export default function page() {
@@ -262,6 +263,25 @@ console.log(responcestatus,responcestatus2)
           <input type="text" className='sellerComment' />
         </div>
         </> }
+
+        <div className="card87">
+    <div className="prodictimg">
+      <img src={data.product.image} alt="" />
+    </div>
+    <div className="card-details">
+      <p className="card-title">
+      {data.product.name}
+      </p>
+      <p className="card-price">₹ {data.product.maxRetailPrice}/-</p>
+      {/* <p className="card-date">24th August '24</p> */}
+    </div>
+    <div className="card-status">
+   
+     <p>Qty : {data.product.quantity}</p>
+     
+    </div>
+  </div>
+
 
       {responcestatus2 === 'APPROVED' && 
     ( status !== 'COMPLETED' &&  <div className="enquiry-row">

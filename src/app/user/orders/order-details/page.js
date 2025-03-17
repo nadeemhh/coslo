@@ -248,6 +248,7 @@ function cancelorder(suborderid) {
   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/cancel/${suborderid}`, {
     method: "POST",
     headers: {
+      'Content-Type': 'application/json',
       ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
     },
     body: JSON.stringify(canceldata),
@@ -342,7 +343,7 @@ function cancelorder(suborderid) {
 {    
 data.orderSummary.items.map((order, index) => (
 
-<div className="card" style={{maxWidth:'600px'}} key={index}>
+<div className="card mycard" key={index}>
 <div className="prodictimg">
 <img src={order.image} alt="" />
 </div>
