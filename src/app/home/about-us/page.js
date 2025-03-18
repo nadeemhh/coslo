@@ -1,29 +1,63 @@
-
+import './about.css'
 
 const Page = () => {
 
    
   return (
-    <div className="policies-container">
-       
-      <h1>About Us</h1>
-      
-      <section className="policy-section" id='TermsofService'>
-      <h3></h3>
-            <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere itaque quae earum dolore hic ipsum, adipisci, rem quibusdam in excepturi, ducimus id accusamus vitae nihil voluptates! Adipisci fuga saepe illo quos quia, libero sit ab nesciunt facilis? Cupiditate aspernatur ipsam cumque iste modi! Voluptates vero voluptatum ipsum pariatur et harum? Harum sapiente nobis exercitationem? Nam architecto impedit fugit soluta. Quae rerum labore sed quos adipisci ratione vel commodi, minima et, ipsum dolorum rem. Quod temporibus tempora maxime, quaerat minus odit quia dicta esse sit, ea accusantium error. Necessitatibus praesentium ab rem aliquid, sequi dignissimos tenetur sunt, placeat porro rerum omnis.
-            </p>
-      </section>
-      
-      {/* <section className="policy-section" id='PrivacyPolicy'>
-      <h3>Contact Us</h3>
-            <p>
-          +91 7788665544
-            </p>
-      </section> */}
-      
-   
-    </div>
+    <div className="container559">
+    <h1 className="title559">Welcome to Coslomart</h1>
+    <p className="description559">
+      Coslomart is a revolutionary e-commerce platform that connects businesses and consumers directly with manufacturers and suppliers. Our mission is to create a seamless, commission-free marketplace that empowers stakeholders to thrive.
+    </p>
+
+    <h2 className="sectionTitle559">Our Story</h2>
+    <p className="text559">
+      Coslomart was founded by Vinod Simson, an accomplished professional with an Executive MBA in Finance. With extensive experience in global operations management, Vinod recognized the potential for a direct-to-consumer and business platform that eliminates unnecessary intermediaries.
+    </p>
+
+    <h2 className="sectionTitle559">Our Vision</h2>
+    <p className="text559">
+      We envision a future where manufacturers, suppliers, wholesalers, retailers, and end consumers can connect directly, efficiently, and cost-effectively. Our platform is designed to provide:
+    </p>
+    <ul className="list559">
+      <li>A user-friendly interface for easy navigation and search</li>
+      <li>Secure payment systems for safe and reliable transactions</li>
+      <li>Integrated logistics solutions for fast and efficient delivery</li>
+    </ul>
+
+    <h2 className="sectionTitle559">Our Values</h2>
+    <p className="text559">At Coslomart, we're committed to:</p>
+    <ul className="list559">
+      <li>Transparency: Providing a secure and trustworthy platform for all stakeholders</li>
+      <li>Innovation: Continuously improving our services and features to meet the evolving needs of our users</li>
+      <li>Customer Satisfaction: Delivering exceptional customer experiences through our support team and user-friendly interface</li>
+    </ul>
+
+    <h2 className="sectionTitle559">Meet Our Team</h2>
+    <ul className="list559">
+      <li>Vinod Simson: Founder & CEO</li>
+      <li>Shobha Vinod: Co-Founder & Director</li>
+      <li>Technical Team</li>
+      <li>Customer Support Team</li>
+      <li>Operations Team</li>
+    </ul>
+
+    <h2 className="sectionTitle559">Our Partnerships</h2>
+    <p className="text559">
+      We partner with reputable manufacturers, suppliers, payment gateway, and logistics providers to ensure a seamless and efficient experience for our users.
+    </p>
+
+    <h2 className="sectionTitle559">Join Our Journey</h2>
+    <p className="text559">
+      Be a part of our mission to revolutionize the supply chain industry. Explore our platform, and discover how Coslomart can benefit your business or personal shopping needs.
+    </p>
+
+    <h2 className="sectionTitle559">Get in Touch</h2>
+    <p className="text559">Contact us to learn more about our platform, partnerships, and career opportunities:</p>
+    <p className="contactInfo559">Email: vinodsimson@coslomart.com</p>
+    <p className="contactInfo559">Phone: 9740976987</p>
+    <p className="contactInfo559">Address: H.No 254, Millennium Valley, Hompalaghatta, Anekal, Bangalore - 562106</p>
+  </div>
   );
 };
 

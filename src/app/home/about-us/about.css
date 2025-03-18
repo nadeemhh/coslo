@@ -1,0 +1,49 @@
+.container559 {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  .title559 {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 25px;
+  }
+  
+  .description559 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .sectionTitle559 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #007bff;
+  }
+  
+  .text559 {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .list559 {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .list559 li {
+    margin-bottom: 8px;
+  }
+  
+  .contactInfo559 {
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  

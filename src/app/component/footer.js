@@ -13,12 +13,12 @@ const Footer = () => (
           <p>India’s Trusted <strong>B2B</strong> E-commerce Partner.</p>
           <div className="contact">
             <p>
-              <span><img src="\icons\address.svg" alt="Facebook" /></span> 123 Trade Street, Business Hub,
+              <span><img src="\icons\address.svg" alt="Facebook" /></span> H.No 254, Millennium Valley, 
               <br />
-              New Delhi, India - 110001
+              Hompalaghatta, Anekal, Bangalore - 562106
             </p>
             <p>
-              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91 98808 66978
+              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91 9740976987
             </p>
           </div>
           <p>social media</p>
