@@ -14,8 +14,13 @@ function Reviews({pid}) {
       
         let review=document.querySelector('#comment').value;
        
-      if(!rating||!review){
-        alert('fill all details')
+        if(!rating){
+          alert('Give this product stars.')
+          return;
+        }
+
+      if(!review){
+        alert('write your review')
         return;
       }
       
