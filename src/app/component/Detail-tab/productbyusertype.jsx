@@ -19,7 +19,7 @@ const Productbyusertype = () => {
         document.querySelector('.loaderoverlay').style.display = 'flex';
     
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${activeTab==='Individual'?'individual':'wholeseller'}?page=${page}&limit=10`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${activeTab==='Individual'?'individual':'wholeseller'}?page=${page}&limit=15`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Productbyusertype = () => {
     if(hasMore && inView){  fetchProducts();}
       
     
-      }, [inView]);
+      }, [inView,activeTab]);
 
 
 
