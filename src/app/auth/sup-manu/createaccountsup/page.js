@@ -118,7 +118,7 @@ function Page() {
         <div className='main' >
             <div className="left-container">
                 <img
-                    src="\images\img1.png"
+                    src="\images\img1.jpg"
                     alt="Profile"
                     className="profile-pic"
                 />
@@ -129,8 +129,8 @@ function Page() {
   e.preventDefault();
   toggleconfirmation();
 }}>
-                    <h1 className="">We will get back to you soon!</h1>
-                    <p> I want add Sell directly to Buyers With ZERO Commission</p>
+                    <h1 className="">Help For Registration</h1>
+                    <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>
 
 
                     {error && <p style={{color:'red'}}>{error}</p>}

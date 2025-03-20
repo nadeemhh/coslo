@@ -1,6 +1,7 @@
 'use client'
 import './page.css'
 import Link from 'next/link';
+import PlansTable from '../../component/planstables.js';
 import { useState,useEffect } from "react";
 
 
@@ -37,7 +38,8 @@ export default function page() {
         .then((data) => {
               console.log(data)
               if(data.plan==='FREE'){
-                window.location.href='/#cosloplans';
+                setshowdata(false)
+                document.querySelector('.loaderoverlay').style.display='none';
               }else{
               setdata(data)
               setcplan(data.plan);
@@ -166,7 +168,7 @@ async function handlebuy(plan) {
   
   return (
     <div className="orders-container">
-      {  showdata && <>
+      {  showdata ? <>
          <div className="header">
        
         <h2 style={{margin:'30px 0px'}}>Subscription</h2>
@@ -282,7 +284,16 @@ async function handlebuy(plan) {
              </div>
       )}
 
-       </>  }
+       </> :    <div>
+       
+           <div style={{marginBottom:'3rem',marginTop:'3rem'}}>
+             <h1 style={{fontSize:'2rem'}}>Subscription Plans</h1>
+       <p style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'20px'}}>100 % refund if no leads or sales </p>
+       </div>
+       
+       <PlansTable/>
+             
+           </div> }
     </div>
   );
 }

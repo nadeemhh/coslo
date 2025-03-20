@@ -331,14 +331,14 @@ display: none;
   }
   
   .commission-box .zero {
-      font-size: 2.5rem;
+      font-size: 7rem;
       font-weight: bold;
       color: #007bff;
       margin-bottom: 0.2rem;
   }
   
   .commission-box .commission {
-      font-size: 0.8rem;
+      font-size: 1.7rem;
       font-weight: 900;
       color: #000000;
       text-transform: uppercase;
@@ -595,6 +595,7 @@ display: none;
   
   .tbody-101 td {
     font-size: 0.9rem;
+    font-weight: 600;
   }
   
   .available {

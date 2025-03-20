@@ -68,9 +68,10 @@ if(iscoslo){
     <div className="side-bar sidebar" id="sidebar">
   
   
- {menuItems.length !== 0 && (iscosload ? <img src="\icons\Coslo Admin Supplier.svg" alt="" style={{marginBottom:'20px',width:'110px'}}/>
- :
-<img src="\icons\Coslo Supplier Admin.svg" alt="" style={{marginBottom:'20px',width:'180px'}}/>)}
+ {menuItems.length !== 0 && 
+<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
+<label>Coslomart Seller Admin</label></div>
+}
 
 
       {/* Menu Items */}

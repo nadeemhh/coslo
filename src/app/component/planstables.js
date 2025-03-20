@@ -135,9 +135,15 @@ export default function PlansTable({showbuybuttons=true}) {
   <td><i className="fas fa-check available"></i></td>
 </tr>
 <tr>
-  <td>Coslo Minimum Order Support</td>
+  <td>Coslomart Minimum Order Support</td>
   <td><i className="fas fa-times not-available"></i></td>
   <td><i className="fas fa-check available"></i></td>
+  <td><i className="fas fa-check available"></i></td>
+</tr>
+<tr>
+  <td>Unlimited AI support for image editing</td>
+  <td><i className="fas fa-times not-available"></i></td>
+  <td><i className="fas fa-times not-available"></i></td>
   <td><i className="fas fa-check available"></i></td>
 </tr>
 <tr>
@@ -152,7 +158,7 @@ export default function PlansTable({showbuybuttons=true}) {
             <td>Purchase Plan</td>
             <td>
              
-            <a href="/auth/sup-manu/choose" style={{backgroundColor:'#1389F0',padding:'2px 8px',border:'none',color:'white',borderRadius:'2px',fontSize:'16px'}} >Try</a>
+            <a href="/auth/sup-manu/choose"><button style={{backgroundColor:'#1389F0',padding:'2px 8px',border:'none',color:'white',borderRadius:'2px',fontSize:'16px'}}>Try</button></a>
             </td>
             <td>
               

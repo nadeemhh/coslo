@@ -54,7 +54,7 @@ console.log(selectedName)
       <div className='bnamehide'>
       <Link href="/home">
         <div className="logo">
-          <h1>Coslo.com</h1>
+          <h1>Coslomart.com</h1>
         </div>
         </Link>
         
@@ -66,7 +66,7 @@ console.log(selectedName)
 
         <Link href="/home">
         <div className="logo logodesk">
-          <h1>Coslo.com</h1>
+          <h1>Coslomart.com</h1>
         </div>
         </Link>
 

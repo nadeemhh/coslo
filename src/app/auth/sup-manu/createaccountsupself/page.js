@@ -424,7 +424,7 @@ setwaitconfirmationOpen(false)
         <div className='main' >
             <div className="left-container">
                 <img
-                    src="\images\img1.png"
+                    src="\images\img1.jpg"
                     alt="Profile"
                     className="profile-pic"
                 />
@@ -451,14 +451,139 @@ setwaitconfirmationOpen(false)
   }
 
 }}>
-                    <h1 className="">We will get back to you soon!</h1>
-                    <p> I want to Sell directly to Buyers With ZERO Commission</p>
+                    <h1 className="">Self Registration</h1>
+                    <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>
 
                   
 
                     {error && <p style={{color:'red'}}>{error}</p>}
 
+                 
+
+          {gstverified && <> 
+
+         
+
+        
+
                     <div className="form-tab">
+            <label htmlFor="name">Enter Your Name</label>
+            <input type="text" name="name" id="boldinput66" value={user.name} onChange={handleOnChange} required/>
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="email">Enter Email ID</label>
+            <input type="email" name="email"  id="boldinput66"  value={user.email} onChange={handleOnChange} required/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="phoneNo">Enter Phone Number</label>
+            <input type="number" name="phoneNo" id="boldinput66"  value={user.phoneNo} onChange={handleOnChange} required/>
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="password">Create Account Password</label>
+            <input type="text" name="password" id="boldinput66"  value={user.password} onChange={handleOnChange} required/>
+          </div>
+       
+          <div className="form-tab">
+            <label htmlFor="BankName">Enter Your Bank Name</label>
+            <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} required/>
+          </div>
+        
+        
+
+          {/* GST Certificate Uploader */}
+          <ImageUploader
+            title="Upload GST Certificate"
+            images={gstImages}
+            setImages={setGstImages}
+            id="gstUploader"
+          />
+
+          <div className="form-tab">
+            <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
+            <input type="text" name="ComplianceNo" id="boldinput66"  value={user.ComplianceNo} onChange={handleOnChange} />
+          </div>
+
+          {/* Compliance Certificate Uploader */}
+          <ImageUploader
+            title="Upload Quality Certificate"
+            images={complianceImages}
+            setImages={setComplianceImages}
+            id="complianceUploader"
+          />
+
+
+                      
+
+
+
+                        <div className="radio-tab">
+                          <p style={{marginTop:'50px'}}>
+                            <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>whether you are a supplier or a manufacturer.</span>
+                            </p>
+
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
+                                <label>Supplier</label>
+                            </div>
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"MANUFACTURER"} onChange={handleOnChange} />
+                                <label>Manufacturer</label>
+                            </div>
+                        </div>
+
+                        <div className="radio-tab" style={{marginBottom:'40px'}}>
+                             
+                             <p>
+                            <span htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Delivery Type:</span> <span> whether you will deliver your product to buyers or you want Coslo to deliver it to them.</span>
+                            </p>
+
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='DeliveryType' value={"COSLO"} onChange={handleOnChange} />
+                                <label>Coslo Provided Delivery</label>
+                            </div>
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='DeliveryType' value={"SELF"} onChange={handleOnChange} />
+                                <label>Self Delivery Model</label>
+                            </div>
+                        </div>
+
+                       
+                        <div className="form-tab">
+            <label htmlFor="company">Enter Company Name</label>
+            <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter Address</label>
+            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly/>
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="location">Enter City</label>
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter State</label>
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter Pincode</label>
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly/>
+          </div>
+
+
+                        <div className="form-tab">
+            <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
+          </div>
+
+                       
+                        </> }
+
+
+
+                        <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
             
             <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
@@ -471,11 +596,6 @@ setwaitconfirmationOpen(false)
 
           </div>
          
-{/* 
-          <div className="form-tab">
-            <label htmlFor="AccountHolderName">Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
-          </div> */}
 
           <div className="form-tab">
             <label htmlFor="AccountNumber">Account Number</label>
@@ -499,137 +619,12 @@ setwaitconfirmationOpen(false)
           </div>
           }
 
-          {gstverified && <> 
-
-            <div className="form-tab">
-            <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="BankName">Enter Your Bank Name</label>
-            <input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
-          </div>
-
-                    <div className="form-tab">
-            <label htmlFor="name">Enter Your Name</label>
-            <input type="text" name="name" value={user.name} onChange={handleOnChange} required/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="email">Enter Email ID</label>
-            <input type="email" name="email" value={user.email} onChange={handleOnChange} required/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="phoneNo">Enter Phone Number</label>
-            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} required/>
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="password">Create Account Password</label>
-            <input type="text" name="password" value={user.password} onChange={handleOnChange} required/>
-          </div>
-
-        
-         <div className="form-tab">
-            <label htmlFor="company">Enter Company Name</label>
-            <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly/>
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly/>
-          </div>
-
-          {/* GST Certificate Uploader */}
-          <ImageUploader
-            title="Upload GST Certificate"
-            images={gstImages}
-            setImages={setGstImages}
-            id="gstUploader"
-          />
-
-          <div className="form-tab">
-            <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
-            <input type="text" name="ComplianceNo" value={user.ComplianceNo} onChange={handleOnChange} />
-          </div>
-
-          {/* Compliance Certificate Uploader */}
-          <ImageUploader
-            title="Upload Quality Certificate"
-            images={complianceImages}
-            setImages={setComplianceImages}
-            id="complianceUploader"
-          />
 
 
-                            {/* <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p> */}
-
-                            
-
-{/* <div className="radio-tab">
-                            <p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Select Subscription Type</p>
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"MONTHLY"} onChange={handleOnChange} />
-                                <label>Monthly Subscription</label>
-                            </div>
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"YEARLY"} onChange={handleOnChange} />
-                                <label>Yearly Subscription</label>
-                            </div>
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='SubscriptionType' value={"FREE"} onChange={handleOnChange} />
-                                <label>Free Model</label>
-                            </div>
-                        </div> */}
-
-                        <div className="radio-tab">
-                          <p style={{marginTop:'50px'}}>
-                            <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>whether you are a supplier or a manufacturer.</span>
-                            </p>
-
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
-                                <label>Supplier</label>
-                            </div>
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='role' value={"MANUFACTURER"} onChange={handleOnChange} />
-                                <label>Manufacturer</label>
-                            </div>
-                        </div>
-
-                        <div className="radio-tab">
-                             
-                             <p>
-                            <span htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Delivery Type:</span> <span> whether you will deliver your product to buyers or you want Coslo to deliver it to them.</span>
-                            </p>
-
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='DeliveryType' value={"COSLO"} onChange={handleOnChange} />
-                                <label>Coslo Provided Delivery</label>
-                            </div>
-                            <div className='fo2'>
-                                <input type='radio' className='btn' name='DeliveryType' value={"SELF"} onChange={handleOnChange} />
-                                <label>Self Delivery Model</label>
-                            </div>
-                        </div>
-
-                       
-        
+                        {gstverified === true &&
                         <button className="fo2">Send Account Creation Email ➜</button>
-                        </> }
-                    {/* <button className="form-tab" type="submit">Submit</button> */}
+                         }
+                    
                 </form>
 
                 {confirmationOpen && (

@@ -7,7 +7,7 @@ import PlansTable from './component/planstables.js';
 import Footer from './component/footer.js'
 
 export const metadata = {
-  title: "coslo Store - Best Online Shopping",
+  title: "coslomart Store - Best Online Shopping",
   description: "Shop the latest products at the best prices. Fast shipping and great discounts!",
   keywords: "ecommerce, online shopping, best deals, fast delivery",
  
@@ -143,7 +143,7 @@ export default function Home() {
         <h2>Free For Buyers & Sellers</h2>
         <p>Cancel anytime. We’ll send you a reminder 7 days before your trial ends.</p>
         <a href="/auth/sup-manu/choose" >
-        <button className="btn">Become a Seller ➔</button>
+        <Button rightIcon="icons\right.svg" >Become a Seller</Button>
         </a>
       </div>
     </section>
@@ -207,7 +207,7 @@ export default function Home() {
 
       <div className="section" id='ForManufacturers'>
         <h3>For Manufacturers / Suppliers</h3>
-        <p className="highlight">1st Month Free</p>
+      
         <div className="steps-container">
           <div className="step">
             <div className="circle">1</div>
@@ -240,7 +240,10 @@ export default function Home() {
   
     <section className="pricing-table-101">
 
-      <h1 className="title101">Subscription Plans</h1>
+    <div style={{marginBottom:'3rem',marginTop:'3rem'}}>
+      <h1 style={{fontSize:'2rem'}}>Subscription Plans</h1>
+<p style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'20px'}}>100 % refund if no leads or sales </p>
+</div>
 
 <PlansTable/>
       

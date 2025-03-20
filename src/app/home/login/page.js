@@ -67,7 +67,7 @@ function Page() {
         <div className='main mymain' >
             <div className="left-container">
                 <img
-                    src="\images\img2.png"
+                    src="\images\img1.jpg"
                     alt="Profile"
                     className="profile-pic"
                 />

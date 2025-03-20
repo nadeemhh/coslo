@@ -38,7 +38,9 @@ const Usersidebar = () => {
   return (
     <div className="side-bar sidebar" id="sidebar">
   
-<img src="\icons\Coslo Employee Admin.svg" alt="" style={{marginBottom:'20px',width:'180px'}}/>
+  <div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
+  <label>Coslomart Employee Admin</label></div>
+
       {/* Menu Items */}
       <div className="menu">
         {menuItems.map((item) => (
