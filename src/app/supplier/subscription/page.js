@@ -288,7 +288,7 @@ async function handlebuy(plan) {
        
            <div style={{marginBottom:'3rem',marginTop:'3rem'}}>
              <h1 style={{fontSize:'2rem'}}>Subscription Plans</h1>
-       <p style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'20px'}}>100 % refund if no leads or sales </p>
+       <p style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'20px'}}>100% refund if no leads or sales </p>
        </div>
        
        <PlansTable/>

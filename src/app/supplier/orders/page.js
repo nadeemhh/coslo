@@ -145,6 +145,7 @@ if(sellerdata==='COSLO'){
       .then((data) => {
             console.log(data)
            document.querySelector('.loaderoverlay').style.display='none';
+           alert('Shiprocket has been enabled.')
        
       })
       .catch((err) => {
@@ -276,7 +277,7 @@ if(sellerdata==='COSLO'){
         </button>
 :
         <button className="apply-button" style={{backgroundColor:'green'}} onClick={()=>{setshowpincode((pre)=>(!pre))}}>
-          Add Pin Code
+          Add Pin Codes
         </button>}
    </div>
 

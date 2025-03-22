@@ -406,7 +406,7 @@ setwaitconfirmationOpen(false)
 handleSubmit();
 
 }else{
-alert('Names did not match.')
+alert("The name did not match with the bank name and GST name.")
 setwaitconfirmationOpen(false)
 document.querySelector('.loaderoverlay').style.display='none';
 }
