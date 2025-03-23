@@ -115,7 +115,7 @@ function Login() {
             </div>
             <div className='right-container'>
                 <div className="form">
-                    <h1 className="">Seller Admin Login</h1>
+                    <h1 className="">Seller Login</h1>
                     <p> I want add Sell directly to Buyers With ZERO Commission</p>
                     {error && <p style={{color:'red'}}>{error}</p>}
                     <div className="form-tab">

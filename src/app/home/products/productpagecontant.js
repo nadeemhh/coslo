@@ -813,7 +813,7 @@ function formatPhoneNumber(number) {
           </div>
             {data.variations[showslab].isReturnable && data?.reasonForReturn?.length  > 0 && <div className="technical-details" style={{textAlign:'left'}}>
 
- {data?.reasonForReturn?.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>reasons to request a product return :-</p> : <></>}
+ {data?.reasonForReturn?.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>Reasons to request a product return :-</p> : <></>}
 
     {data?.reasonForReturn.map((data, index) => (
 

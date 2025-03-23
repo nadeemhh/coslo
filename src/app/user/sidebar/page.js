@@ -48,7 +48,7 @@ export default function Page() {
       </div>
 }
 
-<Verifybut handleLogout={handleLogout}/>
+
 
       {/* Menu Items */}
       <div className="menu">
@@ -68,59 +68,3 @@ export default function Page() {
 }
 
 
-
-function Verifybut({handleLogout}) {
-  const [user, setuser] = useState(null);
-
-  useEffect(() => {
-    console.log(JSON.parse(localStorage.getItem('buyer')))
-    setuser(JSON.parse(localStorage.getItem('buyer')).isVerified)
-  }, []);
-
-  const handledata = (e) => {
-    e.preventDefault();
-
-    document.querySelector('.loaderoverlay').style.display='flex';
-
-    const userData = {
-      email:JSON.parse(localStorage.getItem('buyer')).email
-    };
-
-     // Retrieve the token from localStorage, if it exists
-
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/send-verification-email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message || 'Failed. Please try again.');
-          });
-        }
-      })
-      .then((data) => {
-         console.log(data)
-         document.querySelector('.loaderoverlay').style.display='none';
-        
-alert(data.message)
-handleLogout()
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display='none';
-        setError(err.message);
-      });
-  };
-
-  return(
-    <>
-  {user !== null &&  (user ? <></>  : <button style={{backgroundColor:'#34b334',padding:'7px',color:'white',margin:'10px',border:'none',borderRadius:'10px',marginBottom:'20px'}} onClick={handledata}>Verify Your Email</button>)}
- </>
-  )
-}

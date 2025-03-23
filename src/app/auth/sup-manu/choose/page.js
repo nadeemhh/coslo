@@ -29,6 +29,11 @@ function Page() {
 <button className="active8465">Help For Registration ➜</button>
 </Link>
 </div>
+
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:'20px'}}>
+                    <a href="/auth/sup-manu/login" style={{color:'#1389F0',textDecoration:'none'}}>Already have a seller account? Log in.</a>
+
+                    </div>
               
                 </form>
 

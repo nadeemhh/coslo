@@ -112,7 +112,7 @@ const Productbyusertype = () => {
                       setPage(1)
                       setActiveTab("Individual")}}
                 >
-                    Individual
+                    Individual / Retailer
                 </button>
                
                 <button
@@ -123,7 +123,7 @@ const Productbyusertype = () => {
                       setPage(1)
                       setActiveTab("Retailer/Wholesaler")}}
                 >
-                    Retailer/Wholesaler
+                    Wholesaler
                 </button>
             </div>
             <div className="myproductcontent">

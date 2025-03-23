@@ -85,7 +85,7 @@ console.log(OrderSummary);
 
     const token = localStorage.getItem('buyertoken');
 
-    fetch(`http://localhost:3000/cart/delete-all`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/delete-all`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

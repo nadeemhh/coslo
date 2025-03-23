@@ -74,7 +74,7 @@ function Page() {
             </div>
             <div className='right-container'>
                 <div className="form">
-                    <h1 className="">Welcome Back</h1>
+                    <h1 className="">Buyer Login</h1>
                     <p>Streamline your business operations with our marketplace</p>
                     {error && <p style={{color:'red'}}>{error}</p>}
                     <div className="form-tab">

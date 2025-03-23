@@ -62,7 +62,7 @@ export default function page() {
   
       const token = localStorage.getItem('admintoken');
 
-      fetch(`http://localhost:3000/admin/delete-admin/${id}`, {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/admin/delete-admin/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

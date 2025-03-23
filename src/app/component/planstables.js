@@ -147,6 +147,12 @@ export default function PlansTable({showbuybuttons=true}) {
   <td><i className="fas fa-check available"></i></td>
 </tr>
 <tr>
+  <td>100% Refund if no leads or sales</td>
+  <td><i className="fas fa-times not-available"></i></td>
+  <td><i className="fas fa-times not-available"></i></td>
+  <td><i className="fas fa-check available"></i></td>
+</tr>
+<tr>
   <td>Per Day Cost</td>
   <td>₹0</td>
   <td>₹65</td>

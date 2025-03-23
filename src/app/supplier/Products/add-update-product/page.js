@@ -830,9 +830,15 @@ document.querySelector('.loaderoverlay').style.display='none';
 
   function remopriceslab(index) {
    
-    let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
+    if(variation.priceSlabs.length!==1){
+
+      let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
 
      setVariation({...variation,priceSlabs:updatedslab})
+    }else{
+      alert('You need to add at least one price slab.')
+    }
+    
 
   }
 
@@ -1198,7 +1204,7 @@ onClick={addreason}
                 placeholder="Enter additional discount in (%)"
                 value={variation.repeatBuyerDiscount}
                 onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
-                required
+                
               />
             </div>
 
@@ -1303,7 +1309,7 @@ onClick={addreason}
 
          <div className="quantity-range">
           <div className="form-group">
-            <label className="form-label">Dimensions</label>
+            <label className="form-label">Dimensions in centimeter</label>
             <div className="range-container">
               <input
                 type="number"
@@ -1341,7 +1347,7 @@ onClick={addreason}
  {/* weight */}
           <div className="quantity-range">
           <div className="form-group">
-            <label className="form-label">weight</label>
+            <label className="form-label">weight in kg</label>
             <div className="range-container">
             
                <input
@@ -1349,7 +1355,7 @@ onClick={addreason}
                 className="form-input small-input"
                 placeholder="In kg"
                 required
-                value={variation.weight || ""}
+                value={variation.weight}
                 onChange={(e) => handleVariationChange("weight", e.target.value)}
               />
             </div>
@@ -1369,8 +1375,8 @@ onClick={addreason}
             <strong className="form-label" style={{ marginBottom: "10px" }}>
               Type: {slab.type}
             </strong>
-            {/* <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-                  onClick={()=>{remopriceslab(index)}}></i> */}
+            <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                  onClick={()=>{remopriceslab(index)}}></i>
 
                   </div>
 
@@ -1420,7 +1426,7 @@ onClick={addreason}
                 updatedSlabs[index].discount = Number(e.target.value);
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
               }}
-              required
+              
             />
           </div>
 

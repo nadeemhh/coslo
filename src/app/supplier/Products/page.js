@@ -75,7 +75,7 @@ export default function page() {
         
         const token = localStorage.getItem('token');
   
-        fetch(`http://localhost:3000/product/delete/${id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/delete/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
