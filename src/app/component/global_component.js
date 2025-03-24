@@ -159,6 +159,10 @@ const CounterComponent = ({quantity,productid,variationid,getdata}) => {
 
   // Handle decrement
   const handleDecrement = () => {
+    if(value===1){
+return;
+    }
+
     setValue((prev) => {
       const updatedValue = prev - 1;
       updatequantity(updatedValue)
@@ -180,6 +184,10 @@ const CounterComponent = ({quantity,productid,variationid,getdata}) => {
   // Handle manual input change
   const handleChange = (e) => {
     const newValue = e.target.value;
+console.log(newValue)
+    if (newValue==='0'|| newValue===''){
+      return;
+    }
 
     if (/^-?\d*$/.test(newValue)) {
  
@@ -257,6 +265,7 @@ console.log(userData)
         value={value}
         onChange={handleChange}
         className="counter-input counter-inputValue"
+        min={'1'}
       />
 
       {/* Increase Area */}

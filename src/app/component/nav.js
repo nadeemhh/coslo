@@ -1,16 +1,18 @@
 "use client"
 import "../landing-page.css";
+import "../component/component-css/btnbadge.css";
 import Button from '../component/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState ,useEffect} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
+import cartcountget from '../component/cartcountget.js';
+
 
 const NavBar = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
-
 
   BuyerAuthCheck(setuser)
 
@@ -39,6 +41,13 @@ console.log(selectedName)
       handleSearch();
     }
   };
+
+
+
+  useEffect(() => {
+    cartcountget();
+  },[]);
+
 
      
     return (
@@ -112,7 +121,13 @@ console.log(selectedName)
       </Link>
 
           <Link href="/home/cart">
-      <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button>
+      {/* <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button> */}
+
+      <button className="btn_abc123">
+  <span className="btn_text88">Cart</span>
+  <img src="\icons\carticon.svg" alt="cart-icon" className="btn_icon" />
+  <span className="btn_badge77"></span>
+</button>
           </Link>
 
      </> 

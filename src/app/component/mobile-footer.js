@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-
+import "../component/component-css/btnbadge.css";
 import Link from 'next/link';
 import BuyerAuthCheck from './buyerauthcheck.js';
 
@@ -27,7 +27,7 @@ const MobileFooter = () => {
           <span>Profile</span>
         </Link>
         <Link href={user?"/home/cart":"/home/login"} className="nav-item">
-          <i className="fas fa-shopping-cart"></i>
+          <i className="fas fa-shopping-cart" style={{position:'relative'}}> <div className="btn_badge11"></div></i>
           <span>Cart</span>
         </Link>
       </div>

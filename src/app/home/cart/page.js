@@ -5,6 +5,8 @@ import "./CartPage.css";
 import Cartcar from '../../component/cartcard.js'
 import CounterComponent from '../../component/global_component.js'
 import {useState,useEffect} from 'react';
+import cartcountget from '../../component/cartcountget.js';
+
 
 const CartPage = () => {
 
@@ -103,6 +105,7 @@ console.log(OrderSummary);
         setOrderSummary(null)
         sessionStorage.removeItem("cartData");
         getdata()
+        cartcountget()
       })
       .catch((err) => {
         console.log(err);
@@ -138,6 +141,7 @@ console.log(OrderSummary);
         setOrderSummary(null)
         sessionStorage.removeItem("cartData");
         getdata()
+        cartcountget()
       })
       .catch((err) => {
         console.log(err);

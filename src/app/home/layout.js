@@ -6,6 +6,7 @@ import Footer from '../component/footer.js';
 import MobileFooter from '../component/mobile-footer.js';
 import Mygloballoader from '../Mygloballoader.js'
 
+
 export default function RootLayout({ children }) {
   return (
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
   />
             </head>
       <body>
-       
+      
         <>
     {/* Wrapper */}
     <div className="mycontainer">
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
   </>
        
 <Mygloballoader/>
+
       </body>
     </html>
   );

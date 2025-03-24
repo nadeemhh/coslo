@@ -19,7 +19,7 @@ export default function page() {
 
   const handleSubmit = () => {
     document.querySelector('.loaderoverlay').style.display='flex';
-
+    sessionStorage.removeItem("cartData")
     const token = localStorage.getItem('buyertoken');
 
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create`, {
@@ -44,6 +44,7 @@ export default function page() {
             console.log(data)
             
             if(paymentMethod==='COD'){
+            
               window.location=`/home/cart/address/payment/ordercomplete?orderId=${OrderSummary.id}&orderDate=${encodeURIComponent(new Date().toLocaleString())}&totalAmount=${OrderSummary.finalAmount}`;
 
             }else{

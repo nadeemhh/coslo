@@ -6,7 +6,7 @@ import icon from '../../../../public/icons/locationmark.svg'
 import Link from 'next/link';
 import getDiscountedPrice from '../../component/discountpricecalc.js'
 import scrollToElement from '../../component/scrollToElement.js'
-
+import cartcountget from '../../component/cartcountget.js';
 import { useRef ,useState,useEffect} from 'react';
 
 export default function Productpagecontant() {
@@ -256,6 +256,7 @@ console.log(variationId,pquantity);
       .then((data) => {
         document.querySelector('.loaderoverlay').style.display = 'none';
         alert(data.message)
+        cartcountget()
       })
       .catch((err) => {
         document.querySelector('.loaderoverlay').style.display = 'none';
@@ -308,6 +309,10 @@ function addtowishlist(productId) {
   }
 
 
+  
+ 
+
+
 useEffect(() => {
   
   scrollToElement('navbar')
@@ -332,7 +337,7 @@ if (getCookie("buyertoken")) {
   const id = new URLSearchParams(window.location.search).get("id");
   getproductdetails(id)
 
-  
+ 
 }, []);
 
 

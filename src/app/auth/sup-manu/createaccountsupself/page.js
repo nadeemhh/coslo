@@ -575,7 +575,7 @@ setwaitconfirmationOpen(false)
 
                         <div className="form-tab">
             <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
+            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required  {...(gstverified && { readOnly: true })} />
           </div>
 
                        
@@ -586,25 +586,25 @@ setwaitconfirmationOpen(false)
                         <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
             
-            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} />
+            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
 
           </div>
 
                     <div className="form-tab">
             <label htmlFor="panNumber">Enter Pan Number</label>
-            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} />
+            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
 
           </div>
          
 
           <div className="form-tab">
             <label htmlFor="AccountNumber">Account Number</label>
-            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
+            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
           </div>
 
           <div className="form-tab">
             <label htmlFor="IFSCCode">IFSC Code</label>
-            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
+            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
           </div>
 
 

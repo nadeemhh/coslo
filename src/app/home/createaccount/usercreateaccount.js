@@ -45,8 +45,8 @@ function Createaccount() {
 
             if (response.ok) {
                 document.querySelector('.loaderoverlay').style.display='none';
-                alert("Account created successfully!");
-                window.location.href = '/home/login';
+                alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+                window.location.href = '/home';
             } else {
                 document.querySelector('.loaderoverlay').style.display='none';
                 alert(data.message || "Registration failed");
