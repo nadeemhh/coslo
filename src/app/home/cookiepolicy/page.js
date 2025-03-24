@@ -5,51 +5,56 @@ const CookiePolicy = () => {
       <div className="policies-container">
         
         <h2 style={{marginBottom:'40px'}}>COOKIE POLICY</h2>
-        <p>
-        <strong>A cookie</strong> is a small file of letters and numbers that we store on your browser or the hard drive of your computer if you agree. By continuing to browse the site, you are agreeing to our use of cookies. Cookies contain information that is transferred to your computer’s hard drive. You can set your browser to refuse all or some browser cookies, or to alert you when Platforms set or access cookies. If you disable or refuse cookies, please note that some parts of this Platform may become inaccessible or not function properly.
-      </p>
-      
-      <p><strong>A list of the type of cookies we use is as follows:</strong></p>
-      <ul>
-        <li><strong>Strictly necessary cookies.</strong> These are cookies that are required for the operation of our Platform...</li>
-        <li><strong>Analytical/performance cookies.</strong> They allow us to recognize and count the number of visitors...</li>
-        <li><strong>Functionality cookies.</strong> These are used to recognize you when you return to our Platform...</li>
-        <li><strong>Targeting cookies.</strong> These cookies record your visit to our Platform...</li>
-      </ul>
-      
-      <p>
-        Please note that third-parties (including, for example, advertising networks and providers of external services like web traffic analysis services) may also use cookies, over which we have no control...
-      </p>
-      
-      <p><strong>GOOGLE ANALYTICS</strong></p>
-      <p>
-        We use Google Analytics to help us to understand how you make use of our content and work out how we can make things better...
-      </p>
-      
-      <p><strong>GOOGLE ADSENSE</strong></p>
-      <p>
-        Google AdSense is a tool that allows Platform publishers to deliver advertisements to site visitors in exchange for revenue...
-      </p>
-      <ul>
-        <li>Third-party vendors, including Google, use cookies to serve ads based on your prior visits...</li>
-        <li>Google's use of advertising cookies enables us and our partners to serve advertisements...</li>
-        <li>You may opt-out of personalized advertising by visiting Ads Settings.</li>
-        <li>All advertisements of third parties on our Platform are for informative purposes only...</li>
-        <li>At no point will the Firm permit its competitors to advertise on the Platform.</li>
-      </ul>
-      
-      <p><strong>Contact Us:</strong> If you have any questions about this Cookie Policy, the practices of the Website, or your experience, you can contact us by emailing us at <a href="mailto:Help@coslomart.com">Help@coslomart.com</a> or by writing to us at:</p>
-      
-      <address>
-        <strong>COSLOMART PRIVATE LIMITED,</strong><br />
-        Registered Office Address: <br />
-        H.NO.254, Millennium Valley,<br />
-        Hompalaghatta, Anekal,<br />
-        Bangalore- 562106, Karnataka
-      </address>
-      
-      <p>You may visit the links in the advertisements at your own risk or choose to not accept the cookies permitting third parties to display their advertisements.</p>
-    
+    <p>
+    A cookie is a small file of letters and numbers that we store on your browser or the hard drive of your computer if you agree. By continuing to browse the site, you are agreeing to our use of cookies. Cookies contain information that is transferred to your computer’s hard drive. You can set your browser to refuse all or some browser cookies, or to alert you when Platforms set or access cookies. If you disable or refuse cookies, please note that some parts of this Platform may become inaccessible or not function properly. A list of the type of cookies we use is as follows;
+    <br />
+<br />
+<strong>1. </strong>	Strictly necessary cookies. These are cookies that are required for the operation of our Platform. They include, for example, cookies that enable you to log into secure areas of our Platform, use a shopping cart or make use of e-billing services.
+<br />
+<br />
+<strong>2. </strong>
+	Analytical/performance cookies. They allow us to recognize and count the number of visitors and to see how visitors move around our Platform when they are using it. This helps us to improve the way our Platform works, for example, by ensuring that users are finding what they are looking for easily.
+<br />
+<br />
+<strong>3. </strong>	Functionality cookies. These are used to recognize you when you return to our Platform. This enables us to personalize our content for you, greet you by name and remember your preferences (for example, your choice of language or region).
+<br />
+<br />
+<strong>4. </strong>	Targeting cookies. These cookies record your visit to our Platform, the pages you have visited and the links you have followed. We will use this information to make our Platform and the advertising displayed on it more relevant to your interests. We may also share this information with third-parties for this purpose.
+Please note that third-parties (including, for example, advertising networks and providers of external services like web traffic analysis services) may also use cookies, over which we have no control. These cookies are likely to be analytical/performance cookies or targeting cookies. You can block cookies by activating the setting on your browser that allows you to refuse the setting of all or some cookies. However, if you use your browser settings to block all cookies (including essential cookies) you may not be able to access all or parts of our Platform.
+<br />
+<br />
+<strong>GOOGLE ANALYTICS</strong>
+<br />
+<br />
+We use Google Analytics to help us to understand how you make use of our content and work out how we can make things better. These cookies follow your progress through us, collecting anonymous data on where you have come from, which pages you visit, and how long you spend on the site. This data is then stored by Google to create reports. These cookies do not store your personal data. 
+The information generated by the cookie about your use of the Platform, including your IP address, may be transmitted to and stored by Google on servers in the United States. Google may use this information for the purpose of evaluating your use of the Platform, compiling reports on Platform activity for us and providing other services relating to Platform activity and internet usage. Google may also transfer this information to third parties where required to do so by law, or where such third parties process the information on Google's behalf. Google will not associate your IP address with any other data held by Google. By using this Platform, you consent to the processing of data about you by Google in the manner and for the purposes set out above. 
+The Google Platform contains further information about Analytics and a copy of Google's privacy policy pages.
+<br />
+<br />
+<strong>GOOGLE ADSENSE</strong>
+<br />
+<br />
+Google AdSense is a tool that allows Platform publishers to deliver advertisements to site visitors in exchange for revenue calculated on a per-click or per-impression basis. To do this, Google uses cookies and tracking technology to deliver ads personalized to a Platform user/visitor. In this regard the following terms are specified to the Users:
+a.	Third-party vendors, including Google, use cookies to serve ads based on your prior visits to our Platform or other Platforms.
+b.	Google's use of advertising cookies enables us and our partners to serve advertisements to you based on their visit to our Platform and/or other Platforms on the Internet.
+c.	You may opt-out of personalized advertising by visiting Ads Settings.
+d.	All advertisements of third parties on our Platform are for informative purposes only and neither the Platform nor the Firm guarantees or bears liability for the authenticity of the advertisements.
+e.	At no point will the Firm permit its competitors to advertise on the Platform.
+
+<br />
+<br />
+<strong>Contact Us:</strong>
+<br />
+<br /> If you have any questions about these Cookie Policy, the practices of the Website, or your experience, you can contact us by emailing us at Help@coslomart.com or by writing to us at : 
+COSLOMART PRIVATE LIMITED, 
+Registered Office Address: 
+H.NO.254, Millennium Valley,
+Hompalaghatta, Anekal, 
+Bangalore- 562106, Karnataka
+
+You may visit the links in the advertisements at your own risk or choose to not accept the cookies permitting third parties to display their advertisements.
+
+    </p>
       </div>
     );
   };

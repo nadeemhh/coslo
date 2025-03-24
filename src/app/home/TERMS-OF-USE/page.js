@@ -272,7 +272,11 @@ We will not be liable for damages for any delay or failure to perform our obliga
 19.1.	Entire Agreement: These Terms of Use, read with the Privacy Policy and Disclaimer form the complete and final contract between us with respect to the subject matter hereof and supersedes all other communications, representations, and agreements (whether oral, written, or otherwise) relating thereto.
 19.2.	Waiver: The failure at any time to require the performance of any provision of these Terms of Use shall in no manner affect our right at a later time to enforce the same. No waiver by us of any breach of these Terms of Use, whether by conduct or otherwise, in any one or more instances, shall be deemed to be or construed as a further or continuing waiver of any such breach, or a waiver of any other breach of these Terms of Use. 
 19.3.	Severability: If any provision/clause of these Terms of Use is held to be invalid, illegal, or unenforceable by any court or authority of competent jurisdiction, the validity, legality, and enforceability of the remaining provisions/clauses of these Terms of Use shall in no way be affected or impaired thereby, and each such provision/clause of these Terms of Use shall be valid and enforceable to the fullest extent permitted by Applicable Law. In such case, these Terms of Use shall be reformed to the minimum extent necessary to correct any invalidity, illegality or unenforceability, while preserving to the maximum extent the original rights, intentions and commercial expectations of the Parties hereto, as expressed herein. 
-19.4.	Contact Us: If you have any questions about these Terms of Use, the practices of the Website, or your experience, you can contact us by emailing us at Help@coslomart.com or by writing to us at : 
+<br />
+<br />
+<strong>19.4. Contact Us:</strong>
+<br />
+<br /> If you have any questions about these Terms of Use, the practices of the Website, or your experience, you can contact us by emailing us at Help@coslomart.com or by writing to us at : 
 COSLOMART PRIVATE LIMITED, 
 Registered Office Address: 
 H.NO.254, Millennium Valley,
