@@ -103,7 +103,7 @@ const Productbyusertype = () => {
 
     return (
         <div className="container2">
-            <div className="tabs">
+            <div className="tabs mytab66">
                 <button
                     className={activeTab === "Individual" ? "active" : ""}
                     onClick={() => {

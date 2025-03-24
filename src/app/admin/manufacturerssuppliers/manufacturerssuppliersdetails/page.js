@@ -207,42 +207,42 @@ export default function Page() {
       </div>
       </div>
     <div className="card-details">
-    <p className="user-email">Name : {data.name || ''}</p>
-      <p className="user-email">Email : {data.email || ''}</p>
-      <p className="user-phone">Phone : {data.phone || ''}</p>
-      <p className="user-company">Company : {data.businessName || ''}</p>
-      <p className="user-company">Business Type : {data.businessType || ''}</p>
-      <p className="user-company">Delivery Type : {data.deliveryType || ''}</p>
-      <p className="user-company">Subscription Type : {data?.subscription?.plan || ''}</p>
-      <p className="user-company">account Holder Name : {data.bankDetails?.accountHolderName || ''}</p>
-      <p className="user-company">account Number : {data.bankDetails?.accountNumber || ''}</p>
-      <p className="user-company">bank Name : {data.bankDetails?.bankName || ''}</p>
-      <p className="user-company">ifsc Code : {data.bankDetails?.ifscCode || ''}</p>
+    <p className="user-email">Name : {data.name || 'unavailable'}</p>
+      <p className="user-email">Email : {data.email || 'unavailable'}</p>
+      <p className="user-phone">Phone : {data.phone || 'unavailable'}</p>
+      <p className="user-company">Company : {data.businessName || 'unavailable'}</p>
+      <p className="user-company">Business Type : {data.businessType || 'unavailable'}</p>
+      <p className="user-company">Delivery Type : {data.deliveryType || 'unavailable'}</p>
+      <p className="user-company">Subscription Type : {data?.subscription?.plan || 'unavailable'}</p>
+      <p className="user-company">account Holder Name : {data.bankDetails?.accountHolderName || 'unavailable'}</p>
+      <p className="user-company">account Number : {data.bankDetails?.accountNumber || 'unavailable'}</p>
+      <p className="user-company">bank Name : {data.bankDetails?.bankName || 'unavailable'}</p>
+      <p className="user-company">ifsc Code : {data.bankDetails?.ifscCode || 'unavailable'}</p>
 
 
 {/* address */}
 
 <p className="user-company">address: {data.address
-.addressLine || ''}</p>
+?.addressLine || 'unavailable'}</p>
    <p className="user-company">city : {data.address
-.city || ''}</p>
+?.city || 'unavailable'}</p>
    <p className="user-company">pincode : {data.address
-.pincode || ''}</p>
+?.pincode || 'unavailable'}</p>
    <p className="user-company">state : {data.address
-.state || ''}</p>
+?.state || 'unavailable'}</p>
       
       {/* <p className="user-company">Subscription Status : Active</p> */}
-      <p className="user-company">pan Number : {data.panNumber || ''}</p>
-      <p className="user-company">GST Number : {data.gstNumber || ''}</p>
-      <p className="user-company">GST Certificate File : <a href={data.gstCertificateFile || ''} style={{color:'blue'}} target='_blank'>check file</a></p>
+      <p className="user-company">pan Number : {data.panNumber || 'unavailable'}</p>
+      <p className="user-company">GST Number : {data.gstNumber || 'unavailable'}</p>
+      <p className="user-company">GST Certificate File : <a href={data.gstCertificateFile || 'unavailable'} style={{color:'blue'}} target='_blank'>check file</a></p>
     </div>
 
   </div>
   
 
-  <button className="btnn visit-btn" onClick={()=>{getsellertoken()}}>
+ {data.isVerified && <button className="btnn visit-btn" onClick={()=>{getsellertoken()}}>
             Visit Seller <i className="fas fa-arrow-right"></i>
-          </button>
+          </button>}
         
   </div>
 

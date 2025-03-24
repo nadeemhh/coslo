@@ -259,14 +259,7 @@ console.log(variation)
 
 const defaultSlabs = [
   {
-    type: "individual",
-    min: "",
-    max: "",
-    discount: "",
-    deliveryFee: "",
-  },
-  {
-    type: "retailer",
+    type: "individual / retailer",
     min: "",
     max: "",
     discount: "",
@@ -274,6 +267,13 @@ const defaultSlabs = [
   },
   {
     type: "wholesaler",
+    min: "",
+    max: "",
+    discount: "",
+    deliveryFee: "",
+  },
+  {
+    type: "wholesaler - Bulk Qty",
     min: "",
     max: "",
     discount: "",
@@ -770,20 +770,20 @@ document.querySelector('.loaderoverlay').style.display='none';
       
     }
 
+// stop scrool when active input
+  // useEffect(() => {
+  //   const preventScroll = (event) => {
+  //     if (document.activeElement.type === "number") {
+  //       event.preventDefault();
+  //     }
+  //   };
 
-  useEffect(() => {
-    const preventScroll = (event) => {
-      if (document.activeElement.type === "number") {
-        event.preventDefault();
-      }
-    };
+  //   window.addEventListener("wheel", preventScroll, { passive: false });
 
-    window.addEventListener("wheel", preventScroll, { passive: false });
-
-    return () => {
-      window.removeEventListener("wheel", preventScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("wheel", preventScroll);
+  //   };
+  // }, []);
 
 
 

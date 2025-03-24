@@ -44,13 +44,19 @@ const Footer = () => (
             <h3>Policies</h3>
             <ul>
               <li>
-                <a href="/home/Policies/#TermsofService">Terms & Conditions</a>
+                <a href="/home/TERMS-OF-USE">Terms of Use</a>
               </li>
               <li>
-                <a href="/home/Policies/#PrivacyPolicy">Privacy Policy</a>
+                <a href="/home/PrivacyPolicy">Privacy Policy</a>
               </li>
               <li>
-                <a href="/home/Policies/#ReturnPolicy">Return Policy</a>
+                <a href="/home/ReturnPolicy">Return Policy</a>
+              </li>
+              <li>
+                <a href="/home/cookiepolicy">Cookie Policy</a>
+              </li>
+              <li>
+                <a href="/home/shippingpolicy">Shipping Policy</a>
               </li>
               {/* <li>
                 <a href="#">Shipping Policy</a>
