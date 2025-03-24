@@ -27,7 +27,7 @@ const MobileFooter = () => {
           <span>Profile</span>
         </Link>
         <Link href={user?"/home/cart":"/home/login"} className="nav-item">
-          <i className="fas fa-shopping-cart" style={{position:'relative'}}> <div className="btn_badge11"></div></i>
+          <i className="fas fa-shopping-cart" style={{position:'relative'}}> {user && <div className="btn_badge11"></div>}</i>
           <span>Cart</span>
         </Link>
       </div>
