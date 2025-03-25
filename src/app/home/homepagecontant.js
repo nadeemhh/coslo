@@ -234,7 +234,7 @@ console.log(firstPart,secondPart);
 
 <div className="category-name" style={{marginTop:'50px'}}>
             <img src="icons/Rectangle 2.svg" alt="" />
-            <p>Our Products</p>
+            <p className='OurProducts55'>Our Products</p>
           </div>
 
 <Productbyusertype/>
