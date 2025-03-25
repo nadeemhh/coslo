@@ -44,12 +44,12 @@ gap: 20px;
   border-radius: 5px;
 }
 
-.basic-info h2,
+/* .basic-info h2,
 .add-category h2,
 .add-location h2 {
   font-size: 18px;
   margin-bottom: 30px;
-}
+} */
 
 .input-group {
   margin-bottom: 15px;

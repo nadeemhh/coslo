@@ -79,7 +79,7 @@ console.log(selectedName)
         </div>
         </Link>
 
-<div className="search-pre">
+{/* <div className="search-pre">
         <img src="\icons\pre.svg" alt=""  className="show" onClick={handleGoBack}/>
 
         <div className="search-bar">
@@ -99,7 +99,7 @@ console.log(selectedName)
             <i className="fas fa-search"></i>
           </button>
         </div>
-        </div>
+        </div> */}
        
        
         <div className="action-buttons hide">

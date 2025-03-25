@@ -52,7 +52,7 @@ export default function Homepagecontant() {
       
         useEffect(() => {
       
-          fetchProducts();
+         // fetchProducts();
         }, []);
 
         function splitCategories(categories) {
@@ -99,13 +99,13 @@ console.log(firstPart,secondPart);
 
 
       <div className="category-list">
-          <div className="category-name">
+          {/* <div className="category-name">
             <img src="icons/Rectangle 2.svg" alt="" />
             <p>Our Categories</p>
-          </div>
+          </div> */}
 
           <div className="category-title">
-            <p style={{ fontWeight: '500' }}>Browse by Categories</p>
+            {/* <p style={{ fontWeight: '500' }}>Browse by Categories</p> */}
 
             <div style={{ display: 'flex', gap: '10px', cursor: 'pointer' }}>
               <img

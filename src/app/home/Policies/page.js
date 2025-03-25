@@ -54,9 +54,8 @@ const Policies = () => {
       
       <section className="policy-section" id='TermsofService'>
       <h3>1. Terms & Conditions</h3>
-            <p>
-            {policydata.termsOfService}
-            </p>
+            
+            <div dangerouslySetInnerHTML={{ __html: policydata.termsOfService }}></div>
       </section>
       
       <section className="policy-section" id='PrivacyPolicy'>
@@ -68,9 +67,9 @@ const Policies = () => {
       
       <section className="policy-section" id='ReturnPolicy'>
       <h3>3. Return Policy</h3>
-            <p>
-            {policydata.returnPolicy}
-            </p>
+           
+            <div dangerouslySetInnerHTML={{ __html: policydata.returnPolicy }}></div>
+          
       </section>
       </>}
     </div>
