@@ -9,6 +9,16 @@ const ReturnPolicy = () => {
         This Payment, Return, and Refund Policy (hereinafter referred to as the "Policy") outlines the terms governing payments, cancellations, returns, and refunds for transactions conducted on the Platform — COSLOMART (hereinafter referred to as the "Platform"). By making any purchase or subscribing to services on the Platform, you agree to be bound by the terms stated herein.
         <br />
 <br />
+
+<strong>Return - once return is approved return will be done within 3-5 working days 
+</strong>
+<br />
+<br />
+
+<strong>Refund - once refund is approved amount will be credited to your bank account within 7 -10 working days</strong>
+<br />
+<br />
+
 <strong>1.	PAYMENT TERMS</strong>
 <br />
 <br />

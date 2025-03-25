@@ -75,7 +75,7 @@ document.querySelector('.loaderoverlay').style.display='flex';
 <div className="feedback-container565">
       <div className="feedback-header565">
         <div className="feedback-icon565">
-        <img src="\icons\feedi.png" alt="" />
+        <img src="\images\coslomartlogo.png" alt="" width={'200px'}/>
         </div>
         <h2>How was your experience using Coslo</h2>
         <p>We value your feedback, please rate your overall experience</p>

@@ -17,9 +17,6 @@ export default function Home() {
   return (
     <>
 
-<div className="navbar" style={{backgroundColor:'blue'}}>
-    <h3 style={{color:'white'}}>Under Construction 🚧 comming soon</h3>
-    </div>
 
 {/* nav */}
 
