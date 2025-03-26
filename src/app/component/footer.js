@@ -91,7 +91,7 @@ const Footer = () => (
                 <a href="/home/about-us">About Us</a>
               </li>
               <li>
-                <a href="/home/about-us">Contact Us</a>
+                <a href="/home/contactus">Contact Us</a>
               </li>
               {/* <li>
                 <a href="#">FAQs</a>

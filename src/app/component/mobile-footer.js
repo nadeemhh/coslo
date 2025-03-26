@@ -18,10 +18,10 @@ const MobileFooter = () => {
           <i className="fas fa-home"></i>
           <span>Home</span>
         </Link>
-        {/* <Link href="/home/Categories" className="nav-item">
+        <Link href="/home/Categories" className="nav-item">
           <i className="fas fa-th-list"></i>
           <span>Category</span>
-        </Link> */}
+        </Link>
         <Link href={user?"/user/sidebar":"/home/login"} className="nav-item">
           <i className="fas fa-user"></i>
           <span>Profile</span>

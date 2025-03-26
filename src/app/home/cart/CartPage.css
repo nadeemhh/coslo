@@ -208,6 +208,13 @@ form input {
   font-size: 14px;
 }
 
+#mystates{  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(157, 157, 157);
+  background-color: #F4F7FB;
+  border-radius: 5px;
+  font-size: 14px;}
+
 form input:focus {
   border-color: #007bff;
   outline: none;

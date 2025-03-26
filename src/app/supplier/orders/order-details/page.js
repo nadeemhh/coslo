@@ -201,6 +201,8 @@ console.log(shipmentid)
         <p><strong>Address:</strong> {data.shippingAddress.addressLine}</p>
         <p><strong>Phone:</strong> {data.shippingAddress.phone}</p>
         <p><strong>Pincode:</strong> {data.shippingAddress.pincode}</p>
+        <p><strong>City:</strong> {data.shippingAddress.city}</p>
+        <p><strong>State:</strong> {data.shippingAddress.state}</p>
         </div>
         {/* <div className="order-box">
           <h3>Return / Refund</h3>

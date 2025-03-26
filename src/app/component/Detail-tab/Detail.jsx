@@ -9,9 +9,10 @@ const Detail = ({pid,description}) => {
         switch (activeTab) {
             case "description":
                 return <div>
-                    <p style={{color:'black'}}>
-                     {description}
-                    </p>
+                     <div dangerouslySetInnerHTML={{ __html: description }} style={{color:'black',textAlign:'left'}}>
+
+                     </div>
+                    
                   
                 </div>;
             case "technicalDetails":

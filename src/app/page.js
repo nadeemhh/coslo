@@ -46,7 +46,7 @@ export default function Home() {
         </div>
         </Link>
 
-        {/* <a className="search-bar" href='/home'>
+        <a className="search-bar" href='/home'>
           <div className="dropdown">
             <select name="" id="" className="dropdown-btn hide">
                <option value="">Products</option>
@@ -58,7 +58,7 @@ export default function Home() {
           <button className="search-btn">
             <i className="fas fa-search"></i>
           </button>
-        </a> */}
+        </a>
 
        
         <div className="action-buttons">

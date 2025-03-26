@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
-export default function QuillEditor({ value, onChange }) {
+export default function QuillEditor({ value, onChange,editorwidth=false }) {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -45,5 +45,5 @@ export default function QuillEditor({ value, onChange }) {
     }
   }, [value]);
 
-  return <div ref={editorRef} style={{height:'500px'}} className="h-60 border border-gray-300 rounded" />;
+  return <div ref={editorRef} style={{ height: editorwidth ? editorwidth : '500px' }} className="h-60 border border-gray-300 rounded" />;
 }

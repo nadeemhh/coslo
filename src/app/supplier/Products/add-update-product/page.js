@@ -5,6 +5,8 @@ import '../../../component/component-css/cartcard.css'
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
+import dynamic from 'next/dynamic';
+ const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
 
 
@@ -867,8 +869,10 @@ document.querySelector('.loaderoverlay').style.display='none';
         </div> */}
         <div className="input-group">
           <label htmlFor="description">Enter Description</label>
-          <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
-          onChange={(e) => handleProductDataChange("description", e.target.value)}></textarea>
+          {/* <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
+          onChange={(e) => handleProductDataChange("description", e.target.value)}></textarea> */}
+          
+          <QuillEditor value={userData.productData.description || ""} onChange={(value) => handleProductDataChange("description", value)}  editorwidth={'200px'}/>
         </div>
 
         <div className="input-group">
