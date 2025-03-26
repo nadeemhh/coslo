@@ -261,25 +261,25 @@ console.log(variation)
 
 const defaultSlabs = [
   {
-    type: "individual / retailer",
+    type: "individual",
     min: "",
     max: "",
     discount: "",
-    deliveryFee: "",
+    deliveryFee: ""
+  },
+  {
+    type: "retailer",
+    min: "",
+    max: "",
+    discount: "",
+    deliveryFee: ""
   },
   {
     type: "wholesaler",
     min: "",
     max: "",
     discount: "",
-    deliveryFee: "",
-  },
-  {
-    type: "wholesaler - Bulk Qty",
-    min: "",
-    max: "",
-    discount: "",
-    deliveryFee: "",
+    deliveryFee: ""
   },
 ];
 
@@ -1377,8 +1377,9 @@ onClick={addreason}
           <div style={{display:'flex',justifyContent:'space-between'}}>
 
             <strong className="form-label" style={{ marginBottom: "10px" }}>
-              Type: {slab.type}
+              Type: {slab.type==='individual'?'individual / retailer':(slab.type==='retailer'?'wholesaler':'wholesaler - Bulk Qty')}
             </strong>
+            
             <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
                   onClick={()=>{remopriceslab(index)}}></i>
 

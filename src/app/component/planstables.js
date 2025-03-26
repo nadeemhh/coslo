@@ -31,6 +31,7 @@ export default function PlansTable({showbuybuttons=true}) {
             const data = await response.json();
             console.log(data);
             alert(data.error)
+            window.location.href = '/auth/sup-manu/login?revert=planspage';
             return;
           }
     

@@ -42,12 +42,17 @@ function AddressSection({isaddress, setisaddress}) {
     const toggleModal = (address) => {
       setSelectedAddressData(address);
       setModalOpen(!ModalOpen);
+      setshowadd(false)
     };
 
  
   const submitaddress = async (e) => {
     e.preventDefault();
-  
+  if(!document.querySelector('#mystates').selectedIndex){
+alert('Select State/UT')
+return;
+  }
+
     const token = localStorage.getItem('buyertoken');
     
     // Collect form data
@@ -56,7 +61,8 @@ function AddressSection({isaddress, setisaddress}) {
       addressLine: document.querySelector("input[name='address']").value,
       landmark: document.querySelector("input[name='landmark']").value,
       city: document.querySelector("input[name='city']").value,
-      state: document.querySelector("input[name='state']").value,
+      state: document.querySelector('#mystates').options[document.querySelector('#mystates').selectedIndex
+      ].value,
       pincode: document.querySelector("input[name='pincode']").value,
       phone: document.querySelector("input[name='phone']").value,
     };
@@ -101,7 +107,8 @@ function AddressSection({isaddress, setisaddress}) {
       addressLine: document.getElementById("edit-address").value,
       landmark: document.getElementById("edit-landmark").value,
       city: document.getElementById("edit-city").value,
-      state: document.getElementById("edit-state").value,
+      state: document.querySelector('#mystates').options[document.querySelector('#mystates').selectedIndex
+      ].value,
       pincode: document.getElementById("edit-pincode").value,
       phone: document.getElementById("edit-phone").value,
     };
@@ -223,14 +230,15 @@ const SelectedAddressfun = async (index,id) => {
 <label htmlFor="city">Enter City *</label>
 <input type="text" id="city" name="city" placeholder="Enter City" required/>
 
-<label htmlFor="state">Enter State *</label>
-<input type="text" id="state" name="state" placeholder="Enter State" required/>
+<label htmlFor="state">Select State/UT *</label>
+{/* <input type="text" id="state" name="state" placeholder="Enter State" required/> */}
+<StateSelector value={'Select State/UT'}/>
 
 <label htmlFor="pincode">Enter Pin Code *</label>
-<input type="text" id="pincode" name="pincode" placeholder="Enter Pin Code" required/>
+<input type="number" id="pincode" name="pincode" placeholder="Enter Pin Code" required/>
 
 <label htmlFor="phone">Enter Contact No.</label>
-<input type="text" id="phone" name="phone" placeholder="Enter Contact No." required/>
+<input type="number" id="phone" name="phone" placeholder="Enter Contact No." required/>
 
        
 </>}
@@ -271,14 +279,14 @@ const SelectedAddressfun = async (index,id) => {
         <label htmlFor="edit-city">Enter City *</label>
         <input type="text" id="edit-city" defaultValue={selectedAddressData.city} required />
 
-        <label htmlFor="edit-state">Enter State *</label>
-        <input type="text" id="edit-state" defaultValue={selectedAddressData.state} required />
+        <label htmlFor="edit-state">Select State/UT *</label>
+        <StateSelector value={selectedAddressData.state}/>
 
         <label htmlFor="edit-pincode">Enter Pin Code *</label>
-        <input type="text" id="edit-pincode" defaultValue={selectedAddressData.pincode} required />
+        <input type="number" id="edit-pincode" defaultValue={selectedAddressData.pincode} required />
 
         <label htmlFor="edit-phone">Enter Contact No.</label>
-        <input type="text" id="edit-phone" defaultValue={selectedAddressData.phone} required />
+        <input type="number" id="edit-phone" defaultValue={selectedAddressData.phone} required />
 
         <div className="buttons">
           <button className="add" type="submit">Update Address</button>
