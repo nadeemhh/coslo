@@ -1265,12 +1265,14 @@ onClick={addreason}
 
 
             {/* Add Attributes */}
+            <div style={{display:"flex",gap:'10px',alignItems:'center'}}>
             <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Attributes</strong>
             <i
               className="fas fa-plus-circle"
               style={{ color: "green", fontSize: "20px", cursor: "pointer" }}
               onClick={addAttribute}
             ></i>
+</div>
 
             {variation.attributes.map((attr, index) => (
               <div className="quantity-range" key={index}>
@@ -1309,40 +1311,55 @@ onClick={addreason}
 
 
             {/* Dimensions */}
-            <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}> Add Dimensions</strong> 
+            {/* <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}> Add Dimensions</strong>  */}
 
-         <div className="quantity-range">
+         <div className="quantity-range" style={{marginTop:'40px'}}>
           <div className="form-group">
-            <label className="form-label">Dimensions in centimeter</label>
+            <strong className="form-label" style={{marginBottom:'15px'}}>Add Dimensions in centimeter</strong>
             <div className="range-container">
+
+            <div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
+              <p>Length</p>
+              
               <input
                 type="number"
                 className="form-input small-input"
                 required
-                placeholder="Length"
+                placeholder=""
                 style={{width:'100px'}}
                 value={variation.dimensions.length}
                 onChange={(e) => handleDimensionChange("length", e.target.value)}
               />
             
+            </div>
+
+            <div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
+            <p>Height</p>
               <input
                 type="number"
                 className="form-input small-input"
-                placeholder="Height"
+                placeholder=""
                 required
                 style={{width:'100px'}}
                 value={variation.dimensions.height}
                 onChange={(e) => handleDimensionChange("height", e.target.value)}
               />
+                  
+            </div>
+
+<div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
+<p>Width</p>
                <input
                 type="number"
                 className="form-input small-input"
-                placeholder="Width"
+                placeholder=""
                 required
                 style={{width:'100px'}}
                 value={variation.dimensions.width}
                 onChange={(e) => handleDimensionChange("width", e.target.value)}
               />
+                  
+            </div>
             </div>
           </div>
           </div>
@@ -1351,7 +1368,7 @@ onClick={addreason}
  {/* weight */}
           <div className="quantity-range">
           <div className="form-group">
-            <label className="form-label">weight in kg</label>
+            <strong className="form-label">Add weight in kg</strong>
             <div className="range-container">
             
                <input

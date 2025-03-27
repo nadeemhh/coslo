@@ -14,7 +14,7 @@ export default function Page() {
    const [paymentstatus, setpaymentstatus] = useState(''); 
    const [shippingstatus, setshippingstatus] = useState(''); 
    const [invoiceUrl,setinvoiceUrl] = useState(false);
-
+   const [pickupdate,setpickupdate] = useState(null);
    const paymentstatusChange = (e) => {
     setpaymentstatus(e.target.value);
   };
@@ -56,6 +56,7 @@ export default function Page() {
         setdata(mydata.data)
         setpaymentstatus(mydata.data.orderSummary.paymentStatus);
         setshippingstatus(mydata.data.orderSummary.deliveryStatus);
+        setpickupdate(mydata.data?.deliveryTracking?.pickupDate)
 
         if(mydata.data.orderSummary.deliveryProvider !== "SELF"){
           getinvoice(mydata.data.deliveryTracking.shipmentId)
@@ -204,7 +205,9 @@ console.log(shipmentid)
       })
       .then((data) => {
 
-      alert('Pickup Scheduled')
+      alert(`${data.message} - ${data.pickupDate}`)
+      setpickupdate(data.pickupDate)
+      
         document.querySelector('.loaderoverlay').style.display = 'none';
        
       })
@@ -234,6 +237,7 @@ console.log(shipmentid)
           <p><strong>Total :</strong> ₹ {data.amountSummary.grandTotal}/-</p>
           <p><strong>Order Date :</strong> {extractDate(data.orderSummary.orderDate)}</p>
           <p><strong>Payment Method :</strong> {data.orderSummary.paymentMethod}</p>
+          <p><strong>pickup Date :</strong> {pickupdate || 'null'}</p>
         </div>
         <div className="order-box">
           <h3>Shipping Address</h3>
@@ -304,11 +308,11 @@ data.orderSummary.deliveryProvider === "COSLO" &&
         </a>      }
 </div>
 
-<div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
+{pickupdate === null && <div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
  
  <button className="shipdownload-btn" style={{backgroundColor:'rgb(48 181 26)',color:"white"}}
  onClick={()=>(ShiprocketPickup())}>Request Shiprocket Pickup</button>  
-</div>
+</div>}
 </>
 
 }
