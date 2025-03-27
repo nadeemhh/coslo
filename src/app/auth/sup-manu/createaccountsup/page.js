@@ -210,12 +210,13 @@ const TermsCard = ({toggleconfirmation,handledata,policydata}) => {
             </p>
 
             <h3>1. Terms Of Service</h3>
-            <p>
-            {policydata.termsOfService}
-            </p>
+           
+            <div dangerouslySetInnerHTML={{ __html: policydata.termsOfService }}>
+
+            </div>
 
             
-            <h3>2. Privacy Policy</h3>
+            {/* <h3>2. Privacy Policy</h3>
             <p>
             {policydata.privacyPolicy}
             </p>
@@ -223,7 +224,7 @@ const TermsCard = ({toggleconfirmation,handledata,policydata}) => {
             <h3>3. Return Policy</h3>
             <p>
             {policydata.returnPolicy}
-            </p>
+            </p> */}
 
             
           </div>

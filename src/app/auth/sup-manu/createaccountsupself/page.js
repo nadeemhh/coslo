@@ -659,12 +659,10 @@ const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
               Welcome to Coslo! By using our website, you agree to the following terms and conditions. Please read them carefully.
             </p>
             <h3>1. Terms Of Service</h3>
-            <p>
-            {policydata.termsOfService}
-            </p>
-
+          
+            <div dangerouslySetInnerHTML={{ __html: policydata.termsOfService }}></div>
             
-            <h3>2. Privacy Policy</h3>
+            {/* <h3>2. Privacy Policy</h3>
             <p>
             {policydata.privacyPolicy}
             </p>
@@ -672,7 +670,7 @@ const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
             <h3>3. Return Policy</h3>
             <p>
             {policydata.returnPolicy}
-            </p>
+            </p> */}
 
           </div>
           <div className="terms-footer065">

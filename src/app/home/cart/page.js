@@ -40,7 +40,7 @@ console.log(OrderSummary);
         if(data.cart){
           setdata([...data.cart.sellerCarts])
 
-          const totalBaseAmount = data.cart.cartFinalAmount-data.cart.cartCgstAmount-data.cart.cartSgstAmount-data.cart.cartTotalShippingFee+data.cart.cartTotalDiscountAmount;
+          const totalBaseAmount = (data.cart.cartFinalAmount-data.cart.cartCgstAmount-data.cart.cartSgstAmount-data.cart.cartTotalShippingFee+data.cart.cartTotalDiscountAmount).toFixed(2);
 
 
           setOrderSummary({

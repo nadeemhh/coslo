@@ -177,6 +177,46 @@ console.log(shipmentid)
   };
 
 
+  function ShiprocketPickup() {
+    
+    document.querySelector('.loaderoverlay').style.display='flex';
+
+    const oid = new URLSearchParams(window.location.search).get("oid");
+
+    const token = localStorage.getItem('token');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/schedule-pickup/${oid}`, {
+      method: 'POST',
+       headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+           
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+
+      alert('Pickup Scheduled')
+        document.querySelector('.loaderoverlay').style.display = 'none';
+       
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+      
+       
+      });
+  }
+
+
   return (
     <>
     {data && <div className="order-details">
@@ -253,15 +293,27 @@ console.log(shipmentid)
        
       </div>
 
+      <div style={{display:'flex',gap:'20px'}}>
 { 
+ 
 data.orderSummary.deliveryProvider === "COSLO" && 
+<>
 <div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
 {invoiceUrl && <a href={invoiceUrl} target='_blank' className="shipdownload-btn">
-        Download Invoice
+        Download Label
         </a>      }
 </div>
+
+<div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
+ 
+ <button className="shipdownload-btn" style={{backgroundColor:'rgb(48 181 26)',color:"white"}}
+ onClick={()=>(ShiprocketPickup())}>Request Shiprocket Pickup</button>  
+</div>
+</>
+
 }
-      
+
+</div>     
 
       <div className="product-details">
       
