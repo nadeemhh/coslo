@@ -21,7 +21,8 @@ const Usersidebar = () => {
 if(iscoslo){
 
   setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' }])
+    { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
+    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' }])
 
     setiscosload(iscoslo);
 

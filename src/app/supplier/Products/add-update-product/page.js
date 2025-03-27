@@ -1512,7 +1512,7 @@ onClick={addreason}
 
       {/* Divert Small Order */}
       <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-        <label>Divert Individual Order to Coslo</label>
+        <label>Divert Individual Order to Coslomart</label>
         <label className="switch">
           <input
             type="checkbox"
