@@ -404,9 +404,10 @@ setwaitconfirmationOpen(false)
        } else if(data.success === false){
 
         alert(data.message)
-
+        setwaitconfirmationOpen(false)
        }else{
         alert(data.error)
+        setwaitconfirmationOpen(false)
         
         }
     

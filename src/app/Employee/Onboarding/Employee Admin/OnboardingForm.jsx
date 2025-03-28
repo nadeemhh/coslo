@@ -158,7 +158,7 @@ const waittoggleconfirmation = () => {
 
   const handleSubmit = async () => {
 
-
+    document.querySelector('.loaderoverlay').style.display='flex';
   
     const formData = new FormData();
     
@@ -348,7 +348,7 @@ if (response.ok) {
   setwaitconfirmationOpen(true)
   setreferenceId(data.referenceId)
   checkbankstatus(data.referenceId,businessNamefromgst)
-
+  document.querySelector('.loaderoverlay').style.display='none';
  }else{
   alert(data.error)
   document.querySelector('.loaderoverlay').style.display='none';
@@ -403,7 +403,7 @@ setUser(prevUser => ({
 alert('You have been verified successfully.')
 setgstverified(true)
 setwaitconfirmationOpen(false)
-handleSubmit();
+document.querySelector('.loaderoverlay').style.display='none';
 
 }else{
 alert("The name did not match with the bank name and GST name.")
@@ -415,9 +415,11 @@ document.querySelector('.loaderoverlay').style.display='none';
 
     alert(data.message)
     document.querySelector('.loaderoverlay').style.display='none';
+    setwaitconfirmationOpen(false)
    }else{
     alert(data.error)
     document.querySelector('.loaderoverlay').style.display='none';
+    setwaitconfirmationOpen(false)
     }
 
 })
@@ -455,7 +457,7 @@ console.log(user.role,!user.role)
         return;
       }
       
-      verifygst()
+      handleSubmit();
 
 }}>
           <div className="form-tab">
@@ -470,43 +472,17 @@ console.log(user.role,!user.role)
             <label htmlFor="phoneNo">Enter Phone No</label>
             <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
-          {/* <div className="form-tab">
-            <label htmlFor="password">Enter Password</label>
-            <input type="text" name="password" value={user.password} onChange={handleOnChange} />
-          </div> */}
-          <div className="form-tab">
-            <label htmlFor="company">Enter Company Name</label>
-            <input type="text" name="company" value={user.company} onChange={handleOnChange} required/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} required/>
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} required/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} required/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} required/>
-          </div>
-          
-          
+         
           <div className="form-tab">
             <label htmlFor="panNumber">Enter Pan Number</label>
-            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} required/>
+            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
           </div>
 
          
 
           <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
-            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} required/>
+            <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
           </div>
 
           {/* GST Certificate Uploader */}
@@ -517,6 +493,51 @@ console.log(user.role,!user.role)
             id="gstUploader"
           />
 
+<div className="form-tab">
+<label htmlFor="AccountNumber">Account Number</label>
+<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
+</div>
+
+<div className="form-tab">
+<label htmlFor="IFSCCode">IFSC Code</label>
+<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
+</div>
+
+ { gstverified === true && <>
+<div className="form-tab">
+<label htmlFor="BankName">Bank Name</label>
+<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
+</div>
+
+<div className="form-tab">
+<label htmlFor="AccountHolderName">Account Holder Name</label>
+<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required readOnly/>
+</div>
+
+          <div className="form-tab">
+            <label htmlFor="company">Enter Company Name</label>
+            <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly required/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter Address</label>
+            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly required/>
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="location">Enter City</label>
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly required/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter State</label>
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly required/>
+          </div>
+          <div className="form-tab">
+            <label htmlFor="location">Enter Pincode</label>
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly required/>
+          </div>
+          
+          
+        
           <div className="form-tab">
             <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
             <input type="text" name="ComplianceNo" value={user.ComplianceNo} onChange={handleOnChange} />
@@ -529,29 +550,6 @@ console.log(user.role,!user.role)
             setImages={setComplianceImages}
             id="complianceUploader"
           />
-
-
-<p htmlFor='SubscriptionType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',margin:'30px 10px'}}>Enter Bank Details</p>
-
-<div className="form-tab">
-<label htmlFor="AccountHolderName">Account Holder Name</label>
-<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required />
-</div>
-
-<div className="form-tab">
-<label htmlFor="AccountNumber">Account Number</label>
-<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} required/>
-</div>
-
-<div className="form-tab">
-<label htmlFor="IFSCCode">IFSC Code</label>
-<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} required/>
-</div>
-
-<div className="form-tab">
-<label htmlFor="BankName">Bank Name</label>
-<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
-</div>
 
 
 
@@ -594,10 +592,16 @@ console.log(user.role,!user.role)
                                 <label>Self Delivery Model</label>
                             </div>
                         </div>
-
+                        </>
+}
                        
         
-                        <button className="fo2" type='submit'>Send Account Creation Email ➜</button>
+                        {gstverified === true ?
+                        <button className="fo2">Send Account Creation Email ➜</button>:
+                        <button className="fo2"  onClick={(e)=>{
+                          e.preventDefault();
+                          verifygst()}}>Verify Details</button>
+                         }
                         
 
           
