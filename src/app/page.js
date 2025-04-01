@@ -73,12 +73,12 @@ export default function Home() {
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
         </a>
 
-        <a href="/auth/sup-manu/login" >
-        <Button backgroundColor = '#5706fdbd' textColor="white" >Seller Login</Button>
+        <a href="/auth/sup-manu/login" style={{border:"1px solid #0097ff",borderRadius: '4px'}} >
+        <Button backgroundColor = '#ffffff' textColor="black"   >Seller Login</Button>
         </a>
 
-        <a href="/home/login" >
-        <Button backgroundColor = '#5706fdbd' textColor="white" >Buyer Login</Button>
+        <a href="/home/login"  style={{border:"1px solid #0097ff",borderRadius: '4px'}} >
+        <Button backgroundColor = '#ffffff' textColor="black" >Buyer Login</Button>
         </a>
 
        
