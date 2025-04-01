@@ -67,8 +67,8 @@ console.log(selectedName)
         </div>
         </Link>
         
-        {user === null && <a href="/home/login">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true}>  log in </Button>
+        {user === null && <a href="/home/login" >
+        <Button backgroundColor = '#5706fdbd' textColor="white" >Buyer Login</Button>
         </a>}
 
         </div>
@@ -138,13 +138,13 @@ console.log(selectedName)
           <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
           </a>
 
-          <a href="/home/login">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true}>  log in </Button>
-        </a>
-
         <a href="/home/createaccount">
       <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
           </a>
+
+          <a href="/home/login" >
+        <Button backgroundColor = '#5706fdbd' textColor="white" >Buyer Login</Button>
+        </a>
           </>}
          
         </div>
