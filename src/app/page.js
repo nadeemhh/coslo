@@ -73,13 +73,15 @@ export default function Home() {
         <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'>About Us</Button>
         </a>
 
-          <a href="/home/login">
-        <Button backgroundColor = '#ffffff' textColor="black"  border={true} className='hide'> log in </Button>
+        <a href="/auth/sup-manu/login" >
+        <Button backgroundColor = '#5706fdbd' textColor="white" >Seller Login</Button>
         </a>
 
-        {/* <a href="/home/createaccount">
-      <Button rightIcon="icons\right.svg" className='hide'> Want to Buy</Button>
-          </a> */}
+        <a href="/home/login" >
+        <Button backgroundColor = '#5706fdbd' textColor="white" >Buyer Login</Button>
+        </a>
+
+       
          
         </div>
       </div>

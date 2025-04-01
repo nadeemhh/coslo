@@ -1,6 +1,6 @@
 'use client'
 import "../CreateAccount.css";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 function Page() {
 
@@ -62,6 +62,24 @@ function Page() {
           };
     
 
+
+          useEffect(() => {
+
+            function getCookie(name) {
+                let cookies = document.cookie.split("; ");
+                for (let cookie of cookies) {
+                    let [key, value] = cookie.split("=");
+                    if (key === name) return value;
+                }
+                return null;
+            }
+            
+               
+            if (getCookie('buyertoken')) {
+              window.location.href = '/home';
+          }
+        
+          },[]);
 
     return (
         <div className='main mymain' >

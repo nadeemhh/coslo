@@ -1,6 +1,6 @@
 'use client'
 import "../../CreateAccount.css";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 function Login() {
 
@@ -103,6 +103,24 @@ function Login() {
           });
       };
 
+
+       useEffect(() => {
+      
+                  function getCookie(name) {
+                      let cookies = document.cookie.split("; ");
+                      for (let cookie of cookies) {
+                          let [key, value] = cookie.split("=");
+                          if (key === name) return value;
+                      }
+                      return null;
+                  }
+                  
+                     
+                  if (getCookie('token')) {
+                    window.location.href = '/supplier/dashboard';
+                }
+              
+                },[]);
 
     return (
         <div className='main' >

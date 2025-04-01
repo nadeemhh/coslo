@@ -89,7 +89,7 @@ export default function PlansTable({showbuybuttons=true}) {
 </tr>
 <tr>
   <td>Unlimited Product Listing</td>
-  <td><i className="fas fa-times not-available"></i></td>
+  <td><i className="fas fa-check available"></i></td>
   <td><i className="fas fa-check available"></i></td>
   <td><i className="fas fa-check available"></i></td>
 </tr>
