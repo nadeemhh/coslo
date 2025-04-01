@@ -60,7 +60,7 @@ let price=data.variations[showslab].mrp;
       let finalPrice = price - discountAmount;
       let savings = discountAmount.toFixed(2); // Amount saved
   
-      setsaved(savings)
+      setsaved(savings*quantity)
       return {
           category: selectedCategory.type,
           originalPrice: price,
@@ -555,7 +555,7 @@ function formatPhoneNumber(number) {
 
 {/* Pricing Section */}
 <div className="pricing">
-          <span className="price-mrp">Mrp</span>
+          <span className="price-mrp">MRP</span>
             <span className="current-price">₹{data.variations[showslab].mrp}</span>
             {/* <span className="original-price">₹ 667.00</span> */}
           </div>

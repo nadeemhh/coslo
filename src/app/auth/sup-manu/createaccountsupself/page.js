@@ -138,6 +138,42 @@ BankName:"",
         setUser({ ...user, [name]: value });
       };
     
+
+      const enableshiprocket = () => {
+      
+    
+       const token = localStorage.getItem('token');
+    
+    
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              return response.json().then((errorData) => {
+                throw new Error(errorData || 'Failed. Please try again.');
+              });
+            }
+          })
+          .then((data) => {
+                console.log(data)
+              
+               window.location.href = '/home';
+           
+          })
+          .catch((err) => {
+           
+            console.log(err)
+          });
+      };
+
+
       const handleSubmit = async () => {
 
         
@@ -213,9 +249,14 @@ BankName:"",
     
       console.log(data)
       alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
-   // alert(data.message)
+  
+      if(user.DeliveryType === 'COSLO'){
+enableshiprocket()
+      }else{
+        window.location.href = '/home';
+      }
     
-    window.location.href = '/home';
+    
     
     })
       .catch((error) => {

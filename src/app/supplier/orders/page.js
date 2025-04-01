@@ -118,41 +118,7 @@ if(sellerdata==='COSLO'){
  
  
 
-  const enableshiprocket = () => {
-      
-   
-    document.querySelector('.loaderoverlay').style.display='flex';
-
-   const token = localStorage.getItem('token');
-
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-            throw new Error(errorData || 'Failed. Please try again.');
-          });
-        }
-      })
-      .then((data) => {
-            console.log(data)
-           document.querySelector('.loaderoverlay').style.display='none';
-           alert('Shiprocket has been enabled.')
-       
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display='none';
-        console.log(err)
-      });
-  };
+ 
 
 
 
@@ -272,9 +238,7 @@ if(sellerdata==='COSLO'){
 
       <div style={{display:'flex',gap:'20px',margin:'20px'}}>
 
-    { sellerdeliveryType === true ? <button className="apply-button" style={{backgroundColor:'green'}} onClick={()=>{enableshiprocket()}}>
-          Enable Shiprocket
-        </button>
+    { sellerdeliveryType === true ? <></>
 :
         <button className="apply-button" style={{backgroundColor:'green'}} onClick={()=>{setshowpincode((pre)=>(!pre))}}>
           Add Pin Codes

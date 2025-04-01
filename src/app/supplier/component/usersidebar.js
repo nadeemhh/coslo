@@ -70,7 +70,7 @@ if(iscoslo){
   
   
  {menuItems.length !== 0 && 
-<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
+<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'80px'}}/>
 <label>Coslomart Seller Admin</label></div>
 }
 

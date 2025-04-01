@@ -30,7 +30,7 @@ console.log(OrderDETAILS);
       <div className="order-complete-content">
         <div className="order-icon">
           <img
-            src="\icons\Congrats.png" // Replace with your image URL
+            src="\images\coslomartlogo.png" // Replace with your image URL
             alt="Order Complete Icon"
           />
         </div>

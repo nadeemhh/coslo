@@ -82,6 +82,40 @@ const waittoggleconfirmation = () => {
 };
 
 
+const enableshiprocket = () => {
+      
+    
+  const token = localStorage.getItem('token');
+
+
+   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup`, {
+     method: 'GET',
+     headers: {
+       'Content-Type': 'application/json',
+       ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+     },
+   })
+     .then((response) => {
+       if (response.ok) {
+         return response.json();
+       } else {
+         return response.json().then((errorData) => {
+           throw new Error(errorData || 'Failed. Please try again.');
+         });
+       }
+     })
+     .then((data) => {
+           console.log(data)
+         
+           window.location.href = '/Employee/Onboarding/success';
+      
+     })
+     .catch((err) => {
+      
+       console.log(err)
+     });
+ };
+
 
     const handledata = () => {
      
@@ -225,7 +259,14 @@ fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`, {
   console.log(data)
 alert(data.message)
 document.querySelector('.loaderoverlay').style.display='none';
-window.location.href = '/Employee/Onboarding/success';
+
+if(user.DeliveryType === 'COSLO'){
+  enableshiprocket()
+        }else{
+          window.location.href = '/Employee/Onboarding/success';
+        }
+    
+        
 
 })
   .catch((error) => {
