@@ -23,18 +23,16 @@ const Footer = () => (
           </div>
           <p>social media</p>
           <div className="social-media">
-            <a href="#">
+            <a href="https://www.facebook.com/profile.php?id=61574036354947">
               <img src="\icons\Social Icons1.svg" alt="Facebook" />
             </a>
-            <a href="#">
-              <img src="\icons\Social Icons2.svg" alt="Twitter/X" />
+            <a href="https://youtube.com/@coslomart?si=97n_RqKLM71OBuT2">
+              <img src="\icons\youtubeicon.svg" alt="youtubeicon" />
             </a>
-            <a href="#">
+            {/* <a href="#">
               <img src="\icons\Social Icons3.svg" alt="Instagram" />
-            </a>
-            <a href="#">
-              <img src="\icons\Social Icons4.svg" alt="LinkedIn" />
-            </a>
+            </a> */}
+           
           </div>
         </div>
 
