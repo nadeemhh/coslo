@@ -217,7 +217,8 @@ export default function page() {
             <tr>
             <th>##</th>
               <th>Thumbnail</th>
-              <th>Name</th>
+              <th>Product Name</th>
+              <th>Category Name</th>
               <th>Price/Stock</th>
               <th>Actions</th>
               <th>Visibility</th>
@@ -229,7 +230,7 @@ export default function page() {
                 <td>#{index + 1}</td>
                 <td><img src={data.productImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" /></td>
                 <td>{data.productName}</td>
-
+                <td>{data.categoryName}</td>
                 <td>
                   {data.variations.map((vdata,i)=>{
                     

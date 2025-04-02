@@ -96,25 +96,39 @@ console.log(data)
         <div className="add-product-container">
           <div className="basic-info" style={{ minWidth: '600px' }}>
             <h2>Platform Customisation</h2>
+
+            <div className="input-group">
+              <h3>Terms of Use</h3>
+              <QuillEditor value={data.termsOfService||''} onChange={(value) => setData({ ...data, termsOfService: value })} />
+            </div>
+
             <div className="input-group">
               <h3>Privacy Policy</h3>
-              <QuillEditor value={data.privacyPolicy} onChange={(value) => setData({ ...data, privacyPolicy: value })} />
+              <QuillEditor value={data.privacyPolicy||''} onChange={(value) => setData({ ...data, privacyPolicy: value })} />
             </div>
-            <div className="input-group">
-              <h3>Terms & Conditions</h3>
-              <QuillEditor value={data.termsOfService} onChange={(value) => setData({ ...data, termsOfService: value })} />
-            </div>
+            
             <div className="input-group">
               <h3>Return Policy</h3>
-              <QuillEditor value={data.returnPolicy} onChange={(value) => setData({ ...data, returnPolicy: value })} />
+              <QuillEditor value={data.returnPolicy||''} onChange={(value) => setData({ ...data, returnPolicy: value })} />
             </div>
+
+            <div className="input-group">
+              <h3>Shipping Policy</h3>
+              <QuillEditor value={data.shippingPolicy||''} onChange={(value) => setData({ ...data, shippingPolicy: value })} />
+            </div>
+
+            <div className="input-group">
+              <h3>Cookie Policy</h3>
+              <QuillEditor value={data.cookiesPolicy||''} onChange={(value) => setData({ ...data, cookiesPolicy: value })} />
+            </div>
+
             <div className="input-group">
               <h3>Support Contact No.</h3>
-              <input type="text" value={data.supportPhone} onChange={(e) => setData({ ...data, supportPhone: e.target.value })} />
+              <input type="text" value={data.supportPhone||''} onChange={(e) => setData({ ...data, supportPhone: e.target.value })} />
             </div>
             <div className="input-group">
               <h3>Support Email</h3>
-              <input type="text" value={data.supportEmail} onChange={(e) => setData({ ...data, supportEmail: e.target.value })} />
+              <input type="text" value={data.supportEmail||''} onChange={(e) => setData({ ...data, supportEmail: e.target.value })} />
             </div>
             <button className="create-new" onClick={()=>send()}>
         Add/Update
