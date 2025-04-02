@@ -693,14 +693,14 @@ const TermsCard = ({toggleconfirmation,handleSubmit,policydata}) => {
  
         <div className="terms-card065">
           <div className="terms-header065">
-            <h2 className="terms-title065">Terms & Conditions</h2>
+            <h2 className="terms-title065">Terms of Use</h2>
             <i className="fa fa-times close-icon065" aria-hidden="true"  onClick={toggleconfirmation}></i>
           </div>
           <div className="terms-content065">
             <p>
               Welcome to Coslo! By using our website, you agree to the following terms and conditions. Please read them carefully.
             </p>
-            <h3>1. Terms Of Service</h3>
+            {/* <h3>Terms of Use</h3> */}
           
             <div dangerouslySetInnerHTML={{ __html: policydata.termsOfService }}></div>
             
