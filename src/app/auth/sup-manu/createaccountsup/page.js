@@ -205,9 +205,9 @@ const TermsCard = ({toggleconfirmation,handledata,policydata}) => {
             <i className="fa fa-times close-icon065" aria-hidden="true"  onClick={toggleconfirmation}></i>
           </div>
           <div className="terms-content065">
-            <p>
+            {/* <p>
               Welcome to Coslo! By using our website, you agree to the following terms and conditions. Please read them carefully.
-            </p>
+            </p> */}
 
             {/* <h3>1. Terms Of Service</h3> */}
            
