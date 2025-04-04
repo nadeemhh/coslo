@@ -18,7 +18,7 @@ const Footer = () => (
               Hompalaghatta, Anekal, Bangalore - 562106
             </p>
             <p>
-              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91 9740976987
+              <span><img src="\icons\phone.svg" alt="Facebook" /></span> +91 9429693768
             </p>
           </div>
           <p>social media</p>
