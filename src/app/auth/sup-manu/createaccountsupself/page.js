@@ -3,7 +3,7 @@ import "../../CreateAccount.css";
 import "./page.css";
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
-
+import enableshiprocket from '../../../component/enableshiprocket.js';
 
 
 function ImageUploader({ title, images, setImages, id }) {
@@ -139,45 +139,10 @@ BankName:"",
       };
     
 
-      const enableshiprocket = () => {
-      
-    
-       const token = localStorage.getItem('token');
-    
-    
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-          },
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              return response.json().then((errorData) => {
-                throw new Error(errorData || 'Failed. Please try again.');
-              });
-            }
-          })
-          .then((data) => {
-                console.log(data)
-              
-               window.location.href = '/home';
-           
-          })
-          .catch((err) => {
-           
-            console.log(err)
-          });
-      };
-
+     
 
       const handleSubmit = async () => {
-
         
-    
         document.querySelector('.loaderoverlay').style.display='flex';
 
       
@@ -251,7 +216,7 @@ BankName:"",
       alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
   
       if(user.DeliveryType === 'COSLO'){
-enableshiprocket()
+enableshiprocket(data.sellerId,'/home')
       }else{
         window.location.href = '/home';
       }

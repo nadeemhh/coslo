@@ -319,7 +319,13 @@ const removePriceSlab = (index) => {
 
     let processedValue;
 
-    if (value === true) {
+    if (value === '') {
+      processedValue = ''; // Allow empty input
+    }
+    else if (value < 0) {
+      processedValue = 0; // Allow empty input
+    }
+    else if (value === true) {
       processedValue = true;  // Convert "true" string to boolean true
     } else if (value === false) {
       processedValue = false; // Convert "false" string to boolean false
@@ -1327,7 +1333,7 @@ onClick={addreason}
                 required
                 placeholder=""
                 style={{width:'100px'}}
-                value={variation.dimensions.length}
+                value={variation.dimensions.length||''}
                 onChange={(e) => handleDimensionChange("length", e.target.value)}
               />
             
@@ -1341,7 +1347,7 @@ onClick={addreason}
                 placeholder=""
                 required
                 style={{width:'100px'}}
-                value={variation.dimensions.height}
+                value={variation.dimensions.height||''}
                 onChange={(e) => handleDimensionChange("height", e.target.value)}
               />
                   
@@ -1355,7 +1361,7 @@ onClick={addreason}
                 placeholder=""
                 required
                 style={{width:'100px'}}
-                value={variation.dimensions.width}
+                value={variation.dimensions.width||''}
                 onChange={(e) => handleDimensionChange("width", e.target.value)}
               />
                   
@@ -1409,7 +1415,7 @@ onClick={addreason}
                 className="form-input small-input"
                 placeholder="Lower Limit"
                 style={{ width: "100px" }}
-                value={slab.min}
+                value={slab.min||''}
                 onChange={(e) => {
                   const updatedSlabs = [...variation.priceSlabs];
                   updatedSlabs[index].min = Number(e.target.value);
@@ -1425,7 +1431,7 @@ onClick={addreason}
                 className="form-input small-input"
                 placeholder="Upper Limit"
                 style={{ width: "100px" }}
-                value={slab.max}
+                value={slab.max||''}
                 onChange={(e) => {
                   const updatedSlabs = [...variation.priceSlabs];
                   updatedSlabs[index].max = Number(e.target.value);
@@ -1442,7 +1448,7 @@ onClick={addreason}
               type="number"
               className="form-input"
               placeholder="Enter discount"
-              value={slab.discount}
+              value={slab.discount||''}
               onChange={(e) => {
                 const updatedSlabs = [...variation.priceSlabs];
                 updatedSlabs[index].discount = Number(e.target.value);

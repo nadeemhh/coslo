@@ -5,6 +5,9 @@ import './Employee.css'
 import { useState,useEffect } from 'react'
 import { useSearchParams } from "next/navigation";
 import Planstable from "../../../component/planstables.js";
+import enableshiprocket from '../../../component/enableshiprocket.js';
+
+
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -81,40 +84,6 @@ const waittoggleconfirmation = () => {
   setwaitconfirmationOpen(!waitconfirmationOpen);
 };
 
-
-const enableshiprocket = () => {
-      
-    
-  const token = localStorage.getItem('token');
-
-
-   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup`, {
-     method: 'GET',
-     headers: {
-       'Content-Type': 'application/json',
-       ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-     },
-   })
-     .then((response) => {
-       if (response.ok) {
-         return response.json();
-       } else {
-         return response.json().then((errorData) => {
-           throw new Error(errorData || 'Failed. Please try again.');
-         });
-       }
-     })
-     .then((data) => {
-           console.log(data)
-         
-           window.location.href = '/Employee/Onboarding/success';
-      
-     })
-     .catch((err) => {
-      
-       console.log(err)
-     });
- };
 
 
     const handledata = () => {
@@ -261,7 +230,9 @@ alert(data.message)
 document.querySelector('.loaderoverlay').style.display='none';
 
 if(user.DeliveryType === 'COSLO'){
-  enableshiprocket()
+ enableshiprocket(data.id,'/Employee/Onboarding/success')
+
+
         }else{
           window.location.href = '/Employee/Onboarding/success';
         }
