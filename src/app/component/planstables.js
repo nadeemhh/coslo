@@ -123,12 +123,6 @@ export default function PlansTable({showbuybuttons=true,hidetry=false}) {
   <td><i className="fas fa-check available"></i></td>
 </tr>
 <tr>
-  <td>Product Rate Comparison with Other Platforms</td>
-  <td><i className="fas fa-times not-available"></i></td>
-  <td><i className="fas fa-check available"></i></td>
-  <td><i className="fas fa-check available"></i></td>
-</tr>
-<tr>
   <td>Social Media Integration</td>
   <td><i className="fas fa-times not-available"></i></td>
   <td><i className="fas fa-check available"></i></td>
