@@ -1635,7 +1635,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
   
     const formData = new FormData();
     formData.append("name", categoryName);
-    formData.append("description", categoryDescription);
+    // formData.append("description", categoryDescription);
     formData.append("categoryImage", categoryImages[0]); // Only sending one file
   if(subcategory){
    let id = document.querySelector('.active342').getAttribute('categoryid');
@@ -1689,10 +1689,10 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
             />
           </div>
           
-          <div className="input-group">
+          {/* <div className="input-group">
           <label htmlFor="description">Enter Description</label>
           <textarea className='form-input' placeholder="Explain the category" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
-        </div>
+        </div> */}
 
           <div className="image-uploader">
 

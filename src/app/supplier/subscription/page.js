@@ -291,7 +291,7 @@ async function handlebuy(plan) {
        
        </div>
        
-       <PlansTable/>
+       <PlansTable hidetry={true}/>
              
            </div> ) }
     </div>

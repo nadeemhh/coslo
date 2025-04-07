@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 
-export default function PlansTable({showbuybuttons=true}) {
+export default function PlansTable({showbuybuttons=true,hidetry=false}) {
 
     const handleBuy = async (selectedPlan) => {
         
@@ -164,7 +164,7 @@ export default function PlansTable({showbuybuttons=true}) {
             <td>Purchase Plan</td>
             <td>
              
-            <a href="/auth/sup-manu/choose"><button style={{backgroundColor:'#1389F0',padding:'2px 8px',border:'none',color:'white',borderRadius:'2px',fontSize:'16px'}}>Try</button></a>
+          { hidetry === false &&  <a href="/auth/sup-manu/choose"><button style={{backgroundColor:'#1389F0',padding:'2px 8px',border:'none',color:'white',borderRadius:'2px',fontSize:'16px'}}>Try</button></a>}
             </td>
             <td>
               
