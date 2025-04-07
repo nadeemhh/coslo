@@ -37,7 +37,7 @@ export default function page() {
         })
         .then((data) => {
               console.log(data)
-              if(data.plan==='FREE' || data.status==='PAYMENT_PENDING'){
+              if(data.plan==='FREE' || data.status!=='ACTIVE'){
                 setshowdata(false)
                 document.querySelector('.loaderoverlay').style.display='none';
               }else{
