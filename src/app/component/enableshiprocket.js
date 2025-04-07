@@ -1,4 +1,4 @@
-export default  function enableshiprocket(sellerId,url){
+export default  function enableshiprocket(sellerId,url,message){
     
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/add-pickup/${sellerId}`, {
       method: 'GET'
@@ -14,8 +14,9 @@ export default  function enableshiprocket(sellerId,url){
       })
       .then((data) => {
             console.log(data)
-          
+            alert(message)
            window.location.href = url;
+       
        
       })
       .catch((err) => {

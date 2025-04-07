@@ -213,14 +213,17 @@ BankName:"",
       }) .then((data) => {
     
       console.log(data)
-      alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
-  
+
       if(user.DeliveryType === 'COSLO'){
-enableshiprocket(data.sellerId,'/home')
-      }else{
-        window.location.href = '/home';
-      }
-    
+        
+        enableshiprocket(data.sellerId,'/home','We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+
+              }else{
+                window.location.href = '/home';
+                alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+              }
+
+ 
     
     
     })

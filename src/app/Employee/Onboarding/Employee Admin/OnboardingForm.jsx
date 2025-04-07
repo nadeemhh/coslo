@@ -226,17 +226,19 @@ fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/onboard/${requestid}`, {
   }) .then((data) => {
 
   console.log(data)
-alert(data.message)
+
 document.querySelector('.loaderoverlay').style.display='none';
 
 if(user.DeliveryType === 'COSLO'){
- enableshiprocket(data.id,'/Employee/Onboarding/success')
+ enableshiprocket(data.id,'/Employee/Onboarding/success',data.message)
 
 
         }else{
           window.location.href = '/Employee/Onboarding/success';
+          alert(data.message)
         }
     
+   
         
 
 })

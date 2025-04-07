@@ -379,6 +379,11 @@ const removePriceSlab = (index) => {
     if (filteredVariation.returnDays === '' || filteredVariation.returnDays === 0) {
       delete filteredVariation.returnDays;
     }
+
+    if (filteredVariation.repeatBuyerDiscount === '') {
+      filteredVariation.repeatBuyerDiscount=0;
+    }
+
   
     setUserData((prevState) => {
       let updatedVariations = [...prevState.variationsData];
@@ -887,11 +892,11 @@ document.querySelector('.loaderoverlay').style.display='none';
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
-        <div className="input-group">
+        {/* <div className="input-group">
           <label htmlFor="Product-url">Enter Amazon Product url</label>
           <input id="Product-url" type="text" placeholder="url"    value={userData.productData.amazoneProductUrl || ""}
           onChange={(e) => handleProductDataChange("amazoneProductUrl", e.target.value)} />
-        </div>
+        </div> */}
 
         <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
@@ -1448,10 +1453,10 @@ onClick={addreason}
               type="number"
               className="form-input"
               placeholder="Enter discount"
-              value={slab.discount||''}
+              value={slab.discount}
               onChange={(e) => {
                 const updatedSlabs = [...variation.priceSlabs];
-                updatedSlabs[index].discount = Number(e.target.value);
+                updatedSlabs[index].discount = e.target.value !== ''? Number(e.target.value) : '';
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
               }}
               
@@ -1467,7 +1472,7 @@ onClick={addreason}
               value={slab.deliveryFee}
               onChange={(e) => {
                 const updatedSlabs = [...variation.priceSlabs];
-                updatedSlabs[index].deliveryFee = Number(e.target.value);
+                updatedSlabs[index].deliveryFee = e.target.value !== '' ? Number(e.target.value) : '';
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
               }}
               required

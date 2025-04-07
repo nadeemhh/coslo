@@ -249,7 +249,7 @@ export default function Home() {
 
     {/* Testimonials Section */}
    
-    <section className="testimonials-section" style={{marginBottom:'50px'}}>
+    {/* <section className="testimonials-section" style={{marginBottom:'50px'}}>
       <h1>What our Happy users Says ?</h1>
       <div className="testimonials-container">
         <div className="testimonial-card">
@@ -294,7 +294,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </section>
+    </section> */}
 
     {/* Footer */}
    
