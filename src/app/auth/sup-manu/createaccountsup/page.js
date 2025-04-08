@@ -127,6 +127,17 @@ function Page() {
             <div className='right-container'>
                 <form className="form" onSubmit={(e) => {
   e.preventDefault();
+
+  if(phone.startsWith('0')){
+    alert('Remove the 0 at the beginning of the phone number.')
+    return;
+   }
+
+   if(phone.startsWith('91')){
+    alert('Remove the 91 at the beginning of the phone number.')
+    return;
+   }
+
   toggleconfirmation();
 }}>
                     <h1 className="">Help For Registration</h1>

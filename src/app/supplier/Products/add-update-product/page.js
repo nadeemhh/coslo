@@ -252,7 +252,7 @@ console.log(productimages,images)
     weight:"",
     divertIndividualOrder: false,
       isReturnable: false,
-          returnDays: '',
+          returnDays: 3,
           productImages:[]
   });
 
@@ -306,7 +306,7 @@ const removePriceSlab = (index) => {
     weight:"",
     divertIndividualOrder: false,
     isReturnable: false,
-        returnDays: '',
+        returnDays: 3,
         productImages:[]
   });
   setShowReturnDaysInput(false);
@@ -416,7 +416,7 @@ const removePriceSlab = (index) => {
       weight:"",
       divertIndividualOrder: false,
       isReturnable: false,
-          returnDays: '',
+          returnDays: 3,
           productImages:[]
     });
   
@@ -1491,19 +1491,22 @@ onClick={addreason}
             type="number"
             placeholder="Enter Max Days"
             className="input-group"
-            style={{ width: "130px", marginBottom: "0px" }}
+            style={{ width: "70px", marginBottom: "0px" }}
             value={variation.returnDays}
             onChange={(e) => {
               console.log(e.target.value)
-              if(Number(e.target.value)<1 || variation.returnDays === null){
-                handleVariationChange("returnDays",'1')
-              }else{
-              handleVariationChange("returnDays", e.target.value)
-            }
+            //   if(Number(e.target.value)<1 || variation.returnDays === null){
+            //     handleVariationChange("returnDays",'1')
+            //   }else{
+            //   handleVariationChange("returnDays", e.target.value)
+            // }
             }}
             required
           />
         )}
+
+{variation.isReturnable && <label>Days</label>}
+
         <label className="switch">
           <input
             type="checkbox"

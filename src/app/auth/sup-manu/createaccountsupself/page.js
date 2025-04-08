@@ -445,6 +445,17 @@ setwaitconfirmationOpen(false)
   e.preventDefault();
 
   if(gstverified){
+
+    if(user.phoneNo.startsWith('0')){
+      alert('Remove the 0 at the beginning of the phone number.')
+      return;
+     }
+
+     if(user.phoneNo.startsWith('91')){
+      alert('Remove the 91 at the beginning of the phone number.')
+      return;
+     }
+     
     if(!user.role){
       alert('Select a role: whether you are a supplier or a manufacturer.')
       return;
