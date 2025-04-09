@@ -346,7 +346,7 @@ data.orderSummary.deliveryProvider === "COSLO" &&
    
       <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between'}}>
       <div className="price-summary">
-        <p>Sub Total : <strong style={{color:'#097CE1'}}> ₹ {(data.amountSummary.grandTotal-data.amountSummary.cgst-data.amountSummary.sgst-data.amountSummary.shippingCharges+data.amountSummary.discount).toFixed(2)}/-</strong> </p>
+        <p>Sub Total : <strong style={{color:'#097CE1'}}> ₹ {(data.amountSummary.grandTotal-data.amountSummary.cgst-data.amountSummary.sgst-data.amountSummary.shippingCharges+data.amountSummary.discount).toFixed(0)}/-</strong> </p>
         <p>Total Discount : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.discount}</strong></p>
         <p>Total CGST : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.cgst}</strong></p>
         <p>Total SGST : <strong style={{color:'#097CE1'}}> ₹ {data.amountSummary.sgst}</strong></p>

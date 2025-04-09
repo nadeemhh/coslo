@@ -56,10 +56,11 @@ export default function page() {
   {policydata &&
   <div className="details-page">
       <div className="logo-container">
+     
         <img
-          src="\icons\supporticon.png" // Replace with the actual logo URL
+          src="\images\coslomartlogo.png" // Replace with the actual logo URL
           alt="Logo"
-          className="logo"
+          width={'300px'}
         />
       </div>
       <p className="description">
