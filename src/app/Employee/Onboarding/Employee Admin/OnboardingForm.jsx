@@ -6,7 +6,7 @@ import { useState,useEffect } from 'react'
 import { useSearchParams } from "next/navigation";
 import Planstable from "../../../component/planstables.js";
 import enableshiprocket from '../../../component/enableshiprocket.js';
-
+import IndianStates from '../../../component/indianstate.js'
 
 
 function ImageUploader({ title, images, setImages, id }) {
@@ -252,8 +252,6 @@ if(user.DeliveryType === 'COSLO'){
   
 
 
-
-  
   function verifygst() {
     console.log('verifygst',user.gstNo)
 
@@ -285,8 +283,8 @@ document.querySelector('.loaderoverlay').style.display='none';
 alert('Your GST have been Verified Successfully') 
 
 let address = data.data.address;
-setUser({ ...user, location: address.addressLine, city: address.city, pincode: address.pincode, state: address.state,company:data.data.businessName});
-InitiateBankVerification(data.data.businessName)
+setUser({ ...user, company:data.data.tradeName});
+InitiateBankVerification(data.data.businessName,data.data.tradeName)
 
 }
 
@@ -335,7 +333,7 @@ alert(err.message || err.error || 'Failed to submit the form.')
 
 // }
 
-function InitiateBankVerification(businessNamefromgst) {
+function InitiateBankVerification(businessNamefromgst,tradeNamefromgst) {
 
 // Initiate Bank Verification
 
@@ -361,7 +359,7 @@ if (response.ok) {
 
   setwaitconfirmationOpen(true)
   setreferenceId(data.referenceId)
-  checkbankstatus(data.referenceId,businessNamefromgst)
+  checkbankstatus(data.referenceId,businessNamefromgst,tradeNamefromgst)
   document.querySelector('.loaderoverlay').style.display='none';
  }else{
   alert(data.error)
@@ -379,7 +377,7 @@ alert(err.message || err.error || 'Failed to submit the form.')
 }
 
 
-function checkbankstatus(refId,businessNamefromgst) {
+function checkbankstatus(refId,businessNamefromgst,tradeNamefromgst) {
 
 console.log(refId)
 
@@ -403,37 +401,36 @@ fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank-status/${refId}`)
 
    if(data.success && data.status === "COMPLETED"){
 
-console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase())
+console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase(),tradeNamefromgst?.trim().toLowerCase())
 
-if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase()){
+if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase() || data.accountHolderName?.trim().toLowerCase() === tradeNamefromgst?.trim().toLowerCase()){
 
-console.log(data.accountHolderName, businessNamefromgst)
+console.log(data.accountHolderName, businessNamefromgst,tradeNamefromgst)
 
 setUser(prevUser => ({
-  ...prevUser,
-  AccountHolderName: data.accountHolderName
+...prevUser,
+AccountHolderName: data.accountHolderName
 }));
 
 alert('You have been verified successfully.')
 setgstverified(true)
 setwaitconfirmationOpen(false)
-document.querySelector('.loaderoverlay').style.display='none';
+
 
 }else{
 alert("The name did not match with the bank name and GST name.")
 setwaitconfirmationOpen(false)
-document.querySelector('.loaderoverlay').style.display='none';
+
 }
 
    } else if(data.success === false){
 
     alert(data.message)
-    document.querySelector('.loaderoverlay').style.display='none';
     setwaitconfirmationOpen(false)
    }else{
     alert(data.error)
-    document.querySelector('.loaderoverlay').style.display='none';
     setwaitconfirmationOpen(false)
+    
     }
 
 })
@@ -447,7 +444,6 @@ document.querySelector('.loaderoverlay').style.display='none';
 }
 
 
-
   return (
     <div className="mymain">
       <h1>Manufacturer/Supplier Onboarding Form</h1>
@@ -456,6 +452,12 @@ document.querySelector('.loaderoverlay').style.display='none';
   e.preventDefault();
 
 console.log(user.role,!user.role)
+
+if(!document.querySelector('#mystates').selectedIndex){
+  alert('Select State/UT')
+  return;
+    }
+
     if(!user.role){
       alert('Select a role: whether you are a supplier or a manufacturer.')
       return;
@@ -534,20 +536,23 @@ console.log(user.role,!user.role)
           </div>
           <div className="form-tab">
             <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly required/>
+            <input type="text" name="location" value={user.location} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">
             <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly required/>
+            <input type="text" name="city" value={user.city} onChange={handleOnChange} required/>
           </div>
-          <div className="form-tab">
+          {/* <div className="form-tab">
             <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly required/>
-          </div>
+            <input type="text" name="state" value={user.state} onChange={handleOnChange} required/>
+          </div> */}
+
+<IndianStates value={user.state} handleOnChange={handleOnChange}/>
+
           <div className="form-tab">
             <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly required/>
+            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} required/>
           </div>
           
           

@@ -303,7 +303,7 @@ console.log(shipmentid)
 data.orderSummary.deliveryProvider === "COSLO" && 
 <>
 <div style={{display:'flex',justifyContent:'flex-start',margin:'30px 0px'}}>
-{invoiceUrl && <a href={invoiceUrl} target='_blank' className="shipdownload-btn">
+{invoiceUrl && <a href={invoiceUrl} target='_blank' className="shipdownload-btn"  download="Label.pdf">
         Download Label
         </a>      }
 </div>

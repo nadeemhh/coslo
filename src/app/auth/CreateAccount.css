@@ -41,7 +41,7 @@
     margin-top: 1rem;
   }
   
-  .form-tab input {
+  .form-tab input, select {
     border-radius: 10px;
     border: 1px solid #D7DADB;
     background-color: #F4F7FB;

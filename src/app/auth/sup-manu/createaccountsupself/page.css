@@ -188,3 +188,8 @@ label{text-align: left;}
   
 
   #boldinput66{border: 2px solid rgb(0, 0, 0);}
+
+
+  .form-tab select {
+    border: 2px solid rgb(0, 0, 0);
+  }

@@ -314,7 +314,7 @@ function cancelorder(suborderid) {
        
        <div style={{display:'flex',gap:'10px',justifyContent:"center",flexWrap:'wrap'}}>
 
-       {invoiceUrl && <a href={invoiceUrl} target='_blank' className="download-btn">
+       {invoiceUrl && <a href={invoiceUrl} target='_blank'  download="invoice.pdf" className="download-btn">
         Download Invoice
         </a>}
 

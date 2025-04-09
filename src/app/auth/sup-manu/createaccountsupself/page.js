@@ -4,7 +4,7 @@ import "./page.css";
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import enableshiprocket from '../../../component/enableshiprocket.js';
-
+import IndianStates from '../../../component/indianstate.js'
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -142,6 +142,8 @@ BankName:"",
      
 
       const handleSubmit = async () => {
+
+        
         
         document.querySelector('.loaderoverlay').style.display='flex';
 
@@ -270,8 +272,8 @@ alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Numbe
     alert('Your GST have been Verified Successfully') 
  
     let address = data.data.address;
-    setUser({ ...user, location: address.addressLine, city: address.city, pincode: address.pincode, state: address.state,company:data.data.businessName});
-    InitiateBankVerification(data.data.businessName)
+    setUser({ ...user, company:data.data.tradeName});
+    InitiateBankVerification(data.data.businessName,data.data.tradeName)
 
   }
 
@@ -320,7 +322,7 @@ alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Numbe
 
 // }
 
-function InitiateBankVerification(businessNamefromgst) {
+function InitiateBankVerification(businessNamefromgst,tradeNamefromgst) {
 
   // Initiate Bank Verification
 
@@ -346,7 +348,7 @@ function InitiateBankVerification(businessNamefromgst) {
 
       setwaitconfirmationOpen(true)
       setreferenceId(data.referenceId)
-      checkbankstatus(data.referenceId,businessNamefromgst)
+      checkbankstatus(data.referenceId,businessNamefromgst,tradeNamefromgst)
       document.querySelector('.loaderoverlay').style.display='none';
      }else{
       alert(data.error)
@@ -364,7 +366,7 @@ function InitiateBankVerification(businessNamefromgst) {
 }
 
 
-function checkbankstatus(refId,businessNamefromgst) {
+function checkbankstatus(refId,businessNamefromgst,tradeNamefromgst) {
 
   console.log(refId)
 
@@ -388,11 +390,11 @@ function checkbankstatus(refId,businessNamefromgst) {
 
        if(data.success && data.status === "COMPLETED"){
 
-   console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase())
+   console.log(data.accountHolderName?.trim().toLowerCase() , businessNamefromgst?.trim().toLowerCase(),tradeNamefromgst?.trim().toLowerCase())
 
-if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase()){
+if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase() || data.accountHolderName?.trim().toLowerCase() === tradeNamefromgst?.trim().toLowerCase()){
 
-console.log(data.accountHolderName, businessNamefromgst)
+console.log(data.accountHolderName, businessNamefromgst,tradeNamefromgst)
 
 setUser(prevUser => ({
   ...prevUser,
@@ -446,6 +448,11 @@ setwaitconfirmationOpen(false)
 
   if(gstverified){
 
+    if(!document.querySelector('#mystates').selectedIndex){
+      alert('Select State/UT')
+      return;
+        }
+
     if(user.phoneNo.startsWith('0')){
       alert('Remove the 0 at the beginning of the phone number.')
       return;
@@ -483,9 +490,6 @@ setwaitconfirmationOpen(false)
 
           {gstverified && <> 
 
-         
-
-        
 
                     <div className="form-tab">
             <label htmlFor="name">Enter Your Name</label>
@@ -511,6 +515,26 @@ setwaitconfirmationOpen(false)
             <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} required/>
           </div>
         
+          <div className="form-tab">
+            <label htmlFor="location">Enter Pickup Address</label>
+            <input type="text" name="location" id="boldinput66" value={user.location} onChange={handleOnChange} required/>
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="location">Enter City</label>
+            <input type="text" name="city" id="boldinput66" value={user.city} onChange={handleOnChange} required/>
+          </div>
+          {/* <div className="form-tab">
+            <label htmlFor="location">Enter State</label>
+            <input type="text" name="state" value={user.state} onChange={handleOnChange}/>
+          </div> */}
+
+          <IndianStates value={user.state} handleOnChange={handleOnChange}/>
+          
+          <div className="form-tab">
+            <label htmlFor="location">Enter Pincode</label>
+            <input type="text" name="pincode" id="boldinput66" value={user.pincode} onChange={handleOnChange} required/>
+          </div>
         
 
           {/* GST Certificate Uploader */}
@@ -575,23 +599,7 @@ setwaitconfirmationOpen(false)
             <label htmlFor="company">Enter Company Name</label>
             <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
           </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Address</label>
-            <input type="text" name="location" value={user.location} onChange={handleOnChange} readOnly/>
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="location">Enter City</label>
-            <input type="text" name="city" value={user.city} onChange={handleOnChange} readOnly/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange} readOnly/>
-          </div>
-          <div className="form-tab">
-            <label htmlFor="location">Enter Pincode</label>
-            <input type="text" name="pincode" value={user.pincode} onChange={handleOnChange} readOnly/>
-          </div>
+        
 
 
                         <div className="form-tab">

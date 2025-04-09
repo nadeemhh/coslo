@@ -342,7 +342,7 @@ const removePriceSlab = (index) => {
    
     setVariation((prev) => ({
       ...prev,
-      dimensions: { ...prev.dimensions, [dimensionKey]: Number(value) },
+      dimensions: { ...prev.dimensions, [dimensionKey]: value !== ''? Number(value):'' },
     }));
   };
 
@@ -784,19 +784,16 @@ document.querySelector('.loaderoverlay').style.display='none';
     }
 
 // stop scrool when active input
-  // useEffect(() => {
-  //   const preventScroll = (event) => {
-  //     if (document.activeElement.type === "number") {
-  //       event.preventDefault();
-  //     }
-  //   };
+useEffect(() => {
+  const handleWheel = (e) => {
+    if (document.activeElement.type === 'number') {
+      document.activeElement.blur();
+    }
+  };
 
-  //   window.addEventListener("wheel", preventScroll, { passive: false });
-
-  //   return () => {
-  //     window.removeEventListener("wheel", preventScroll);
-  //   };
-  // }, []);
+  window.addEventListener('wheel', handleWheel, { passive: true });
+  return () => window.removeEventListener('wheel', handleWheel);
+}, []);
 
 
 
@@ -1338,7 +1335,7 @@ onClick={addreason}
                 required
                 placeholder=""
                 style={{width:'100px'}}
-                value={variation.dimensions.length||''}
+                value={variation.dimensions.length}
                 onChange={(e) => handleDimensionChange("length", e.target.value)}
               />
             
@@ -1352,7 +1349,7 @@ onClick={addreason}
                 placeholder=""
                 required
                 style={{width:'100px'}}
-                value={variation.dimensions.height||''}
+                value={variation.dimensions.height}
                 onChange={(e) => handleDimensionChange("height", e.target.value)}
               />
                   
@@ -1366,7 +1363,7 @@ onClick={addreason}
                 placeholder=""
                 required
                 style={{width:'100px'}}
-                value={variation.dimensions.width||''}
+                value={variation.dimensions.width}
                 onChange={(e) => handleDimensionChange("width", e.target.value)}
               />
                   

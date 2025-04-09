@@ -32,7 +32,7 @@
     text-align:left ;
 }
 
-.form-tab input {
+.form-tab input,select {
     border-radius: 10px;
     border: 1px solid #b5b8b9;
     background-color: #F4F7FB;
