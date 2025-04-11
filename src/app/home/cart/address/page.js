@@ -59,10 +59,10 @@ const AddressPage = () => {
         { OrderSummary && isaddress && <div className="order-summary">
           <h3>Order Summary</h3>
           <div className="summary-row">
-            <span>Sub Total:</span> <span>₹ {OrderSummary.totalBaseAmount}/-</span>
+            <span>Sub Total:</span> <span>₹ {OrderSummary.totalBaseAmount}</span>
           </div>
           <div className="summary-row">
-            <span>Total Discount:</span> <span>₹ {OrderSummary.cartTotalDiscountAmount}/-</span>
+            <span>Total Discount:</span> <span>₹ {OrderSummary.cartTotalDiscountAmount}</span>
           </div>
         
           <div className="summary-row">
@@ -72,11 +72,11 @@ const AddressPage = () => {
             <span>Total SGST:</span> <span>₹ {OrderSummary.sgstAmount}</span>
           </div>
           <div className="summary-row">
-            <span>Shipping Charges:</span> <span>₹ {OrderSummary.shippingFee}/-</span>
+            <span>Shipping Charges:</span> <span>₹ {OrderSummary.shippingFee}</span>
           </div>
           <hr />
           <div className="summary-total">
-            <span>Total:</span> <span>₹ {OrderSummary.finalAmount}/-</span>
+            <span>Total:</span> <span>₹ {OrderSummary.finalAmount}</span>
           </div>
           <Link href="address/payment">
           <button className="checkout-btn">Proceed to Checkout</button>
