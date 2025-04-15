@@ -98,7 +98,7 @@ function Filterpagedata() {
       {/* </div> */}
 </div>
 
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',alignItems:'flex-start',marginTop:'50px'}}>
+<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',marginTop:'50px'}}>
 
 {products.map((data, index) => (
 

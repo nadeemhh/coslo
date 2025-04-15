@@ -765,6 +765,14 @@ display: none;
       padding-top: 10px;
   }
   
+   .footer-bottom-payment {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    padding-top: 10px;
+}
+
   /* Responsive Design */
   @media (max-width: 768px) {
       .footer-container {
@@ -775,7 +783,7 @@ display: none;
       padding-right: 0px;
       }
       
-       .footer-section-parent{display: flex;justify-content: space-around;gap: 10px;margin-top: 20px;}
+       .footer-section-parent{display: flex;justify-content: space-around;gap: 10px;margin-top: 20px;flex-wrap: wrap;}
 
        .testimonials-section h1 {
         font-size: 1.7rem;

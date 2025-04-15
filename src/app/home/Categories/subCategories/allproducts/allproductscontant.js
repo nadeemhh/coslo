@@ -70,7 +70,7 @@ export default function Allproducts() {
 {category && <h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}}>{category}</h3>}
 </div>
 
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',alignItems:'flex-start'}}>
+<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>
 
 {products.map((data, index) => (
 

@@ -339,7 +339,11 @@ const removePriceSlab = (index) => {
 
    // Handle changes for nested dimensions
    const handleDimensionChange = (dimensionKey, value) => {
-   
+
+   if(value < 0){
+    value=0;
+   }
+
     setVariation((prev) => ({
       ...prev,
       dimensions: { ...prev.dimensions, [dimensionKey]: value !== ''? Number(value):'' },
@@ -1452,6 +1456,11 @@ onClick={addreason}
               placeholder="Enter discount"
               value={slab.discount}
               onChange={(e) => {
+
+                if(e.target.value < 0){
+                  e.target.value=0;
+                 }
+
                 const updatedSlabs = [...variation.priceSlabs];
                 updatedSlabs[index].discount = e.target.value !== ''? Number(e.target.value) : '';
                 setVariation({ ...variation, priceSlabs: updatedSlabs });
@@ -1468,6 +1477,11 @@ onClick={addreason}
               placeholder="Delivery Fee"
               value={slab.deliveryFee}
               onChange={(e) => {
+                
+                if(e.target.value < 0){
+                  e.target.value=0;
+                 }
+
                 const updatedSlabs = [...variation.priceSlabs];
                 updatedSlabs[index].deliveryFee = e.target.value !== '' ? Number(e.target.value) : '';
                 setVariation({ ...variation, priceSlabs: updatedSlabs });

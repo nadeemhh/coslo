@@ -91,12 +91,18 @@ const Footer = () => (
               <li>
                 <a href="/home/contactus">Contact Us</a>
               </li>
-              {/* <li>
-                <a href="#">FAQs</a>
-              </li> */}
+
+              <li>
+                <a href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Enterprise_Ratecard.pdf" download='Shiprocket_charges_pdf'>Shiprocket charges pdf</a>
+              </li>
+             
             </ul>
           </div>
         </div>
+      </div>
+
+      <div className="footer-bottom-payment">
+        <p>Online payment charges: 1.95% + gst</p>
       </div>
 
       <div className="footer-bottom">
