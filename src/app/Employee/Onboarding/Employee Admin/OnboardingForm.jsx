@@ -493,7 +493,7 @@ if(!document.querySelector('#mystates').selectedIndex){
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone Number</label>
-            <input type="number" name="phoneNo"  placeholder="+91" value={user.phoneNo} onChange={handleOnChange} required/>
+            <input type="number" name="phoneNo"  placeholder="91" value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
          
           <div className="form-tab">
