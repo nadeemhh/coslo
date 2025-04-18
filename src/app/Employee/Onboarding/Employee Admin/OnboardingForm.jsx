@@ -459,6 +459,12 @@ if(!document.querySelector('#mystates').selectedIndex){
   return;
     }
 
+    if(user.phoneNo.length<10 || user.phoneNo.length>10){
+      alert('enter 10 digit phone number')
+      return;
+     }
+
+
     if(!user.role){
       alert('Select a role: whether you are a supplier or a manufacturer.')
       return;
@@ -486,8 +492,8 @@ if(!document.querySelector('#mystates').selectedIndex){
             <input type="email" name="email" value={user.email} onChange={handleOnChange} required/>
           </div>
           <div className="form-tab">
-            <label htmlFor="phoneNo">Enter Phone No</label>
-            <input type="number" name="phoneNo" value={user.phoneNo} onChange={handleOnChange} required/>
+            <label htmlFor="phoneNo">Enter Phone Number</label>
+            <input type="number" name="phoneNo"  placeholder="+91" value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
          
           <div className="form-tab">
