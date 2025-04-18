@@ -284,8 +284,9 @@ alert('Your GST have been Verified Successfully')
 
 let address = data.data.address;
 setUser({ ...user, company:data.data.tradeName});
-InitiateBankVerification(data.data.businessName,data.data.tradeName)
-
+//InitiateBankVerification(data.data.businessName,data.data.tradeName)
+setgstverified(true)
+document.querySelector('.loaderoverlay').style.display='none';
 }
 
 
@@ -527,7 +528,7 @@ if(!document.querySelector('#mystates').selectedIndex){
 
 <div className="form-tab">
 <label htmlFor="AccountHolderName">Account Holder Name</label>
-<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required readOnly/>
+<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required/>
 </div>
 
           <div className="form-tab">

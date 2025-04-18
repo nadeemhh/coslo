@@ -37,7 +37,7 @@ export default function page() {
         })
         .then((data) => {
               console.log(data)
-              if(data.plan==='FREE' || data.status==='PAYMENT_PENDING'){
+              if( data.status==='PAYMENT_PENDING'){
                 setshowdata(false)
                 document.querySelector('.loaderoverlay').style.display='none';
               }else{
@@ -168,7 +168,7 @@ async function handlebuy(plan) {
   
   return (
     <div className="orders-container">
-      {showdata !== null &&  (showdata ? <>
+      {showdata !== null &&  <>
          <div className="header">
        
         <h2 style={{margin:'30px 0px'}}>Subscription</h2>
@@ -185,15 +185,15 @@ async function handlebuy(plan) {
 
           <div style={{textAlign:'right'}}>
           <div className={data.validityLeft?"plan-price":"plan-priceex"}>₹ {data.pricing.total}</div>
-          {/* <div className="plan-description">Subscription charge include 5% GST</div> */}
-          <div className="plan-description"> ₹{data.pricing.gst/2} CGST + ₹{data.pricing.gst/2} SGST</div>
+        {data.plan !== 'TRIAL' && data.plan !== 'FREE' &&  <div className="plan-description">18% GST included.</div>}
+          {/* <div className="plan-description"> ₹{data.pricing.gst/2} CGST + ₹{data.pricing.gst/2} SGST</div> */}
           </div>
 
           </div>
           <div style={{display:'flex',flexDirection:'column'}}>
           <div className="details">
         <span className="general-subscription">General Subscription </span>
-        {data.validityLeft ?<span className="validity"> Validity : {data.validityLeft} Days Left</span>:<span className="validityex"> Validity : Expired</span>}
+       {data.plan !== 'FREE' &&  (data.validityLeft ?<span className="validity"> Validity : {data.validityLeft} Days Left</span>:<span className="validityex"> Validity : <strong>Expired</strong></span>)}
       </div>
           <button className={data.validityLeft?"pay-button":"pay-buttonex"} onClick={()=>{PayCurrentPlan(data.plan)}}> Pay Current Plan <i className="fas fa-arrow-right"></i></button>
         </div>
@@ -209,10 +209,10 @@ async function handlebuy(plan) {
           <option value="YEARLY">Yearly</option>
         </select>
       </div>
-      <div className="current-plan">
+    {data.plan !== 'FREE' &&  <div className="current-plan">
         <span className="current-plan-label">Current Plan :</span>{" "}
         <span className="current-plan-dates">{extractDate(data.currentPeriod.startDate)} <span style={{color:'black'}}> &nbsp; / &nbsp; </span> {extractDate(data.currentPeriod.endDate)}</span>
-      </div>
+      </div>}
 
       {data.nextPeriod && <div className="next-plan">
         <span className="current-plan-label">Next Plan Starts From :</span>{" "}
@@ -284,7 +284,7 @@ async function handlebuy(plan) {
              </div>
       )}
 
-       </> :    <div>
+<div>
        
            <div style={{marginBottom:'3rem',marginTop:'3rem'}}>
              <h1 style={{fontSize:'2rem'}}>Subscription Plans</h1>
@@ -293,7 +293,9 @@ async function handlebuy(plan) {
        
        <PlansTable hidetry={true}/>
              
-           </div> ) }
+           </div> 
+
+       </>    }
     </div>
   );
 }

@@ -244,8 +244,8 @@ BankName:"",
       function verifygst() {
         console.log('verifygst',user.gstNo)
 
-        if(user.gstNo==='' || user.AccountNumber==='' || user.IFSCCode===''){
-alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Number.')
+        if(user.gstNo===''){
+alert('enter GST Number')
           return;
         }
 
@@ -273,8 +273,9 @@ alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Numbe
  
     let address = data.data.address;
     setUser({ ...user, company:data.data.tradeName});
-    InitiateBankVerification(data.data.businessName,data.data.tradeName)
-
+   // InitiateBankVerification(data.data.businessName,data.data.tradeName)
+   setgstverified(true)
+   document.querySelector('.loaderoverlay').style.display='none';
   }
 
  
@@ -453,6 +454,11 @@ setwaitconfirmationOpen(false)
       return;
         }
 
+        if(user.phoneNo.length<10 || user.phoneNo.length>10){
+          alert('enter 10 digit phone number')
+          return;
+         }
+
     if(user.phoneNo.startsWith('0')){
       alert('Remove the 0 at the beginning of the phone number.')
       return;
@@ -514,6 +520,31 @@ setwaitconfirmationOpen(false)
             <label htmlFor="BankName">Enter Your Bank Name</label>
             <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} required/>
           </div>
+
+          <div className="form-tab">
+            <label htmlFor="AccountHolderName">Enter Bank Account Holder Name</label>
+            <input type="text" id="boldinput66" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
+          </div>
+
+
+          <div className="form-tab">
+            <label htmlFor="panNumber">Enter Pan Number</label>
+            <input type="text" id="boldinput66" name="panNumber" value={user.panNumber} onChange={handleOnChange}  required />
+
+          </div>
+         
+
+          <div className="form-tab">
+            <label htmlFor="AccountNumber">Enter Bank Account Number</label>
+            <input type="text" id="boldinput66" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange}  required />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="IFSCCode">Enter IFSC Code</label>
+            <input type="text" id="boldinput66" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}  required />
+          </div>
+
+
         
           <div className="form-tab">
             <label htmlFor="location">Enter Pickup Address</label>
@@ -535,6 +566,8 @@ setwaitconfirmationOpen(false)
             <label htmlFor="location">Enter Pincode</label>
             <input type="text" name="pincode" id="boldinput66" value={user.pincode} onChange={handleOnChange} required/>
           </div>
+
+          
         
 
           {/* GST Certificate Uploader */}
@@ -602,10 +635,7 @@ setwaitconfirmationOpen(false)
         
 
 
-                        <div className="form-tab">
-            <label htmlFor="AccountHolderName">Bank Account Holder Name</label>
-            <input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required  {...(gstverified && { readOnly: true })} />
-          </div>
+                       
 
                        
                         </> }
@@ -619,23 +649,7 @@ setwaitconfirmationOpen(false)
 
           </div>
 
-                    <div className="form-tab">
-            <label htmlFor="panNumber">Enter Pan Number</label>
-            <input type="text" name="panNumber" value={user.panNumber} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
-
-          </div>
-         
-
-          <div className="form-tab">
-            <label htmlFor="AccountNumber">Account Number</label>
-            <input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="IFSCCode">IFSC Code</label>
-            <input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
-          </div>
-
+                   
 
          {gstverified === false && <div className="form-tab">
 
