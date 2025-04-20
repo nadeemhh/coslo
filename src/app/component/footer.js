@@ -93,7 +93,7 @@ const Footer = () => (
               </li>
 
               <li>
-                <a href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Enterprise_Ratecard.pdf" download='Shiprocket_charges_pdf'>Shiprocket charges pdf</a>
+                <a href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Enterprise_Ratecard.pdf" download='Shiprocket_charges_pdf'>Shiprocket Delivery Charges</a>
               </li>
              
             </ul>
@@ -102,7 +102,7 @@ const Footer = () => (
       </div>
 
       <div className="footer-bottom-payment">
-        <p>Online payment charges: 1.95% + gst</p>
+        <p>payment gateway charges: 1.95% + gst</p>
       </div>
 
       <div className="footer-bottom">

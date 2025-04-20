@@ -255,8 +255,8 @@ if(user.DeliveryType === 'COSLO'){
   function verifygst() {
     console.log('verifygst',user.gstNo)
 
-    if(user.gstNo==='' || user.AccountNumber==='' || user.IFSCCode===''){
-alert('Fill in all details: GST Number, Account Number, IFSC Code, and PAN Number.')
+    if(user.gstNo===''){
+      alert('enter GST Number')
       return;
     }
 
@@ -517,24 +517,24 @@ if(!document.querySelector('#mystates').selectedIndex){
           />
 
 <div className="form-tab">
-<label htmlFor="AccountNumber">Account Number</label>
-<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
+<label htmlFor="AccountNumber">Account Number (optional)</label>
+<input type="text" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange} />
 </div>
 
 <div className="form-tab">
-<label htmlFor="IFSCCode">IFSC Code</label>
-<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} required {...(gstverified && { readOnly: true })}/>
+<label htmlFor="IFSCCode">IFSC Code (optional)</label>
+<input type="text" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
 </div>
 
  { gstverified === true && <>
 <div className="form-tab">
-<label htmlFor="BankName">Bank Name</label>
-<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} required/>
+<label htmlFor="BankName">Bank Name (optional)</label>
+<input type="text" name="BankName" value={user.BankName} onChange={handleOnChange} />
 </div>
 
 <div className="form-tab">
-<label htmlFor="AccountHolderName">Account Holder Name</label>
-<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  required/>
+<label htmlFor="AccountHolderName">Account Holder Name (optional)</label>
+<input type="text" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange}  />
 </div>
 
           <div className="form-tab">

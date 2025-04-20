@@ -75,7 +75,7 @@ AccountNumber:"",
 IFSCCode:"",
 BankName:"",
       });
-    console.log(user)
+    console.log(user,gstImages)
      
     
 
@@ -517,13 +517,23 @@ setwaitconfirmationOpen(false)
           </div>
        
           <div className="form-tab">
-            <label htmlFor="BankName">Enter Your Bank Name</label>
-            <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} required/>
+            <label htmlFor="BankName">Your Bank Name (optional)</label>
+            <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} />
           </div>
 
           <div className="form-tab">
-            <label htmlFor="AccountHolderName">Enter Bank Account Holder Name</label>
-            <input type="text" id="boldinput66" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} required/>
+            <label htmlFor="AccountHolderName">Bank Account Holder Name (optional)</label>
+            <input type="text" id="boldinput66" name="AccountHolderName" value={user.AccountHolderName} onChange={handleOnChange} />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="AccountNumber">Bank Account Number (optional)</label>
+            <input type="text" id="boldinput66" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange}   />
+          </div>
+
+          <div className="form-tab">
+            <label htmlFor="IFSCCode">IFSC Code (optional)</label>
+            <input type="text" id="boldinput66" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}   />
           </div>
 
 
@@ -534,15 +544,7 @@ setwaitconfirmationOpen(false)
           </div>
          
 
-          <div className="form-tab">
-            <label htmlFor="AccountNumber">Enter Bank Account Number</label>
-            <input type="text" id="boldinput66" name="AccountNumber" value={user.AccountNumber} onChange={handleOnChange}  required />
-          </div>
-
-          <div className="form-tab">
-            <label htmlFor="IFSCCode">Enter IFSC Code</label>
-            <input type="text" id="boldinput66" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}  required />
-          </div>
+         
 
 
         
