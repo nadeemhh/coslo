@@ -168,7 +168,7 @@ async function handlebuy(plan) {
   
   return (
     <div className="orders-container">
-      {showdata !== null &&  <>
+      {showdata !== null && showdata === true ?  <>
          <div className="header">
        
         <h2 style={{margin:'30px 0px'}}>Subscription</h2>
@@ -295,7 +295,16 @@ async function handlebuy(plan) {
              
            </div> 
 
-       </>    }
+       </>:  <div>
+       
+       <div style={{marginBottom:'3rem',marginTop:'3rem'}}>
+         <h1 style={{fontSize:'2rem'}}>Subscription Plans</h1>
+   
+   </div>
+   
+   <PlansTable hidetry={true}/>
+         
+       </div>   }
     </div>
   );
 }
