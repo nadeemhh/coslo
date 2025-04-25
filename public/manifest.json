@@ -1,19 +1,19 @@
 {
     "name": "coslomart",
-    "short_name": "Shop App",
+    "short_name": "coslomart",
     "description": "Shop the latest products at the best prices. Fast shipping and great discounts!",
-    "start_url": "/",
+    "start_url": "/home",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
     "icons": [
       {
-        "src": "images/coslomartfavicon.jpg",
+        "src": "images/cosloapplogo.png",
         "sizes": "16x16",
         "type": "image/jpg"
       },
       {
-        "src": "images/coslomartfavicon.jpg",
+        "src": "images/cosloapplogo.png",
         "sizes": "16x16",
         "type": "image/jpg"
       }

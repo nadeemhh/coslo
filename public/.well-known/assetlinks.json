@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.coslomart",
+      "sha256_cert_fingerprints": ["E5:92:0F:D3:6D:E2:E3:BA:FE:C6:55:EC:FC:CD:AE:6B:4D:68:08:01:AF:E0:62:90:BC:11:AD:12:D6:8F:D4:82"]
+    }
+  }]
