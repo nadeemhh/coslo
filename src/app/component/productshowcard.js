@@ -60,7 +60,8 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
 
         {/* Title and Supplier */}
         <Link href={`/home/products?id=${pid}`}>
-        <p className="product-title">{pname}</p>
+        <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
+        </p>
         <p className="product-supplier">{seller.businessName}</p>
         </Link>
         {/* Price */}
