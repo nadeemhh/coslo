@@ -19,9 +19,7 @@
 
 # production
 /build
-/app
-/.next
-/.gradle
+
 # misc
 .DS_Store
 *.pem
