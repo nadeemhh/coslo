@@ -621,7 +621,7 @@ function formatPhoneNumber(number) {
            <input type="number" value={quantity}    onChange={handleChange} />
            </div>
            
-            <span className="save-info">You Saved Total ₹{saved}!</span>
+            <span className="save-info">You Saved Total ₹{(saved).toFixed(0)}!</span>
           </div>
   
           
