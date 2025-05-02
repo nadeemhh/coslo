@@ -72,7 +72,7 @@ export default function Category() {
 </Link>
 </div>
 
-<Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link>
+{/* <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link> */}
 
 </div>
 
