@@ -3,7 +3,7 @@ import './mylayout.css'
 import '../component/component-css/home.css'
 import { createContext, useContext, useState ,useEffect } from 'react';
 import Imageslider from '../component/slider.js'
-import Productcard from '../component/productcard'
+import Productcard from '../component/productcardforenquiry'
 import Productcategory from '../component/Productcategory.js'
 import { useRef } from 'react';
 import Link from 'next/link';

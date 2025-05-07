@@ -5,31 +5,38 @@ import './component-css/productcard.css'
 // import CounterComponent from '../component/global_component'
 
 import {useState} from 'react';
-
+import getDiscountedPrice from './discountpricecalc.js'
 
 import Link from 'next/link';
 
 
-export default function Productcard({veri=false}) {
+export default function Productcard({veri=false , pname,seller,pimage,variation,pid,userdata}) {
 
-  
+  console.log(userdata)
+  function formatPhoneNumber(number) {
+    number = number.toString(); // Ensure it's a string
+    number.replace('+','')
+    return number.startsWith("91") ? number : "91" + number;
+}
+
+
 
   return (
    
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <Link href="/home/products">
+      <Link href={`/home/products?id=${pid}`}>
         <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smart" // Replace with actual image URL
-          alt="Havit HV-G92 Gamepad"
+          src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
+          alt={pname}
           className='showimg'
         />
         </Link>
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
-        {veri && <button className="verified">
+        {seller.subscriptionDetails.plan !== 'FREE' &&  seller.subscriptionDetails.status === "ACTIVE" && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>
@@ -53,13 +60,14 @@ export default function Productcard({veri=false}) {
        
 
         {/* Title and Supplier */}
-        <Link href="/home/products">
-        <p className="product-title">HAVIT HV-G92 Gamepad</p>
-        <p className="product-supplier">Faiz Corporation LLP</p>
+        <Link href={`/home/products?id=${pid}`}>
+        <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
+        </p>
+        <p className="product-supplier">{seller.businessName}</p>
         </Link>
         {/* Price */}
         <div className="product-actions">
-        <h4 className="price">₹ 2560/-</h4>
+        <h4 className="price">₹ {variation.mrp}/-</h4>
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
@@ -72,21 +80,18 @@ export default function Productcard({veri=false}) {
         </tr>
       </thead>
       <tbody className="tableBody56">
-        <tr className="tableRow56">
-          <td className="tableCell56">20-99 items</td>
-          <td className="tableCell56">20%</td>
-          <td className="tableCell56">₹29.99 net</td>
+
+        {variation.priceSlabs.map((sdata, index) => (
+        
+        <tr className="tableRow56" key={index}>
+          <td className="tableCell56">{sdata.min}-{sdata.max} items</td>
+          <td className="tableCell56">{sdata.discount}%</td>
+          <td className="tableCell56">₹{(getDiscountedPrice(sdata.discount,variation.mrp).toFixed(0))}</td>
         </tr>
-        <tr className="tableRow56">
-          <td className="tableCell56">100-299 items</td>
-          <td className="tableCell56">30%</td>
-          <td className="tableCell56">₹25.35 net</td>
-        </tr>
-        <tr className="tableRow56">
-          <td className="tableCell56">300-499 items</td>
-          <td className="tableCell56">40%</td>
-          <td className="tableCell56">₹23.35 net</td>
-        </tr>
+       
+       
+      ))}
+      
       </tbody>
     </table>
     </div>
@@ -95,13 +100,11 @@ export default function Productcard({veri=false}) {
         {/* Actions */}
         <div className="product-actions">
 
-        <a href="https://wa.me/+919880866978">
-<img src="\icons\whatsappi.svg" alt=""  width={'30px'}/>
-</a>
+        <button className="contact-btn" style={{backgroundColor:'#029915'}}>Submit Enquiry</button>
 
          
-<Link href="/home/products">
-          <button className="contact-btn">Check Details</button>
+<Link href={`/home/products?id=${pid}`}>
+          <button className="contact-btn">Details</button>
           </Link>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}
           {/* <button className="Remove-btn">Remove</button> */}

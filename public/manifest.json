@@ -10,12 +10,12 @@
       {
         "src": "images/cosloapplogo.png",
         "sizes": "16x16",
-        "type": "image/jpg"
+        "type": "image/png"
       },
       {
         "src": "images/cosloapplogo.png",
         "sizes": "16x16",
-        "type": "image/jpg"
+        "type": "image/png"
       }
     ]
   }
