@@ -5,7 +5,7 @@ self.addEventListener('install', (event) => {
         return cache.addAll([
           '/',
           '/home',
-          'images/cosloapplogo.png',
+          'images/coslologo.png',
           '/manifest.json'
           // List critical CSS/JS assets
         ]);

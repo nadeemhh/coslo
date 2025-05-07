@@ -8,12 +8,12 @@
     "theme_color": "#000000",
     "icons": [
       {
-        "src": "images/cosloapplogo.png",
+        "src": "images/coslologo.png",
         "sizes": "16x16",
         "type": "image/png"
       },
       {
-        "src": "images/cosloapplogo.png",
+        "src": "images/coslologo.png",
         "sizes": "16x16",
         "type": "image/png"
       }
