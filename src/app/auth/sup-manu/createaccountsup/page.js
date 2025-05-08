@@ -133,10 +133,7 @@ function Page() {
     return;
    }
 
-   if(phone.startsWith('91')){
-    alert('Remove the 91 at the beginning of the phone number.')
-    return;
-   }
+  
 
   toggleconfirmation();
 }}>

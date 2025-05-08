@@ -540,7 +540,7 @@ function formatPhoneNumber(number) {
           </a>
 
          
-          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <a href={`https://wa.me/+${formatPhoneNumber(data.sellerDetails.phone)}`}>
+          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <a href={`https://wa.me/+91${data.sellerDetails.phone}`}>
           <div className='mylocationp'>
    <span className="location">
   <img src="\icons\whatsappi.svg" width={'18px'} alt="" />

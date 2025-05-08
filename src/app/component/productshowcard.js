@@ -99,7 +99,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         {/* Actions */}
         <div className="product-actions">
 
-        <a href={`https://wa.me/+${formatPhoneNumber(seller.phone)}`}>
+        <a href={`https://wa.me/+91${seller.phone}`}>
 <img src="\icons\whatsappi.svg" alt=""  width={'30px'}/>
 </a>
 
