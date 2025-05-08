@@ -6,6 +6,8 @@ import Productcard from '../../component/productcardforenquiry.js'
  import scrollToElement from '../../component/scrollToElement.js'
 import { useInView } from "react-intersection-observer";
 
+let canrun_Inview=true;
+
 const Page = () => {
   // State for form inputs
 
@@ -13,6 +15,8 @@ const Page = () => {
   const [category, setcategory] = useState(null); 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+ 
+
   const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
    // State for tracking the selected category ID
    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -146,7 +150,7 @@ const Page = () => {
         document.querySelector('.loaderoverlay').style.display = 'flex';
     
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/category/${id}?page=${firstpage?firstpage:page}&limit=10`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/category/${id}?page=${firstpage?firstpage:page}&limit=2`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -159,6 +163,8 @@ const Page = () => {
     
           const data = await response.json();
   
+          canrun_Inview=true;
+
           if (data.data.length === 0) {
             setHasMore(false);
 
@@ -190,8 +196,8 @@ const Page = () => {
         console.log('inside',inView)
   if(selectedCategoryId !== null && category !== null){
     console.log('running')
- if(hasMore && inView){
-  console.log('called')
+ if(hasMore && inView && canrun_Inview){
+  console.log('called',canrun_Inview)
    fetchProducts(selectedCategoryId);}
   }
        
@@ -483,7 +489,7 @@ const NestedCategoryDropdown = ({selectedCategoryId, setSelectedCategoryId,fetch
               alert('Please enter your phone number and your name to see the products.')
               return;
             }else{
-
+              canrun_Inview=false;
             setPage(1)
             setProducts([])
             setHasMore(true);

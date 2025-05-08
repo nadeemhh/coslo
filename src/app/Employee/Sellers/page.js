@@ -53,6 +53,38 @@ export default function page() {
     handledata();
   },[]);
 
+
+function resendemail(id) {
+
+  const token = localStorage.getItem('employeetoken');
+
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/resend-account-setup-verification-mail/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message || 'Failed. Please try again.');
+        });
+      }
+    })
+    .then((data) => {
+alert(data.message)
+     
+    })
+    .catch((err) => {
+      document.querySelector('.loaderoverlay').style.display='none';
+      console.log(err)
+    });
+}
+
+
   return (
     <div className="orders-container">
          <div className="header">
@@ -112,6 +144,9 @@ export default function page() {
                 </td>
                 <td>
                     {order.email}
+                  {order.status === 'MAIL-SENT-PENDING' &&  <button className='resendemail' onClick={()=>{
+                    resendemail(order._id)
+                  }}>resend email</button>}
                 </td>
                 <td>{order.phone}</td>
                 <td>

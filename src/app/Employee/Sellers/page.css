@@ -166,3 +166,14 @@ white-space: nowrap;
 .clear-button:hover {
   background-color: darkred;
 }
+
+
+.resendemail{
+  background-color: #1389F0;
+  color: #ffffff;
+  border: 1px solid #1389F0;
+  border-radius: 5px;
+  padding: 5px;
+white-space: nowrap;
+margin: 5px;
+}

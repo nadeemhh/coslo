@@ -13,9 +13,9 @@
   "backgroundColor": "#FFFFFF",
   "enableNotifications": true,
   "startUrl": "/home",
-  "iconUrl": "https://www.coslomart.com/images/cosloapplogo.png",
-  "maskableIconUrl": "https://www.coslomart.com/images/cosloapplogo.png",
-  "monochromeIconUrl": "https://www.coslomart.com/images/cosloapplogo.png",
+  "iconUrl": "https://www.coslomart.com/images/coslologo.png",
+  "maskableIconUrl": "https://www.coslomart.com/images/coslologo.png",
+  "monochromeIconUrl": "https://www.coslomart.com/images/coslologo.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "C:\\coslo\\coslo\\android.keystore",
