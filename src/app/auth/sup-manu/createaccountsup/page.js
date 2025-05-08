@@ -133,6 +133,10 @@ function Page() {
     return;
    }
 
+   if(phone.length<10 || phone.length>10){
+    alert('enter 10 digit phone number')
+    return;
+   }
   
 
   toggleconfirmation();
