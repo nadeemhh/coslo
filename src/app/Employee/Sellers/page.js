@@ -70,7 +70,7 @@ function resendemail(id) {
         return response.json();
       } else {
         return response.json().then((errorData) => {
-          throw new Error(errorData.message || 'Failed. Please try again.');
+          throw new Error(errorData.message || errorData.error || 'Failed. Please try again.');
         });
       }
     })
@@ -80,7 +80,7 @@ alert(data.message)
     })
     .catch((err) => {
       document.querySelector('.loaderoverlay').style.display='none';
-      console.log(err)
+      alert(err.message || err.error)
     });
 }
 
