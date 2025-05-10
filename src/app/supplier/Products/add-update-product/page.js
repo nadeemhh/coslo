@@ -5,6 +5,7 @@ import '../../../component/component-css/cartcard.css'
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
+ import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
@@ -787,17 +788,9 @@ document.querySelector('.loaderoverlay').style.display='none';
       
     }
 
-// stop scrool when active input
-useEffect(() => {
-  const handleWheel = (e) => {
-    if (document.activeElement.type === 'number') {
-      document.activeElement.blur();
-    }
-  };
 
-  window.addEventListener('wheel', handleWheel, { passive: true });
-  return () => window.removeEventListener('wheel', handleWheel);
-}, []);
+ // stop scrool when active input
+  usePreventNumberInputScroll()
 
 
 

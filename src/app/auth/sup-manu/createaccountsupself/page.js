@@ -5,6 +5,7 @@ import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import enableshiprocket from '../../../component/enableshiprocket.js';
 import IndianStates from '../../../component/indianstate.js'
+ import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -433,6 +434,9 @@ setwaitconfirmationOpen(false)
   }, 35000);
 }
 
+ // stop scrool when active input
+  usePreventNumberInputScroll()
+
     return (
         <div className='main' >
             <div className="left-container">
@@ -505,7 +509,7 @@ setwaitconfirmationOpen(false)
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone Number</label>
-            <input type="number" name="phoneNo" id="boldinput66" placeholder="91"  value={user.phoneNo} onChange={handleOnChange} required/>
+            <input type="number" name="phoneNo" id="boldinput66" placeholder=""  value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">

@@ -38,23 +38,23 @@ import Link from "next/link";
             <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{categoryname}</h3>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
                 {data.map((data) => (
-                  <div   key={data.id} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px' }}>
+                  <div   key={data.id} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
            
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <Link href={`/home/Categories/subCategories?id=${data.id}`}>
+                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`}>
                  <img src={data.image} alt={data.name}/>
                  </Link>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <Link href={`/home/Categories/subCategories?id=${data.id}`}>
+                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`}>
                  <p>{data.name}</p>
                  </Link>
                  </div>
                  
-                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link>
+                 {/* <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link> */}
                  </div>
                  
                   </div>

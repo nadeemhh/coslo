@@ -7,6 +7,8 @@ import Link from 'next/link';
 import getDiscountedPrice from '../../component/discountpricecalc.js'
 import scrollToElement from '../../component/scrollToElement.js'
 import cartcountget from '../../component/cartcountget.js';
+import sendlead from '../../component/sendlead.js'
+import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
 import { useRef ,useState,useEffect} from 'react';
 
 export default function Productpagecontant() {
@@ -341,8 +343,8 @@ if (getCookie("buyertoken")) {
 }, []);
 
 
-const sendquotation = (e) => {
-  e.preventDefault();
+const sendquotation = () => {
+ 
 
       // Accessing input fields using querySelector
       const name = document.querySelector('.modalform input[name="name"]').value;
@@ -363,6 +365,8 @@ document.querySelector('.loaderoverlay').style.display='flex';
     phone,
 
   };
+
+console.log('send quotation',userData)
 
 
   const token = localStorage.getItem('buyertoken');
@@ -406,7 +410,8 @@ function formatPhoneNumber(number) {
   return number.startsWith("91") ? number : "91" + number;
 }
 
-
+ // stop scrool when active input
+  usePreventNumberInputScroll()
 
 
   return (
@@ -629,23 +634,24 @@ function formatPhoneNumber(number) {
           {/* Buttons */}
           <div className="button-group">
 
-            {isuser ?
-            <>
+   <button className="contact-supplier pb"  onClick={toggleModal} >
+            Request Quotation <i className="fas fa-arrow-right"></i>
+            </button>
+
+            {isuser &&
+           
             <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
             </button>
-
-            <button className="contact-supplier pb"  onClick={toggleModal} >
-            Request Quotation <i className="fas fa-arrow-right"></i>
-            </button>
-            </>
-            :
-            <a href="/home/login" style={{color:'blue'}}>
-            Log in or create an account to buy this product. <i className="fas fa-arrow-right"></i>
-            </a>
             }
 
           </div>
+
+             { !isuser && <div className="button-group">
+           <a href="/home/login" style={{color:'blue'}}>
+            Log in or create an account to buy this product. <i className="fas fa-arrow-right"></i>
+            </a>
+            </div>}
   
           {/* Variations */}
           <div className="variations">
@@ -797,11 +803,20 @@ function formatPhoneNumber(number) {
           </div>
             <h2>Ask your queries here!</h2>
             <p>The Supplier will get back to you soon!</p>
-            <form className='modalform' onSubmit={sendquotation}>
+            <form className='modalform' onSubmit={(e)=>{
+
+             e.preventDefault();
+
+             isuser ? sendquotation() : sendlead({ 
+     name : document.querySelector('.modalform input[name="name"]').value,
+     phone : document.querySelector('.modalform input[name="phone"]').value,
+     email : document.querySelector('.modalform input[name="email"]').value,
+     message : document.querySelector('.modalform textarea[name="details"]').value},data._id,toggleModal)
+              }}>
             <input type="text" name="name" placeholder="Type your name *" required />
         <input type="number" name="phone" placeholder="Type your phone no*" required />
         <input type="email" name="email" placeholder="Type your email*" required />
-        <textarea name="details" placeholder="Type details" required></textarea>
+        <textarea name="details" placeholder="Type Your Message" required></textarea>
               <button type="submit">Submit</button>
             </form>
           </div>

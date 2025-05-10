@@ -199,7 +199,7 @@ margin-top: 20px;
   .category-dropdown676 {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+   border:1px solid #006fd0;
     overflow: hidden;
     transition: all 0.3s ease;
   }
@@ -207,7 +207,7 @@ margin-top: 20px;
   /* Dropdown Header */
   .dropdown-header676 {
     padding: 15px 20px;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #0954d4 0%, #2575fc 100%);
     color: white;
   }
 

@@ -1,6 +1,7 @@
 'use client'
 import "../../CreateAccount.css";
 import Link from 'next/link';
+ import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
 import  { useState,useEffect } from "react";
 
 
@@ -113,6 +114,12 @@ function Page() {
     
       setconfirmationOpen(!confirmationOpen);
     };
+
+    
+
+ // stop scrool when active input
+  usePreventNumberInputScroll()
+
   
     return (
         <div className='main' >
@@ -155,7 +162,7 @@ function Page() {
                     </div>
                     <div className="form-tab">
                         <label>Enter Phone No*</label>
-                        <input type="number" placeholder="+91" required className="" value={phone}
+                        <input type="number" placeholder="" required className="" value={phone}
               onChange={(e) => setphone(e.target.value)} />
                     </div>
                     <div className="form-tab">

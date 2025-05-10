@@ -80,7 +80,7 @@ console.log(selectedName)
         </Link>
 
 <div className="search-pre">
-        <img src="\icons\pre.svg" alt=""  className="show" onClick={handleGoBack}/>
+        <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/>
 
         <div className="search-bar">
           <div className="dropdown">

@@ -131,6 +131,7 @@ export default function page() {
               <th>Name</th>
               <th>Date</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Product</th>
               <th>Status</th>
               <th>Details</th>
@@ -144,7 +145,10 @@ export default function page() {
                 <td>{order.buyer}</td>
                 <td>{extractDate(order.date)}</td>
                 <td>
-                    {order.email}
+                    {order.email || 'Email not provided'}
+                </td>
+                <td>
+                    {order.phone || 'phone not provided'}
                 </td>
                 <td>
                     {order.product}

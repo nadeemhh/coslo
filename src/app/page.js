@@ -185,19 +185,19 @@ export default function Home() {
             <h4>Sign Up</h4>
             <p>Create your free account.</p>
           </div>
-          <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+          <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">2</div>
             <h4>Explore</h4>
             <p>Browse products on your needs.</p>
           </div>
-              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">3</div>
             <h4>Connect</h4>
             <p>Connect with verified Manufacturers/Suppliers.</p>
           </div>
-              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">4</div>
             <h4>Trade</h4>
@@ -215,19 +215,19 @@ export default function Home() {
             <h4>Profile Verification</h4>
             <p>Suppliers' profiles are verified through government IDs, address proofs & business docs.</p>
           </div>
-              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">2</div>
             <h4>Phone and Email Verification</h4>
             <p>Suppliers contact information is verified through SMS and email validation.</p>
           </div>
-              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">3</div>
             <h4>Add Products & Categories</h4>
             <p>Seamlessly add products with various customisations.</p>
           </div>
-              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="" />
+              <img className="arrowimg" src="icons\Arrow 1.svg"  alt="Arrow" />
           <div className="step">
             <div className="circle">4</div>
             <h4>Receive Orders from Anywhere in India</h4>

@@ -233,7 +233,7 @@ console.log(firstPart,secondPart);
       ))} */}
 
 <div className="category-name" style={{marginTop:'50px'}}>
-            <img src="icons/Rectangle 2.svg" alt="" />
+            <img src="icons/Rectangle 2.svg" alt="Our Products" />
             <p className='OurProducts55'>Our Products</p>
           </div>
 

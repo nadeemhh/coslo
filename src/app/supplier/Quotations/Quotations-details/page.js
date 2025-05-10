@@ -126,13 +126,21 @@ export default function page() {
           <span className="label">Enquiry Id :</span>
           <span className="value">{data.id}</span>
         </div>
+          <div className="enquiry-row">
+          <span className="label">Product Name :</span>
+          <span className="value">{data.product}</span>
+        </div>
         <div className="enquiry-row">
           <span className="label">Buyer Name :</span>
           <span className="value">{data.buyer}</span>
         </div>
         <div className="enquiry-row">
           <span className="label">Buyer Email :</span>
-          <span className="value">{data.email}</span>
+          <span className="value">{data.email || 'Email not provided'}</span>
+        </div>
+        <div className="enquiry-row">
+          <span className="label">Buyer Phone :</span>
+          <span className="value">{data.phone || 'phone not provided'}</span>
         </div>
         <div className="enquiry-description">
           <span className="Description">Description :-</span>

@@ -56,7 +56,7 @@ export default function Category() {
   
   {data.map((data, i) => (
   
-  <div   key={i} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px' }}>
+  <div   key={i} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
            
  <div className="product-category-h" >
 

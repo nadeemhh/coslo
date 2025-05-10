@@ -1,23 +1,23 @@
 "use client"
 
 import './component-css/productcard.css'
-
-// import CounterComponent from '../component/global_component'
-
+import sendlead from '../component/sendlead.js'
 import {useState} from 'react';
 import getDiscountedPrice from './discountpricecalc.js'
-
 import Link from 'next/link';
 
 
 export default function Productcard({veri=false , pname,seller,pimage,variation,pid,userdata}) {
 
-  console.log(userdata)
+ 
+
   function formatPhoneNumber(number) {
     number = number.toString(); // Ensure it's a string
     number.replace('+','')
     return number.startsWith("91") ? number : "91" + number;
 }
+
+
 
 
 
@@ -100,7 +100,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         {/* Actions */}
         <div className="product-actions">
 
-        <button className="contact-btn" style={{backgroundColor:'#029915'}}>Submit Enquiry</button>
+        <button className="contact-btn" style={{backgroundColor:'#029915'}} onClick={()=>{sendlead(userdata,pid)}}>Submit Enquiry</button>
 
          
 <Link href={`/home/products?id=${pid}`}>
