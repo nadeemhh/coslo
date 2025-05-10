@@ -86,7 +86,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         <tr className="tableRow56" key={index}>
           <td className="tableCell56">{sdata.min}-{sdata.max} items</td>
           <td className="tableCell56">{sdata.discount}%</td>
-          <td className="tableCell56">₹{(getDiscountedPrice(sdata.discount,variation.mrp).toFixed(0))}</td>
+          <td className="tableCell56"  style={{fontSize:'17px'}}>₹{(getDiscountedPrice(sdata.discount,variation.mrp).toFixed(0))}</td>
         </tr>
        
        

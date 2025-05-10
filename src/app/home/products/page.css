@@ -126,13 +126,13 @@
     margin: 1rem 0;
   }
   .current-price {
-    font-size: 1.5rem;
+    font-size: 15px;
     
     color: #000000;
   }
 
   .price-mrp{ 
-     font-size: 1.5rem;
+     font-size: 15px;
     color: #000000;
   }
 

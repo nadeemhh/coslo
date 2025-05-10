@@ -582,7 +582,7 @@ function formatPhoneNumber(number) {
         <tr className="tableRow565" key={index}>
           <td className="tableCell565">{sdata.min}-{sdata.max} items</td>
           <td className="tableCell565">{sdata.discount}%</td>
-          <td className="tableCell565">₹{(getDiscountedPrice(sdata.discount,data.variations[showslab].mrp).toFixed(0))} </td>
+          <td className="tableCell565" style={{fontSize:'18px'}}>₹{(getDiscountedPrice(sdata.discount,data.variations[showslab].mrp).toFixed(0))} </td>
         </tr>
        
        
