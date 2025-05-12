@@ -112,9 +112,10 @@
   
   /* Price */
   .price {
-    color: #097CE1;
+    color: #000000;
     font-size: 14px;
     margin: 8px 0;
+    font-weight: 500;
   }
   
   /* Actions Section */

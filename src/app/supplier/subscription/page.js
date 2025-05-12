@@ -195,12 +195,12 @@ async function handlebuy(plan) {
         <span className="general-subscription">General Subscription </span>
        {data.plan !== 'FREE' &&  (data.validityLeft ?<span className="validity"> Validity : {data.validityLeft} Days Left</span>:<span className="validityex"> Validity : <strong>Expired</strong></span>)}
       </div>
-          <button className={data.validityLeft?"pay-button":"pay-buttonex"} onClick={()=>{PayCurrentPlan(data.plan)}}> Pay Current Plan <i className="fas fa-arrow-right"></i></button>
+            {data.plan !== 'TRIAL' && data.plan !== 'FREE' && <button className={data.validityLeft?"pay-button":"pay-buttonex"} onClick={()=>{PayCurrentPlan(data.plan)}}> Pay Current Plan <i className="fas fa-arrow-right"></i></button>}
         </div>
         </div>
         {/* <button className="cancel-button"  onClick={toggleconfirmation}>Cancel Subscription</button> */}
       </div>
-      <div className="change-plan-section">
+      {data.plan !== 'TRIAL' && data.plan !== 'FREE' && <div className="change-plan-section">
         <label className="change-plan-label" htmlFor="plan-select">
           Change Plan:
         </label>
@@ -208,7 +208,7 @@ async function handlebuy(plan) {
           <option value="MONTHLY">Monthly</option>
           <option value="YEARLY">Yearly</option>
         </select>
-      </div>
+      </div>}
     {data.plan !== 'FREE' &&  <div className="current-plan">
         <span className="current-plan-label">Current Plan :</span>{" "}
         <span className="current-plan-dates">{extractDate(data.currentPeriod.startDate)} <span style={{color:'black'}}> &nbsp; / &nbsp; </span> {extractDate(data.currentPeriod.endDate)}</span>
