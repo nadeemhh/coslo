@@ -31,6 +31,7 @@ if(iscoslo){
   setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
     { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' },
     { path: '/supplier/Products', icon: 'fas fa-box', label: 'Products' },
+    { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'verification' },
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
     { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
     { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },

@@ -46,22 +46,42 @@
   }
   
 
-  .verified{
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    background-color: #1389F0;
-    border-top-right-radius: 7px;
-    border-bottom-left-radius: 7px;
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
-    color: white;
-    padding: 3px;
-    border: none;
-    font-size: 11px;
+ .verified {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-top-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 3px 10px;
+  border: none;
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(
+    120deg,
+    #b8860b 0%,
+    #ffd700 40%,
+    #977900 60%,
+    #b8860b 100%
+  );
+  background-size: 200% auto;
+  animation: shine 5s linear infinite;
+  box-shadow: 0 0 5px #ffd700aa;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% center;
   }
+  100% {
+    background-position: -200% center;
+  }
+}
 
   .mylocation{
     position: absolute;
