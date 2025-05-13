@@ -45,11 +45,14 @@
     cursor: pointer;
   }
   
-
- .verified {
+.aboluteveri{
   position: absolute;
   top: 0px;
   right: 0px;
+}
+
+ .verified {
+
   border-top-right-radius: 7px;
   border-bottom-left-radius: 7px;
   display: flex;
