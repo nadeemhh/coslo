@@ -33,7 +33,14 @@ console.log(pathname)
 
 
   useEffect(() => {
-    setuser(JSON.parse(localStorage.getItem('buyer')))
+    let userdata=JSON.parse(localStorage.getItem('buyer'));
+
+    if(userdata === null){
+  window.location.href = '/home/login';
+    }else{
+   setuser(userdata)
+    }
+
   }, []);
 
   return (

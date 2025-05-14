@@ -60,7 +60,7 @@ export default function Page() {
         .catch((err) => {
           document.querySelector('.loaderoverlay').style.display = 'none';
           console.log(err)
-          alert(err);
+       
          
         });
     };
