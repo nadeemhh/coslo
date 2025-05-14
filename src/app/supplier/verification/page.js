@@ -29,19 +29,33 @@ AccountHolderName:""
       };
     
 
-      const handleSubmit = async () => {
+      const handleSubmit = async (AccountHolderName) => {
         
         document.querySelector('.loaderoverlay').style.display='flex';
         
+
+        let bankDetails = {
+    bankDetails: {
+        accountHolderName: AccountHolderName,
+        accountNumber: user.AccountNumber,
+        ifscCode: user.IFSCCode,
+        bankName: user.BankName
+    }
+};
+
+console.log(bankDetails)
+
+
+
       const token = localStorage.getItem('token');
     
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/bankdetails`, {
-      method: "POST",
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/update`, {
+      method: "PATCH",
        headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(bankDetails)
     })
       .then((response) => {
         if (response.ok) {
@@ -192,12 +206,9 @@ if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim()
 
 console.log(data.accountHolderName, businessNamefromgst,tradeNamefromgst)
 
-setUser(prevUser => ({
-  ...prevUser,
-  AccountHolderName: data.accountHolderName
-}));
 
-handleSubmit()
+
+handleSubmit(data.accountHolderName)
 console.log('verified successfully')
 setgstverified(true)
 setwaitconfirmationOpen(false)

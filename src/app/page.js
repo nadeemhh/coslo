@@ -5,6 +5,7 @@ import "./landing-page.css";
 import Button from './component/button';
 import PlansTable from './component/planstables.js';
 import Footer from './component/footer.js'
+import Categorylist from './component/categorylist.js'
 
 export const metadata = {
   title: "coslomart Store - Best Online Shopping",
@@ -148,6 +149,13 @@ export default function Home() {
         </a>
       </div>
     </section>
+
+
+    {/* explore categories */}
+
+    <div style={{padding:'15px'}}>
+<Categorylist/>
+</div>
 
     {/* Why Choose Us Section */}
     <section className="why-choose-us">
