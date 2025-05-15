@@ -43,13 +43,13 @@ import Link from "next/link";
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`}>
+                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
                  <img src={data.image} alt={data.name}/>
                  </Link>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`}>
+                 <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
                  <p>{data.name}</p>
                  </Link>
                  </div>

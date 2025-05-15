@@ -975,9 +975,9 @@ onClick={addreason}
       </div>
     {!productupdate &&  <div className="add-category-location" style={{height:'650px',overflowY:'auto'}}>
         <div className="add-category">
-          <h2>Add/Create Category</h2>
+          <h2>Available Categories</h2>
          
-          <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginBottom:'30px'}}>
+          {/* <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginBottom:'30px'}}>
         
         <button className="create-new" onClick={()=>toggleAddCategory(false)}>
          Create Category
@@ -987,7 +987,7 @@ onClick={addreason}
          Create Sub Category
          <i className="fas fa-plus"></i>
        </button>}
-          </div>
+          </div> */}
 
 
           <div className="category-actions">
@@ -1602,8 +1602,7 @@ setImages([])
              </div>
       )}
 
-      <>{Compareprice && (<Comparepriceother toggleCompareprice={toggleCompareprice}/>)}</>
-{/* <Choosecategory  toggleChoosecategory={toggleCompareprice}/> */}
+
    
     </div>
   );
@@ -1749,256 +1748,6 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
 }
 
 
-
-
-function Comparepriceother({toggleCompareprice}) {
-
-  return (
-      <div className="modal-overlay">
-
-      <div style={{width:'80vw',height:'80vh', backgroundColor:'white',padding:'15px',borderRadius:'10px',overflowY:'auto'}}>
-
-      <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
-          
-            <i onClick={toggleCompareprice} style={{cursor:'pointer',fontSize:'20px'}} className="fa fa-times"></i>
-          
-          </div>
-          
-<p style={{fontSize:'22px',textAlign:'left'}}>Compare Product Price</p>
-
-      <div style={{display:'flex',justifyContent:'space-between',margin:'20px 0px'}}>
-<div  style={{backgroundColor:'rgb(233 233 233)',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px'}}>
-<i className="fas fa-search" style={{cursor:'pointer'}}></i>
-<input type="text" placeholder='Search Item' style={{border:'none',outline:'none',backgroundColor:'rgb(233 233 233)',width:'300px'}}/>
-</div>
-
-</div>
-
-
-<div className="compareContainer995">
-      <p style={{marginBottom:'50px',fontSize:'22px',textAlign:'left'}}>Amazon Results</p>
-      <div className="compareGrid995">
-
-      <div className="cardContainer975">
-      <div className="header975">
-      <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹240.00</span>
-      </div>
-    </div>
-
-    <div className="cardContainer975">
-      <div className="header975">
-      <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹323.00</span>
-      </div>
-    </div>
-
-    <div className="cardContainer975">
-      <div className="header975">
-        <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹348.00</span>
-      </div>
-    </div>
-
-        
-      </div>
-    </div>
-
-
-    
-<div className="compareContainer995">
-      <p style={{marginBottom:'50px',fontSize:'22px',textAlign:'left'}}>Flipkart Results</p>
-      <div className="compareGrid995">
-
-      <div className="cardContainer975">
-      <div className="header975">
-      <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹240.00</span>
-      </div>
-    </div>
-
-    <div className="cardContainer975">
-      <div className="header975">
-        <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹323.00</span>
-      </div>
-    </div>
-
-    <div className="cardContainer975">
-      <div className="header975">
-      <img src="\icons\flipkart.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹348.00</span>
-      </div>
-    </div>
-
-        
-      </div>
-    </div>
-
-      </div>
-
-           </div>
-    
-  )
-}
-
-
-
-function Choosecategory({toggleChoosecategory}) {
-  
-  return (
-    <div className="modal-overlay">
-
-    <div style={{width:'80vw',height:'80vh', backgroundColor:'white',padding:'15px',borderRadius:'10px',overflowY:'auto'}}>
-
-    <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
-        
-          <i onClick={toggleChoosecategory} style={{cursor:'pointer',fontSize:'20px'}} className="fa fa-times"></i>
-        
-        </div>
-        
-
-
-<div className="compareContainer995">
-    <p style={{marginBottom:'50px',fontSize:'22px',textAlign:'center'}}>Category Name</p>
-    <div className="compareGrid995">
-
-   //// add
-      
-    </div>
-  </div>
-
-
-  
-
-    </div>
-
-         </div>
-  
-)
-}
-
-
-const categories = [
-
-  {
-    name: 'Mobile',
-    subcategories: [
-      { name: 'Nokia' },
-      { name: 'LG' },
-    ],
-  },
-  {
-    name: 'Earphone',
-    subcategories: [
-      {
-        name: 'JBL',
-        subcategories:[{ name: 'Wireless2' },
-          { name: 'Wired2' },]
-      },
-      {
-        name: 'Boat',
-        subcategories: [
-          { name: 'Wireless' },
-          { name: 'Wired',
-            subcategories:[{ name: 'Wireless2' },
-              { name: 'Wired2' },]
-           },
-        ],
-      },
-    ],
-  },
-];
 
 // Function to generate unique paths for each category
 const generatePaths = (categories, parentPath = '') => {

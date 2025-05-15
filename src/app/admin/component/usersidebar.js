@@ -22,6 +22,7 @@ const AdminDashboard = () => {
       // { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
       // { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
       { path: '/admin/banners', icon: 'fas fa-image', label: 'Add Banner' },
+        { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' },
       { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
     ];
 
@@ -86,7 +87,7 @@ const Usersidebar = ({menuItems}) => {
         </div>
 
         {/* Miscellaneous */}
-        <p style={{ textAlign: 'left', marginTop: '40px', marginBottom: '15px', fontSize: '18px' }}>Misc</p>
+       
         <a href="/admin/PlatformCustomisation">
           <div className="menu-item" style={{ backgroundColor: '#E8FFF3', color: '#179757', border: '1px solid #179757' }}>
             <i className="fas fa-headset"></i>

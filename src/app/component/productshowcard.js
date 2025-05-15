@@ -66,7 +66,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         </Link>
         {/* Price */}
         <div className="product-actions">
-        <h4 className="price">MRP ₹{variation.mrp}</h4>
+        <p className="price">MRP ₹{variation.mrp}</p>
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>

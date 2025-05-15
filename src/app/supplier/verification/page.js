@@ -69,7 +69,7 @@ console.log(bankDetails)
     
       console.log(data)
 alert('You have been verified successfully.')
-    
+      document.querySelector('.loaderoverlay').style.display='none';
     
     })
       .catch((error) => {
