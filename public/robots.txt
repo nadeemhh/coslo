@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /supplier/
+Disallow: /admin/
+Disallow: /Employee/
+Disallow: /user/
+Allow: /
+
