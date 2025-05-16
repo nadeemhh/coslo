@@ -76,25 +76,25 @@ export default function page() {
 
       {/* Steps */}
       <div className="steps">
-        <div className="step active">
+        <Link className="step active" href={`/home/cart`}>
           <span className="circle">1</span> Cart Items
-        </div>
+        </Link>
 
         <div className="step-line">
        
         </div>
 
-        <div className="step active">
+        <Link className="step active" href={`/home/cart/address`}>
           <span className="circle">2</span> Shipping Address
-        </div>
+        </Link>
 
         <div className="step-line">
        
         </div>
 
-        <div className="step active">
+        <Link className="step active" href={`/home/cart/address/payment`}>
           <span className="circle">3</span> Payment
-        </div>
+        </Link>
       </div>
 
       {/* Main Content */}
