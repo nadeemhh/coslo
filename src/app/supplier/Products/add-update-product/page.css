@@ -728,11 +728,17 @@ margin-top: 20px;
   padding: 0;
 }
 
+
 .category-item342 {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 15px;
   cursor: pointer;
+  margin: 15px 0px;
+  background-color: #f2faff;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.21) 0px 4px 6px;
 }
 
 .toggle-icon342 {
