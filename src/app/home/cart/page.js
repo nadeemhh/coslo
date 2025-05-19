@@ -177,9 +177,9 @@ console.log(OrderSummary);
        
         </div>
 
-        <Link className="step" href={`/home/cart/address/payment`}>
+        <div className="step">
           <span className="circle">3</span> Payment
-        </Link>
+        </div>
       </div>
 
       {/* Main Content */}
