@@ -86,7 +86,7 @@ function Login() {
               }
               
              
-              setCookie("token", data.token, 1);
+              setCookie("token", data.token, 7);
 
                 document.querySelector('.loaderoverlay').style.display='none';
         localStorage.setItem('token', data.token);

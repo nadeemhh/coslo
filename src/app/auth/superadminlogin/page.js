@@ -81,7 +81,7 @@ function Login() {
               }
               
             
-              setCookie("admintoken", data.token, 1);
+              setCookie("admintoken", data.token, 7);
 
         localStorage.setItem('admintoken', data.token);
         handledata()

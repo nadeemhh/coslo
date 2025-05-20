@@ -47,7 +47,7 @@ function Login() {
                   }
                   
                   
-                  setCookie("employeetoken", data.token, 1);
+                  setCookie("employeetoken", data.token, 7);
 
             localStorage.setItem('employeetoken', data.token);
             

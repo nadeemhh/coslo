@@ -46,8 +46,7 @@ function Page() {
                       document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
                   }
                   
-                  // Set a cookie named "testCookie" that expires in 1 minute
-                  setCookie("buyertoken", data.token, 1);
+                  setCookie("buyertoken", data.token, 7);
 
             localStorage.setItem('buyertoken', data.token);
             localStorage.setItem('buyer', JSON.stringify(data.buyer));
