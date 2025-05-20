@@ -68,13 +68,17 @@ console.log(categories)
           <div className="category-actions" style={{display:'flex',justifyContent:'flex-start',marginBottom:'30px',gap:'30px'}}>
         
         <button className="create-new" onClick={()=>toggleAddCategory(false)}>
-         Create Category
+         Create Root Category
          <i className="fas fa-plus"></i>
        </button>
-       {changeurl && <button className="create-new"  onClick={()=>toggleAddCategory(true)}>
+       
+<button className="create-new"  onClick={()=>{
+       changeurl ? toggleAddCategory(true) : alert('Click on a category to create its subcategory')
+        }}>
          Create Sub Category
          <i className="fas fa-plus"></i>
-       </button>}
+       </button>
+
           </div>
 
 
@@ -82,7 +86,7 @@ console.log(categories)
            
           <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setupdateCategory={setupdateCategory}/>
 
-       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>}
+       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setchangeurl={setchangeurl}/>}
 
           </div>
 
@@ -100,7 +104,7 @@ console.log(categories)
 
 
 
-function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,activeCategory=false, setActiveCategory=false ,updateCategory=false}) {
+function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,activeCategory=false, setActiveCategory=false ,updateCategory=false,setchangeurl}) {
   
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
@@ -159,6 +163,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,a
       if (response.ok) {
         alert("Category added successfully!");
         setActiveCategory(null)
+        setchangeurl(false)
         toggleaddcategory();
         refreshCategories(); // Reload category list
          document.querySelector('.loaderoverlay').style.display='none';

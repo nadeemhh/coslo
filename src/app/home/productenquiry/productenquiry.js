@@ -273,7 +273,7 @@ const Page = () => {
             </div>
             
             <div className="form-group676">
-              <label htmlFor="message">Your Message <span className="required676">(optional)</span></label>
+              <label htmlFor="message">Your Message</label>
               <textarea
                 id="message"
                 name="message"

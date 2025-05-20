@@ -98,11 +98,11 @@ export default function page() {
       <h3>Tags</h3>
 
       
-      <Link href="/admin/Employees/newemployee">
-      <button className="AddProduct">
-      Add Employee &nbsp; <i className="fas fa-plus" style={{marginRight:'10px'}}></i>
+      <button className="AddProduct" onClick={() => {
+        setshowtag(true)
+        }}>
+      Create Tag &nbsp; <i className="fas fa-plus" style={{marginRight:'10px'}}></i>
       </button>
-      </Link>
 
       </div>
 
@@ -130,7 +130,7 @@ export default function page() {
 
                  <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer',marginRight:'5px'}}
                   onClick={() => {
-                    setupdatetag({name:data.tagName,image:data.tagImage})
+                    setupdatetag({name:data.tagName,image:data.tagImage,id:data._id})
                     setshowtag(true)}}/>
 
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
@@ -164,7 +164,7 @@ export default function page() {
              </div>
       )}
 
-      {showtag && <Addtag refreashtag={handledata} setshowtag={setshowtag} updatetag={updatetag}/>}
+      {showtag && <Addtag refreashtag={handledata} setshowtag={setshowtag} updatetag={updatetag} setupdatetag={setupdatetag}/>}
 
     </div>
   );
@@ -173,34 +173,32 @@ export default function page() {
 
 
 
-function Addtag({refreashtag,setshowtag,updatetag=false}) {
+function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
   
   const [tagName, settagName] = useState('');
 
-  const [categoryDescription, setCategoryDescription] = useState('');
-
-  const [categoryImages, setCategoryImages] = useState([]);
+  const [tagimage, settagimage] = useState([]);
   
-  const [categoryimages, setcategoryimages] = useState([]);
+  const [tagimageurl, settagimageurl] = useState([]);
 
-  console.log(categoryimages,categoryImages)
+  console.log(tagimageurl,tagimage)
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
-    setCategoryImages(files);
+    settagimage(files);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setcategoryimages((prevImages) => [...imageUrls]);
+    settagimageurl((prevImages) => [...imageUrls]);
 
   };
 
   const removeImagec = (index) => {
-    setCategoryImages(categoryImages.filter((_, i) => i !== index));
-    setcategoryimages(categoryimages.filter((_, i) => i !== index));
+    settagimage(tagimage.filter((_, i) => i !== index));
+    settagimageurl(tagimageurl.filter((_, i) => i !== index));
   };
 
 
   const handleSubmit = async () => {
-    if (!tagName || categoryImages.length === 0) {
+    if (!tagName || tagimage.length === 0) {
       alert("Please fill all fields and upload an image.");
 
       return;
@@ -211,21 +209,15 @@ function Addtag({refreashtag,setshowtag,updatetag=false}) {
   
     const formData = new FormData();
 
-    formData.append("name", tagName);
+    formData.append("tagName", tagName);
     // formData.append("description", categoryDescription);
-    formData.append("categoryImage", categoryImages[0]); // Only sending one file
-
-  if(subcategory){
-   let id = document.querySelector('.active342').getAttribute('categoryid');
-   console.log(id)
-    formData.append("parent", id);
-  }
+    formData.append("tagImage", tagimage[0]); // Only sending one file
 
   
     try {
       const token = localStorage.getItem('admintoken');
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/create`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag`, {
         method: "POST",
         headers: {
           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
@@ -240,7 +232,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false}) {
          document.querySelector('.loaderoverlay').style.display='none';
       } else {
         const errorData = await response.json();
-        alert("Failed to add category: " + errorData.message);
+        alert("Failed to add tag: " + errorData.message);
          document.querySelector('.loaderoverlay').style.display='none';
       }
     } catch (error) {
@@ -254,7 +246,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false}) {
  const handleupdate  = async () => {
 
 
-    if (!tagName || categoryimages.length === 0) {
+    if (!tagName || tagimageurl.length === 0) {
       alert("Please fill all fields and upload an image.");
 
       return;
@@ -265,9 +257,9 @@ function Addtag({refreashtag,setshowtag,updatetag=false}) {
 
     const formData = new FormData();
 
-    formData.append("name", tagName);
+    formData.append("tagName", tagName);
     // formData.append("description", categoryDescription);
-    formData.append("categoryImage", categoryImages[0]); // Only sending one file
+    formData.append("tagImage", tagimage[0]); // Only sending one file
 
 
   
@@ -304,7 +296,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false}) {
    useEffect(() => {
 
 if(updatetag !== false){
-    setcategoryimages([updatetag.image]);
+    settagimageurl([updatetag.image]);
     settagName(updatetag.name)
 }
 
@@ -332,7 +324,7 @@ if(updatetag !== false){
 
           <div className="image-uploader">
 
-{categoryImages.length < 1 && <div className="add-image">
+{tagimage.length < 1 && <div className="add-image">
  <input
    type="file"
    id="categoryImageInput"
@@ -347,7 +339,7 @@ if(updatetag !== false){
 
 
 <div className="image-preview" style={{width:'auto'}}>
- {categoryimages.map((image, index) => (
+ {tagimageurl.map((image, index) => (
    <div className="image-container" key={index}>
      <img src={image} alt={`preview-${index}`} />
      <button
@@ -361,13 +353,17 @@ if(updatetag !== false){
 </div>
 </div>
           <div className="button-group">
-            <button className="cancel-button" onClick={()=>setshowtag(false)}>
+            <button className="cancel-button" onClick={()=>{
+              setshowtag(false)
+              setupdatetag(false)
+            }}>
               Cancel
             </button>
             <button className="save-button" onClick={()=>{
               updatetag === false ? handleSubmit():handleupdate()
+              setupdatetag(false)
               }}>
-            { updatetag === false ? <>Add Category</> : <>Update Category</>}
+            { updatetag === false ? <>Add Tag</> : <>Update Tag</>}
             </button>
           </div>
         </div>
