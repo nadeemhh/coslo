@@ -29,9 +29,9 @@ const Footer = () => (
             <a href="https://youtube.com/@coslomart?si=97n_RqKLM71OBuT2">
               <img src="\icons\youtubeicon.svg" alt="youtubeicon" />
             </a>
-            {/* <a href="#">
+            <a href="https://www.instagram.com/coslomart/?igsh=NmQ3eWZ0aXpqd2t1&utm_source=qr#">
               <img src="\icons\Social Icons3.svg" alt="Instagram" />
-            </a> */}
+            </a>
            
           </div>
         </div>
