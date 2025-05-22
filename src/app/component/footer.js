@@ -23,6 +23,7 @@ const Footer = () => (
           </div>
           <p>social media</p>
           <div className="social-media">
+            
             <a href="https://www.facebook.com/profile.php?id=61574036354947">
               <img src="\icons\Social Icons1.svg" alt="Facebook" />
             </a>

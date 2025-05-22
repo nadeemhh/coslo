@@ -21,6 +21,7 @@ export default function Page() {
       commonAttributes: [],
       reasonForReturn:[],
       category: "",
+      tagId:"",
       BrandName:"",
       amazoneProductUrl:""
     },
@@ -53,6 +54,7 @@ export default function Page() {
   const [updateindex, setupdateindex] = useState(false);
   const [productupdate, setproductupdate] = useState(false);
   const [preimages, setpreimages] = useState([]);
+  const [tags,settags] = useState([]);
 
 
   const [pricings, setPricings] = useState([
@@ -70,6 +72,56 @@ export default function Page() {
       .catch((error) => console.error("Error fetching categories:", error));
   };
 
+
+
+
+
+
+  /// get tags
+
+
+    const gettag = () => {
+     
+  
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+     const token = localStorage.getItem('token');
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+              settags([...data])
+             document.querySelector('.loaderoverlay').style.display='none';
+
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+
+  //////
+
+
+
+
   useEffect(() => {
     refreshCategories(); // Load categories on mount
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
@@ -77,6 +129,7 @@ export default function Page() {
     console.log(pid)
     if(pid){getproductdetails(pid)}
     
+    gettag()
   }, []);
   
   const toggleCompareprice = () => {
@@ -448,10 +501,22 @@ setpreimages([])
     return;
   }
 
+   if(userDatacopy.productData.productName === ""){
+    alert('enter product name')
+    return;
+  }
+
+  if(userDatacopy.productData.tagId === ""){
+    alert('select a tag')
+    return;
+  }
+
   if(userDatacopy.variationsData.length===0){
     alert('Add Price')
     return;
   }
+
+  
 
     async function convertImagesToBase64(productData) {
       const variations = productData.variationsData;
@@ -864,7 +929,7 @@ document.querySelector('.loaderoverlay').style.display='none';
         <h2>Basic Information</h2>
         <div className="input-group">
           <label htmlFor="product-name">Enter Product Name *</label>
-          <input id="product-name" type="text" placeholder="John Doe"    value={userData.productData.productName || ""}
+          <input id="product-name" type="text" placeholder=""    value={userData.productData.productName || ""}
           onChange={(e) => handleProductDataChange("productName", e.target.value)}/>
         </div>
         {/* <div className="input-group">
@@ -882,7 +947,7 @@ document.querySelector('.loaderoverlay').style.display='none';
 
         <div className="input-group">
           <label htmlFor="product-video">Enter Product Video (Optional)</label>
-          <input id="product-video" type="text" placeholder="John Doe"    value={userData.productData.productVideo || ""}
+          <input id="product-video" type="text" placeholder=""    value={userData.productData.productVideo || ""}
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
@@ -936,7 +1001,7 @@ document.querySelector('.loaderoverlay').style.display='none';
 
 <br/>
 
-<label htmlFor="product-video" style={{marginRight:'10px'}}>Add reasons for product return.</label>
+<label htmlFor="product-video" style={{marginRight:'10px'}}>Add reasons for product return</label>
 
 <i
 className="fas fa-plus-circle"
@@ -970,9 +1035,25 @@ onClick={addreason}
 </div>
 ))}
 
+        <div className="input-group">
 
+<label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
+
+  <select className="form-input" value={userData.productData.tagId || ""}   onChange={(e) => handleProductDataChange("tagId", e.target.value)}>
+
+      <option value="">Select a tag</option>
+      {tags.map((data, index) => (
+        <option value={data._id} key={index}>
+          {data.tagName}
+        </option>
+      ))}
+
+    </select>
+
+   </div>
        
       </div>
+
     {!productupdate &&  <div className="add-category-location" style={{height:'650px',overflowY:'auto'}}>
         <div className="add-category">
           <h2>Available Categories</h2>
