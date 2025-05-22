@@ -11,6 +11,50 @@ export default function page() {
   const [updatetag,setupdatetag] = useState(false);
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+   
+  /// get root category
+
+   const [rootcategory,setrootcategory] = useState([]);
+   
+    const rootcategories = () => {
+     
+  
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+     const token = localStorage.getItem('admintoken');
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/all`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+              setrootcategory([...data])
+             document.querySelector('.loaderoverlay').style.display='none';
+
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+
+  //////
+
 
   const toggleconfirmation = (id = null) => {
     setSelectedId(id);
@@ -88,6 +132,7 @@ export default function page() {
   
     useEffect(() => {
       handledata();
+      rootcategories()
     },[]);
 
 
@@ -122,7 +167,7 @@ export default function page() {
             {data.map((data, index) => (
               <tr key={index}>
                 <td>#{index + 1}</td>
-                <td>{data.tagName}</td>
+                <td>{data.tagName}</td> 
                 <td>
                   <img src={data.tagImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" />
                 </td>
@@ -130,7 +175,7 @@ export default function page() {
 
                  <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer',marginRight:'5px'}}
                   onClick={() => {
-                    setupdatetag({name:data.tagName,image:data.tagImage,id:data._id})
+                    setupdatetag({name:data.tagName,image:data.tagImage,id:data._id,categoryname:data.category.name})
                     setshowtag(true)}}/>
 
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
@@ -164,7 +209,7 @@ export default function page() {
              </div>
       )}
 
-      {showtag && <Addtag refreashtag={handledata} setshowtag={setshowtag} updatetag={updatetag} setupdatetag={setupdatetag}/>}
+      {showtag && <Addtag refreashtag={handledata} setshowtag={setshowtag} updatetag={updatetag} setupdatetag={setupdatetag} rootcategory={rootcategory}/>}
 
     </div>
   );
@@ -173,7 +218,7 @@ export default function page() {
 
 
 
-function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
+function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag,rootcategory}) {
   
   const [tagName, settagName] = useState('');
 
@@ -181,7 +226,15 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
   
   const [tagimageurl, settagimageurl] = useState([]);
 
-  console.log(tagimageurl,tagimage)
+  const [selectedcategory, setselectedcategory] = useState('');
+
+
+
+  const handleChange = (e) => {
+    setselectedcategory(e.target.value);
+  };
+
+  console.log(tagimageurl,tagimage,selectedcategory)
 
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
@@ -198,7 +251,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
 
 
   const handleSubmit = async () => {
-    if (!tagName || tagimage.length === 0) {
+    if (!tagName || tagimage.length === 0 || !selectedcategory) {
       alert("Please fill all fields and upload an image.");
 
       return;
@@ -210,7 +263,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
     const formData = new FormData();
 
     formData.append("tagName", tagName);
-    // formData.append("description", categoryDescription);
+    formData.append("category", selectedcategory);
     formData.append("tagImage", tagimage[0]); // Only sending one file
 
   
@@ -246,7 +299,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
  const handleupdate  = async () => {
 
 
-    if (!tagName || tagimageurl.length === 0) {
+    if (!tagName || tagimageurl.length === 0 || !selectedcategory) {
       alert("Please fill all fields and upload an image.");
 
       return;
@@ -258,7 +311,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
     const formData = new FormData();
 
     formData.append("tagName", tagName);
-    // formData.append("description", categoryDescription);
+      formData.append("category", selectedcategory);
     formData.append("tagImage", tagimage[0]); // Only sending one file
 
 
@@ -298,6 +351,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag}) {
 if(updatetag !== false){
     settagimageurl([updatetag.image]);
     settagName(updatetag.name)
+    setselectedcategory(updatetag.categoryname)
 }
 
   }, []);
@@ -316,11 +370,17 @@ if(updatetag !== false){
               onChange={(e) => settagName(e.target.value)}
             />
           </div>
-          
-          {/* <div className="input-group">
-          <label htmlFor="description">Enter Description</label>
-          <textarea className='form-input' placeholder="Explain the category" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
-        </div> */}
+
+<div className="form-group">
+           <label className="form-label">Select a Category</label>
+         <select className="form-input" value={selectedcategory} onChange={handleChange}>
+      {rootcategory.map((data, index) => (
+        <option value={data.id} key={index}>
+          {data.name}
+        </option>
+      ))}
+    </select>
+    </div>
 
           <div className="image-uploader">
 

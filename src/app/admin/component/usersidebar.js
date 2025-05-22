@@ -23,7 +23,7 @@ const AdminDashboard = () => {
       // { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
       { path: '/admin/banners', icon: 'fas fa-image', label: 'Add Banner' },
         { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' },
-            { path: '/admin/tags', icon: 'fas fa-tags', label: 'Create Tags' },
+            // { path: '/admin/tags', icon: 'fas fa-tags', label: 'Create Tags' },
       { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
     ];
 

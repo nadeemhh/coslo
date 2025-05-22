@@ -3,17 +3,17 @@ import './page.css'
 import  { useState,useEffect,useRef } from "react";
 import Link from 'next/link';
 import Productcard from '../../component/productcardforenquiry.js'
- import scrollToElement from '../../component/scrollToElement.js'
- import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
-
+import scrollToElement from '../../component/scrollToElement.js'
+import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
 import { useInView } from "react-intersection-observer";
+
+
 
 let canrun_Inview=true;
 
 const Page = () => {
-  // State for form inputs
 
-  const [products, setProducts] = useState([]);   // Store fetched products
+  const [products, setProducts] = useState([]);   
   const [category, setcategory] = useState(null); 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -131,18 +131,6 @@ const Page = () => {
     return selectedCategory ? selectedCategory.subcategories : [];
   };
 
-  // Reset form handler
-  const handleReset = () => {
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      category: '',
-      subcategory: '',
-      message: ''
-    });
-    setErrors({});
-  };
 
 
   /////////// fetch category products
@@ -332,218 +320,93 @@ export default Page;
 
 const NestedCategoryDropdown = ({selectedCategoryId, setSelectedCategoryId,fetchProducts,setPage,setProducts,setcategory,setHasMore,formData}) => {
   
-  const [categories, setcategories] = useState([]);  
+  const [tags,settags] = useState([]);
 
+  /// get tags
 
+    const gettag = () => {
 
-
-    const fetchcategory = async () => {
-        
-      
-      document.querySelector('.loaderoverlay').style.display = 'flex';
-  
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error('Failed to fetch Category');
-        }
-  
-        const data = await response.json();
-
-        //setrootcategories(data); // Adjust based on your API response
-        
-        setcategories(data)
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(categories)
-      } catch (err) {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-      } finally {
-        
-      }
-    };
-    console.log(categories)
-  
-    useEffect(() => {
-  
-      fetchcategory();
-    }, []);
-
-  
-    // State for tracking which categories are expanded
-    const [expandedCategories, setExpandedCategories] = useState({});
+      document.querySelector('.loaderoverlay').style.display='flex';
     
- 
-    
-    // State for tracking if the menu is open in mobile view
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    
-    
-    // State for tracking mobile mode
-    const [isMobile, setIsMobile] = useState(false);
-    
-    // Ref for dropdown container (to detect clicks outside)
-    const dropdownRef = useRef(null);
+     const token = localStorage.getItem('token');
   
-    // Function to toggle category expansion
-    const toggleCategory = (categoryId, event) => {
-      // Stop event propagation to prevent parent categories from toggling
-      event.stopPropagation();
-      
-      setExpandedCategories(prev => ({
-        ...prev,
-        [categoryId]: !prev[categoryId]
-      }));
-    };
   
-    // Function to handle category selection
-    const handleCategorySelect = (categoryId, event) => {
-      // Stop event propagation to prevent parent categories from toggling
-      event.stopPropagation();
-      
-      // Set selected category
-      setSelectedCategoryId(categoryId);
-      console.log(`Selected category ID: ${categoryId}`);
-      
-      // For categories with no children, you might want to close mobile menu
-      if (isMobile) {
-        setMobileMenuOpen(false);
-      }
-    };
-  
-    // Handle window resize for responsive behavior
-    useEffect(() => {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-      
-      // Initial check
-      handleResize();
-      
-      // Set listener
-      window.addEventListener('resize', handleResize);
-      
-      // Cleanup
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-  
-    // Handle clicks outside the dropdown to close it
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setMobileMenuOpen(false);
-        }
-      };
-  
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, []);
-  
-    // Category Item Component (Recursive)
-    const CategoryItem = ({ category, level = 0 }) => {
-      const hasChildren = category.children && category.children.length > 0;
-      const isExpanded = expandedCategories[category.id];
-      const isSelected = selectedCategoryId === category.id;
-      
-      return (
-        <li 
-          className={`category-item676 ${hasChildren ? 'has-children676' : ''} ${isExpanded ? 'expanded676' : ''} ${isSelected ? 'selected676' : ''}`}
-        >
-          <div 
-            className={`category-header676 level-${level}676 ${isSelected ? 'selected676' : ''}`}
-            onClick={(e) => {
-              handleCategorySelect(category.id, e);
-              if (hasChildren) toggleCategory(category.id, e);
-            }}
-          >
-            {/* {category.image && (
-              <div className="category-image-container676">
-                <img 
-                  src={category.image} 
-                  alt={category.name} 
-                  className="category-image676"
-                />
-              </div>
-            )} */}
-
-           {category.children.length === 0 && <button className='catpro66' 
-           onClick={()=>{
-
-            if(!formData.name || !formData.phone){
-              alert('Please enter your phone number and your name to see the products.')
-              return;
-            }else{
-              canrun_Inview=false;
-            setPage(1)
-            setProducts([])
-            setHasMore(true);
-            setcategory(category.name)
-            fetchProducts(category.id,1)
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
           }
-           
-           }}>
-                see products
-            </button>}
+        })
+        .then((data) => {
+              console.log(data)
+              settags([...data])
+             document.querySelector('.loaderoverlay').style.display='none';
 
-            <span className="category-name676">{category.name}</span>
-            {hasChildren && (
-              <span className="category-arrow676">
-                {isExpanded ? '▼' : '▶'}
-              </span>
-            )}
-          </div>
-          
-          {hasChildren && (
-            <ul className={`subcategory-list676 ${isExpanded ? 'visible676' : ''}`}>
-              {category.children.map(child => (
-                <CategoryItem key={child.id} category={child} level={level + 1} />
-              ))}
-            </ul>
-          )}
-        </li>
-      );
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
     };
+
+  //////
   
+    useEffect(() => {
+  
+      gettag();
+    }, []);
+
+    
     return (
-      <div className="nested-dropdown-container676" ref={dropdownRef}>
-        {/* Mobile Toggle Button */}
-        {isMobile && (
-          <button 
-            className="mobile-menu-toggle676"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? 'Close Categories ✕' : 'Browse Categories ☰'}
+     <div className="nested-dropdown-container676">
+  <div className="category-dropdown676">
+    <div className="dropdown-header676">
+      <h3>Select Category</h3>
+    </div>
+
+     {tags.map((data, index) => (
+
+    <ul className="category-list676" key={index}>
+      <li className="category-item676">
+        <div className="category-header676">
+          <div className="category-image-container676">
+            <img 
+              src={data.tagImage}
+              alt={data.tagName}
+              className="category-image676"
+            />
+          </div>
+
+
+ <span className="category-name676">{data.tagName}</span>
+
+<div>
+  <p style={{fontSize:'12px',marginBottom:'2px'}}>Quantity</p>
+  <input type="number" style={{width:'60px',height:'16px'}} className='taginput'/>
+</div>
+
+          <button className="catpro66">
+            Submit
           </button>
-        )}
-        
-        {/* Category Menu - Visible by default on desktop, toggle on mobile */}
-        <div className={`category-dropdown676 ${isMobile && !mobileMenuOpen ? 'hidden676' : ''}`}>
-          <div className="dropdown-header676">
-            <h3>Select Category</h3>
-          </div>
-          <ul className="category-list676">
-            {categories.map(category => (
-              <CategoryItem key={category.id} category={category} />
-            ))}
-          </ul>
+         
         </div>
-  
-        {/* Selected Category Display (For demonstration) */}
-        {/* {selectedCategoryId && (
-          <div className="selected-category-display676">
-            <p>Selected Category ID: <strong>{selectedCategoryId}</strong></p>
-          </div>
-        )} */}
-  
-     
-      </div>
+      </li>
+    </ul>
+     ))}
+
+  </div>
+</div>
     );
   };
 
