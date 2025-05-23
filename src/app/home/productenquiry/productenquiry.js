@@ -1,27 +1,13 @@
 'use client'
 import './page.css'
-import  { useState,useEffect,useRef } from "react";
+import  { useState,useEffect } from "react";
 import Link from 'next/link';
-import Productcard from '../../component/productcardforenquiry.js'
-import scrollToElement from '../../component/scrollToElement.js'
+import sendlead from '../../component/sendlead.js'
 import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
-import { useInView } from "react-intersection-observer";
 
-
-
-let canrun_Inview=true;
 
 const Page = () => {
-
-  const [products, setProducts] = useState([]);   
-  const [category, setcategory] = useState(null); 
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
- 
-
-  const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
-   // State for tracking the selected category ID
-   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [animate, setAnimate] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -125,80 +111,14 @@ const Page = () => {
     }, 3000);
   };
 
-  // Get subcategories based on selected category
-  const getSubcategories = () => {
-    const selectedCategory = categories.find(cat => cat.name === formData.category);
-    return selectedCategory ? selectedCategory.subcategories : [];
-  };
 
-
-
-  /////////// fetch category products
-  
-      const fetchProducts = async (id,firstpage=null) => {
-
-        document.querySelector('.loaderoverlay').style.display = 'flex';
     
-        try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/category/${id}?page=${firstpage?firstpage:page}&limit=10`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-    
-          if (!response.ok) {
-            throw new Error('Failed to fetch products');
-          }
-    
-          const data = await response.json();
-  
-          canrun_Inview=true;
-
-          if (data.data.length === 0) {
-            setHasMore(false);
-
-            if(firstpage){ scrollToElement('seeproducts55')}
-           
-            console.log( hasMore,page)
-          } else {
-            console.log(data)
-            setProducts((pre)=>([...pre,...data.data]));
-            if(firstpage){scrollToElement('seeproducts55')}
-            setPage((prevPage) => prevPage + 1);
-            
-         
-          }
-  
-         
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          console.log(data.data)
-        } catch (err) {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-        } finally {
-          
-        }
-      };
-    
-    
-      useEffect(() => {
-
-        console.log('inside',inView)
-  if(selectedCategoryId !== null && category !== null){
-    console.log('running')
- if(hasMore && inView && canrun_Inview){
-  console.log('called',canrun_Inview)
-   fetchProducts(selectedCategoryId);}
-  }
-       
-       
-      }, [inView]);
-
-
-     
       // stop scrool when active input
   usePreventNumberInputScroll()
 
+useEffect(() => {
+    setAnimate(true);
+  }, []);
       
   return (
     <>
@@ -206,7 +126,7 @@ const Page = () => {
       <div className="form-wrapper676">
         <div className="form-header676">
           <h2>Product Enquiry</h2>
-          <p>Please fill out the form below, select a <span style={{color:'#006fd0'}}>category</span>, view the <span style={{color:'#006fd0'}}>products</span>, and submit your enquiry. We will get back to you as soon as possible.</p>
+          <p className={`cool-link ${animate ? 'animate' : ''}`} >Please fill out the form, check our <span style={{color:'#006fd0'}}>products</span>, and submit your enquiry. We will get back to you soon.</p>
         </div>
         
         {isSubmitted ? (
@@ -273,7 +193,7 @@ const Page = () => {
               {errors.message && <span className="error-message676">{errors.message}</span>}
             </div>
 
-            <NestedCategoryDropdown selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId} fetchProducts={fetchProducts} setPage={setPage} setProducts={setProducts} setcategory={setcategory} setHasMore={setHasMore} formData={formData}/>
+            <NestedCategoryDropdown formData={formData}/>
 
           </div>
         )}
@@ -281,34 +201,6 @@ const Page = () => {
       
      
     </div>
-
-
-<>
-{formData.name && formData.phone && <div>
-<div>
-{category && <h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}} className='seeproducts55'>{category}</h3>}
-</div>
-
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>
-
-{products.map((data, index) => (
-
-<Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index} userdata={{...formData,selectedCategoryId}}/>
-
- ))}
-
-</div>
-
-{hasMore === false && products.length === 0 && <h3>There are no products in this category.</h3> }
-
-<div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
-
-<div ref={ref} style={{ height: "10px",  }}></div>
-</div>
-
-    </div>}
-</>
-
     </>
   );
 };
@@ -318,9 +210,11 @@ export default Page;
 
 
 
-const NestedCategoryDropdown = ({selectedCategoryId, setSelectedCategoryId,fetchProducts,setPage,setProducts,setcategory,setHasMore,formData}) => {
+const NestedCategoryDropdown = ({formData}) => {
   
   const [tags,settags] = useState([]);
+const [qtyMap, setQtyMap] = useState({});
+
 
   /// get tags
 
@@ -372,7 +266,7 @@ const NestedCategoryDropdown = ({selectedCategoryId, setSelectedCategoryId,fetch
      <div className="nested-dropdown-container676">
   <div className="category-dropdown676">
     <div className="dropdown-header676">
-      <h3>Select Category</h3>
+      <h3>Select Product</h3>
     </div>
 
      {tags.map((data, index) => (
@@ -393,10 +287,25 @@ const NestedCategoryDropdown = ({selectedCategoryId, setSelectedCategoryId,fetch
 
 <div>
   <p style={{fontSize:'12px',marginBottom:'2px'}}>Quantity</p>
-  <input type="number" style={{width:'60px',height:'16px'}} className='taginput'/>
+  <input type="number" style={{width:'60px',height:'16px'}} className='taginput'   value={qtyMap[data._id] || ''}
+   onChange={(e) =>
+    setQtyMap((prev) => ({
+      ...prev,
+      [data._id]: e.target.value,
+    }))
+  }/>
 </div>
 
-          <button className="catpro66">
+          <button className="catpro66" onClick={()=>{
+
+if(!formData.name || !formData.phone){
+              alert('Please enter your phone number and your name to submit your enquiry.')
+              return;
+            }
+sendlead(formData,data._id,qtyMap[data._id] || '')
+  setQtyMap((prev) => ({ ...prev, [data._id]: '' })); // reset this input
+
+          }}>
             Submit
           </button>
          

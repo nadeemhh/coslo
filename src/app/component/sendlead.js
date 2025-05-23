@@ -1,18 +1,17 @@
-export default function sendlead(userdata,pid,toggleModal=false) {
+export default function sendlead(userdata,tagid,qty) {
 
-    document.querySelector('.loaderoverlay').style.display='flex';
-    
     
       const userData = {
         name:userdata.name,
         message:userdata.message,
-        productId:pid,
+        tagId:tagid,
         phone:userdata.phone,
+        quantity:qty
       };
     
 console.log('send lead',userData)
 
-
+      document.querySelector('.loaderoverlay').style.display='flex';
     
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/leadQuotation/`, {
         method: 'POST',
@@ -32,13 +31,9 @@ console.log('send lead',userData)
         })
         .then((data) => {
               
-              alert(data.message)
+              alert('Your product enquiry has been submitted.')
               document.querySelector('.loaderoverlay').style.display='none';
               
-              if(toggleModal){
-                toggleModal()
-              }
-           
          
         })
         .catch((err) => {

@@ -9,16 +9,11 @@ import Link from 'next/link';
 
 export default function Productcard({veri=false , pname,seller,pimage,variation,pid,userdata}) {
 
- 
-
   function formatPhoneNumber(number) {
     number = number.toString(); // Ensure it's a string
     number.replace('+','')
     return number.startsWith("91") ? number : "91" + number;
 }
-
-
-
 
 
   return (

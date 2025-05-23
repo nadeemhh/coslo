@@ -7,7 +7,6 @@ import Link from 'next/link';
 import getDiscountedPrice from '../../component/discountpricecalc.js'
 import scrollToElement from '../../component/scrollToElement.js'
 import cartcountget from '../../component/cartcountget.js';
-import sendlead from '../../component/sendlead.js'
 import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
 import { useRef ,useState,useEffect} from 'react';
 
@@ -803,12 +802,7 @@ function formatPhoneNumber(number) {
             <form className='modalform' onSubmit={(e)=>{
 
              e.preventDefault();
-
-             isuser ? sendquotation() : sendlead({ 
-     name : document.querySelector('.modalform input[name="name"]').value,
-     phone : document.querySelector('.modalform input[name="phone"]').value,
-     email : document.querySelector('.modalform input[name="email"]').value,
-     message : document.querySelector('.modalform textarea[name="details"]').value},data._id,toggleModal)
+              sendquotation()
               }}>
             <input type="text" name="name" placeholder="Type your name *" required />
         <input type="number" name="phone" placeholder="Type your phone no*" required />

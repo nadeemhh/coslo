@@ -157,8 +157,9 @@ export default function page() {
         <table className="orders-table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Name</th>
+              <th>##</th>
+              <th>Tag Name</th>
+              <th>Category Name</th>
               <th>Image</th>
               <th>Actions</th>
             </tr>
@@ -168,6 +169,7 @@ export default function page() {
               <tr key={index}>
                 <td>#{index + 1}</td>
                 <td>{data.tagName}</td> 
+                <td>{data.category.name}</td> 
                 <td>
                   <img src={data.tagImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" />
                 </td>
@@ -175,7 +177,7 @@ export default function page() {
 
                  <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer',marginRight:'5px'}}
                   onClick={() => {
-                    setupdatetag({name:data.tagName,image:data.tagImage,id:data._id,categoryname:data.category.name})
+                    setupdatetag({name:data.tagName,image:data.tagImage,id:data._id,categoryname:data.category.name,categoryid:data.category._id})
                     setshowtag(true)}}/>
 
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
@@ -228,7 +230,7 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag,rootcategor
 
   const [selectedcategory, setselectedcategory] = useState('');
 
-
+console.log(rootcategory)
 
   const handleChange = (e) => {
     setselectedcategory(e.target.value);
@@ -351,7 +353,9 @@ function Addtag({refreashtag,setshowtag,updatetag=false,setupdatetag,rootcategor
 if(updatetag !== false){
     settagimageurl([updatetag.image]);
     settagName(updatetag.name)
-    setselectedcategory(updatetag.categoryname)
+    setselectedcategory(updatetag.categoryid)
+}else{
+  setselectedcategory(rootcategory[0].id)
 }
 
   }, []);
