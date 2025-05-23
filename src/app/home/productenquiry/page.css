@@ -354,6 +354,8 @@ input[type="number"] {
   color: #006fd0;
   text-decoration: none;
   position: relative;
+    padding-bottom: 5px; /* space between text and underline */
+
 }
 
 .cool-link::after {
