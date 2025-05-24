@@ -188,7 +188,6 @@ useEffect(() => {
                 value={formData.message}
                 onChange={handleChange}
                 rows="2"
-                cols="2"
                 className={errors.message ? 'input-error676' : ''}
               ></textarea>
               {errors.message && <span className="error-message676">{errors.message}</span>}
@@ -221,7 +220,6 @@ const [qtyMap, setQtyMap] = useState({});
 
     const gettag = () => {
 
-      document.querySelector('.loaderoverlay').style.display='flex';
     
      const token = localStorage.getItem('token');
   
@@ -245,12 +243,12 @@ const [qtyMap, setQtyMap] = useState({});
         .then((data) => {
               console.log(data)
               settags([...data])
-             document.querySelector('.loaderoverlay').style.display='none';
+             
 
          
         })
         .catch((err) => {
-          document.querySelector('.loaderoverlay').style.display='none';
+          
           console.log(err)
         });
     };
