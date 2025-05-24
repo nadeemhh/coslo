@@ -311,7 +311,7 @@ sendlead(formData,data._id,qtyMap[data._id] || '')
   setQtyMap((prev) => ({ ...prev, [data._id]: '' })); // reset this input
 
           }}>
-            Qet Quotes
+            Get Quotes
           </button>
          </div>
         </div>
