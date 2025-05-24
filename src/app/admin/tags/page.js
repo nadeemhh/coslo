@@ -365,7 +365,7 @@ if(updatetag !== false){
       <div className="addcategory">
         <div className="form" style={{ width: '600px' }}>
           <div className="form-group">
-            <label className="form-label">Enter Category Name</label>
+            <label className="form-label">Enter Tag Name</label>
             <input
               type="text"
               className="form-input"
