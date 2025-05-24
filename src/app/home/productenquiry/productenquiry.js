@@ -125,8 +125,8 @@ useEffect(() => {
     <div className="enquiry-form-container676">
       <div className="form-wrapper676">
         <div className="form-header676">
-          <h2>Product Enquiry</h2>
-          <p className={`cool-link ${animate ? 'animate' : ''}`} >Please fill out the form, check our <span style={{color:'#006fd0'}}>products</span>, and submit your enquiry. We will get back to you soon.</p>
+          <h2>Connect directly with manufacturers/suppliers.</h2>
+          <p className={`cool-link ${animate ? 'animate' : ''}`} >Tell us your requirement and get <span style={{color:'#006fd0'}}>free quotes</span> from multiple sellers</p>
         </div>
         
         {isSubmitted ? (
@@ -179,21 +179,22 @@ useEffect(() => {
                 {errors.phone && <span className="error-message676">{errors.phone}</span>}
               </div>
             </div>
-            
+
             <div className="form-group676">
-              <label htmlFor="message">Your Message</label>
+              <label htmlFor="message">Your Message (optional)</label>
               <textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                rows="5"
+                rows="2"
+                cols="2"
                 className={errors.message ? 'input-error676' : ''}
               ></textarea>
               {errors.message && <span className="error-message676">{errors.message}</span>}
             </div>
 
-            <NestedCategoryDropdown formData={formData}/>
+             <NestedCategoryDropdown formData={formData}/>
 
           </div>
         )}
@@ -266,7 +267,7 @@ const [qtyMap, setQtyMap] = useState({});
      <div className="nested-dropdown-container676">
   <div className="category-dropdown676">
     <div className="dropdown-header676">
-      <h3>Select Product</h3>
+      <h3>Our Products</h3>
     </div>
 
      {tags.map((data, index) => (
@@ -274,6 +275,8 @@ const [qtyMap, setQtyMap] = useState({});
     <ul className="category-list676" key={index}>
       <li className="category-item676">
         <div className="category-header676">
+
+          <div className='cp1'>
           <div className="category-image-container676">
             <img 
               src={data.tagImage}
@@ -283,10 +286,12 @@ const [qtyMap, setQtyMap] = useState({});
           </div>
 
 
- <span className="category-name676">{data.tagName}</span>
+ <p className="category-name676">{data.tagName}</p>
+</div>
 
+ <div className='cp1'>
 <div>
-  <p style={{fontSize:'12px',marginBottom:'2px'}}>Quantity</p>
+  <p style={{fontSize:'15px',marginBottom:'2px'}}>Enter Quantity</p>
   <input type="number" style={{width:'60px',height:'16px'}} className='taginput'   value={qtyMap[data._id] || ''}
    onChange={(e) =>
     setQtyMap((prev) => ({
@@ -306,9 +311,9 @@ sendlead(formData,data._id,qtyMap[data._id] || '')
   setQtyMap((prev) => ({ ...prev, [data._id]: '' })); // reset this input
 
           }}>
-            Submit
+            Qet Quotes
           </button>
-         
+         </div>
         </div>
       </li>
     </ul>
