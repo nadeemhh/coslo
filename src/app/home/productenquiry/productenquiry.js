@@ -268,6 +268,8 @@ const [qtyMap, setQtyMap] = useState({});
       <h3>Our Products</h3>
     </div>
 
+{tags.length === 0 && <div id="mycontainerloader"></div>}
+
      {tags.map((data, index) => (
 
     <ul className="category-list676" key={index}>

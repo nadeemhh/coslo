@@ -58,7 +58,7 @@
   .form-row676 input {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid #e6e6ef;
+    border: 1px solid #626262;
     border-radius: 8px;
     font-size: 15px;
     color: #333;
@@ -69,7 +69,7 @@
     .form-group676 textarea {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid #e6e6ef;
+    border: 1px solid #626262;
     border-radius: 8px;
     font-size: 15px;
     color: #333;
@@ -78,7 +78,7 @@
   }
 
   .taginput{   padding: 14px 16px;
-    border: 1px solid #e6e6ef;
+    border: 1px solid #626262;
     border-radius: 8px;
     font-size: 15px;
     color: #333;
