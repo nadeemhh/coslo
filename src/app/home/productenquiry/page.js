@@ -8,7 +8,10 @@ export const metadata = {
   keywords: "product enquiry, get quotation, custom quote, coslomart, b2b enquiry, wholesale enquiry",
   icons: {
     icon: "/images/coslomartfavicon.jpg",
-  }
+  },
+    alternates: {
+      canonical: `https://www.coslomart.com/home/productenquiry`,
+    },
 };
 
 

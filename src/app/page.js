@@ -13,8 +13,14 @@ export const metadata = {
   keywords: "ecommerce, online shopping, best deals, fast delivery",
   icons: {
     icon: "images/coslomartfavicon.jpg",
-  }
+  },
+  alternates: {
+      canonical: `https://www.coslomart.com/`,
+    },
 };
+
+
+
 
 export default function Home() {
   return (
@@ -186,7 +192,7 @@ export default function Home() {
       <h2>How it works?</h2>
 
       <div className="section" id='ForRetailers'>
-        <h3>For Wholesalers / Retailers / Buyers</h3>
+        <h3 style={{color:'#6d6d6d'}}>For Wholesalers / Retailers / Buyers</h3>
         <div className="steps-container">
           <div className="step">
             <div className="circle">1</div>
@@ -215,7 +221,7 @@ export default function Home() {
       </div>
 
       <div className="section" id='ForManufacturers'>
-        <h3>For Manufacturers / Suppliers</h3>
+        <h3 style={{color:'#6d6d6d'}}>For Manufacturers / Suppliers</h3>
       
         <div className="steps-container">
           <div className="step">

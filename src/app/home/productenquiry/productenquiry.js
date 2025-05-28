@@ -125,7 +125,7 @@ useEffect(() => {
     <div className="enquiry-form-container676">
       <div className="form-wrapper676">
         <div className="form-header676">
-          <h2>Connect directly with manufacturers/suppliers.</h2>
+          <h2>Connect directly with manufacturers/suppliers</h2>
           <p className={`cool-link ${animate ? 'animate' : ''}`} >Tell us your requirement and get <span style={{color:'#006fd0'}}>free quotes</span> from multiple sellers</p>
         </div>
         

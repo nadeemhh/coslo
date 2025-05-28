@@ -2,10 +2,11 @@
 import './page.css'
 import Category from './category.js'
 
-// export const metadata = {
-//   title: "Your Page Title", // Replace with your desired title
-//   description: "A brief description of the page.", // Optional
-// };
+export const metadata = {
+   alternates: {
+      canonical: `https://www.coslomart.com/home/Categories`,
+    },
+};
 
 
 

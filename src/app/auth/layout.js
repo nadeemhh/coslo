@@ -1,5 +1,9 @@
 import Mygloballoader from '../Mygloballoader.js'
 
+export const metadata = {
+  title: "coslomart Store - Best Online Shopping",
+};
+
 export default function RootLayout({ children }) {
   return (
 
