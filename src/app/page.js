@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import "./page.module.css";
 import "./landing-page.css";
+import "./component/component-css/navbar.css";
 import Button from './component/button';
 import PlansTable from './component/planstables.js';
 import Footer from './component/footer.js'
@@ -65,7 +66,7 @@ export default function Home() {
           </div>
           <input type="text" placeholder="Search Products" />
           <button className="search-btn">
-            <i className="fas fa-search"></i>
+            <i className="fas fa-search animated-serachicon"></i>
           </button>
         </a>
 

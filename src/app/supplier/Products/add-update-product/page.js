@@ -6,6 +6,7 @@ import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
+  import AttributeForm from '../../../component/AttributeForm.js';
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
@@ -1160,6 +1161,9 @@ onClick={addreason}
             </div>
           </div>
         ))}
+
+
+        {/* <AttributeForm /> */}
 
         <button className="add-btn" onClick={toggleModal}>
           Add Pricing <i className="fas fa-plus"></i>

@@ -1,10 +1,11 @@
 "use client"
 import "../landing-page.css";
 import "../component/component-css/btnbadge.css";
+import "../component/component-css/navbar.css";
 import Button from '../component/button';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState ,useEffect} from 'react';
+import { useRouter,usePathname } from 'next/navigation';
+import { useState ,useEffect,useRef} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
 
@@ -13,6 +14,8 @@ const NavBar = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
+   const iconRef = useRef(null);
+    const pathname = usePathname(); // detects route change
 
   BuyerAuthCheck(setuser)
 
@@ -48,6 +51,15 @@ console.log(selectedName)
     cartcountget();
   },[]);
 
+
+  useEffect(() => {
+    const el = iconRef.current;
+    if (el) {
+      el.classList.remove('animated-serachicon');
+      void el.offsetWidth; // force reflow
+      el.classList.add('animated-serachicon'); // restart animation
+    }
+  }, [pathname]); // run on pag
 
      
     return (
@@ -96,7 +108,7 @@ console.log(selectedName)
               onKeyDown={handleKeyDown}/>
 
           <button className="search-btn" onClick={handleSearch}>
-            <i className="fas fa-search"></i>
+            <i ref={iconRef} className="fas fa-search animated-serachicon"></i>
           </button>
         </div>
         </div>
