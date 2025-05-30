@@ -1,7 +1,7 @@
 .attribute-wrapper-671 {
   padding: 16px;
   max-width: 600px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -31,7 +31,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .attribute-form-671 {

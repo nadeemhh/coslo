@@ -1163,7 +1163,7 @@ onClick={addreason}
         ))}
 
 
-        {/* <AttributeForm /> */}
+        
 
         <button className="add-btn" onClick={toggleModal}>
           Add Pricing <i className="fas fa-plus"></i>
