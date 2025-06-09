@@ -23,7 +23,7 @@ export default function Page() {
       commonAttributes: [],
       reasonForReturn:[],
       category: "",
-      tagId:"",
+      tag:"",
       BrandName:"",
       amazoneProductUrl:""
     },
@@ -512,6 +512,7 @@ setpreimages([])
    
 
    let userDatacopy =structuredClone(userData);
+console.log(userDatacopy)
 
    try{
 
@@ -527,7 +528,7 @@ setpreimages([])
     return;
   }
 
-  if(userDatacopy.productData.tagId === ""){
+  if(userDatacopy.productData.tag === "" || userDatacopy.productData.tag === null){
     alert('select a tag')
     return;
   }
@@ -716,7 +717,7 @@ console.log(data.data)
           setproductupdate(true)
 
           setPrimaryGroup(data.data.primaryAttribute)
-setselectedtag(data.data.tag?.tagName)
+setselectedtag(data.data?.tagName)
        // setisdata(true)
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -829,6 +830,12 @@ setselectedtag(data.data.tag?.tagName)
 
 async function Updateproductdetails() {
   
+  if(userData.productData.tag === "" || userData.productData.tag === null){
+    alert('select a tag')
+    return;
+  }
+
+
   try {
     document.querySelector('.loaderoverlay').style.display='flex';
 
@@ -1135,7 +1142,7 @@ onClick={addreason}
   <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
    
       let id=e.target.children[e.target.selectedIndex].getAttribute('id');
-    handleProductDataChange("tagId", id)
+    handleProductDataChange("tag", id)
     setselectedtag(e.target.value)}
   }>
 
