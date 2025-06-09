@@ -8,6 +8,8 @@ import getDiscountedPrice from '../../component/discountpricecalc.js'
 import scrollToElement from '../../component/scrollToElement.js'
 import cartcountget from '../../component/cartcountget.js';
 import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
+import ProductVariations from '../../component/ProductVariations.js'
+
 import { useRef ,useState,useEffect} from 'react';
 
 export default function Productpagecontant() {
@@ -321,17 +323,17 @@ useEffect(() => {
   setPageUrl(window.location.href);
   console.log(window.location.href)
   
-  function getCookie(name) {
-    let cookies = document.cookie.split("; ");
-    for (let cookie of cookies) {
-        let [key, value] = cookie.split("=");
-        if (key === name) return value;
-    }
-    return null;
-}
+//   function getCookie(name) {
+//     let cookies = document.cookie.split("; ");
+//     for (let cookie of cookies) {
+//         let [key, value] = cookie.split("=");
+//         if (key === name) return value;
+//     }
+//     return null;
+// }
 
 // Check if "token" exists
-if (getCookie("buyertoken")) {
+if (localStorage.getItem("buyertoken")) {
    setisuser(true)
 }
 
@@ -587,8 +589,11 @@ function formatPhoneNumber(number) {
     </table>
     </div>
 
+<div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+<ProductVariations setshowslab={setshowslab} pdata={data}/>
+</div>
 
-    <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+    {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
 
  {data.commonAttributes.length  > 0 || data.variations[showslab].attributes.length > 0 ? <p style={{fontSize:'20px',fontWeight:'600',color:'#007bff'}}>Product Details :-</p> : <></>}
 
@@ -604,7 +609,7 @@ function formatPhoneNumber(number) {
 
                       ))}
 
-                    </div>
+                    </div> */}
 
 
                    {data.productVideo !== "" && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
@@ -630,15 +635,19 @@ function formatPhoneNumber(number) {
           {/* Buttons */}
           <div className="button-group">
 
-   <button className="contact-supplier pb"  onClick={toggleModal} >
-            Request Quotation <i className="fas fa-arrow-right"></i>
-            </button>
+   
 
             {isuser &&
            
+           <>
+           <button className="contact-supplier pb"  onClick={toggleModal} >
+            Request Quotation <i className="fas fa-arrow-right"></i>
+            </button>
+
             <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
             </button>
+            </>
             }
 
           </div>
@@ -650,7 +659,7 @@ function formatPhoneNumber(number) {
             </div>}
   
           {/* Variations */}
-          <div className="variations">
+          {/* <div className="variations">
              {data.variations.map((data, index) => (
 
             <button className={index===showslab?'variations-selected':''} key={index} onClick={()=>{
@@ -659,7 +668,7 @@ function formatPhoneNumber(number) {
             }}>Variation {index+1}</button>
          
              ))}
-          </div>
+          </div> */}
         </div>
 
       </div>

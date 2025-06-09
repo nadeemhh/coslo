@@ -1,9 +1,15 @@
 .attribute-wrapper-671 {
   padding: 16px;
   max-width: 600px;
-  /* margin: 0 auto; */
+  margin: 0 auto;
   background: #fff;
   border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.attribute-wrapper-679{
+  padding: 16px;
+  background: #fff;
   border-radius: 8px;
 }
 
@@ -23,7 +29,7 @@
 .value-input-671,
 .select-attribute-671 {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #616161;
   border-radius: 4px;
 }
 
@@ -31,7 +37,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .attribute-form-671 {

@@ -86,7 +86,7 @@ function Login() {
               }
               
              
-              setCookie("token", data.token, 7);
+              // setCookie("token", data.token, 365);
 
                 document.querySelector('.loaderoverlay').style.display='none';
         localStorage.setItem('token', data.token);
@@ -116,7 +116,7 @@ function Login() {
                   }
                   
                      
-                  if (getCookie('token')) {
+                  if (localStorage.getItem('token')) {
                     window.location.href = '/supplier/dashboard';
                 }
               

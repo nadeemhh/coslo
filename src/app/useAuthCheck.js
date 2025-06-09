@@ -15,12 +15,16 @@ import { useEffect } from 'react';
   }
   
      
-  if (!getCookie(token)) {
-  // Redirect to the login page
-  localStorage.removeItem(token)
+//   if (!getCookie(token)) {
+//   // Redirect to the login page
+//   localStorage.removeItem(token)
+//   window.location.href = url;
+// }
+
+if (!localStorage.getItem(token)) {
+  
   window.location.href = url;
 }
-
 
   },[]);
 };

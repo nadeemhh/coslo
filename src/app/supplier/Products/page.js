@@ -3,7 +3,7 @@ import '../mylayout.css'
 import './page.css'
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
-
+  import AttributeForm from '../../component/AttributeForm.js';
 
 export default function page() {
   const [data,setdata] = useState([]);
@@ -170,7 +170,6 @@ export default function page() {
     <div className="orders-container">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
       <h3>Products</h3>
-
       
       <Link href="/supplier/Products/add-update-product">
       <button className="AddProduct">
@@ -181,6 +180,9 @@ export default function page() {
       </div>
 
       <div style={{textAlign:'left',marginBottom:'20px'}}>
+
+              <AttributeForm/>
+
         <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>

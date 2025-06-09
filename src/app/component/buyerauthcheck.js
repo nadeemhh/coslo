@@ -15,10 +15,21 @@ import { useEffect } from 'react';
     }
     
        
-    if (!getCookie('buyertoken')) {
-    // Redirect to the login page
-    localStorage.removeItem('buyertoken')
+  //   if (!getCookie('buyertoken')) {
+  //   // Redirect to the login page
+  //   localStorage.removeItem('buyertoken')
+  //   localStorage.removeItem('buyer')
+  // }else{
+  //   setuser(JSON.parse(localStorage.getItem('buyer')))
+  // }
+
+
+
+   if (!localStorage.getItem('buyertoken')) {
+
     localStorage.removeItem('buyer')
+  
+
   }else{
     setuser(JSON.parse(localStorage.getItem('buyer')))
   }

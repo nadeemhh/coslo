@@ -1,6 +1,6 @@
 'use client'
 import "../CreateAccount.css";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
 function Login() {
@@ -47,7 +47,7 @@ function Login() {
                   }
                   
                   
-                  setCookie("employeetoken", data.token, 7);
+                  //setCookie("employeetoken", data.token, 365);
 
             localStorage.setItem('employeetoken', data.token);
             
@@ -61,6 +61,15 @@ function Login() {
               });
           };
 
+
+              useEffect(() => {
+                            
+                               
+                            if (localStorage.getItem('employeetoken')) {
+                              window.location.href = '/Employee/Sellers';
+                          }
+                        
+                          },[]);
 
     return (
         <div className='main' >

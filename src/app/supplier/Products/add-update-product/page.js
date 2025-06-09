@@ -6,7 +6,7 @@ import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
-  import AttributeForm from '../../../component/AttributeForm.js';
+    import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
@@ -17,6 +17,7 @@ export default function Page() {
   const [userData, setUserData] = useState({
     productData: {
       productName: "",
+      primaryAttribute:"",
       description: "",
       productVideo: "",
       commonAttributes: [],
@@ -31,6 +32,7 @@ export default function Page() {
     ],
   });
 
+    const [AllAttributes, setAllAttributes] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
 
   const [ModalOpen, setModalOpen] = useState(false);
@@ -56,7 +58,12 @@ export default function Page() {
   const [productupdate, setproductupdate] = useState(false);
   const [preimages, setpreimages] = useState([]);
   const [tags,settags] = useState([]);
+   const [selectedtag,setselectedtag] = useState('');
+  const [selectedPricingIndex, setSelectedPricingIndex] = useState(null);
+  const [primaryGroup, setPrimaryGroup] = useState('');
 
+
+console.log(selectedPricingIndex)
 
   const [pricings, setPricings] = useState([
     { netPrice: 1290, stock: 250 },
@@ -129,8 +136,10 @@ export default function Page() {
     const pid = new URLSearchParams(window.location.search).get("pid");
     console.log(pid)
     if(pid){getproductdetails(pid)}
-    
     gettag()
+
+    
+
   }, []);
   
   const toggleCompareprice = () => {
@@ -285,6 +294,7 @@ console.log(productimages,images)
 
 
   const handleProductDataChange = (field, value) => {
+    console.log(field, value)
     setUserData((prevState) => ({
       ...prevState,
       productData: {
@@ -424,16 +434,25 @@ const removePriceSlab = (index) => {
   // };
 
   // Add a new empty attribute entry
-  const addAttribute = () => {
+  const addAttribute = (newattribute) => {
     setVariation((prev) => ({
       ...prev,
-      attributes: [...prev.attributes, { key: "", value: "" }],
+      attributes: [...newattribute],
     }));
   };
 
   // Save the current variation to variationsData
   const saveVariation = (update=false) => {
 
+  let hasdefaultAttribute = checkdefaultAttribute(variation)
+
+    if(!hasdefaultAttribute){
+      alert(`select one ${primaryGroup} Attribute`)
+      return;
+    }
+
+
+    
     const filteredVariation = { ...variation };
     if (filteredVariation.returnDays === '' || filteredVariation.returnDays === 0) {
       delete filteredVariation.returnDays;
@@ -491,6 +510,7 @@ setpreimages([])
 
   const handleSubmit = async () => {
    
+
    let userDatacopy =structuredClone(userData);
 
    try{
@@ -627,6 +647,25 @@ try{
     
 
   };
+
+
+    const copyPricing = (index) => {
+    let selectedVariations = userData.variationsData.filter((_, i) => i === index);
+ 
+    selectedVariations=selectedVariations[0];
+    console.log(selectedVariations)
+   const { _id, ...rest } = selectedVariations;
+
+setVariation({
+  ...rest,
+  attributes: [],
+});
+    let newState = selectedVariations.isReturnable;
+    setShowReturnDaysInput(newState);
+    
+  };
+
+
 console.log(variation)
 
 
@@ -675,6 +714,9 @@ console.log(data.data)
           variationsData: [...data.data.variations]})
       
           setproductupdate(true)
+
+          setPrimaryGroup(data.data.primaryAttribute)
+setselectedtag(data.data.tag?.tagName)
        // setisdata(true)
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -692,6 +734,15 @@ console.log(data.data)
 
 
   function postnewVariation(newVariation=false) {
+
+   let hasdefaultAttribute = checkdefaultAttribute(variation)
+
+    if(!hasdefaultAttribute){
+      alert(`select one ${primaryGroup} Attribute`)
+      return;
+    }
+
+
     let updatevariation =structuredClone(variation);
 
 
@@ -915,6 +966,47 @@ document.querySelector('.loaderoverlay').style.display='none';
 
   }
 
+
+  /// primary attribute group
+
+   const handlePrimaryGroupChange = (groupName) => {
+    setPrimaryGroup(groupName);
+
+    userData.productData.primaryAttribute = groupName;
+  };
+
+  const resetPrimaryGroup = () => {
+    setPrimaryGroup('');
+  };
+
+
+
+  const fetchAttributes = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/attribute`);
+      const data = await res.json();
+      setAllAttributes(data);
+    } catch (err) {
+      console.error('Error fetching attributes:', err);
+    }
+  };
+
+   // Fetch all attribute groups on mount
+  useEffect(() => {
+    fetchAttributes();
+  }, []);
+
+
+
+function checkdefaultAttribute(variation) {
+  for (let attr of variation.attributes) {
+    if (attr.hasOwnProperty('defaultAttribute')) {
+      return true;
+    }
+  }
+  return false;
+}
+
   return (
     <div className="order-details">
       <div className="header">
@@ -1040,11 +1132,16 @@ onClick={addreason}
 
 <label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
 
-  <select className="form-input" value={userData.productData.tagId || ""}   onChange={(e) => handleProductDataChange("tagId", e.target.value)}>
+  <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
+   
+      let id=e.target.children[e.target.selectedIndex].getAttribute('id');
+    handleProductDataChange("tagId", id)
+    setselectedtag(e.target.value)}
+  }>
 
       <option value="">Select a tag</option>
       {tags.map((data, index) => (
-        <option value={data._id} key={index}>
+        <option value={data.tagName} id={data._id} key={index}>
           {data.tagName}
         </option>
       ))}
@@ -1148,6 +1245,21 @@ onClick={addreason}
             </span>
             <div className="actions">
 
+  <div style={{display:'flex',gap:'5px',marginRight:'20px'}}>
+    <label>copy</label>
+      <input
+  type="checkbox"
+  checked={selectedPricingIndex === index}
+  onChange={(e) => {
+    if (e.target.checked) {
+      setSelectedPricingIndex(index);
+      copyPricing(index);
+    } else {
+      setSelectedPricingIndex(null);
+    }
+  }}
+/>
+   </div>
               <button className="edit-btn" onClick={() => updatePricing(index)}>
                 <i className="fas fa-edit"></i>
               </button>
@@ -1163,11 +1275,59 @@ onClick={addreason}
         ))}
 
 
-        
+      
 
-        <button className="add-btn" onClick={toggleModal}>
-          Add Pricing <i className="fas fa-plus"></i>
-        </button>
+          {/* Primary Group Selection */}
+      {!primaryGroup ? (
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ marginBottom: '5px' }}>Select Primary Attribute:</h4>
+          <select
+            className="select-attribute-671"
+            value=""
+            onChange={(e) => handlePrimaryGroupChange(e.target.value)}
+            style={{ marginBottom: '10px' }}
+          >
+            <option value="">Select Primary Group</option>
+            {AllAttributes.map((attr, idx) => (
+              <option key={idx} value={attr.GroupName}>
+                {attr.GroupName}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+          <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
+          {/* <button 
+            onClick={resetPrimaryGroup}
+            style={{ 
+              padding: '5px 10px', 
+              backgroundColor: '#dc3545', 
+              color: 'white', 
+              border: 'none', 
+              borderRadius: '3px',
+              cursor: 'pointer',
+              fontSize: '12px'
+            }}
+          >
+            Change Primary Group
+          </button> */}
+        </div>
+      )}
+
+        {primaryGroup && <button className="add-btn" onClick={()=>{
+   
+   function reset() {
+
+    toggleModal(false)
+      setSelectedPricingIndex(null);
+   }
+
+          selectedPricingIndex===null ? toggleModal() : reset()
+
+          }}>
+          Add Variation <i className="fas fa-plus"></i>
+        </button>}
       </div>
       {/* <div className="others-section">
         <h2 className="section-title">Others</h2>
@@ -1238,6 +1398,8 @@ onClick={addreason}
                 
                 }}>
             {/* MRP Input */}
+
+
             <div className="form-group">
               <label className="form-label">MRP</label>
               <input
@@ -1356,15 +1518,18 @@ onClick={addreason}
 
             {/* Add Attributes */}
             <div style={{display:"flex",gap:'10px',alignItems:'center'}}>
-            <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Attributes</strong>
+            {/* <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Attributes</strong>
             <i
               className="fas fa-plus-circle"
               style={{ color: "green", fontSize: "20px", cursor: "pointer" }}
               onClick={addAttribute}
-            ></i>
+            ></i> */}
+
+            <SelectedAttributeArray attributes={AllAttributes} primaryGroup={primaryGroup} addAttribute={addAttribute} currentattributes={variation.attributes}/>
 </div>
 
-            {variation.attributes.map((attr, index) => (
+
+            {/* {variation.attributes.map((attr, index) => (
               <div className="quantity-range" key={index}>
                 <div className="form-group">
 
@@ -1397,7 +1562,7 @@ onClick={addreason}
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
 
 
             {/* Dimensions */}

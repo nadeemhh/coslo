@@ -46,7 +46,7 @@ function Page() {
                       document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
                   }
                   
-                  setCookie("buyertoken", data.token, 7);
+                  //setCookie("buyertoken", data.token, 365);
 
             localStorage.setItem('buyertoken', data.token);
             localStorage.setItem('buyer', JSON.stringify(data.buyer));
@@ -74,7 +74,7 @@ function Page() {
             }
             
                
-            if (getCookie('buyertoken')) {
+            if (localStorage.getItem('buyertoken')) {
               window.location.href = '/home';
           }
         

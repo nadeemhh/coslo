@@ -1,7 +1,7 @@
 'use client'
 
 import "../CreateAccount.css";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
 function Login() {
@@ -81,7 +81,7 @@ function Login() {
               }
               
             
-              setCookie("admintoken", data.token, 7);
+              //setCookie("admintoken", data.token, 365);
 
         localStorage.setItem('admintoken', data.token);
         handledata()
@@ -96,6 +96,14 @@ function Login() {
           });
       };
     
+
+                  useEffect(() => {
+
+                            if (localStorage.getItem('admintoken')) {
+                              window.location.href = '/admin/dashboard';
+                          }
+                        
+                          },[]);
 
     return (
         <div className='main' >
