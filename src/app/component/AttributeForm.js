@@ -33,10 +33,18 @@ const AttributeForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ groupName: newAttrName })
       });
+
+          const data = await res.json(); // parse JSON response
+
+          
       if (res.ok) {
         setNewAttrName('');
         fetchAttributes(); // refresh
-      }
+      } 
+       else {
+      alert(data.message || 'Something went wrong'); // Show error message
+    }
+
     } catch (err) {
       console.error('Error creating group:', err);
     }
