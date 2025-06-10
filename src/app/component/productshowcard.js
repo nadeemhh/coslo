@@ -66,7 +66,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         </Link>
         {/* Price */}
         <div className="product-actions">
-        <p className="price">MRP ₹{variation.mrp}</p>
+        <p className="price">MRP ₹{variation?.mrp}</p>
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
@@ -80,7 +80,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
       </thead>
       <tbody className="tableBody56">
 
-        {variation.priceSlabs.map((sdata, index) => (
+        {variation?.priceSlabs.map((sdata, index) => (
         
         <tr className="tableRow56" key={index}>
           <td className="tableCell56">{sdata.min}-{sdata.max} items</td>

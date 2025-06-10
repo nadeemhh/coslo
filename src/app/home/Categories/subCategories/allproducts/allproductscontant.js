@@ -74,7 +74,7 @@ export default function Allproducts() {
 
 {products.map((data, index) => (
 
-<Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
+<Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0]?.productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
 
  ))}
 
