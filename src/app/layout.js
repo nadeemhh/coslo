@@ -7,6 +7,9 @@ export default function RootLayout({ children }) {
     <GlobalProvider>
     <html lang="en">
       <head>
+        {/* ✅ Google Site Verification */}
+          <meta name="google-site-verification" content="0rzl4g-6KHsJlXcNSRZAdUKDQdoB3Otyvt6pZPlQplE" />
+
          {/* Google Tag (gtag.js) */}
           <Script
             strategy="afterInteractive"
