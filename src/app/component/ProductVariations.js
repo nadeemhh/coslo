@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import '../component/component-css/ProductVariations.css';
 
-const ProductVariations = ({setshowslab, pdata}) => {
+const ProductVariations = ({setshowslab, pdata,showslab}) => {
   console.log(pdata)
 
   const productData = pdata;
@@ -120,24 +120,38 @@ const ProductVariations = ({setshowslab, pdata}) => {
 
   // Handle attribute selection - Auto-select complete variation
   const handleAttributeSelect = (attributeKey, value) => {
-    // Find the variation that has this specific attribute-value combination
-    const matchingVariation = productData.variations.find(variation => 
-      variation.attributes.some(attr => attr.key === attributeKey && attr.value === value)
-    );
+    // Create updated selection with the new attribute
+    let updatedSelection = { ...selectedAttributes, [attributeKey]: value };
+    
+    // Try to find a variation that matches ALL selected attributes
+    let matchingVariation = productData.variations.find(variation => {
+      return Object.entries(updatedSelection).every(([key, val]) => {
+        return variation.attributes.some(attr => attr.key === key && attr.value === val);
+      });
+    });
+    
+    // If no exact match found, find the first variation with the clicked attribute
+    // and build selection from that variation's attributes
+    if (!matchingVariation) {
+      matchingVariation = productData.variations.find(variation => 
+        variation.attributes.some(attr => attr.key === attributeKey && attr.value === value)
+      );
+      
+      if (matchingVariation) {
+        // Build complete selection from this variation's attributes
+        const completeSelection = {};
+        matchingVariation.attributes.forEach(attr => {
+          completeSelection[attr.key] = attr.value;
+        });
+        updatedSelection = completeSelection;
+      }
+    }
     
     if (matchingVariation) {
-      // Select ALL attributes from this matching variation
-      const completeSelection = {};
-      
-      matchingVariation.attributes.forEach(attr => {
-        completeSelection[attr.key] = attr.value;
-      });
-      
-      // Find the position of this variation
       const variationPosition = productData.variations.findIndex(v => v._id === matchingVariation._id);
       
       // Update all states with the complete variation
-      setSelectedAttributes(completeSelection);
+      setSelectedAttributes(updatedSelection);
       setSelectedVariationId(matchingVariation._id);
       setSelectedVariationPosition(variationPosition);
       setshowslab(variationPosition);
@@ -151,6 +165,48 @@ const ProductVariations = ({setshowslab, pdata}) => {
 
   const currentVariation = getCurrentVariation();
 
+
+  
+function findVariationIndex(variations, searchAttributes) {
+    // Check if variations is valid
+    if (!Array.isArray(variations)) {
+        return -1;
+    }
+    
+    // Handle different input formats for searchAttributes
+    let attributesToSearch = [];
+    
+    if (typeof searchAttributes === 'string') {
+        // If it's a string, assume it's a color value
+        attributesToSearch = [{ key: "color", value: searchAttributes }];
+    } else if (Array.isArray(searchAttributes)) {
+        // If it's already an array, use it as is
+        attributesToSearch = searchAttributes;
+    } else if (typeof searchAttributes === 'object' && searchAttributes !== null) {
+        // If it's a single object, convert to array
+        attributesToSearch = [searchAttributes];
+    } else {
+        return -1;
+    }
+    
+    // Find the index of variation that matches all search attributes
+    return variations.findIndex(variation => {
+        // Check if variation has attributes array
+        if (!variation.attributes || !Array.isArray(variation.attributes)) {
+            return false;
+        }
+        
+        // Check if all search attributes match
+        return attributesToSearch.every(searchAttr => {
+            return variation.attributes.some(varAttr => 
+                varAttr.key === searchAttr.key && varAttr.value === searchAttr.value
+            );
+        });
+    });
+}
+
+
+
   return (
     <div className="container522">
       
@@ -162,7 +218,7 @@ const ProductVariations = ({setshowslab, pdata}) => {
             {attribute.isDefault && <span className="default-indicator522"></span>}
           </div>
           <div className="attribute-options522">
-            {attribute.values.map((value) => {
+            {attribute.values.map((value,index) => {
               // Check if this value is available based on current selections
               const isAvailable = attribute.isDefault 
                 ? true 
@@ -183,7 +239,12 @@ const ProductVariations = ({setshowslab, pdata}) => {
                   }`}
                   onClick={() => isAvailable && handleAttributeSelect(attribute.key, value)}
                 >
-                  {value}
+                  {attribute.key==="color"?
+                  <div className='colorattribute44'>
+                  <img src={pdata.variations[findVariationIndex(pdata.variations, value)].productImages[0]} width={70} height={70} style={{objectFit:'contain'}} alt={value} />
+                  <p style={{margin:'10px 0px 0px 0px'}}>{value}</p>
+                  </div>:<p>{value}</p>}
+                 
                 </div>
               );
             })}

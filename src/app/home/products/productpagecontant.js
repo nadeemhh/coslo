@@ -590,7 +590,7 @@ function formatPhoneNumber(number) {
     </div>
 
 <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-<ProductVariations setshowslab={setshowslab} pdata={data}/>
+<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab}/>
 </div>
 
     {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>

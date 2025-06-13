@@ -4,6 +4,7 @@ import Link from 'next/link';
 import  { useState,useEffect } from "react";
 import Goback from '../../back.js'
  import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
+    import getCategoryNestingLevel from '../../component/getCategoryNestingLevel.js';
 
 
 export default function Page() {
@@ -86,7 +87,7 @@ console.log(categories)
            
           <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setupdateCategory={setupdateCategory}/>
 
-       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setchangeurl={setchangeurl}/>}
+       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setchangeurl={setchangeurl} allcategory={categories}/>}
 
           </div>
 
@@ -104,7 +105,7 @@ console.log(categories)
 
 
 
-function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,activeCategory=false, setActiveCategory=false ,updateCategory=false,setchangeurl}) {
+function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,activeCategory=false, setActiveCategory=false ,updateCategory=false,setchangeurl,allcategory=null}) {
   
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
@@ -133,9 +134,21 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,a
       return;
     
     }
+    
+if(subcategory){
+      let catid = document.querySelector('.active342').getAttribute('categoryid');
+
+      
+ if(getCategoryNestingLevel(allcategory,catid) >= 1){
+     alert('Cannot create a category inside a child category')
+    return;
+  }
+}
 
         document.querySelector('.loaderoverlay').style.display='flex';
   
+       
+
     const formData = new FormData();
 
     formData.append("name", categoryName);

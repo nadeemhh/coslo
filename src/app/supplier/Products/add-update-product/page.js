@@ -7,6 +7,7 @@ import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
     import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
+    import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
@@ -76,12 +77,12 @@ console.log(selectedPricingIndex)
   const refreshCategories = () => {
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`)
       .then((response) => response.json())
-      .then((data) => setCategories(data))
+      .then((data) =>{
+       //  console.log(data)
+        setCategories(data)
+      })
       .catch((error) => console.error("Error fetching categories:", error));
   };
-
-
-
 
 
 
@@ -520,6 +521,11 @@ console.log(userDatacopy)
 
   }catch(er){
     alert('Select Category')
+    return;
+  }
+
+   if(getCategoryNestingLevel(categories,userDatacopy.productData.category) !== 1){
+     alert(' Select a child category.')
     return;
   }
 

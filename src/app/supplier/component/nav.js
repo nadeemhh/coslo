@@ -43,11 +43,7 @@ const NavBar = () => {
 
 <nav className="navbar" style={{padding:'5px',backgroundColor:'#F4F7FB'}}>
 
-{issuperadmin && <i
-      className="fas fa-arrow-left"
-      onClick={handleGoBackpanel}
-      style={{ cursor: 'pointer',float:'left' }} // Ensure it's visually clickable
-    />}
+{issuperadmin && <button style={{backgroundColor:'red',color:'white',padding:'5px',border:'none',float:'left'}} onClick={handleGoBackpanel}>logout</button>}
     
 
 <h4 style={{margin:'0px',textAlign:'right'}} className='adminemail'></h4>
