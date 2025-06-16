@@ -239,7 +239,7 @@ function findVariationIndex(variations, searchAttributes) {
                   }`}
                   onClick={() => isAvailable && handleAttributeSelect(attribute.key, value)}
                 >
-                  {attribute.key==="color"?
+                  {["color", "colors", "colour", "colours"].includes(attribute.key.trim().toLowerCase()) ?
                   <div className='colorattribute44'>
                   <img src={pdata.variations[findVariationIndex(pdata.variations, value)].productImages[0]} width={70} height={70} style={{objectFit:'contain'}} alt={value} />
                   <p style={{margin:'10px 0px 0px 0px'}}>{value}</p>
