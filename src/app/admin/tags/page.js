@@ -169,7 +169,7 @@ export default function page() {
               <tr key={index}>
                 <td>#{index + 1}</td>
                 <td>{data.tagName}</td> 
-                <td>{data.category.name}</td> 
+                <td>{data?.category?.name || 'no category found'}</td> 
                 <td>
                   <img src={data.tagImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" />
                 </td>
