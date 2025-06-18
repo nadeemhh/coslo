@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import '../component/component-css/ProductVariations.css';
 
-const ProductVariations = ({setshowslab, pdata,showslab}) => {
+const ProductVariations = ({setshowslab, pdata,showslab,setActiveIndex}) => {
   console.log(pdata)
 
   const productData = pdata;
@@ -120,6 +120,10 @@ const ProductVariations = ({setshowslab, pdata,showslab}) => {
 
   // Handle attribute selection - Auto-select complete variation
   const handleAttributeSelect = (attributeKey, value) => {
+    
+// make image silder for this variation start from 0
+    setActiveIndex(0)
+
     // Create updated selection with the new attribute
     let updatedSelection = { ...selectedAttributes, [attributeKey]: value };
     

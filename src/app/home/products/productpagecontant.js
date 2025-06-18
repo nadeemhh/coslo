@@ -27,6 +27,7 @@ export default function Productpagecontant() {
   const [showslab,setshowslab] = useState(0);
   const [saved,setsaved] = useState(0);
   const [amazonproduct,setamazonproduct] = useState(null);
+const [activeIndex, setActiveIndex] = useState(0);
 
 
 console.log(data);
@@ -84,44 +85,72 @@ let price=data.variations[showslab].mrp;
   };
 
 
-  const scrollLeft = () => {
+
+
+const scrollBy = 50; // moderate scroll amount
+
+const scrollLeft = () => {
+  if (activeIndex > 0) {
+    const newIndex = activeIndex - 1;
+    setActiveIndex(newIndex);
+    updateActiveImage(newIndex);
+
     if (productsContainerRef.current) {
       productsContainerRef.current.scrollBy({
-        left: -300,
+        left: -scrollBy,
         behavior: 'smooth',
       });
     }
-  };
-
-  const scrollRight = () => {
-    if (productsContainerRef.current) {
-      productsContainerRef.current.scrollBy({
-        left: 300,
-        behavior: 'smooth',
-      });
-    }
-  };
-
-  const handleThumbnailClick = (event) => {
-    const thumbnails = document.querySelectorAll('.thumbnail-container img');
-    thumbnails.forEach((img) => img.removeAttribute('id'));
-
-    const clickedImage = event.target;
-
-
-if(!clickedImage.classList.contains("thumbnail-container")){
-
-  clickedImage.id = 'active';
-
-  const mainImage = document.querySelector('.main-image');
-  if (mainImage) {
-    mainImage.src = clickedImage.src;
   }
-  
-}
-   
+};
 
-  };
+const scrollRight = () => {
+  const images = data?.variations[showslab]?.productImages || [];
+  if (activeIndex < images.length - 1) {
+    const newIndex = activeIndex + 1;
+    setActiveIndex(newIndex);
+    updateActiveImage(newIndex);
+
+    if (productsContainerRef.current) {
+      productsContainerRef.current.scrollBy({
+        left: scrollBy,
+        behavior: 'smooth',
+      });
+    }
+  }
+};
+
+const handleThumbnailClick = (event) => {
+  const thumbnails = document.querySelectorAll('.thumbnail-container img');
+  thumbnails.forEach((img) => img.removeAttribute('id'));
+
+  const clickedImage = event.target;
+
+  if (!clickedImage.classList.contains("thumbnail-container")) {
+    clickedImage.id = 'active';
+    const index = [...thumbnails].indexOf(clickedImage);
+    setActiveIndex(index);
+
+    const mainImage = document.querySelector('.main-image');
+    if (mainImage) {
+      mainImage.src = clickedImage.src;
+    }
+  }
+};
+
+const updateActiveImage = (index) => {
+  const thumbnails = document.querySelectorAll('.thumbnail-container img');
+  thumbnails.forEach((img) => img.removeAttribute('id'));
+
+  if (thumbnails[index]) {
+    thumbnails[index].id = 'active';
+    const mainImage = document.querySelector('.main-image');
+    if (mainImage) {
+      mainImage.src = thumbnails[index].src;
+    }
+  }
+};
+
 
   const handleZoomClick = () => {
     setIsModalOpen(true);
@@ -450,17 +479,15 @@ function formatPhoneNumber(number) {
             <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
 
             <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
-
-            {data?.variations[showslab]?.productImages.map((url, index) => (
-              <img
-                src={url}
-                alt="Thumbnail 1"
-                id={index==0?'active':''}
-                key={index}
-              />
-            ))}
-             
-            </div>
+  {data?.variations[showslab]?.productImages.map((url, index) => (
+    <img
+      src={url}
+      alt={`Thumbnail ${index + 1}`}
+      id={index === activeIndex ? 'active' : ''}
+      key={index}
+    />
+  ))}
+</div>
 
             <img src="\icons\smallright.svg" alt="Scroll Right" onClick={scrollRight} />
           </div>
@@ -590,7 +617,7 @@ function formatPhoneNumber(number) {
     </div>
 
 <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab}/>
+<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex}/>
 </div>
 
     {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>

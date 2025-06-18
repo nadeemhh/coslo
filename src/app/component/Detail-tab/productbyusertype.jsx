@@ -5,7 +5,7 @@ import scrollToElement from '../../component/scrollToElement.js'
 import { useInView } from "react-intersection-observer";
 import '../component-css/tab.css'
 
-const Productbyusertype = () => {
+const Productbyusertype = ({category_id=null}) => {
     const [products, setProducts] = useState([]);  
     const [activeTab, setActiveTab] = useState("Individual");
     const [page, setPage] = useState(1);
@@ -19,7 +19,7 @@ const Productbyusertype = () => {
         document.querySelector('.loaderoverlay').style.display = 'flex';
     
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${activeTab==='Individual'?'individual':'wholeseller'}?page=${page}&limit=15`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${category_id ?'category':'product'}/${activeTab==='Individual'?'individual':'wholeseller'}${category_id ?`/${category_id}`:''}?page=${page}&limit=15`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

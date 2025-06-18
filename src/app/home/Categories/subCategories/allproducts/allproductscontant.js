@@ -3,6 +3,7 @@ import './page.css'
 import Link from 'next/link';
 import Productcard from '../../../../component/productshowcard.js'
 import scrollToElement from '../../../../component/scrollToElement.js'
+import Productbyusertype from '../../../../component/Detail-tab/productbyusertype.jsx'
 import { useInView } from "react-intersection-observer";
 import { useState ,useEffect } from 'react';
 
@@ -10,6 +11,7 @@ export default function Allproducts() {
 
     const [products, setProducts] = useState([]);   // Store fetched products
     const [category, setcategory] = useState(null); 
+     const [category_id, setcategory_id] = useState(null); 
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
@@ -59,6 +61,7 @@ export default function Allproducts() {
       const id = new URLSearchParams(window.location.search).get("id");
       const category = new URLSearchParams(window.location.search).get("category");
       setcategory(category)
+      setcategory_id(id)
 
       if(hasMore && inView){ fetchProducts(id);}
      
@@ -70,22 +73,8 @@ export default function Allproducts() {
 {category && <h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}}>{category}</h3>}
 </div>
 
-<div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px'}}>
+<Productbyusertype category_id={category_id}/>
 
-{products.map((data, index) => (
-
-<Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0]?.productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
-
- ))}
-
-</div>
-
-{hasMore === false && products.length === 0 && <h3>There are no products in this category.</h3> }
-
-<div style={{width:'100%',display:'flex',justifyContent:'center',marginTop:'40px'}}>
-
-<div ref={ref} style={{ height: "10px",  }}></div>
-</div>
 
     </div>
   );
