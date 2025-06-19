@@ -191,6 +191,17 @@ console.log(selectedPricingIndex)
     
   };
 
+
+   const handleImagefilrtourlconvert = (file) => {
+
+     if (!(file instanceof File)) {
+    throw new Error("Input must be a File object");
+  }
+  return URL.createObjectURL(file);
+    
+  };
+
+
   const removeImage = (index) => {
 
     setproductimages(productimages.filter((_, i) => i !== index));
@@ -1251,14 +1262,24 @@ onClick={addreason}
     <div className="container" style={{marginTop:'50px'}}>
       <div className="pricing-section">
        {!userData.variationsData.length === 0 && <h2 className="section-title">Pricing</h2>}
-        {userData.variationsData.map((pricing, index) => (
+        {userData.variationsData.map((pricing, index) => {
+          
+          return(
           <div key={index} className="pricing-item">
             <span>
               {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> / Stock: <><span style={{color:'#1389F0'}}>{pricing.stock}</span></> Units
             </span>
             <div className="actions">
 
-  <div style={{display:'flex',gap:'5px',marginRight:'20px'}}>
+               <div style={{display:'flex',alignItems:"center",gap:'5px',marginRight:'20px'}}> 
+                <img src={
+    (Array.isArray(pricing?.awsImages) && pricing.awsImages[0]) ||
+    (Array.isArray(pricing?.productImages) && pricing?.productImages.length>0  && handleImagefilrtourlconvert(pricing.productImages[0])) ||
+    "/images/noimgavl.jpg" 
+  } width={'70px'} alt="" />
+               </div>
+
+  <div style={{display:'flex',alignItems:"center", gap:'5px',marginRight:'20px'}}>
     <label>copy</label>
       <input
   type="checkbox"
@@ -1285,7 +1306,9 @@ onClick={addreason}
 
             </div>
           </div>
-        ))}
+        )}
+        
+        )}
 
 
       
