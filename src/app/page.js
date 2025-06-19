@@ -9,9 +9,9 @@ import Footer from './component/footer.js'
 import Categorylist from './component/categorylist.js'
 
 export const metadata = {
-  title: "coslomart Store - Best Online Shopping",
-  description: "Shop the latest products at the best prices. Fast shipping and great discounts!",
-  keywords: "ecommerce, online shopping, best deals, fast delivery",
+  title: "Coslomart :B2B Marketplace for Top Manufacturers, Buyers, Suppliers",
+  description: "Coslomart is India’s largest B2B marketplace. Best B2B portal for top manufacturers, suppliers, Buyres & dealers. Buy or sell with an amazing experience and grow your business globally.",
+  keywords: "business to business marketplace, best b2b ecommerce websites, free b2b marketplace, B2B e-commerce India, Best B2B Marketplace, b2b shopping website",
   icons: {
     icon: "images/coslomartfavicon.jpg",
   },
