@@ -1271,14 +1271,19 @@ onClick={addreason}
             </span>
             <div className="actions">
 
+ <div style={{display:'flex',alignItems:"center",gap:'5px',marginRight:'20px'}}> 
+                      <p>{pricing.attributes.map(attr => attr.value).join(", ")}</p>
+               </div>
+               
                <div style={{display:'flex',alignItems:"center",gap:'5px',marginRight:'20px'}}> 
                 <img src={
     (Array.isArray(pricing?.awsImages) && pricing.awsImages[0]) ||
     (Array.isArray(pricing?.productImages) && pricing?.productImages.length>0  && handleImagefilrtourlconvert(pricing.productImages[0])) ||
     "/images/noimgavl.jpg" 
-  } width={'70px'} alt="" />
+  } width={'50px'} alt="" />
                </div>
 
+              
   <div style={{display:'flex',alignItems:"center", gap:'5px',marginRight:'20px'}}>
     <label>copy</label>
       <input
