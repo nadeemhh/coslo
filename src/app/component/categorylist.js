@@ -126,13 +126,13 @@ console.log(firstPart,secondPart);
  <div className="product-category-h" >
 
 <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <p>{data.name}</p>
 </a>
 </div>
@@ -156,13 +156,13 @@ console.log(firstPart,secondPart);
  <div className="product-category-h" >
 
  <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <p>{data.name}</p>
 </a>
 </div>

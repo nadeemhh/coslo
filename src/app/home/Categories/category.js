@@ -61,18 +61,18 @@ export default function Category() {
  <div className="product-category-h" >
 
  <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories/${data.id}/${encodeURIComponent(data.name)}`}>
 <p>{data.name}</p>
 </a>
 </div>
 
-{/* <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</a> */}
+{/* <a href={`/home/Categories/subCategories/allproducts/${data.id}/${data.name}`} className="seeproducts33">See Products</a> */}
 
 </div>
 

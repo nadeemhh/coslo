@@ -1,31 +1,32 @@
-import Allproducts from './allproductscontant.js'
+
+import './page.css'
+import Subcategory from './subcategory.js'
 
 
-export async function generateMetadata(props) {
+// Fix #1: Await params correctly
+export async function generateMetadata({ params }) {
+  const { id, category } = await params;
 
-  const searchParams = await props.searchParams; // ✅ Fix: Await it
-  const id = searchParams?.id;
-
-  if (!id) {
+  if (!id || !category) {
     return {
       title: 'SubCategory Not Found',
-      description: 'No subcategory ID provided.',
+      description: 'Missing ID or Category in URL.',
     };
   }
 
   try {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/${id}`, {
       cache: 'no-store',
     });
 
     if (!res.ok) throw new Error('Failed to fetch subcategory');
 
     let data = await res.json();
-    
-     data = data.category;
 
+     data = data.category;
+     
     return {
-      title: data?.title || 'coslomart',
+      title: `${data?.title || 'coslomart'} - ${decodeURIComponent(category)}`,
       description: data?.description || 'coslomart' ,
       keywords: data?.keywords || 'coslomart',
     };
@@ -37,12 +38,10 @@ export async function generateMetadata(props) {
   }
 }
 
-
 export default function Page() {
-
-
+  
   return (
- <Allproducts />
+    <><Subcategory /></>
   );
   }
 

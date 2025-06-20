@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect,Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 
 
  function Subcategory() {
     const [data, setData] = useState([]);
-    const searchParams = useSearchParams();
-    const id = searchParams.get("id"); // Get the 'id' from the URL
-    const categoryname = searchParams.get("category");
+    const searchParams = useParams();
+    const id = searchParams.id; // Get the 'id' from the URL
+    const categoryname = decodeURIComponent(searchParams.category);
 
     useEffect(() => {
         if (!id) return; // Prevent fetch if id is null
