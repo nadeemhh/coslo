@@ -1,6 +1,6 @@
 'use client'
 import  { useState,useEffect } from "react";
-import Link from 'next/link';
+
 
 export default function Category() {
     const [data,setdata] = useState([]);
@@ -61,18 +61,18 @@ export default function Category() {
  <div className="product-category-h" >
 
  <div className="category-name-image-h">
-<Link href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
 <img src={data.image} alt={data.name}/>
-</Link>
+</a>
 </div>
 
 <div className="category-name-product-h">
-<Link href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+<a href={`/home/Categories/subCategories?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
 <p>{data.name}</p>
-</Link>
+</a>
 </div>
 
-{/* <Link href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</Link> */}
+{/* <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${data.name}`} className="seeproducts33">See Products</a> */}
 
 </div>
 

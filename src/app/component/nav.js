@@ -73,11 +73,11 @@ console.log(selectedName)
       <div className="navbar-container navbar-container-row">
         
       <div className='bnamehide'>
-      <Link href="/home">
+      <a href="/home">
         <div className="logo">
           <h1>coslomart.com</h1>
         </div>
-        </Link>
+        </a>
         
         {user === null &&  <a href="/home/login"  style={{border:"1px solid #0097ff",borderRadius: '4px'}} >
         <Button backgroundColor = '#ffffff' textColor="black" >Buyer Login</Button>
@@ -85,11 +85,11 @@ console.log(selectedName)
 
         </div>
 
-        <Link href="/home">
+        <a href="/home">
         <div className="logo logodesk">
           <h1>coslomart.com</h1>
         </div>
-        </Link>
+        </a>
 
 <div className="search-pre">
         <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/>

@@ -7,7 +7,7 @@ import './component-css/productcard.css'
 import {useState} from 'react';
 import getDiscountedPrice from './discountpricecalc.js'
 
-import Link from 'next/link';
+// import Link from 'next/link';
 
 
 export default function Productcard({veri=false , pname,seller,pimage,variation,pid}) {
@@ -25,13 +25,13 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <Link href={`/home/products?id=${pid}`}>
+      <a href={`/home/products?id=${pid}`}>
         <img
           src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
           alt={pname}
           className='showimg'
         />
-        </Link>
+        </a>
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
@@ -59,11 +59,11 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
        
 
         {/* Title and Supplier */}
-        <Link href={`/home/products?id=${pid}`}>
+        <a href={`/home/products?id=${pid}`}>
         <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
-        </Link>
+        </a>
         {/* Price */}
         <div className="product-actions">
         <p className="price">MRP ₹{variation?.mrp}</p>
@@ -104,9 +104,9 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
 </a>
 
          
-<Link href={`/home/products?id=${pid}`}>
+<a href={`/home/products?id=${pid}`}>
           <button className="contact-btn">Check Details</button>
-          </Link>
+          </a>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}
           {/* <button className="Remove-btn">Remove</button> */}
         </div>

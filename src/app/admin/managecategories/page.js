@@ -20,7 +20,10 @@ console.log(categories)
   const refreshCategories = () => {
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`)
       .then((response) => response.json())
-      .then((data) => setCategories(data))
+      .then((data) => {
+        console.log(data)
+        setCategories(data)
+      })
       .catch((error) => console.error("Error fetching categories:", error));
   };
 
@@ -109,10 +112,13 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory=false,a
   
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
+  const [categorytitle, setCategorytitle] = useState('');
+  const [categorykeywords, setCategorykeywords] = useState('');
   const [categoryImages, setCategoryImages] = useState([]);
   const [categoryimages, setcategoryimages] = useState([]);
 
-  console.log(categoryimages,categoryImages)
+  console.log(categoryName,categoryDescription,categorytitle,categorykeywords)
+  
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     setCategoryImages(files);
@@ -152,8 +158,10 @@ if(subcategory){
     const formData = new FormData();
 
     formData.append("name", categoryName);
-    // formData.append("description", categoryDescription);
-    formData.append("categoryImage", categoryImages[0]); // Only sending one file
+    formData.append("title", categorytitle);
+    formData.append("keywords", categorykeywords);
+    formData.append("description", categoryDescription);
+    formData.append("categoryImage", categoryImages[0]);
 
   if(subcategory){
    let id = document.querySelector('.active342').getAttribute('categoryid');
@@ -208,7 +216,9 @@ if(subcategory){
     const formData = new FormData();
 
     formData.append("name", categoryName);
-    // formData.append("description", categoryDescription);
+      formData.append("title", categorytitle);
+    formData.append("keywords", categorykeywords);
+    formData.append("description", categoryDescription);
     formData.append("categoryImage", categoryImages[0]); // Only sending one file
 
 
@@ -246,8 +256,12 @@ if(subcategory){
    useEffect(() => {
 
 if(updateCategory !== false){
+  console.log(updateCategory)
     setcategoryimages([updateCategory.image]);
-    setCategoryName(updateCategory.name)
+    setCategoryName(updateCategory.name||'')
+    setCategoryDescription(updateCategory.description||'')
+    setCategorytitle(updateCategory.title||'')
+    setCategorykeywords(updateCategory.keywords||'')
 }
 
   }, []);
@@ -255,22 +269,38 @@ if(updateCategory !== false){
   return (
     <div className="modal-overlay">
       <div className="addcategory">
-        <div className="form" style={{ width: '600px' }}>
+        <div className="form" style={{ width: '600px',height:'90vh',overflowY:'auto' }}>
           <div className="form-group">
             <label className="form-label">Enter Category Name</label>
             <input
               type="text"
               className="form-input"
-              placeholder="Eg. Fashion"
+              placeholder=""
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </div>
+
+           <div className="input-group">
+          <label htmlFor="Title">Enter Title</label>
+          <input
+              type="text"
+              className="form-input"
+              placeholder=""
+              value={categorytitle}
+              onChange={(e) => setCategorytitle(e.target.value)}
+            />
+        </div>
+
+         <div className="input-group">
+          <label htmlFor="Keywords">Enter Keywords</label>
+          <textarea className='form-input' placeholder="" value={categorykeywords} onChange={(e) => setCategorykeywords(e.target.value)}></textarea>
+        </div>
           
-          {/* <div className="input-group">
+          <div className="input-group">
           <label htmlFor="description">Enter Description</label>
-          <textarea className='form-input' placeholder="Explain the category" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
-        </div> */}
+          <textarea className='form-input' placeholder="" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
+        </div>
 
           <div className="image-uploader">
 
@@ -374,7 +404,7 @@ const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCatego
                   </span>
                 )}
 
-                <i className="fas fa-pencil-alt" style={{fontSize:'15px',color:'green'}} onClick={()=>(setupdateCategory({id:category.id,name:category.name,image:category.image}))}></i>
+                <i className="fas fa-pencil-alt" style={{fontSize:'15px',color:'green'}} onClick={()=>(setupdateCategory({id:category.id,name:category.name,image:category.image,title:category.title,description:category.description,keywords:category.keywords}))}></i>
                 
                 <span onClick={() => setActive(category.id)} className="category-name342">
                   {category.name}
