@@ -773,6 +773,75 @@ width: 40px;
     padding-top: 10px;
 }
 
+
+/* faqs */
+
+.faqs-container249 {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 40px;
+  font-family: Arial, sans-serif;
+}
+
+.faqs-title249 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.faq-item249 {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.faq-toggle-box249 {
+  display: none;
+}
+
+.faq-question249 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 15px 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.faq-symbol249 {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+/* Answer container is hidden by default */
+.faq-answer249 {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #fff;
+  color: #333;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 20px;
+}
+
+/* When checkbox is checked, show the answer */
+.faq-toggle-box249:checked ~ .faq-answer249 {
+  max-height: 300px;
+  padding: 15px 20px;
+}
+
+/* Rotate + to - when open */
+.faq-toggle-box249:checked + .faq-question249 .faq-symbol249 {
+  transform: rotate(45deg);
+}
+
+
+
+
   /* Responsive Design */
   @media (max-width: 768px) {
       .footer-container {
@@ -796,3 +865,5 @@ width: 40px;
   
   
   /* footer end  */
+
+  

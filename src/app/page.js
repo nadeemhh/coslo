@@ -150,7 +150,7 @@ export default function Home() {
       </div>
       <div className="content">
         <h2>Free For Buyers & Sellers</h2>
-        <p>Cancel anytime. We’ll send you a reminder 7 days before your trial ends.</p>
+        <p>Coslomart-India's Go-To B2B Marketplace That Strengthens Your Supply Chain</p>
         <a href="/auth/sup-manu/choose" >
         <Button rightIcon="icons\right.svg" >Become a Seller</Button>
         </a>
@@ -261,6 +261,70 @@ export default function Home() {
 <PlansTable/>
       
     </section>
+
+
+
+    {/* faqs */}
+
+<div className="faqs-container249">
+      <h2 className="faqs-title249">FAQs</h2>
+
+      <div className="faq-item249">
+        <input type="checkbox" id="faq1-249" className="faq-toggle-box249" />
+        <label htmlFor="faq1-249" className="faq-question249">
+          What is a business-to-business marketplace?
+          <span className="faq-symbol249">+</span>
+        </label>
+        <div className="faq-answer249">
+          A business-to-business marketplace is an online hub where firms order and sell goods in bulk. Coslomart links checked buyers and sellers from every corner of India, so trades stay smooth and secure.
+        </div>
+      </div>
+
+      <div className="faq-item249">
+        <input type="checkbox" id="faq2-249" className="faq-toggle-box249" />
+        <label htmlFor="faq2-249" className="faq-question249">
+          Which is the best B2B e-commerce website in India?
+          <span className="faq-symbol249">+</span>
+        </label>
+        <div className="faq-answer249">
+          Many users rank Coslomart among India's top B2B sites because it gives free listings, proves each profile, and offers a simple dashboard made for Indian SMEs and large firms.
+        </div>
+      </div>
+
+      <div className="faq-item249">
+        <input type="checkbox" id="faq3-249" className="faq-toggle-box249" />
+        <label htmlFor="faq3-249" className="faq-question249">
+          Is Coslomart a free B2B marketplace?
+          <span className="faq-symbol249">+</span>
+        </label>
+        <div className="faq-answer249">
+          Coslomart charges nothing to join or post products, so it suits new startups, growing SMEs, and bigger suppliers that want to step online without upfront costs.
+        </div>
+      </div>
+
+      <div className="faq-item249">
+        <input type="checkbox" id="faq4-249" className="faq-toggle-box249" />
+        <label htmlFor="faq4-249" className="faq-question249">
+          How does B2B e-commerce work on Coslomart?
+          <span className="faq-symbol249">+</span>
+        </label>
+        <div className="faq-answer249">
+          On Coslomart, a business signs up, either uploads items or searches for them, and then talks directly with verified partners, cutting out extra middlemen.
+        </div>
+      </div>
+
+      <div className="faq-item249">
+        <input type="checkbox" id="faq5-249" className="faq-toggle-box249" />
+        <label htmlFor="faq5-249" className="faq-question249">
+          Who can use Coslomart?
+          <span className="faq-symbol249">+</span>
+        </label>
+        <div className="faq-answer249">
+          Coslomart serves manufacturers, wholesalers, exporters, and distributors eager to expand in India's B2B scene through free, digital trading tools.
+        </div>
+      </div>
+    </div>
+
 
     {/* Testimonials Section */}
    
