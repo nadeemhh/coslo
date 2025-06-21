@@ -158,6 +158,45 @@ export default function Home() {
     </section>
 
 
+  {/* A Free B2B Marketplace That Puts You in Control */}
+
+      <section className="marketplace-section229">
+      <div className="container229">
+        <h2 className="heading229">A Free B2B Marketplace That Puts You in Control</h2>
+        <p className="description229">
+          Quit waiting for opportunities to find you—at Coslomart we give every business room to shine at no start-up cost.
+          As our marketplace costs nothing to join, you can list products, search for suppliers, and connect without barriers.
+        </p>
+        <div className="card-grid229">
+          <div className="card229">
+            <h3 className="card-title229">
+              <i className="fas fa-tags icon229"></i> Zero Listing Fees
+            </h3>
+            <p className="card-text229">Craft catalogs, update stock, and reach thousands of ready buyers at no charge.</p>
+          </div>
+          <div className="card229">
+            <h3 className="card-title229">
+              <i className="fas fa-user-check icon229"></i> Verified Profiles
+            </h3>
+            <p className="card-text229">Earn trust with check-mark seals and supplier badges that speak for you.</p>
+          </div>
+          <div className="card229">
+            <h3 className="card-title229">
+              <i className="fas fa-lightbulb icon229"></i> Intuitive Platform
+            </h3>
+            <p className="card-text229">Smart search, AI tips, and a clean interface make daily trading a breeze.</p>
+          </div>
+          <div className="card229">
+            <h3 className="card-title229">
+              <i className="fas fa-shield-alt icon229"></i> Secure Transactions
+            </h3>
+            <p className="card-text229">Choose payment gateways with escrow so every deal stays safe.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     {/* explore categories */}
 
     <div style={{padding:'15px'}}>
@@ -270,7 +309,7 @@ export default function Home() {
       <h2 className="faqs-title249">FAQs</h2>
 
       <div className="faq-item249">
-        <input type="checkbox" id="faq1-249" className="faq-toggle-box249" />
+        <input type="checkbox" id="faq1-249" className="faq-toggle-box249" defaultChecked/>
         <label htmlFor="faq1-249" className="faq-question249">
           What is a business-to-business marketplace?
           <span className="faq-symbol249">+</span>
