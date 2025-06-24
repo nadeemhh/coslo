@@ -28,6 +28,68 @@ export default function RootLayout({ children }) {
             }}
           />
 
+
+{/* schema.org */}
+
+  <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `
+            {
+   "@context": "http://www.schema.org",
+   "@type": "LocalBusiness",
+   "name": "Coslomart",
+   "url": "https://www.coslomart.com/",
+   "image": "https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/ProductImages/67337e18-78ac-4893-b425-c40a036317c4.jpeg",
+   "description": "Coslomart is India’s largest B2B marketplace. Best B2B portal for top manufacturers, suppliers, buyers & dealers. Buy or sell with an amazing experience and grow your business globally.",
+   "priceRange": "INR",
+   "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "6"
+   },
+   "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "H.No 254, MILLENNIUM VALLEY, 9th street, Hompalaghatta, Bangalore, Karnataka 562106",
+      "addressLocality": "Bangalore",
+      "addressRegion": "Karnataka",
+      "postalCode": "562106",
+      "addressCountry": "IN"
+   },
+   "sameAs": [
+      "https://www.instagram.com/coslomart/",
+      "https://www.pinterest.com/coslomart/",
+      "https://x.com/coslomart",
+      "https://www.linkedin.com/company/coslomart/",
+      "https://www.youtube.com/@Coslomart123"
+   ]
+}
+            `,
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: `
+             {
+
+            "@context": "http://www.schema.org",
+
+            "@type": "WebSite",
+
+            "name": "Coslomart",
+
+            "alternateName": "Coslomart – Hybrid E-commerce B2B, B2C, D2C platform",
+
+            "url": "https://www.coslomart.com/"
+
+        }
+            `,
+          }}
+        />
+
+
       <link
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     rel="stylesheet"

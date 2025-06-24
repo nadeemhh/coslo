@@ -24,14 +24,24 @@ const Footer = () => (
           <p>social media</p>
           <div className="social-media">
             
-            <a href="https://www.facebook.com/profile.php?id=61574036354947">
+            <a href="https://www.facebook.com/profile.php?id=61575317810669#">
               <img src="\icons\Social Icons1.svg" alt="Facebook" />
             </a>
-            <a href="https://youtube.com/@coslomart?si=97n_RqKLM71OBuT2">
+            <a href="https://www.youtube.com/@Coslomart123">
               <img src="\icons\youtubeicon.svg" alt="youtubeicon" />
             </a>
-            <a href="https://www.instagram.com/coslomart/?igsh=NmQ3eWZ0aXpqd2t1&utm_source=qr#">
+            <a href="https://www.instagram.com/coslomart/">
               <img src="\icons\Social Icons3.svg" alt="Instagram" />
+            </a>
+
+             <a href="https://www.linkedin.com/company/coslomart/">
+              <img src="\icons\linkdin.svg" alt="linkedin" />
+            </a>
+            <a href="https://www.pinterest.com/coslomart/">
+              <img src="\icons\pintrest.svg" alt="Pinterest" />
+            </a>
+            <a href="https://x.com/coslomart">
+              <img src="\icons\twitter.svg" alt="twitter" />
             </a>
            
           </div>
