@@ -108,7 +108,7 @@ console.log(selectedName)
               onKeyDown={handleKeyDown}/>
 
           <button className="search-btn" onClick={handleSearch}>
-            <i ref={iconRef} className="fas fa-search animated-serachicon"></i>
+            <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />
           </button>
         </div>
         </div>

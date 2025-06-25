@@ -76,6 +76,10 @@
   font-weight: 600;
 }
 
+.description_text p {
+  color: black;
+}
+
 /* reviews  */
 .reviews-container {
   width: 100%;

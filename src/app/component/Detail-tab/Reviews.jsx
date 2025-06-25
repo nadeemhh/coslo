@@ -164,12 +164,12 @@ function extractDate(isoString) {
         <div className="reviews-container">
             <div className="reviews-section">
                 { data && <h3 className="title">Reviews ({data.totalReviews})</h3>}
-                <div className="overall-rating">
+                {/* <div className="overall-rating">
                     <span>Overall Rating</span>
                   { data &&  <div className="stars">
                         {"⭐".repeat(Math.floor(data.averageRating))} <span className="rating-number">{data.averageRating}</span>
                     </div>}
-                </div>
+                </div> */}
                 {reviewdata.map((review, index) => (
                     <div key={index} className="review-card">
                         <div className="review-header">

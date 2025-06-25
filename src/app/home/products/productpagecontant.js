@@ -593,7 +593,7 @@ function formatPhoneNumber(number) {
 
           <div className="priceTableContainer565">
           <table className="priceTable565">
-      <thead className="tableHeader565">
+      <thead className="tableHeader565" style={{background:'#dee1e4'}}>
       {data.variations[showslab].priceSlabs.length > 0 &&  <tr className="headerRow565">
           <th className="tableCell565">Quantity</th>
           <th className="tableCell565">Discount</th>
@@ -601,7 +601,7 @@ function formatPhoneNumber(number) {
         </tr>
         }
       </thead>
-      <tbody className="tableBody565">
+      <tbody className="tableBody565" style={{background:'white'}}>
       {data.variations[showslab].priceSlabs.map((sdata, index) => (
         
         <tr className="tableRow565" key={index}>

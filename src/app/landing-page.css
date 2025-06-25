@@ -38,8 +38,8 @@ display: none;
 .search-bar {
   display: flex;
   align-items: center;
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
+  background-color: #ffffff;
+border: 1.5px solid #7A7D7E;
   border-radius: 5px;
   overflow: hidden;
   flex: 1;
@@ -73,10 +73,11 @@ display: none;
 }
 
 .search-btn {
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   border: none;
 width: 40px;
   cursor: pointer;
+  border-left: 1px solid black;
 }
 
 .search-btn i {

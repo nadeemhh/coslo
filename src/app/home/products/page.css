@@ -32,6 +32,7 @@
     height: 50vh;
     background-color: #373737;
     position: relative;
+    border-radius: 5px;
   }
 
   .main-image {
