@@ -27,6 +27,13 @@ const AttributeForm = () => {
 
   const handleAddAttributeType = async () => {
     if (!newAttrName.trim()) return;
+console.log(newAttrName)
+if(checkGroupnameexist(attributes, newAttrName)){
+    alert(`group ${newAttrName} already exists`);
+
+    return;
+   }
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/attribute/attribute-groups`, {
         method: 'POST',
@@ -54,6 +61,13 @@ const AttributeForm = () => {
     if (!selectedAttribute || !keyValue.key || !keyValue.value) return;
     const group = attributes.find(attr => attr.GroupName === selectedAttribute);
     if (!group) return;
+
+   if(checkGroupAttribute(attributes, keyValue)){
+    alert(`Attribute ${keyValue.value} already exists`);
+
+    return;
+   }
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/attribute/attribute-groups/${group.groupid}/attributes`, {
         method: 'POST',
@@ -85,6 +99,39 @@ const AttributeForm = () => {
       console.error('Error deleting attribute:', err);
     }
   };
+
+
+  function checkGroupAttribute(groups, searchItem) {
+    // Find the group whose GroupName matches the search key
+    const targetGroup = groups.find(group => group.GroupName === searchItem.key);
+    
+    // If no matching group is found, return false
+    if (!targetGroup) {
+        return false;
+    }
+    
+    // Check if any attribute in the group has the matching value
+     const hasMatchingValue = targetGroup.Attributes.some(attr => 
+        attr.key === searchItem.key && attr.value.toLowerCase() === searchItem.value.toLowerCase()
+    );
+    
+    return hasMatchingValue;
+}
+
+
+
+  function checkGroupnameexist(groups, searchItem) {
+  
+    // Check if any group in the group has the matching value
+     const hasMatchingValue = groups.some(group => 
+        group.GroupName.toLowerCase() === searchItem.toLowerCase()
+    );
+    
+    return hasMatchingValue;
+}
+
+
+
 
   return (
     <div className="attribute-wrapper-679" style={{border:showForm?'1px solid rgb(153 202 255)':'none'}}>
