@@ -12,7 +12,7 @@ const ProductVariations = ({setshowslab, pdata,showslab,setActiveIndex}) => {
   const [selectedVariationPosition, setSelectedVariationPosition] = useState(-1);
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [attributeStructure, setAttributeStructure] = useState([]);
-
+console.log(selectedAttributes)
   // Discover attribute structure using defaultAttribute
   const getAttributeStructure = () => {
     const attributeMap = new Map();
@@ -210,6 +210,11 @@ function findVariationIndex(variations, searchAttributes) {
 }
 
 
+function isValueMatched(obj, valueToCheck) {
+  return Object.values(obj).includes(valueToCheck);
+}
+
+let stocklevelcheck = pdata.variations[selectedVariationPosition]?.stock;
 
   return (
     <div className="container522">
@@ -242,12 +247,20 @@ function findVariationIndex(variations, searchAttributes) {
                         : ''
                   }`}
                   onClick={() => isAvailable && handleAttributeSelect(attribute.key, value)}
+                  style={{opacity:stocklevelcheck===0 && isValueMatched(selectedAttributes, value) ? '0.5':'1'}}
                 >
                   {["color", "colors", "colour", "colours"].includes(attribute.key.trim().toLowerCase()) ?
                   <div className='colorattribute44'>
                   <img src={pdata.variations[findVariationIndex(pdata.variations, value)].productImages[0]} width={70} height={70} style={{objectFit:'contain'}} alt={value} />
                   <p style={{margin:'10px 0px 0px 0px'}}>{value}</p>
-                  </div>:<p>{value}</p>}
+
+                  {stocklevelcheck === 0 && isValueMatched(selectedAttributes, value) &&  <p style={{margin:'10px 0px 0px 0px',color:'red',fontSize:'12px'}}>out of stock</p>}
+
+                  </div>:<><p>{value}</p> 
+                  
+                  {stocklevelcheck === 0 && isValueMatched(selectedAttributes, value) &&  <p style={{margin:'10px 0px 0px 0px',color:'red',fontSize:'12px'}}>out of stock</p>}
+
+                  </>}
                  
                 </div>
               );

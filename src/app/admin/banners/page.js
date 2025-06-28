@@ -53,7 +53,12 @@ export default function Page() {
  
     const token = localStorage.getItem('admintoken');
   
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`)
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`, {
+        method: 'GET',
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+      })
       .then((response) => {
         if (response.ok) {
           return response.json();

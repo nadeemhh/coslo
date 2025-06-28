@@ -4,18 +4,13 @@ import './component-css/AttributeForm.css';
 
 const SelectedAttributeArray = ({attributes,primaryGroup,addAttribute,currentattributes}) => {
   const [selectedAttribute, setSelectedAttribute] = useState('');
-
-
   const [selectedAttributeArray, setSelectedAttributeArray] = useState([]);
-
-  
-
 
   const handleCheckboxChange = (item, isChecked) => {
     if (isChecked) {
       // Add to selectedAttributeArray if not already present
       setSelectedAttributeArray(prev => {
-        const exists = prev.some(attr => attr._id === item._id);
+        const exists = prev.some(attr => attr.value === item.value);
         if (!exists) {
           // Add defaultAttribute property only if item's key matches primaryGroup
           const itemWithDefault = {
@@ -33,27 +28,23 @@ const SelectedAttributeArray = ({attributes,primaryGroup,addAttribute,currentatt
       });
     } else {
       // Remove from selectedAttributeArray
-      setSelectedAttributeArray(prev => prev.filter(attr => attr._id !== item._id));
+      setSelectedAttributeArray(prev => prev.filter(attr => attr.value !== item.value));
     }
   };
 
-  const isItemSelected = (itemId) => {
-    return selectedAttributeArray.some(attr => attr._id === itemId);
+  const isItemSelected = (itemValue) => {
+    return selectedAttributeArray.some(attr => attr.value === itemValue);
   };
 
- 
   console.log('Selected Attribute Array:', selectedAttributeArray);
  
-useEffect(() => {
+  useEffect(() => {
     if(selectedAttributeArray.length>0){addAttribute(selectedAttributeArray);}
   }, [selectedAttributeArray]);
-
 
   useEffect(() => {
    if(selectedAttributeArray.length===0){ setSelectedAttributeArray([...currentattributes])}
   }, []);
-
-
 
   return (
     <div className="attribute-form-671">
@@ -87,17 +78,17 @@ useEffect(() => {
                 ?.Attributes.map((item, idx) => (
                   <li key={idx} style={{ margin: '5px', marginTop: '10px', display: 'flex', alignItems: 'center' }}>
                    <input
-  type="checkbox"
-  checked={isItemSelected(item._id)}
-  onChange={(e) => {
-    // If checking this item, first remove any existing item with the same key
-    if (e.target.checked) {
-      setSelectedAttributeArray(prev => prev.filter(attr => attr.key !== item.key));
-    }
-    handleCheckboxChange(item, e.target.checked);
-  }}
-  style={{ marginRight: '8px' }}
-/>
+                      type="checkbox"
+                      checked={isItemSelected(item.value)}
+                      onChange={(e) => {
+                        // If checking this item, first remove any existing item with the same key
+                        if (e.target.checked) {
+                          setSelectedAttributeArray(prev => prev.filter(attr => attr.key !== item.key));
+                        }
+                        handleCheckboxChange(item, e.target.checked);
+                      }}
+                      style={{ marginRight: '8px' }}
+                    />
                     <span>
                       {item.key}: {item.value}
                     </span>

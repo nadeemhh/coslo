@@ -60,10 +60,16 @@ const AttributeForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(keyValue)
       });
+
+      let data = await res.json(); // parse JSON response
+
       if (res.ok) {
         setKeyValue({ ...keyValue, value: '' });
         fetchAttributes(); // refresh
-      }
+      }else {
+      alert(data.message || 'Something went wrong'); // Show error message
+    }
+
     } catch (err) {
       console.error('Error adding attribute:', err);
     }

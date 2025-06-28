@@ -671,9 +671,9 @@ function formatPhoneNumber(number) {
             Request Quotation <i className="fas fa-arrow-right"></i>
             </button>
 
-            <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
+            {data.variations[showslab].stock !== 0 && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
-            </button>
+            </button>}
             </>
             }
 

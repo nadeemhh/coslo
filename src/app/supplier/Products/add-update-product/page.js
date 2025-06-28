@@ -1265,9 +1265,9 @@ onClick={addreason}
         {userData.variationsData.map((pricing, index) => {
           
           return(
-          <div key={index} className="pricing-item">
+          <div key={index} className="pricing-item" style={{border:pricing.stock ===0 ? '2px solid #ff0000':'1px solid #818181'}}>
             <span>
-              {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> / Stock: <><span style={{color:'#1389F0'}}>{pricing.stock}</span></> Units
+              {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> / Stock: <><span style={{color:'#1389F0'}}>{pricing.stock}</span></>
             </span>
             <div className="actions">
 
@@ -1494,7 +1494,7 @@ onClick={addreason}
 
             {/* Repeat Buyer Discount */}
             <div className="form-group">
-              <label className="form-label">Repeat Buyer Discount (Optional)</label>
+              <label className="form-label">Repeat Buyer Discount % (Optional)</label>
               <input
                 type="number"
                 className="form-input"
