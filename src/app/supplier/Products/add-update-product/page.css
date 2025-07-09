@@ -765,3 +765,38 @@ margin-top: 20px;
 }
 
 /* //// nested category  end*/
+
+
+/* pdf file upload */
+
+
+.upload-container787 {
+  margin: 20px 0px;
+}
+
+.upload-btn787 {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.upload-btn787:hover {
+  background-color: #0056b3;
+}
+
+.icon787 {
+  margin-right: 8px;
+}
+
+.upload-status787 {
+  margin-top: 10px;
+  color: green;
+}
+
+
+
+/* pdf end */

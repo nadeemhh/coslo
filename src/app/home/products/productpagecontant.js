@@ -9,6 +9,7 @@ import scrollToElement from '../../component/scrollToElement.js'
 import cartcountget from '../../component/cartcountget.js';
 import usePreventNumberInputScroll from '../../component/usePreventNumberInputScroll.js';
 import ProductVariations from '../../component/ProductVariations.js'
+import Viewerproductpage from '../../component/viewerproductpage.js'
 
 import { useRef ,useState,useEffect} from 'react';
 
@@ -444,6 +445,12 @@ function formatPhoneNumber(number) {
   usePreventNumberInputScroll()
 
 
+  function isScreenWidthLessOrEqual(maxWidth) {
+  return window.innerWidth <= maxWidth;
+}
+
+
+   
   return (
     <> {isdata &&
     <>
@@ -491,6 +498,10 @@ function formatPhoneNumber(number) {
 
             <img src="\icons\smallright.svg" alt="Scroll Right" onClick={scrollRight} />
           </div>
+
+
+{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile}/>}
+    
         </div>
 
  {/* Right Section - Product Details */}
@@ -508,7 +519,7 @@ function formatPhoneNumber(number) {
   
           </div>  */}
           
-          {data.variations[showslab].isReturnable && <div className='mylocationp'>
+          {data.productType === "product" && <> {data.variations[showslab].isReturnable && <div className='mylocationp'>
    <span className="location">
   <img src="\icons\rightgreen.svg" alt="" />
   
@@ -523,6 +534,8 @@ function formatPhoneNumber(number) {
           </span> 
   
           </div>}
+          </>
+          }
 
           {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
           Recommended
@@ -547,7 +560,7 @@ function formatPhoneNumber(number) {
           <div className='mylocationp'>
    <span className="location">
   <img src="\icons\Compliance.svg" width={'15px'} alt="" />
-  Quality Certificate
+  {data.productType === "product" ? <>Quality Certificate</> : <>Legally Verified</> }
           </span> 
   
           </div>
@@ -585,14 +598,15 @@ function formatPhoneNumber(number) {
 
 {/* Pricing Section */}
 <div className="pricing">
+         {data.productType === "product" ? <>
           <span className="price-mrp">MRP</span>
             <span className="current-price">₹{data.variations[showslab].mrp}</span>
-            {/* <span className="original-price">₹ 667.00</span> */}
+           </>: <span className="current-price" style={{fontSize:'20px'}}>₹ {data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min}</span>}
           </div>
 
 
           <div className="priceTableContainer565">
-          <table className="priceTable565">
+         {data.productType === "product"  ? <table className="priceTable565">
       <thead className="tableHeader565" style={{background:'#dee1e4'}}>
       {data.variations[showslab].priceSlabs.length > 0 &&  <tr className="headerRow565">
           <th className="tableCell565">Quantity</th>
@@ -614,10 +628,29 @@ function formatPhoneNumber(number) {
       ))}
       </tbody>
     </table>
+    : 
+     (data.variations[showslab]?.priceSlabs.length > 0 && <table className="priceTable565">
+      <thead className="tableHeader565" style={{background:'#dee1e4'}}>
+      <tr className="headerRow565">
+          <th className="tableCell565">Per sq ft cost</th>
+          <th className="tableCell565">Total sq ft</th>
+          <th className="tableCell565">Total cost</th>
+        </tr>
+
+      </thead>
+      <tbody className="tableBody565" style={{background:'white'}}>
+        <tr className="tableRow565">
+          <td className="tableCell565">₹ {data.variations[showslab].mrp}</td>
+          <td className="tableCell565">{data.variations[showslab].priceSlabs[0].min}</td>
+          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min} </td>
+        </tr>
+      
+      </tbody>
+    </table>)}
     </div>
 
 <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex}/>
+<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
 </div>
 
     {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
@@ -638,24 +671,17 @@ function formatPhoneNumber(number) {
 
                     </div> */}
 
-
-                   {data.productVideo !== "" && <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-
-                      {data.productVideo && <a href={data.productVideo} target="_blank" className='watchpvideo'>Watch Product Video &nbsp; <i className="fas fa-video"></i>
-                       </a>}
-   
-                    </div>}
-                    
+                   
 
           {/* Quantity Section */}
-          <div className="quantity-section">
+        {data.productType === "product"  &&  <div className="quantity-section">
            <div style={{display:'flex',flexDirection:'column',gap:'5px',marginRight:'20px'}}>
            <label style={{fontSize:'15px',color:'#1389F0'}}>Enter Quantity</label>
            <input type="number" value={quantity}    onChange={handleChange} />
            </div>
            
             <span className="save-info">You Saved Total ₹{(saved).toFixed(0)}!</span>
-          </div>
+          </div>}
   
           
   
@@ -671,9 +697,13 @@ function formatPhoneNumber(number) {
             Request Quotation <i className="fas fa-arrow-right"></i>
             </button>
 
-            {data.variations[showslab].stock !== 0 && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
+          {data.productType === "product"  ?  (data.variations[showslab].stock !== 0 && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
-            </button>}
+            </button>):  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
+            Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
+            </a>
+          }
+
             </>
             }
 
@@ -685,74 +715,9 @@ function formatPhoneNumber(number) {
             </a>
             </div>}
   
-          {/* Variations */}
-          {/* <div className="variations">
-             {data.variations.map((data, index) => (
-
-            <button className={index===showslab?'variations-selected':''} key={index} onClick={()=>{
-              scrollToElement('main-content')
-              setshowslab(index)
-            }}>Variation {index+1}</button>
-         
-             ))}
-          </div> */}
         </div>
 
       </div>
-
-    {data.amazoneProductUrl?.startsWith('httpi') &&  <div className="compareContainer995">
-      <p className="compareHeading995">Similar Product on other platform</p>
-      <p className="compareSubtext995">Price might vary, always verify yourself</p>
-      <div className="compareGrid995">
-
-      {/* <div className="cardContainer975">
-      <div className="header975">
-        <span className='OurPrice'>Our Price</span>
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src="https://blog.playstation.com/tachyon/2024/09/1d0ae4eca1d42d088bde97428219325f0c6d5a51.jpg?resize=1088%2C612&crop_strategy=smar" // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">NanoCharge 5000mAh Battery Module</p>
-        <p className="seller975">Seller Random</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹240.00</span>
-      </div>
-    </div> */}
-
-   {amazonproduct === null ? <h3>Fetching... Please wait.</h3> : <div className="cardContainer975">
-      <div className="header975">
-        <img src="\icons\amazon.svg" alt="Amazon Logo" className="logo975" />
-        
-      </div>
-      <div className="imageContainer975">
-        <img
-          src={amazonproduct.productImages[0]} // Replace with actual image URL
-          alt="NanoCharge 5000mAh Battery Module"
-          className="productImage975"
-        />
-      </div>
-      <div className="details975">
-        <p className="productTitle975">{amazonproduct.productName.split('|')[0]}</p>
-        <p className="seller975">Seller</p>
-      </div>
-      <div className="price975">
-        <span className="label975">Price</span>
-        <span className="value975">₹{amazonproduct.mrp}</span>
-      </div>
-    </div>
-    }
-
-        
-      </div>
-    </div>}
 
 
 
@@ -821,6 +786,8 @@ function formatPhoneNumber(number) {
           </div>
         </div>
       )}
+
+{isScreenWidthLessOrEqual(768) === true && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile}/>}
 
       <Reviews pid={data._id} description={data.description}/>
 

@@ -239,7 +239,7 @@ export default function page() {
                     return(
                   <div key={i}>
 
-                  <p style={{backgroundColor:vdata.stock > vdata.lowStockThreshold ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Net Price :   <strong>{vdata.mrp}/-</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p>
+                  <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Net Price :   <strong>{vdata.mrp}/-</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p>
 
                   </div>
                   )

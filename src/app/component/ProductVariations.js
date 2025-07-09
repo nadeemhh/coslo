@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import '../component/component-css/ProductVariations.css';
 
-const ProductVariations = ({setshowslab, pdata,showslab,setActiveIndex}) => {
+const ProductVariations = ({setshowslab, pdata,showslab,setActiveIndex,productType}) => {
   console.log(pdata)
 
   const productData = pdata;
@@ -214,7 +214,14 @@ function isValueMatched(obj, valueToCheck) {
   return Object.values(obj).includes(valueToCheck);
 }
 
-let stocklevelcheck = pdata.variations[selectedVariationPosition]?.stock;
+let stocklevelcheck;
+
+if(productType==="product"){
+stocklevelcheck = pdata.variations[selectedVariationPosition]?.stock;
+}else{
+stocklevelcheck = null;
+}
+
 
   return (
     <div className="container522">

@@ -19,8 +19,12 @@ export default function Page() {
     productData: {
       productName: "",
       primaryAttribute:"",
+      productType:"product",
       description: "",
       productVideo: "",
+      pdfFile:"",
+      latitude:"",
+      longitude:"",
       commonAttributes: [],
       reasonForReturn:[],
       category: "",
@@ -62,6 +66,7 @@ export default function Page() {
    const [selectedtag,setselectedtag] = useState('');
   const [selectedPricingIndex, setSelectedPricingIndex] = useState(null);
   const [primaryGroup, setPrimaryGroup] = useState('');
+ 
 
 
 console.log(selectedPricingIndex)
@@ -336,7 +341,7 @@ console.log(productimages,images)
 console.log(variation)
 
 
-const defaultSlabs = [
+const defaultSlabs = [ 
   {
     type: "individual",
     min: "",
@@ -344,7 +349,8 @@ const defaultSlabs = [
     discount: "",
     deliveryFee: ""
   },
-  {
+  ...(userData.productData.productType === "product"
+    ?[{
     type: "retailer",
     min: "",
     max: "",
@@ -357,7 +363,9 @@ const defaultSlabs = [
     max: "",
     discount: "",
     deliveryFee: ""
-  },
+  },]
+  :
+  [])
 ];
 
 // Function to handle adding the default price slabs
@@ -424,6 +432,19 @@ const removePriceSlab = (index) => {
     setVariation((prev) => ({
       ...prev,
       dimensions: { ...prev.dimensions, [dimensionKey]: value !== ''? Number(value):'' },
+    }));
+  };
+
+
+   const handleRealstateChange = (Realstatedata, value) => {
+
+   if(value < 0){
+    value=0;
+   }
+
+    setVariation((prev) => ({
+      ...prev,
+      realEstateData: { ...prev.realEstateData, [Realstatedata]: value !== ''? Number(value):'' },
     }));
   };
 
@@ -520,6 +541,9 @@ setpreimages([])
   };
 
 
+
+  
+
   const handleSubmit = async () => {
    
 
@@ -553,6 +577,44 @@ console.log(userDatacopy)
   if(userDatacopy.variationsData.length===0){
     alert('Add Price')
     return;
+  }
+
+
+  if(userData.productData.productType === "property"){
+    
+    userDatacopy.variationsData.forEach(variation => {
+  if (Array.isArray(variation.priceSlabs)) {
+    variation.priceSlabs.forEach(slab => {
+      if (slab.max === "") slab.max = 0;
+      if (slab.discount === "") slab.discount = 0;
+      if (slab.deliveryFee === "") slab.deliveryFee = 0;
+    });
+  }
+});
+
+function cleanVariationData() {
+  const keysToRemove = [
+    "lowStockThreshold",
+    "repeatBuyerDiscount",
+    "dimensions",
+    "weight",
+    "divertIndividualOrder",
+    "isReturnable",
+    "returnDays"
+  ];
+
+  userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
+    variation.stock=1;
+    variation.gst=0;
+    const cleaned = { ...variation };
+    keysToRemove.forEach(key => delete cleaned[key]);
+    return cleaned;
+  });
+}
+
+// Call the function
+cleanVariationData();
+
   }
 
   
@@ -724,7 +786,12 @@ data.data.variations.forEach(variation => {
   variation.deleteImages = []; 
 });
 
-console.log(data.data)
+if(!data.data.productType){
+data.data.productType="product"
+}
+
+console.log(data.data,data.data.productType)
+
 
         const { variations, ...filteredData } = data.data;
 
@@ -1031,6 +1098,33 @@ function checkdefaultAttribute(variation) {
   return false;
 }
 
+
+  const handlePDFUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result.replace("data:application/pdf;base64,", "");
+        setUserData((prev) => ({
+          ...prev,
+          productData: {
+            ...prev.productData,
+            pdfFile: base64
+          }
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a valid PDF file.");
+    }
+  };
+
+  const triggerFileInput = () => {
+    document.getElementById("pdfUploadInput787").click();
+  };
+
+ 
+
   return (
     <div className="order-details">
       <div className="header">
@@ -1068,12 +1162,24 @@ function checkdefaultAttribute(variation) {
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
-        {/* <div className="input-group">
-          <label htmlFor="Product-url">Enter Amazon Product url</label>
-          <input id="Product-url" type="text" placeholder="url"    value={userData.productData.amazoneProductUrl || ""}
-          onChange={(e) => handleProductDataChange("amazoneProductUrl", e.target.value)} />
-        </div> */}
 
+  <div className="upload-container787">
+      <input
+        id="pdfUploadInput787"
+        type="file"
+        accept="application/pdf"
+        onChange={handlePDFUpload}
+        style={{ display: "none" }}
+      />
+      <button onClick={triggerFileInput} className="upload-btn787">
+        <i className="fas fa-file-upload icon787"></i> Upload Catalogue PDF
+      </button>
+      {userData.productData.pdfFile && (
+        <p className="upload-status787">PDF uploaded successfully</p>
+      )}
+    </div>
+
+        
         <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
         <i
@@ -1152,6 +1258,21 @@ onClick={addreason}
 </div>
 ))}
 
+
+{/* /// select product type  */}
+
+{!productupdate && <div className="input-group">
+
+<label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
+<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => handleProductDataChange("productType", e.target.value)}>
+           <option value="product">Product</option>
+        <option value="property">Property</option>
+      </select>
+ </div>}
+
+
+{/* //// select tag */}
+
         <div className="input-group">
 
 <label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
@@ -1205,53 +1326,11 @@ onClick={addreason}
 
         </div>
 
-        {/* <div className="add-location">
-          <h2>Add Location/s</h2>
-          <div className="input-group">
-            <label htmlFor="pincode">Enter PinCode</label>
-            <input id="pincode" type="text" placeholder="000000" />
-          </div>
-          <div className="selected-locations">
-            <span>201301 <img src="\icons\smcross.svg" alt="" /></span>
-            <span>111011 <img src="\icons\smcross.svg" alt="" /></span>
-            <span>301504 <img src="\icons\smcross.svg" alt="" /></span>
-          </div>
-        </div> */}
-
 
       </div>}
     </div>
 
-    {/* <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
-    <div className="image-uploader" style={{marginBottom:'50px'}}>
- 
-      <div className="add-image">
-        <input
-          type="file"
-          id="imageInput"
-          multiple
-          onChange={handleImageUpload}
-          accept="image/*"
-        />
-        <label htmlFor="imageInput" className="add-image-label">
-        <img src="\icons\upcross.svg" alt=""  width={'30px'}/>
-          <p>Add Image</p>
-        </label>
-      </div>
-      <div className="image-preview">
-        {images.map((image, index) => (
-          <div className="image-container" key={index}>
-            <img src={image} alt={`preview-${index}`} />
-            <button
-              className="remove-button"
-              onClick={() => removeImage(index)}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        ))}
-      </div>
-    </div> */}
+   
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
   
@@ -1267,7 +1346,7 @@ onClick={addreason}
           return(
           <div key={index} className="pricing-item" style={{border:pricing.stock ===0 ? '2px solid #ff0000':'1px solid #818181'}}>
             <span>
-              {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> / Stock: <><span style={{color:'#1389F0'}}>{pricing.stock}</span></>
+              {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> {userData.productData.productType === "product" && <>/ Stock:<span style={{color:'#1389F0'}}>{pricing.stock}</span></>}
             </span>
             <div className="actions">
 
@@ -1442,7 +1521,7 @@ onClick={addreason}
 
 
             <div className="form-group">
-              <label className="form-label">MRP</label>
+              <label className="form-label">{userData.productData.productType === "product" ?'MRP':'Per sq ft cost'}</label>
               <input
                 type="number"
                 className="form-input"
@@ -1453,20 +1532,10 @@ onClick={addreason}
               />
             </div>
 
-            {/* Stock Input */}
-            <div className="form-group">
-              <label className="form-label">Stock Keeping Unit</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 1000"
-                value={variation.stock}
-                onChange={(e) => handleVariationChange("stock", e.target.value)}
-                required
-              />
-            </div>
 
-            <div className="form-group">
+         { userData.productData.productType === "product" && <>
+         
+          <div className="form-group">
               <label className="form-label">GST %</label>
               <input
                 type="number"
@@ -1475,6 +1544,18 @@ onClick={addreason}
                 value={variation.gst}
                 required
                 onChange={(e) => handleVariationChange("gst", e.target.value)}
+              />
+            </div>
+         
+          <div className="form-group">
+              <label className="form-label">Stock Keeping Unit</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="Eg. 1000"
+                value={variation.stock}
+                onChange={(e) => handleVariationChange("stock", e.target.value)}
+                required
               />
             </div>
 
@@ -1491,7 +1572,6 @@ onClick={addreason}
             </div>
 
 
-
             {/* Repeat Buyer Discount */}
             <div className="form-group">
               <label className="form-label">Repeat Buyer Discount % (Optional)</label>
@@ -1504,6 +1584,7 @@ onClick={addreason}
                 
               />
             </div>
+            </> }
 
 
             <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
@@ -1609,7 +1690,8 @@ onClick={addreason}
             {/* Dimensions */}
             {/* <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}> Add Dimensions</strong>  */}
 
-         <div className="quantity-range" style={{marginTop:'40px'}}>
+        {userData.productData.productType === "product" && <>
+        <div className="quantity-range" style={{marginTop:'40px'}}>
           <div className="form-group">
             <strong className="form-label" style={{marginBottom:'15px'}}>Add Dimensions in centimeter</strong>
             <div className="range-container">
@@ -1678,10 +1760,11 @@ onClick={addreason}
             </div>
           </div>
           </div>
+          </> }
 
 
             {/* Add Price Slabs */}
-            <strong className="form-label" style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Price Slabs</strong>
+         {variation.priceSlabs.length > 0 &&   <strong className="form-label" style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Price Slabs</strong>}
             
           
             {variation.priceSlabs.map((slab, index) => (
@@ -1690,7 +1773,8 @@ onClick={addreason}
           <div style={{display:'flex',justifyContent:'space-between'}}>
 
             <strong className="form-label" style={{ marginBottom: "10px" }}>
-              Type: {slab.type==='individual'?'individual / retailer':(slab.type==='retailer'?'wholesaler':'wholesaler - Bulk Qty')}
+              Type: {slab.type==='individual'?(userData.productData.productType === "product"
+?'individual / retailer':'individual'):(slab.type==='retailer'?'wholesaler':'wholesaler - Bulk Qty')}
             </strong>
             
             <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
@@ -1698,7 +1782,7 @@ onClick={addreason}
 
                   </div>
 
-            <label className="form-label">Enter Quantity Range</label>
+            <label className="form-label">{userData.productData.productType === "product" ?'Enter Quantity Range':'Total sq ft'}</label>
             <div className="range-container">
               <input
                 type="number"
@@ -1713,7 +1797,9 @@ onClick={addreason}
                 }}
                 required
               />
-              <span className="range-icon">
+
+            {userData.productData.productType === "product" && <>
+            <span className="range-icon">
                 <i className="fas fa-arrow-right"></i>
               </span>
               <input
@@ -1729,10 +1815,12 @@ onClick={addreason}
                 }}
                 required
               />
+              </> }
+
             </div>
           </div>
 
-          <div className="form-group">
+      { userData.productData.productType === "product" &&  <> <div className="form-group">
             <label className="form-label">Enter Discount (%)</label>
             <input
               type="number"
@@ -1772,14 +1860,16 @@ onClick={addreason}
               }}
               required
             />
-          </div>
+          </div> </>}
 
         </div>
       ))}
 
 
+
               {/* Enable Return with Max Days */}
-              <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
+            {userData.productData.productType === "product" &&
+  <> <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
         <label>Enable Return</label>
         {showReturnDaysInput && (
           <input
@@ -1831,7 +1921,8 @@ onClick={addreason}
           <span className="slider round"></span>
         </label>
       </div>
-
+     </>
+}
 
             <div className="button-group">
 

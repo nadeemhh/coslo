@@ -10,7 +10,11 @@ import getDiscountedPrice from './discountpricecalc.js'
 // import Link from 'next/link';
 
 
-export default function Productcard({veri=false , pname,seller,pimage,variation,pid}) {
+export default function Productcard({veri=false , pname,productType,seller,pimage,variation,pid}) {
+
+if(!productType){
+productType= "product";
+}
 
   function formatPhoneNumber(number) {
     number = number.toString(); // Ensure it's a string
@@ -66,11 +70,11 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         </a>
         {/* Price */}
         <div className="product-actions">
-        <p className="price">MRP ₹{variation?.mrp}</p>
+        {productType === "product" ?<p className="price">MRP ₹{variation?.mrp}</p>:<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{variation?.mrp*variation.priceSlabs[0].min}</p>}
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
-          <table className="priceTable56">
+          {productType === "product" ? <table className="priceTable56">
       <thead className="tableHeader56">
         <tr className="headerRow56">
           <th className="tableCell56">Quantity</th>
@@ -92,7 +96,31 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
       ))}
       
       </tbody>
+    </table>:
+    <table className="priceTable56">
+      <thead className="tableHeader56">
+        <tr className="headerRow56">
+           <th className="tableCell56">Per sq ft cost</th>
+          <th className="tableCell56">Total sq ft</th>
+          <th className="tableCell56">Total cost</th>
+        </tr>
+      </thead>
+      <tbody className="tableBody56">
+
+        {variation?.priceSlabs.map((sdata, index) => (
+        
+        <tr className="tableRow56" key={index}>
+          <td className="tableCell56">₹ {variation.mrp}</td>
+          <td className="tableCell56">{sdata.min}</td>
+          <td className="tableCell56">₹ {variation.mrp * sdata.min} </td>
+        </tr>
+       
+       
+      ))}
+      
+      </tbody>
     </table>
+    }
     </div>
       
 

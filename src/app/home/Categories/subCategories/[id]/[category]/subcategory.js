@@ -43,13 +43,13 @@ import { useParams } from "next/navigation";
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(categoryname)}`}>
                  <img src={data.image} alt={data.name}/>
                  </a>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}`}>
+                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(categoryname)}`}>
                  <p>{data.name}</p>
                  </a>
                  </div>
