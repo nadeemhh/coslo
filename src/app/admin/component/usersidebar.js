@@ -24,6 +24,7 @@ const AdminDashboard = () => {
       { path: '/admin/banners', icon: 'fas fa-image', label: 'Add Banner' },
         { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' },
             { path: '/admin/tags', icon: 'fas fa-tags', label: 'Create Tags' },
+                   { path: '/admin/quotation', icon: 'fas fa-file-invoice', label: 'Quotations' },
       { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
     ];
 
