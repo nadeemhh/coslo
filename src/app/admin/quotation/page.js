@@ -8,6 +8,8 @@ const QuotationsTable = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+    const [modalData, setModalData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
    const fetchdata = () => {
  const token = localStorage.getItem('admintoken');
@@ -66,12 +68,23 @@ const QuotationsTable = () => {
   };
 
 
+    const openModal = (sellers) => {
+    setModalData(sellers);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalData([]);
+  };
+
 
   return (
     <div className="container878">
       <h2 className="heading878">Quotations</h2>
         {data === null && <p className="heading878">There are currently no quotations available to display.</p>}
        {data && <>
+       <div className='table-wrapper'>
       <table className="table878">
         <thead>
           <tr>
@@ -105,16 +118,14 @@ const QuotationsTable = () => {
                   'N/A'
                 )}
               </td>
-              <td className="td878">
+             <td className="td878">
                 {item?.matchedSellers?.length > 0 ? (
-                  <div className="sellerWrapper878">
-                    {item.matchedSellers.map((match) => (
-                      <div key={match._id} className="sellerCard878">
-                        <strong>{match?.seller?.name || 'N/A'}</strong>
-                        <div>{match?.seller?.phone || 'N/A'}</div>
-                      </div>
-                    ))}
-                  </div>
+                  <button
+                    className="btn878"
+                    onClick={() => openModal(item.matchedSellers)}
+                  >
+                    Check Details
+                  </button>
                 ) : (
                   'N/A'
                 )}
@@ -123,6 +134,7 @@ const QuotationsTable = () => {
           ))}
         </tbody>
       </table>
+</div>
 
        <div className="pagination">
        <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
@@ -136,6 +148,38 @@ const QuotationsTable = () => {
       </span>}
       </div>
      </>}
+
+
+
+    {/* Modal */}
+      {isModalOpen && (
+        <div className="modalOverlay878">
+          <div className="modalContent878">
+            <h3 className="modalTitle878">Seller Details</h3>
+            <table className="modalTable878">
+              <thead>
+                <tr>
+                  <th className="th878">Name</th>
+                  <th className="th878">Phone</th>
+                  <th className="th878">Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {modalData.map((match) => (
+                  <tr key={match._id}>
+                    <td className="td878">{match?.seller?.name || 'N/A'}</td>
+                    <td className="td878">{match?.seller?.phone || 'N/A'}</td>
+                    <td className="td878">{match?.seller?.email || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button className="btnClose878" onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
+
+      
     </div>
   );
 };
