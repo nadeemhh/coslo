@@ -8,8 +8,8 @@
 }
 
 .heading878 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 26px;
+  margin-bottom: 40px;
   text-align: center;
 }
 
@@ -83,14 +83,14 @@
 }
 
 .btnClose878 {
-  margin-top: 15px;
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 5px 10px;
   border-radius: 5px;
   float: right;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .btnClose878:hover {

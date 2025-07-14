@@ -1,0 +1,106 @@
+
+/* Map section */
+.map-display-section767 {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-card767 {
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  height: fit-content;
+}
+
+.map-display-container767 {
+  height: 360px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+/* Map actions */
+.map-actions767 {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.map-action-button767 {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.map-action-button767:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.map-action-button767:active {
+  transform: translateY(0);
+}
+
+/* Info window styles */
+.info-window767 {
+  padding: 0.5rem;
+  max-width: 250px;
+}
+
+.info-title767 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #1e293b;
+  margin: 0 0 0.5rem 0;
+}
+
+.info-type767 {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.25rem 0;
+}
+
+.info-price767 {
+  font-size: 0.875rem;
+  color: #059669;
+  font-weight: bold;
+  margin: 0.25rem 0;
+}
+
+.info-address767 {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 0.25rem 0;
+  line-height: 1.4;
+}
+
+/* Property actions */
+.property-actions767 {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+
+  @media (max-width: 768px) {
+    .map-display-container767 {
+    height: 170px;
+    border-radius: .5rem;
+    overflow: hidden;
+    border: 2px solid #e2e8f0;
+    margin-bottom: 1rem;
+}
+  }

@@ -1,8 +1,9 @@
 'use client'
 import './component-css/viewerproductpage.css';
+    import PropertyLocationDisplay from '../component/PropertyLocationDisplay.js';
 
 
-const Viewerproductpage = ({productType,productVideo,pdfFile}) => {
+const Viewerproductpage = ({productType,productVideo,pdfFile,propertyData}) => {
 
      const getEmbedUrl343 = (url) => {
     const urlObj = new URL(url);
@@ -17,6 +18,7 @@ const Viewerproductpage = ({productType,productVideo,pdfFile}) => {
 
   return (
     <>
+    
       {productVideo && <div className="card343">
       <h2 className="title343">Watch {productType} Video</h2>
       <div className="videoContainer343">
@@ -27,6 +29,14 @@ const Viewerproductpage = ({productType,productVideo,pdfFile}) => {
           allow="autoplay; encrypted-media"
           allowFullScreen
         ></iframe>
+      </div>
+    </div>}
+
+     {propertyData && <div className="card343">
+      <h2 className="title343">Property Location</h2>
+      <div className="videoContainer343">
+      
+    <PropertyLocationDisplay propertyData={propertyData}/>
       </div>
     </div>}
 

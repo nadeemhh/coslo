@@ -16,7 +16,7 @@ const QuotationsTable = () => {
 
  document.querySelector('.loaderoverlay').style.display='flex';
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/getAllSellerQuotations?page=${page}&limit=25`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/getAllSellerQuotations?page=${page}&limit=15`, {
       method: 'GET',
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -124,7 +124,7 @@ const QuotationsTable = () => {
                     className="btn878"
                     onClick={() => openModal(item.matchedSellers)}
                   >
-                    Check Details
+                   Details
                   </button>
                 ) : (
                   'N/A'
@@ -155,6 +155,12 @@ const QuotationsTable = () => {
       {isModalOpen && (
         <div className="modalOverlay878">
           <div className="modalContent878">
+                      
+ <div style={{display:'flex',justifyContent:'flex-end'}}>
+          <button onClick={closeModal} className="btnClose878">
+            <i className="fa fa-times"></i>
+          </button>
+          </div>
             <h3 className="modalTitle878">Seller Details</h3>
             <table className="modalTable878">
               <thead>
@@ -174,7 +180,6 @@ const QuotationsTable = () => {
                 ))}
               </tbody>
             </table>
-            <button className="btnClose878" onClick={closeModal}>Close</button>
           </div>
         </div>
       )}

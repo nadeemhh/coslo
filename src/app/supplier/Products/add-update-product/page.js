@@ -8,6 +8,8 @@ import Goback from '../../../back.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
     import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
     import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
+    import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
+
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
@@ -66,7 +68,8 @@ export default function Page() {
    const [selectedtag,setselectedtag] = useState('');
   const [selectedPricingIndex, setSelectedPricingIndex] = useState(null);
   const [primaryGroup, setPrimaryGroup] = useState('');
- 
+   const [showMap, setshowMap] = useState(false);
+
 
 
 console.log(selectedPricingIndex)
@@ -141,7 +144,11 @@ console.log(selectedPricingIndex)
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
     const pid = new URLSearchParams(window.location.search).get("pid");
     console.log(pid)
-    if(pid){getproductdetails(pid)}
+    if(pid){
+      getproductdetails(pid)
+    }else{
+      setshowMap(true)
+    }
     gettag()
 
     
@@ -803,6 +810,8 @@ console.log(data.data,data.data.productType)
           setPrimaryGroup(data.data.primaryAttribute)
 setselectedtag(data.data?.tagName)
        // setisdata(true)
+        setshowMap(true)
+
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
         .catch((err) => {
@@ -1123,7 +1132,7 @@ function checkdefaultAttribute(variation) {
     document.getElementById("pdfUploadInput787").click();
   };
 
- 
+ console.log(userData.productData?.location?.coordinates[0])
 
   return (
     <div className="order-details">
@@ -1296,6 +1305,7 @@ onClick={addreason}
    </div>
        
       </div>
+      
 
     {!productupdate &&  <div className="add-category-location" style={{height:'650px',overflowY:'auto'}}>
         <div className="add-category">
@@ -1331,6 +1341,20 @@ onClick={addreason}
     </div>
 
    
+  {showMap && <PropertyLocationForm setUserData={setUserData} show={userData.productData.productType} userlocation={userData.productData?.location ? {  location: {
+      address: userData.productData.location.address,
+      latitude: userData.productData.location.coordinates[1], // Default to Mumbai
+      longitude: userData.productData.location.coordinates[0]
+    }} : {
+
+    location: {
+      address: '',
+      latitude: 19.0760, // Default to Mumbai
+      longitude: 72.8777
+    }
+  }}/>
+}
+
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
   

@@ -247,9 +247,9 @@ export default function page() {
 
                 </td>
                 <td>
-                <Link href={`/supplier/Products/add-update-product?pid=${data._id}`}>
+                <a href={`/supplier/Products/add-update-product?pid=${data._id}`}>
                   <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
-             </Link>
+             </a>
                   &nbsp;
                   &nbsp;
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>

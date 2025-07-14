@@ -500,7 +500,7 @@ function formatPhoneNumber(number) {
           </div>
 
 
-{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile}/>}
+{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile} propertyData={{location:data?.location}} />}
     
         </div>
 
@@ -787,7 +787,7 @@ function formatPhoneNumber(number) {
         </div>
       )}
 
-{isScreenWidthLessOrEqual(768) === true && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile}/>}
+{isScreenWidthLessOrEqual(768) === true && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile} propertyData={{location:data?.location}}  />}
 
       <Reviews pid={data._id} description={data.description}/>
 

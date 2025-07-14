@@ -1,0 +1,162 @@
+.intro-container845 {
+  max-width: 1000px;
+  margin: auto;
+  padding: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  text-align: center;
+}
+
+.intro-heading845 {
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.icon845 {
+  color: #1389F0;
+  margin-right: 0.5rem;
+}
+
+.intro-text845 {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.cta-box845 {
+  display: inline-flex;
+  align-items: center;
+  background-color: #1389F0;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cta-box845:hover {
+  background-color: #0e73ca;
+}
+
+.cta-text845 {
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .intro-heading845 {
+    font-size: 1.5rem;
+  }
+
+  .intro-text845 {
+    font-size: 0.95rem;
+  }
+
+  .cta-box845 {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+  }
+}
+
+
+
+.container545 {
+  max-width: 1200px;
+  margin: auto;
+  padding:15px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+.heading545 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.brand545 {
+  color: #1389F0;
+}
+
+.icon545 {
+  color: #1389F0;
+  margin-right: 0.5rem;
+}
+
+.paragraph545 {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.highlight545 {
+  background-color: #f1f9ff;
+  padding: 1.5rem;
+  border-left: 4px solid #1389F0;
+  margin: 2rem 0;
+}
+
+.features545 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.feature545 {
+  flex: 1 1 220px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.feature545 h4 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: #1389F0;
+  font-size: 1.1rem;
+}
+
+.feature545 p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.closing545 {
+  margin-top: 2rem;
+  background-color: #e6f2fd;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.cta-heading545 {
+  color: #1389F0;
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem 0;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .features545 {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature545 {
+    width: 100%;
+  }
+
+  .heading545, .cta-heading545 {
+    font-size: 1.5rem;
+  }
+}

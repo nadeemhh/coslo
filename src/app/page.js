@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import "./page.module.css";
 import "./landing-page.css";
+import "./rootpage.css";
 import "./component/component-css/navbar.css";
 import Button from './component/button';
 import PlansTable from './component/planstables.js';
@@ -203,29 +204,79 @@ export default function Home() {
 <Categorylist/>
 </div>
 
-    {/* Why Choose Us Section */}
-    <section className="why-choose-us">
-      <h2 style={{color:'white'}}>Why choose us?</h2>
-      <div className="features-container">
-        <div className="feature-box">
-          <h3>Millions of business offerings</h3>
-          <p>Explore products and suppliers for your business from millions of offerings in India.</p>
-        </div>
-        <div className="feature-box">
-          <h3>Assured quality and transactions</h3>
-          <p>Ensure production quality from verified suppliers, with your orders protected from payment to delivery.</p>
-        </div>
-        <div className="feature-box">
-          <h3>One-stop trading solution</h3>
-          <p>Order seamlessly from product/supplier search to order management, payment, and fulfillment.</p>
-        </div>
-        <div className="feature-box">
-          <h3>Tailored trading experience</h3>
-          <p>Get curated benefits, such as exclusive discounts, enhanced protection, and extra support.</p>
-        </div>
-      </div>
+{/* Coslomart—Intro */}
+ <section className="intro-container845">
+      <h2 className="intro-heading845">
+        <i className="fas fa-industry icon845"></i> Coslomart—India's Premier B2B Marketplace Strengthening Your Supply Chain
+      </h2>
+      <p className="intro-text845">
+        Coslomart is India's leading business-to-business marketplace for buying and selling with ease. No matter whether you are trying to control procurement or expand your reach, this unique B2B e-commerce India platform facilitates smooth trade throughout sectors.
+      </p>
+      <a href='/auth/sup-manu/choose' className="cta-box845">
+        <i className="fas fa-sign-in-alt icon845"></i>
+        <p className="cta-text845">Join Coslomart Free—Start Trading Today</p>
+      </a>
     </section>
 
+    {/* Why Choose Us Section */}
+     <div className="container545">
+      <h2 className="heading545">
+        <i className="fas fa-check-circle icon545"></i> Why choose <span className="brand545">Coslomart?</span>
+      </h2>
+      <p className="paragraph545">
+        Businesses can easily rise and fall on the scarcity of resources that they offer. They do not have any control over when someone wants to buy what they sell. No longer will buyers or sellers determine when a trader will turn up. Having no expenses allows access to unrestricted trading as well as switching between buyer’s lists and suppliers while expanding click-away along with simple creation of catalogs on a free B2B marketplace.
+      </p>
+      <p className="paragraph545">
+        Purchase products without listing fees, update catalogs freely, and discover thousands of qualified buyers—all without cost. Participants can boost their reputation using supplier badges, verification seals, and showcase holders, leading their trust rate. User Interface comes with easy dashboards along with advanced search options, streamlining ease for trading. All dealings fortifying dependable seller parties locked claim over transaction reimbursement gateways are strewn across safe escrow payments on this secure business-to-business marketplace.
+      </p>
+
+      <div className="highlight545">
+        <h3><i className="fas fa-globe icon545"></i> Overcome Barriers in B2B E-Commerce India</h3>
+        <p className="paragraph545">
+          From Buyers— Not limited to restocking bulk goods, sources for barebone materials always fix capturing the required necessary out-of-time streams, long-standing and hardest sought. Powerful ontology never misses marketplace relations, awaits retraining, and connects the right working partners. Advanced filters get you anywhere—instantly.
+        </p>
+      </div>
+
+      <div className="features545">
+        <div className="feature545">
+          <i className="fas fa-file-signature icon545"></i>
+          <h4>Verified RFQs & Leads</h4>
+          <p>Utilize our Request for Quotation feature to access daily buyer demand.</p>
+        </div>
+        <div className="feature545">
+          <i className="fas fa-chart-bar icon545"></i>
+          <h4>Analytics Dashboard</h4>
+          <p>Monitor and measure buyer activities including views and conversions.</p>
+        </div>
+        <div className="feature545">
+          <i className="fas fa-user-shield icon545"></i>
+          <h4>Secure Chat</h4>
+          <p>Maintain privacy of personal information while discussing business deals.</p>
+        </div>
+        <div className="feature545">
+          <i className="fas fa-mobile-alt icon545"></i>
+          <h4>Mobile-Friendly</h4>
+          <p>Transact effortlessly via laptop, tablet, or phone.</p>
+        </div>
+      </div>
+
+      <div className="closing545">
+        <p className="paragraph545">
+          Coslomart continues to lead as one of the best B2B ecommerce websites in India with these features. A trusted name in B2B e-commerce India, it offers unmatched value through its free B2B marketplace setup.
+        </p>
+
+        <h3 className="cta-heading545"><i className="fas fa-bolt icon545"></i> Ready To Transform Your B2B Experience?</h3>
+        <p className="paragraph545">
+          No Cost. No Complexity. Just Commerce.
+        </p>
+        <p className="paragraph545">
+          Coslomart makes it easy for both importers and growing SMEs by providing complimentary features, a reliable ecosystem, and an intuitive, seamless flow interface, which positions it as the best B2B marketplace for modern trade.
+        </p>
+        <p className="paragraph545">
+          Always be a step ahead with Coslomart, your access to India’s premier business-to-business marketplaces and one of the best B2B ecommerce websites in the region.
+        </p>
+      </div>
+    </div>
     {/* How It Works Section */}
     
     <section className="how-it-works" id='HowItWorks'>
