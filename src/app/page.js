@@ -344,14 +344,14 @@ export default function Home() {
 
     {/* Pricing Section */}
   
-    <section className="pricing-table-101">
+    {/* <section className="pricing-table-101">
 
     <h1 className="title101">Subscription Plans</h1>
 
 <PlansTable/>
       
     </section>
-
+ */}
 
 
     {/* faqs */}
