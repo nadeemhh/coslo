@@ -500,7 +500,7 @@ function formatPhoneNumber(number) {
           </div>
 
 
-{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data.productVideo} pdfFile={data.pdfFile} propertyData={{location:data?.location}} />}
+{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location?{location:data?.location}:false} />}
     
         </div>
 

@@ -4,7 +4,7 @@ import './component-css/viewerproductpage.css';
 
 
 const Viewerproductpage = ({productType,productVideo,pdfFile,propertyData}) => {
-
+console.log(propertyData)
      const getEmbedUrl343 = (url) => {
     const urlObj = new URL(url);
     const videoId = urlObj.searchParams.get("v");
