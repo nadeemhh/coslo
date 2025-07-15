@@ -1233,6 +1233,8 @@ function checkdefaultAttribute(variation) {
 
 <br/>
 
+{userData.productData.productType === "product" &&
+<>
 <label htmlFor="product-video" style={{marginRight:'10px'}}>Add reasons for product return</label>
 
 <i
@@ -1266,6 +1268,8 @@ onClick={addreason}
   </div>
 </div>
 ))}
+</>
+}
 
 
 {/* /// select product type  */}
