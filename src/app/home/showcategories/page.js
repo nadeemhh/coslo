@@ -1,28 +1,31 @@
 "use client";
 
 import { useState, useEffect,Suspense } from "react";
-import { useParams } from "next/navigation";
-
+import './page.css'
 
  function Subcategory() {
     const [data, setData] = useState([]);
-    const searchParams = useParams();
-    const id = searchParams.id; // Get the 'id' from the URL
-    const categoryname = decodeURIComponent(searchParams.category);
+    const [name, setname] = useState(null);  
+
 
     useEffect(() => {
-        if (!id) return; // Prevent fetch if id is null
+
+            const cname = new URLSearchParams(window.location.search).get("name");
+      setname(cname)
+
+        if (!cname) return; // Prevent fetch if id is null
 
         const fetchData = async () => {
+            console.log(cname)
             document.querySelector(".loaderoverlay").style.display = "flex";
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/all/${id}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/landing/${cname}`);
                 if (!response.ok) throw new Error("Failed to fetch categories");
 
                 const result = await response.json();
                 console.log(result)
-                setData(result);
+                setData(result?.data ? result.data : []);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -31,25 +34,25 @@ import { useParams } from "next/navigation";
         };
 
         fetchData();
-    }, [id]); // Re-fetch when id changes
+    }, []);
 
     return (
         <div>
-            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{categoryname}</h3>
+            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?name:'Real Estate'}</h3>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
-                {data.map((data) => (
-                  <div   key={data.id} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
+                {data.map((data,index) => (
+                  <div   key={index} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
            
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(categoryname)}`}>
+                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/?id=${data._id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(name!=='property'?name:'Real Estate')}`:`/home/Categories/subCategories/${data._id}/${encodeURIComponent(data.name)}`}>
                  <img src={data.image} alt={data.name}/>
                  </a>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <a href={`/home/Categories/subCategories/allproducts/?id=${data.id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(categoryname)}`}>
+                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/?id=${data._id}&category=${encodeURIComponent(data.name)}&parentcategory=${encodeURIComponent(name!=='property'?name:'Real Estate')}`:`/home/Categories/subCategories/${data._id}/${encodeURIComponent(data.name)}`}>
                  <p>{data.name}</p>
                  </a>
                  </div>

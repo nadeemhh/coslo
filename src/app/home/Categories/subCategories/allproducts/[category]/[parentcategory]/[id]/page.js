@@ -1,10 +1,9 @@
 import Allproducts from './allproductscontant.js'
 
 
-export async function generateMetadata(props) {
+export async function generateMetadata({ params }) {
 
-  const searchParams = await props.searchParams; // ✅ Fix: Await it
-  const id = searchParams?.id;
+  const { id } = await params;
 
   if (!id) {
     return {

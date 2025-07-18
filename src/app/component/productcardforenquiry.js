@@ -21,7 +21,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <Link href={`/home/products?id=${pid}`}>
+      <Link href={`/home/products/${encodeURIComponent(encodeURIComponent(pname))}/${pid}`}>
         <img
           src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
           alt={pname}
@@ -55,7 +55,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
        
 
         {/* Title and Supplier */}
-        <Link href={`/home/products?id=${pid}`}>
+        <Link href={`/home/products/${encodeURIComponent(encodeURIComponent(pname))}/${pid}`}>
         <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
@@ -98,7 +98,7 @@ export default function Productcard({veri=false , pname,seller,pimage,variation,
         <button className="contact-btn" style={{backgroundColor:'#029915'}} onClick={()=>{sendlead(userdata,pid)}}>Submit Enquiry</button>
 
          
-<Link href={`/home/products?id=${pid}`}>
+<Link href={`/home/products/${encodeURIComponent(encodeURIComponent(pname))}/${pid}`}>
           <button className="contact-btn">Details</button>
           </Link>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}

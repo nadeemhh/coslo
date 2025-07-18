@@ -88,7 +88,7 @@ const deletewishlist = (id) => {
 
   return (
     <>
-    <h2 className='wishlisttitle'>wishlist</h2>
+    <h2 className='wishlisttitle'>Wishlist</h2>
 
   { isdata && <div className="products-container77">
 
@@ -96,7 +96,7 @@ const deletewishlist = (id) => {
  
     <div className="product-card" key={index}>
       {/* Product Image */}
-      <Link href={`/home/products?id=${wishlist.product._id}`}>
+      <Link href={`/home/products/${encodeURIComponent(encodeURIComponent(wishlist.product.productName))}/${wishlist.product._id}`}>
       <div className="product-image">
         <img
           src={wishlist.product.variations[0].productImages[0]} // Replace with actual image URL
@@ -124,7 +124,7 @@ const deletewishlist = (id) => {
        
 
         {/* Title and Supplier */}
-        <Link href={`/home/products?id=${wishlist.product._id}`}>
+        <Link href={`/home/products/${encodeURIComponent(encodeURIComponent(wishlist.product.productName))}/${wishlist.product._id}`}>
         <p className="product-title">{wishlist.product.productName}</p>
         <p className="product-supplier">{wishlist.product.sellerId.businessName}</p>
         </Link>
@@ -142,7 +142,7 @@ const deletewishlist = (id) => {
           {/* <button className="Add-to-Cart">Add to Cart</button>  */}
            <button className="Remove-btn" onClick={()=>(deletewishlist(wishlist.product._id))}>Remove</button>
 
-           <Link href={`/home/products?id=${wishlist.product._id}`}>
+           <Link href={`/home/products/${encodeURIComponent(encodeURIComponent(wishlist.product.productName))}/${wishlist.product._id}`}>
           <button className="contact-btn">Check Details</button>
           </Link>
         </div>

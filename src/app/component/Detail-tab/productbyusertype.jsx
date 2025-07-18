@@ -37,6 +37,7 @@ const Productbyusertype = ({category_id=null}) => {
             console.log( hasMore,page)
           } else {
             console.log(data)
+          
             setProducts((pre)=>([...pre,...data.data]));
             setPage((prevPage) => prevPage + 1);
           
@@ -75,7 +76,7 @@ const Productbyusertype = ({category_id=null}) => {
 
                 {  products.map((data, index) => (
                   
-                  <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
+                 data.productType === "property" ? <div key={index}></div> : <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
                   
                    ))}
 
@@ -89,7 +90,7 @@ const Productbyusertype = ({category_id=null}) => {
 
                 {  products.map((data, index) => (
                   
-                  <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
+                  data.productType === "property" ? <></> : <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
                   
                    ))}
 

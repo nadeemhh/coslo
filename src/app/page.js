@@ -7,7 +7,7 @@ import "./component/component-css/navbar.css";
 import Button from './component/button';
 import PlansTable from './component/planstables.js';
 import Footer from './component/footer.js'
-import Categorylist from './component/categorylist.js'
+import Categorylist from './component/threeCategorylist.js'
 
 export const metadata = {
   title: "Coslomart :B2B Marketplace for Top Manufacturers, Buyers, Suppliers",
