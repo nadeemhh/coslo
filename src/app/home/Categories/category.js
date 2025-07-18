@@ -1,6 +1,6 @@
 'use client'
 import  { useState,useEffect } from "react";
-
+import slugifyurl from "../../component/slugifyurl.js"
 
 export default function Category() {
     const [data,setdata] = useState([]);
@@ -61,13 +61,13 @@ export default function Category() {
  <div className="product-category-h" >
 
  <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <p>{data.name}</p>
 </a>
 </div>

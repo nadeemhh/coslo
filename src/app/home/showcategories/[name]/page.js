@@ -3,6 +3,7 @@
 import { useState, useEffect,Suspense } from "react";
 import './page.css'
 import { useParams } from "next/navigation";
+import slugifyurl from "../../../component/slugifyurl.js"
 
  function Subcategory() {
     
@@ -48,13 +49,13 @@ import { useParams } from "next/navigation";
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/${encodeURIComponent(data.name)}/${encodeURIComponent(name!=='property'?name:'Real Estate')}/${data._id}`:`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data._id}`}>
+                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/${slugifyurl(data.name)}/${slugifyurl(name!=='property'?name:'Real Estate')}/${data._id}`:`/home/Categories/subCategories/${slugifyurl(data.name)}/${data._id}`}>
                  <img src={data.image} alt={data.name}/>
                  </a>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/${encodeURIComponent(data.name)}/${encodeURIComponent(name!=='property'?name:'Real Estate')}/${data._id}`:`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data._id}`}>
+                 <a href={name!=='product'? `/home/Categories/subCategories/allproducts/${slugifyurl(data.name)}/${slugifyurl(name!=='property'?name:'Real Estate')}/${data._id}`:`/home/Categories/subCategories/${slugifyurl(data.name)}/${data._id}`}>
                  <p>{data.name}</p>
                  </a>
                  </div>

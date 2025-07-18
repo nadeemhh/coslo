@@ -2,6 +2,8 @@
 import './component-css/categorycard.css'
 import {useState ,useEffect,useRef } from 'react';
 import Button from './button.js';
+import slugifyurl from "./slugifyurl.js"
+
 
 export default function Categorylist() {
 
@@ -126,13 +128,13 @@ console.log(firstPart,secondPart);
  <div className="product-category-h" >
 
 <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <p>{data.name}</p>
 </a>
 </div>
@@ -156,13 +158,13 @@ console.log(firstPart,secondPart);
  <div className="product-category-h" >
 
  <div className="category-name-image-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <img src={data.image} alt={data.name}/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/Categories/subCategories/${encodeURIComponent(data.name)}/${data.id}`}>
+<a href={`/home/Categories/subCategories/${slugifyurl(data.name)}/${data.id}`}>
 <p>{data.name}</p>
 </a>
 </div>

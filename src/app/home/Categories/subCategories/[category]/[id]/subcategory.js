@@ -2,13 +2,13 @@
 
 import { useState, useEffect,Suspense } from "react";
 import { useParams } from "next/navigation";
-
+import slugifyurl from "../../../../../component/slugifyurl.js"
 
  function Subcategory() {
     const [data, setData] = useState([]);
     const searchParams = useParams();
     const id = searchParams.id; // Get the 'id' from the URL
-    const categoryname = decodeURIComponent(searchParams.category);
+    const categoryname = decodeURIComponent(searchParams.category.replaceAll('-',' '));
 
     useEffect(() => {
         if (!id) return; // Prevent fetch if id is null
@@ -43,13 +43,13 @@ import { useParams } from "next/navigation";
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <a href={`/home/Categories/subCategories/allproducts/${encodeURIComponent(data.name)}/${encodeURIComponent(categoryname)}/${data.id}`}>
+                 <a href={`/home/Categories/subCategories/allproducts/${slugifyurl(data.name)}/${slugifyurl(categoryname)}/${data.id}`}>
                  <img src={data.image} alt={data.name}/>
                  </a>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <a href={`/home/Categories/subCategories/allproducts/${encodeURIComponent(data.name)}/${encodeURIComponent(categoryname)}/${data.id}`}>
+                 <a href={`/home/Categories/subCategories/allproducts/${slugifyurl(data.name)}/${slugifyurl(categoryname)}/${data.id}`}>
                  <p>{data.name}</p>
                  </a>
                  </div>

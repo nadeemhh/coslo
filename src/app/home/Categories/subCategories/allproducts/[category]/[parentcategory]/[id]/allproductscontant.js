@@ -12,8 +12,8 @@ import { useParams } from "next/navigation";
 
  function Allproducts() {
  const searchParams = useParams();
-    const [category, setcategory] = useState(decodeURIComponent(searchParams.category)); 
-      const [parentcategory, setparentcategory] = useState(decodeURIComponent(searchParams.parentcategory)); 
+    const [category, setcategory] = useState(searchParams.category.replaceAll('-',' ')); 
+    const [parentcategory, setparentcategory] = useState(searchParams.parentcategory.replaceAll('-',' ')); 
      const [category_id, setcategory_id] = useState(searchParams.id); 
 
   
