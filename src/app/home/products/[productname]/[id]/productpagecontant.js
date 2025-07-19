@@ -600,6 +600,11 @@ function formatPhoneNumber(number) {
   
           </div>
           
+{data?.location?.address && <div className="pricing" style={{display:'flex',flexWrap:"wrap",alignItems:'flex-start'}}>
+   <i className="fas fa-map-marker-alt" style={{color:"black",fontSize:'20px'}}></i>
+  <p style={{fontSize:'20px'}}>Address  </p>
+  <p style={{fontSize:'20px',color:"rgb(9, 124, 225)",textAlign:'left'}}>{data.location.address}</p>
+</div>}
 
 {/* Pricing Section */}
 <div className="pricing">
