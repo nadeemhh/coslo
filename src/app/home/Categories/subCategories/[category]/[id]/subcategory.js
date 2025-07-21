@@ -3,6 +3,7 @@
 import { useState, useEffect,Suspense } from "react";
 import { useParams } from "next/navigation";
 import slugifyurl from "../../../../../component/slugifyurl.js"
+import Productcard from '../../../../../component/productshowcard.js'
 
  function Subcategory() {
     const [data, setData] = useState([]);
@@ -35,6 +36,8 @@ import slugifyurl from "../../../../../component/slugifyurl.js"
 
     return (
         <div>
+          
+
             <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{categoryname}</h3>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
                 {data.map((data) => (

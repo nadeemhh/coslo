@@ -33,7 +33,27 @@ console.log(propertyData)
     </div>}
 
      {propertyData && <div className="card343">
+
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
       <h2 className="title343">Property Location</h2>
+      <a
+  href={`https://www.google.com/maps?q=${propertyData.location.coordinates[1]},${propertyData.location.coordinates[0]}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#007BFF",
+    fontSize: "16px",
+    textDecoration: "none",
+    marginBottom:'12px'
+  }}
+>
+ <i className="fas fa-external-link-alt" style={{ marginLeft: "5px" }}></i>
+</a>
+</div>
+
       <div className="videoContainer343">
       
     <PropertyLocationDisplay propertyData={propertyData}/>

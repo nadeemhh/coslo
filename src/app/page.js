@@ -114,9 +114,12 @@ export default function Home() {
     <section className="hero">
       <div className="hero-content">
         <h1>
-      
-         India's First Hybrid E commerce Platform.<br />
-         B2B, B2C & D2C in a single platform.<br />
+
+          India's First  Hybrid E-Commerce Platform<br />
+
+Real Estate, Products and Services<br />
+
+ B2B and  B2C in single platform
       
         </h1>
         <div className="hero-buttons">

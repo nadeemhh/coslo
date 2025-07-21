@@ -603,7 +603,9 @@ function formatPhoneNumber(number) {
 {data?.location?.address && <div className="pricing" style={{display:'flex',flexWrap:"wrap",alignItems:'flex-start'}}>
    <i className="fas fa-map-marker-alt" style={{color:"black",fontSize:'20px'}}></i>
   <p style={{fontSize:'20px'}}>Address  </p>
-  <p style={{fontSize:'20px',color:"rgb(9, 124, 225)",textAlign:'left'}}>{data.location.address}</p>
+  <a  href={`https://www.google.com/maps?q=${data.location.coordinates[1]},${data.location.coordinates[0]}`}
+  target="_blank"
+  rel="noopener noreferrer" style={{fontSize:'20px',color:"rgb(9, 124, 225)",textAlign:'left'}}>{data.location.address}</a>
 </div>}
 
 {/* Pricing Section */}
