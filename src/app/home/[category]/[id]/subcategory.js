@@ -1,34 +1,29 @@
 "use client";
 
 import { useState, useEffect,Suspense } from "react";
-import './page.css'
 import { useParams } from "next/navigation";
 import slugifyurl from "../../../component/slugifyurl.js"
+import Productcard from '../../../component/productshowcard.js'
 
  function Subcategory() {
-    
-     const searchParams = useParams();
-
     const [data, setData] = useState([]);
-    const [name, setname] = useState(decodeURIComponent(searchParams.name));  
-
+    const searchParams = useParams();
+    const id = searchParams.id; // Get the 'id' from the URL
+    const categoryname = decodeURIComponent(searchParams.category.replaceAll('-',' '));
 
     useEffect(() => {
-
-
-        if (!name) return; // Prevent fetch if id is null
+        if (!id) return; // Prevent fetch if id is null
 
         const fetchData = async () => {
-            console.log(name)
             document.querySelector(".loaderoverlay").style.display = "flex";
 
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/landing/${name}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/all/${id}`);
                 if (!response.ok) throw new Error("Failed to fetch categories");
 
                 const result = await response.json();
                 console.log(result)
-                setData(result?.data ? result.data : []);
+                setData(result);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -37,25 +32,27 @@ import slugifyurl from "../../../component/slugifyurl.js"
         };
 
         fetchData();
-    }, []);
+    }, [id]); // Re-fetch when id changes
 
     return (
         <div>
-            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?name:'Real Estate'}</h3>
+          
+
+            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{categoryname}</h3>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
-                {data.map((data,index) => (
-                  <div   key={index} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
+                {data.map((data) => (
+                  <div   key={data.id} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
            
                   <div className="product-category-h" >
                  
                   <div className="category-name-image-h">
-                 <a href={name!=='product'? `/home/all/${slugifyurl(name!=='property'?name:'Real Estate')}/${slugifyurl(data.name)}/${data._id}`:`/home/${slugifyurl(data.name)}/${data._id}`}>
+                 <a href={`/home/all/${slugifyurl(categoryname)}/${slugifyurl(data.name)}/${data.id}`}>
                  <img src={data.image} alt={data.name}/>
                  </a>
                  </div>
                  
                  <div className="category-name-product-h">
-                 <a href={name!=='product'? `/home/all/${slugifyurl(name!=='property'?name:'Real Estate')}/${slugifyurl(data.name)}/${data._id}`:`/home/${slugifyurl(data.name)}/${data._id}`}>
+                 <a href={`/home/all/${slugifyurl(categoryname)}/${slugifyurl(data.name)}/${data.id}`}>
                  <p>{data.name}</p>
                  </a>
                  </div>
@@ -74,7 +71,7 @@ import slugifyurl from "../../../component/slugifyurl.js"
 
 export default function SubCategoriesPage() {
     return (
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Subcategory />
       </Suspense>
     );
