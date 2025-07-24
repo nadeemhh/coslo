@@ -16,12 +16,20 @@ import { useParams } from "next/navigation";
     const [parentcategory, setparentcategory] = useState(searchParams.parentcategory.replaceAll('-',' ')); 
      const [category_id, setcategory_id] = useState(searchParams.id); 
 
-  
-  
-
-
 
     console.log(parentcategory)
+
+   
+ useEffect(() => {
+
+  if(parentcategory==="Real Estate"){
+    localStorage.setItem("productType","property")
+ }else{
+   localStorage.setItem("productType","product")
+ }
+  }, []);
+
+     
 
   return (
  <> 

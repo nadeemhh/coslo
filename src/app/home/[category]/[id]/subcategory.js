@@ -32,7 +32,18 @@ import Productcard from '../../../component/productshowcard.js'
         };
 
         fetchData();
+
     }, [id]); // Re-fetch when id changes
+
+
+     useEffect(() => {
+
+  if(categoryname==="Real Estate"){
+    localStorage.setItem("productType","property")
+ }else{
+   localStorage.setItem("productType","product")
+ }
+  }, []);
 
     return (
         <div>

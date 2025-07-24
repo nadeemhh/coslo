@@ -1,3 +1,29 @@
+.logocontainer{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.locationsearchdiv{
+  width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.loginbut{ 
+    background-color: rgb(255, 255, 255);
+    color: black;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  border:1px solid #0097ff;}
+
 .animated-serachicon {
   color: black !important;
   display: inline-block;
@@ -24,3 +50,14 @@
     font-size: 14px;
   }
 }
+
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+
+    .SearchProducts{
+      max-width: 230px !important;
+    }
+
+   
+  }

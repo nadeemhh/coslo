@@ -7,8 +7,13 @@ import {
 } from '@react-google-maps/api';
 import '../component/component-css/PropertyLocationDisplay.css'
 
+// Utility function to check if Google Maps is already loaded
+const isGoogleMapsLoaded = () => {
+  return typeof window !== 'undefined' && window.google && window.google.maps;
+};
+
 const PropertyLocationDisplay = ({ propertyData }) => {
-    console.log(propertyData)
+  console.log(propertyData)
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
 
@@ -57,49 +62,63 @@ const PropertyLocationDisplay = ({ propertyData }) => {
     return types[type] || type;
   };
 
+  // Check if Google Maps is already loaded
+  const mapsAlreadyLoaded = isGoogleMapsLoaded();
+
+  // Map component that will be used in both cases
+  const MapComponent = () => (
+    <div className="map-display-container767">
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '100%' }}
+        center={mapCenter}
+        zoom={15}
+        options={mapOptions}
+        onLoad={() => setMapLoaded(true)}
+      >
+        <Marker
+          position={mapCenter}
+          onClick={() => setShowInfoWindow(true)}
+          title={propertyName}
+        />
+
+        {showInfoWindow && (
+          <InfoWindow
+            position={mapCenter}
+            onCloseClick={() => setShowInfoWindow(false)}
+          >
+            <div className="info-window767">
+              <h4 className="info-title767">{propertyName}</h4>
+              <p className="info-type767">{getPropertyTypeDisplay(propertyType)}</p>
+              <p className="info-price767">{formatPrice(price)}</p>
+              <p className="info-address767">{address}</p>
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    </div>
+  );
+
   return (
-
-      <div className="display-content-wrapper767">
-        <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={['places']}>
+    <div className="display-content-wrapper767">
+      {mapsAlreadyLoaded ? (
+        // If Google Maps is already loaded, render map directly
+        <div className="property-display-container767">
+          <MapComponent />
+        </div>
+      ) : (
+        // If Google Maps is not loaded, use LoadScript
+        <LoadScript 
+          googleMapsApiKey={googleMapsApiKey} 
+          libraries={['places']}
+          onLoad={() => console.log('Google Maps API loaded')}
+          onError={() => console.error('Error loading Google Maps API')}
+        >
           <div className="property-display-container767">
-
-
-            <div className="map-display-container767">
-                    <GoogleMap
-                      mapContainerStyle={{ width: '100%', height: '100%' }}
-                      center={mapCenter}
-                      zoom={15}
-                      options={mapOptions}
-                      onLoad={() => setMapLoaded(true)}
-                    >
-                      <Marker
-                        position={mapCenter}
-                        onClick={() => setShowInfoWindow(true)}
-                        title={propertyName}
-                      />
-
-                      {showInfoWindow && (
-                        <InfoWindow
-                          position={mapCenter}
-                          onCloseClick={() => setShowInfoWindow(false)}
-                        >
-                          <div className="info-window767">
-                            <h4 className="info-title767">{propertyName}</h4>
-                            <p className="info-type767">{getPropertyTypeDisplay(propertyType)}</p>
-                            <p className="info-price767">{formatPrice(price)}</p>
-                            <p className="info-address767">{address}</p>
-                          </div>
-                        </InfoWindow>
-                      )}
-                    </GoogleMap>
-                  </div>
-
-          
-
+            <MapComponent />
           </div>
         </LoadScript>
-      </div>
-  
+      )}
+    </div>
   );
 };
 

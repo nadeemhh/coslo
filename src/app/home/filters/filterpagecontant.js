@@ -10,7 +10,7 @@ import { useState ,useEffect,Suspense} from 'react';
 function Filterpagedata() {
 
   const searchParams = useSearchParams();
-  const searchQuery = searchParams.get('query');
+  const searchQuery = decodeURIComponent(searchParams.get('query'));
   const filtertype = searchParams.get('type');
   const [products, setProducts] = useState([]);   // Store fetched products
   const [page, setPage] = useState(1);
@@ -25,9 +25,24 @@ function Filterpagedata() {
 
     document.querySelector('.loaderoverlay').style.display = 'flex';
 
-    let filter = filtertype === 'Products' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
+    let url;
+
+    if(filtertype === 'Property'){
+
+          let latitude = new URLSearchParams(window.location.search).get("lat");
+    let longitude = new URLSearchParams(window.location.search).get("long");
+
+   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?longitude=${longitude}&latitude=${latitude}&page=${page}&limit=10&`;
+
+    }else{
+
+     let filter = filtertype === 'Products' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
+     url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`;
+
+    }
+  
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`, {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +54,14 @@ function Filterpagedata() {
       }
 
       const data = await response.json();
+
+        console.log(data)
+
+ if(filtertype === 'Property'){
+  data.data=data.data.properties;
+ }
+
+   console.log(data)
 
      if (data.data.length === 0) {
                     setHasMore(false);
@@ -52,7 +75,7 @@ function Filterpagedata() {
 
      
       document.querySelector('.loaderoverlay').style.display = 'none';
-      console.log(data.data)
+    
 
     } catch (err) {
       document.querySelector('.loaderoverlay').style.display = 'none';
@@ -62,6 +85,7 @@ function Filterpagedata() {
   };
 
      
+  
  
 
 
@@ -102,7 +126,7 @@ function Filterpagedata() {
 
 {products.map((data, index) => (
 
-<Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
+<Productcard pname={data.productName} productType={data?.productType} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
 
  ))}
 

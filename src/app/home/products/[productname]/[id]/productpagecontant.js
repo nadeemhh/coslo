@@ -193,12 +193,14 @@ const updateActiveImage = (index) => {
           .then((data) => {
           console.log(data.data)
 
-          if(!data.data.productType){
+          if(!data?.data?.productType){
         data.data.productType="product";
           }
          
+
           setdata(data.data)
           setisdata(true)
+           setproductType(data.data.productType)
         
           document.querySelector('.loaderoverlay').style.display = 'none';
           })
@@ -375,9 +377,15 @@ if (localStorage.getItem("buyertoken")) {
 
   getproductdetails(id)
 
+
  
 }, []);
 
+
+
+function setproductType(productType) {
+  localStorage.setItem("productType",productType)
+}
 
 const sendquotation = () => {
  

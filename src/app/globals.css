@@ -122,3 +122,6 @@ i{cursor: pointer;}
 .next i{margin-left: 10px;}
 
 /* pagination end */
+
+
+.hideelement{display: none;}

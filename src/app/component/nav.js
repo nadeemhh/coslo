@@ -8,7 +8,9 @@ import { useRouter,usePathname } from 'next/navigation';
 import { useState ,useEffect,useRef} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
+import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
+const libraries = ['places'];
 
 const NavBar = () => {
   const router = useRouter();
@@ -16,10 +18,21 @@ const NavBar = () => {
   const [user, setuser] = useState(null);
    const iconRef = useRef(null);
     const pathname = usePathname(); // detects route change
+const [selectedFilter, setSelectedFilter] = useState("Products");
+  const [searchValue, setSearchValue] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const searchBoxRef = useRef(null);
 
   BuyerAuthCheck(setuser)
 
   
+  const placeholderMap = {
+  Products: "Search Products",
+  Property: "Enter address to Search Property",
+  seller: "product by Seller name",
+};
+
+
   const handleGoBack = () => {
     router.back(); // Navigate to the previous URL
   };
@@ -34,7 +47,7 @@ const NavBar = () => {
       const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
         const selectedName = selectedOption.getAttribute("value"); 
 console.log(selectedName)
-    //  router.push(`/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`);
+    
     window.location.href = `/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`;
     }
   };
@@ -49,6 +62,25 @@ console.log(selectedName)
 
   useEffect(() => {
     cartcountget();
+
+      const onLoad = () => {
+   setTimeout(() => {
+    const productType = localStorage.getItem("productType");
+    if (productType === "property") {
+      setSelectedFilter("Property");
+    }
+  }, 1000);
+  };
+
+  if (document.readyState === "complete") {
+    onLoad(); // already loaded
+  } else {
+    window.addEventListener("load", onLoad); // wait for full load
+    return () => window.removeEventListener("load", onLoad);
+  }
+
+  
+
   },[]);
 
 
@@ -62,6 +94,57 @@ console.log(selectedName)
   }, [pathname]); // run on pag
 
      
+/////////// google map search code start
+
+
+  // Replace with your actual Google Maps API key
+  const googleMapsApiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+
+  const onLoadSearchBox = (ref) => {
+    searchBoxRef.current = ref;
+  };
+
+  const onPlacesChanged = () => {
+    if (searchBoxRef.current) {
+      const places = searchBoxRef.current.getPlaces();
+      if (places && places.length > 0) {
+        const place = places[0];
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        const address = place.formatted_address;
+
+        const locationData = {
+          address,
+          latitude: lat,
+          longitude: lng
+        };
+
+        setSelectedLocation(locationData);
+        setSearchValue(address);
+        
+        // Log the stored data
+        console.log('Stored Location Data:', locationData);
+
+         if (searchValue.trim() !== "") {
+      const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
+        const selectedName = selectedOption.getAttribute("value"); 
+console.log(selectedName)
+    
+    window.location.href = `/home/filters?query=${encodeURIComponent(searchValue)}&type=${selectedName}&lat=${locationData.latitude}&long=${locationData.longitude}`;
+    }
+      
+      }
+    }
+  };
+
+  
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+/////////// google map search code end
+
+
     return (
       <>
         {/* <span>nav bar</span>
@@ -74,42 +157,72 @@ console.log(selectedName)
         
       <div className='bnamehide'>
       <a href="/home">
-        <div className="logo">
-          <h1>coslomart.com</h1>
+        <div className="logo logocontainer">
+           <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+          <h1>coslomart</h1>
         </div>
         </a>
         
-        {user === null &&  <a href="/home/login"  style={{border:"1px solid #0097ff",borderRadius: '4px'}} >
-        <Button backgroundColor = '#ffffff' textColor="black" >Buyer Login</Button>
+        {user === null &&  <a href="/home/login" className="loginbut">
+     Buyer Login
         </a>}
 
         </div>
 
         <a href="/home">
-        <div className="logo logodesk">
-          <h1>coslomart.com</h1>
+        <div className="logo logocontainer logodesk">
+         <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+          <h1>coslomart</h1>
         </div>
         </a>
 
 <div className="search-pre">
-        <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/>
+        {/* <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/> */}
 
         <div className="search-bar">
-          <div className="dropdown">
-            <select name="" id="" className="dropdown-btn hide filtertype">
+          <div className="dropdown" style={{borderRight:'1.5px solid #5a5a5a'}}>
+            <select name="" id="" className="dropdown-btn filtertype"   value={selectedFilter}
+  onChange={(e) => setSelectedFilter(e.target.value)}>
                <option value="Products">Products</option>
+                <option value="Property">Property</option>
                <option value="seller">seller</option>
                </select>
           
           </div>
 
-          <input type="text" placeholder="Search Products" className="SearchProducts"  value={searchQuery}
+          <input type="text"   placeholder={placeholderMap[selectedFilter]}
+   className={`SearchProducts ${selectedFilter === "Property" ? "hideelement" : ""}`}  value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}/>
+              onKeyDown={handleKeyDown}
+/> 
 
-          <button className="search-btn" onClick={handleSearch}>
+<div className="locationsearchdiv">
+<LoadScript 
+      googleMapsApiKey={googleMapsApiKey}
+      libraries={libraries}
+    >
+     
+
+            <StandaloneSearchBox
+              onLoad={onLoadSearchBox}
+              onPlacesChanged={onPlacesChanged}
+            >
+              <input
+                type="text"
+                  className={`SearchProducts ${selectedFilter !== "Property" ? "hideelement" : ""}`}  
+                value={searchValue}
+                onChange={handleInputChange}
+                placeholder={placeholderMap[selectedFilter]}
+              />
+            </StandaloneSearchBox>
+
+      
+    </LoadScript>
+    </div>
+
+       {selectedFilter !== "Property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>
             <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />
-          </button>
+          </button>}
         </div>
         </div>
        
@@ -165,19 +278,6 @@ console.log(selectedName)
 
       </div>
 
-
-      {/* <div className="categories hide">
-        <a href="#" style={{display:'flex'}}>All Categories <img src="\icons\3dot.svg" alt="" /></a>
-        <a href="#">
-          Electronics Supplies <i className="fas fa-angle-down"></i>
-        </a>
-        <a href="#">
-          Fashion & Clothing <i className="fas fa-angle-down"></i>
-        </a>
-        <a href="#">
-          Food & Beverage <i className="fas fa-angle-down"></i>
-        </a>
-      </div> */}
     </nav>
       </>
     );

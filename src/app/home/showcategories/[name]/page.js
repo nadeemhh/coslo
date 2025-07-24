@@ -39,6 +39,15 @@ import slugifyurl from "../../../component/slugifyurl.js"
         fetchData();
     }, []);
 
+    useEffect(() => {
+    
+      if(name==="property"){
+        localStorage.setItem("productType","property")
+     }else{
+       localStorage.setItem("productType","product")
+     }
+      }, []);
+
     return (
         <div>
             <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?name:'Real Estate'}</h3>
