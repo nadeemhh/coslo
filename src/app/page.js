@@ -67,7 +67,7 @@ export default function Home() {
           </div>
           <input type="text" placeholder="Search Products" />
           <button className="search-btn">
-            <i className="fas fa-search animated-serachicon"></i>
+               <img  src="\icons\newsearchicon.svg" alt="search icon" />
           </button>
         </a>
 

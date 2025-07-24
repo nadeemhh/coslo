@@ -180,7 +180,7 @@ console.log(selectedName)
         {/* <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/> */}
 
         <div className="search-bar">
-          <div className="dropdown" style={{borderRight:'1.5px solid #5a5a5a'}}>
+          <div className="dropdown" style={{borderRight:'1.5px solid #9c9c9c'}}>
             <select name="" id="" className="dropdown-btn filtertype"   value={selectedFilter}
   onChange={(e) => setSelectedFilter(e.target.value)}>
                <option value="Products">Products</option>
