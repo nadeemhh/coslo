@@ -174,7 +174,7 @@ width: 40px;
 @media (max-width: 768px) {
 
   .bnamehide{
-    width:100%;display:flex;justify-content:space-between
+    width:100%;display:flex;justify-content:space-between;align-items: center;
     }
     
     .logodesk{display: none !important;}

@@ -610,7 +610,7 @@ function formatPhoneNumber(number) {
           </div>
           
 {data?.location?.address && <div className="pricing" style={{display:'flex',flexWrap:"wrap",alignItems:'flex-start'}}>
-   <i className="fas fa-map-marker-alt" style={{color:"black",fontSize:'20px'}}></i>
+   <i className="fas fa-map-marker-alt" style={{color:"#00bc10",fontSize:'20px'}}></i>
   <p style={{fontSize:'20px'}}>Address  </p>
   <a  href={`https://www.google.com/maps?q=${data.location.coordinates[1]},${data.location.coordinates[0]}`}
   target="_blank"
@@ -622,7 +622,7 @@ function formatPhoneNumber(number) {
          {data.productType === "product" ? <>
           <span className="price-mrp">MRP</span>
             <span className="current-price">₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
-           </>: <span className="current-price" style={{fontSize:'20px'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)}</span>}
+           </>: <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)}</span>}
           </div>
 
 

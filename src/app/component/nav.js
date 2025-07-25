@@ -8,7 +8,7 @@ import { useRouter,usePathname } from 'next/navigation';
 import { useState ,useEffect,useRef} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
-import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
+import { LoadScript, StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
 
 const libraries = ['places'];
 
@@ -101,6 +101,13 @@ console.log(selectedName)
 
   // Replace with your actual Google Maps API key
   const googleMapsApiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+
+    // Use useLoadScript hook instead of LoadScript component
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: googleMapsApiKey,
+    libraries: libraries,
+  });
+
 
   const onLoadSearchBox = (ref) => {
     searchBoxRef.current = ref;
@@ -202,16 +209,14 @@ console.log(selectedName)
 /> 
 
 <div className="locationsearchdiv">
-<LoadScript 
-      googleMapsApiKey={googleMapsApiKey}
-      libraries={libraries}
-    >
-     
 
-            <StandaloneSearchBox
-              onLoad={onLoadSearchBox}
-              onPlacesChanged={onPlacesChanged}
-            >
+
+         {isLoaded && (
+    <div style={{ display: selectedFilter === "property" ? "block" : "none" }}>
+      <StandaloneSearchBox
+        onLoad={onLoadSearchBox}
+        onPlacesChanged={onPlacesChanged}
+      >
               <input
                 type="text"
                   className={`SearchProducts ${selectedFilter !== "property" ? "hideelement" : ""}`}  
@@ -219,10 +224,11 @@ console.log(selectedName)
                 onChange={handleInputChange}
                 placeholder={placeholderMap[selectedFilter]}
               />
-            </StandaloneSearchBox>
+             </StandaloneSearchBox>
+    </div>
+  )}
 
       
-    </LoadScript>
     </div>
 
        {selectedFilter !== "property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>

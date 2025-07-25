@@ -10,7 +10,8 @@ const Footer = () => (
         {/* Logo & Contact Info */}
         <div className="footer-section company-info">
           <h2 className="company-name">Coslomart</h2>
-          <p>India’s Trusted <strong>B2B, B2C and D2C </strong> E-commerce Partner.</p>
+          {/* <p>India’s Trusted <strong>B2B, B2C and D2C </strong> E-commerce Partner.</p> */}
+          <p>India’s Trusted <strong> B2B, B2C, </strong> E-commerce Partner for Products, Real Estate, and Services.</p>
           <div className="contact">
             <p>
               <span><img src="\icons\address.svg" alt="Facebook" /></span> H.No 254, Millennium Valley, 

@@ -87,10 +87,8 @@ const PropertyLocationDisplay = ({ propertyData }) => {
             onCloseClick={() => setShowInfoWindow(false)}
           >
             <div className="info-window767">
-              <h4 className="info-title767">{propertyName}</h4>
-              <p className="info-type767">{getPropertyTypeDisplay(propertyType)}</p>
-              <p className="info-price767">{formatPrice(price)}</p>
-              <p className="info-address767">{address}</p>
+             
+              <p className="info-address767">{address||''}</p>
             </div>
           </InfoWindow>
         )}
