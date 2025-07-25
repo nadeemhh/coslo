@@ -27,16 +27,16 @@ function Filterpagedata() {
 
     let url;
 
-    if(filtertype === 'Property'){
+    if(filtertype === 'property'){
 
           let latitude = new URLSearchParams(window.location.search).get("lat");
     let longitude = new URLSearchParams(window.location.search).get("long");
 
-   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?longitude=${longitude}&latitude=${latitude}&page=${page}&limit=10&`;
+   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?maxDistance=20000&minDistance=0&searchText=${searchQuery}&page=${page}&limit=10&`;
 
     }else{
 
-     let filter = filtertype === 'Products' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
+     let filter = filtertype === 'product' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
      url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`;
 
     }
@@ -57,7 +57,7 @@ function Filterpagedata() {
 
         console.log(data)
 
- if(filtertype === 'Property'){
+ if(filtertype === 'property'){
   data.data=data.data.properties;
  }
 

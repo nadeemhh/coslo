@@ -18,7 +18,7 @@ const NavBar = () => {
   const [user, setuser] = useState(null);
    const iconRef = useRef(null);
     const pathname = usePathname(); // detects route change
-const [selectedFilter, setSelectedFilter] = useState("Products");
+const [selectedFilter, setSelectedFilter] = useState("product");
   const [searchValue, setSearchValue] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
   const searchBoxRef = useRef(null);
@@ -27,8 +27,8 @@ const [selectedFilter, setSelectedFilter] = useState("Products");
 
   
   const placeholderMap = {
-  Products: "Search Products",
-  Property: "Enter address to Search Property",
+  product: "Search Products",
+  property: "Enter address to Search Property",
   seller: "product by Seller name",
 };
 
@@ -67,7 +67,9 @@ console.log(selectedName)
    setTimeout(() => {
     const productType = localStorage.getItem("productType");
     if (productType === "property") {
-      setSelectedFilter("Property");
+      setSelectedFilter("property");
+    }else{
+      setSelectedFilter("product");
     }
   }, 1000);
   };
@@ -130,7 +132,7 @@ console.log(selectedName)
         const selectedName = selectedOption.getAttribute("value"); 
 console.log(selectedName)
     
-    window.location.href = `/home/filters?query=${encodeURIComponent(searchValue)}&type=${selectedName}&lat=${locationData.latitude}&long=${locationData.longitude}`;
+    window.location.href = `/home/filters?query=${encodeURIComponent(locationData.address)}&type=${selectedName}&lat=${locationData.latitude}&long=${locationData.longitude}`;
     }
       
       }
@@ -182,16 +184,19 @@ console.log(selectedName)
         <div className="search-bar">
           <div className="dropdown" style={{borderRight:'1.5px solid #9c9c9c'}}>
             <select name="" id="" className="dropdown-btn filtertype"   value={selectedFilter}
-  onChange={(e) => setSelectedFilter(e.target.value)}>
-               <option value="Products">Products</option>
-                <option value="Property">Property</option>
-               <option value="seller">seller</option>
+  onChange={(e) => {
+    setSelectedFilter(e.target.value)
+  localStorage.setItem("productType",e.target.value)
+  }}>
+               <option value="product">Products</option>
+                <option value="property">Property</option>
+               <option value="seller">Seller</option>
                </select>
           
           </div>
 
           <input type="text"   placeholder={placeholderMap[selectedFilter]}
-   className={`SearchProducts ${selectedFilter === "Property" ? "hideelement" : ""}`}  value={searchQuery}
+   className={`SearchProducts ${selectedFilter === "property" ? "hideelement" : ""}`}  value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleKeyDown}
 /> 
@@ -209,7 +214,7 @@ console.log(selectedName)
             >
               <input
                 type="text"
-                  className={`SearchProducts ${selectedFilter !== "Property" ? "hideelement" : ""}`}  
+                  className={`SearchProducts ${selectedFilter !== "property" ? "hideelement" : ""}`}  
                 value={searchValue}
                 onChange={handleInputChange}
                 placeholder={placeholderMap[selectedFilter]}
@@ -220,7 +225,7 @@ console.log(selectedName)
     </LoadScript>
     </div>
 
-       {selectedFilter !== "Property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>
+       {selectedFilter !== "property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>
             <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />
           </button>}
         </div>

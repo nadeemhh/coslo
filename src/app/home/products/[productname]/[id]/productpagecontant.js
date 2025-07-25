@@ -9,6 +9,7 @@ import scrollToElement from '../../../../component/scrollToElement.js'
 import cartcountget from '../../../../component/cartcountget.js';
 import usePreventNumberInputScroll from '../../../../component/usePreventNumberInputScroll.js';
 import ProductVariations from '../../../../component/ProductVariations.js'
+import formatNumberIndian from '../../../../component/formatNumberIndian.js'
 import Viewerproductpage from '../../../../component/viewerproductpage.js'
 import { useParams } from "next/navigation";
 import { useRef ,useState,useEffect,Suspense} from 'react';
@@ -620,8 +621,8 @@ function formatPhoneNumber(number) {
 <div className="pricing">
          {data.productType === "product" ? <>
           <span className="price-mrp">MRP</span>
-            <span className="current-price">₹{data.variations[showslab].mrp}</span>
-           </>: <span className="current-price" style={{fontSize:'20px'}}>₹ {data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min}</span>}
+            <span className="current-price">₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
+           </>: <span className="current-price" style={{fontSize:'20px'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)}</span>}
           </div>
 
 
@@ -660,9 +661,9 @@ function formatPhoneNumber(number) {
       </thead>
       <tbody className="tableBody565" style={{background:'white'}}>
         <tr className="tableRow565">
-          <td className="tableCell565">₹ {data.variations[showslab].mrp}</td>
+          <td className="tableCell565">₹ {formatNumberIndian(data.variations[showslab].mrp)}</td>
           <td className="tableCell565">{data.variations[showslab].priceSlabs[0].min}</td>
-          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min} </td>
+          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)} </td>
         </tr>
       
       </tbody>
