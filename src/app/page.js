@@ -36,8 +36,9 @@ export default function Home() {
         
         <div className='bnamehide'>
       <Link href="/home">
-        <div className="logo">
-          <h1>coslomart.com</h1>
+        <div className="logo logocontainer">
+           <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+          <h1>coslomart</h1>
         </div>
         </Link>
 
@@ -52,8 +53,9 @@ export default function Home() {
         </div>
 
         <Link href="/home">
-        <div className="logo logodesk">
-          <h1>coslomart.com</h1>
+        <div className="logo logocontainer logodesk">
+            <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+          <h1>coslomart</h1>
         </div>
         </Link>
 
