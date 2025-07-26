@@ -145,6 +145,12 @@ Real Estate, Products and Services<br />
       </div>
     </section>
 
+ {/* explore categories */}
+
+    <div style={{padding:'15px'}}>
+<Categorylist/>
+</div>
+
     {/* Free for Buyers Section */}
     <section className="free-section">
       <div className="icon">
@@ -203,11 +209,7 @@ Real Estate, Products and Services<br />
     </section>
 
 
-    {/* explore categories */}
-
-    <div style={{padding:'15px'}}>
-<Categorylist/>
-</div>
+   
 
 {/* Coslomart—Intro */}
  <section className="intro-container845">

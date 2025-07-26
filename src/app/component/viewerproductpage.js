@@ -17,7 +17,7 @@ console.log(propertyData)
 
 
   return (
-    <>
+    <div className='viewcardparent'>
     
       {productVideo && <div className="card343">
       <h2 className="title343">Watch {productType} Video</h2>
@@ -32,7 +32,7 @@ console.log(propertyData)
       </div>
     </div>}
 
-     {propertyData && <div className="card343">
+     {propertyData && <div className="card343 mapheight">
 
       <div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
       <h2 className="title343">Property Location</h2>
@@ -91,7 +91,8 @@ console.log(propertyData)
       ></iframe>
       
     </div>}
-    </>
+    </div>
+    
   );
 };
 

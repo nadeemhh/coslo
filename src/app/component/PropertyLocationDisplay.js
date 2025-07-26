@@ -97,12 +97,12 @@ const PropertyLocationDisplay = ({ propertyData }) => {
   );
 
   return (
-    <div className="display-content-wrapper767">
+    <>
       {mapsAlreadyLoaded ? (
         // If Google Maps is already loaded, render map directly
-        <div className="property-display-container767">
+        
           <MapComponent />
-        </div>
+   
       ) : (
         // If Google Maps is not loaded, use LoadScript
         <LoadScript 
@@ -111,12 +111,12 @@ const PropertyLocationDisplay = ({ propertyData }) => {
           onLoad={() => console.log('Google Maps API loaded')}
           onError={() => console.error('Error loading Google Maps API')}
         >
-          <div className="property-display-container767">
+          
             <MapComponent />
-          </div>
+     
         </LoadScript>
       )}
-    </div>
+    </>
   );
 };
 

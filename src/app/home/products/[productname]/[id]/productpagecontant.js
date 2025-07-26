@@ -514,8 +514,7 @@ function formatPhoneNumber(number) {
           </div>
 
 
-{isScreenWidthLessOrEqual(768) === false && <Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location?{location:data?.location}:false} />}
-    
+
         </div>
 
  {/* Right Section - Product Details */}
@@ -707,12 +706,10 @@ function formatPhoneNumber(number) {
           
   
           {/* Buttons */}
+          
+             {isuser &&
           <div className="button-group">
 
-   
-
-            {isuser &&
-           
            <>
            <button className="contact-supplier pb"  onClick={toggleModal} >
             Request Quotation <i className="fas fa-arrow-right"></i>
@@ -726,10 +723,8 @@ function formatPhoneNumber(number) {
           }
 
             </>
-            }
-
           </div>
-
+ }
              { !isuser && <div className="button-group">
            <a href="/home/login" style={{color:'blue'}}>
             Log in or create an account to buy this product. <i className="fas fa-arrow-right"></i>
@@ -808,7 +803,7 @@ function formatPhoneNumber(number) {
         </div>
       )}
 
-{isScreenWidthLessOrEqual(768) === true && <Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location?{location:data?.location}:false} />}
+<Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location?{location:data?.location}:false} />
 
       <Reviews pid={data._id} description={data.description}/>
 

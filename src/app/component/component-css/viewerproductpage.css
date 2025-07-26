@@ -1,9 +1,15 @@
 
 /* youtube */
 
+.viewcardparent{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .card343 {
-width: 90%;
-  margin: 50px auto;
+width: 45%;
   padding: 8px;
   background: #ffffff;
   border-radius: 16px;
@@ -39,8 +45,16 @@ width: 90%;
  @media (max-width: 768px) {
  .card343 {
 width: 100%;
+  height: 300px;
 }
 
+.videoContainer343 {
+    height: 100%;
+}
+
+.mapheight{
+  height: 400px;
+}
   }
 
 /* youtube end */

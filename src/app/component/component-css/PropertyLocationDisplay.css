@@ -97,7 +97,6 @@
 
   @media (max-width: 768px) {
     .map-display-container767 {
-    height: 170px;
     border-radius: .5rem;
     overflow: hidden;
     border: 2px solid #e2e8f0;

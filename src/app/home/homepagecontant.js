@@ -2,7 +2,7 @@
 import './mylayout.css'
 import Imageslider from '../component/slider.js'
 import Productbyusertype from '../component/Detail-tab/productbyusertype.jsx'
-import Categorylist from '../component/categorylist.js'
+import Categorylist from '../component/threeCategorylist.js'
 
 export default function Homepagecontant() {
 

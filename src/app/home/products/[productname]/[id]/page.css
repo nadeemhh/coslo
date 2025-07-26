@@ -146,7 +146,7 @@
   .button-group {
     display: flex;
     gap: 1rem;
-    margin: 1.5rem 0;
+    /* margin: 1.5rem 0; */
     flex-wrap: wrap;
   }
   .button-group button,.whatsapp-supplier {
