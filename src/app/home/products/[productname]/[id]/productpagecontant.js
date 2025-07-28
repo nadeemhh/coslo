@@ -711,9 +711,13 @@ function formatPhoneNumber(number) {
           <div className="button-group">
 
            <>
-           <button className="contact-supplier pb"  onClick={toggleModal} >
+            <button className="contact-supplier pb"  onClick={toggleModal} >
             Request Quotation <i className="fas fa-arrow-right"></i>
             </button>
+            
+            {data?.productType === "property" && data?.pdfFile && <a href={data.pdfFile} className="LegalDocument pb"   target="_blank" >
+            Legal Document <i className="fas fa-file-contract"></i>
+            </a>}
 
           {data?.productType === "property"  ?  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
             Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />

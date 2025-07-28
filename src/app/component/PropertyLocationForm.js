@@ -55,9 +55,11 @@ console.log(userlocation)
         setFormData(prev => ({
           ...prev,
           location: {
+              ...prev.location,
             address,
             latitude: lat,
             longitude: lng
+           
           }
         }));
 
@@ -100,30 +102,31 @@ console.log(userlocation)
   }, []);
 
   // Handle form input changes
-  const handleInputChange = (e) => {
+ const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'address') {
-      setFormData(prev => ({
+    console.log('Input change:', name, value);
+    console.log('Current formData before update:', formData);
+    
+    // Update the location object with the new value
+    setFormData(prev => {
+      const updated = {
         ...prev,
         location: {
           ...prev.location,
-          address: value
+          [name]: value
         }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+      };
+      console.log('Updated formData:', updated);
+      return updated;
+    });
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!formData.location.address){ 
-      alert('Enter Property Address')
+    if(!formData.location.address||!formData.location.city||!formData.location.state||!formData.location.area){ 
+      alert('Enter All Details')
     return;
   }
 
@@ -133,7 +136,10 @@ console.log(userlocation)
       location: {
         geoJsonType: "Point",
         address: formData.location.address,
-        coordinates:[formData.location.longitude,formData.location.latitude]
+        coordinates:[formData.location.longitude,formData.location.latitude],
+         state:formData.location.state,
+      city:formData.location.city,
+      area:formData.location.area,
       }
     };
 
@@ -177,6 +183,48 @@ console.log(dataToSend)
               {/* Form Fields */}
               <div className="form-section767">
              
+             <div className="form-group767">
+                  <label className="form-label767">
+                  Enter State
+                  </label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formData.location.state||''}
+                      onChange={handleInputChange}
+                      placeholder="Enter state"
+                      className="form-input767"
+                    />
+                </div>
+
+                <div className="form-group767">
+                  <label className="form-label767">
+                  Enter City
+                  </label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.location.city||''}
+                      onChange={handleInputChange}
+                      placeholder="Enter city"
+                      className="form-input767"
+                    />
+                </div>
+
+                <div className="form-group767">
+                  <label className="form-label767">
+                  Enter Area
+                  </label>
+                    <input
+                      type="text"
+                      name="area"
+                      value={formData.location.area||''}
+                      onChange={handleInputChange}
+                      placeholder="Enter area"
+                      className="form-input767"
+                    />
+                </div>
+
                 <div className="form-group767">
                   <label className="form-label767">
                   Enter Property Address

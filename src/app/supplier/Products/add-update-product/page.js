@@ -1348,13 +1348,19 @@ onClick={addreason}
   {showMap && <PropertyLocationForm setUserData={setUserData} show={userData.productData.productType} userlocation={userData.productData?.location ? {  location: {
       address: userData.productData.location.address,
       latitude: userData.productData.location.coordinates[1], // Default to Mumbai
-      longitude: userData.productData.location.coordinates[0]
+      longitude: userData.productData.location.coordinates[0],
+      state:userData.productData.location?.state||'',
+      city:userData.productData.location?.city||'',
+      area:userData.productData.location?.area||'',
     }} : {
 
     location: {
       address: '',
       latitude: 19.0760, // Default to Mumbai
-      longitude: 72.8777
+      longitude: 72.8777,
+      state:"",
+      city:"",
+      area:"",
     }
   }}/>
 }
