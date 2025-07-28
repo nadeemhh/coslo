@@ -1181,7 +1181,7 @@ function checkdefaultAttribute(variation) {
         style={{ display: "none" }}
       />
       <button onClick={triggerFileInput} className="upload-btn787">
-        <i className="fas fa-file-upload icon787"></i> Upload Catalogue PDF
+        <i className="fas fa-file-upload icon787"></i> {userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Legal Document</>}
       </button>
       {userData.productData.pdfFile && (
         <p className="upload-status787">PDF uploaded successfully</p>

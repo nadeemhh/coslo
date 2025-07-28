@@ -60,7 +60,7 @@ console.log(propertyData)
       </div>
     </div>}
 
-      {pdfFile && <div className="card343">
+      {productType !== "property" && pdfFile && <div className="card343">
 
 <div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
       <h2 className="title343">Product Catalogue PDF</h2>
