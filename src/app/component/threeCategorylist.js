@@ -74,7 +74,7 @@ export default function Categorylist() {
 
 <div className="category-name-image-h">
 <a href={`/home/showcategories/property`}>
-<img src="/images/realestatevec.png" alt="real estate"/>
+<img src="/images/realestate__.jpeg" alt="real estate"/>
 </a>
 </div>
 
@@ -94,7 +94,7 @@ export default function Categorylist() {
 
 <div className="category-name-image-h">
 <a href={`/home/showcategories/product`}>
-<img src="/images/productsvec.png" alt="real estate"/>
+<img src="/images/products.jpeg" alt="real estate"/>
 </a>
 </div>
 
@@ -114,7 +114,7 @@ export default function Categorylist() {
 
 <div className="category-name-image-h">
 <a href={`/home/showcategories/service`}>
-<img src="/images/servicesvec.png" alt="real estate"/>
+<img src="/images/services.jpeg" alt="real estate"/>
 </a>
 </div>
 

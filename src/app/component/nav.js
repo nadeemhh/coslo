@@ -29,7 +29,7 @@ const [selectedFilter, setSelectedFilter] = useState("product");
   const placeholderMap = {
   product: "Search Products",
   property: "Enter address to Search Property",
-  seller: "product by Seller name",
+  seller: "product by seller name",
 };
 
 
