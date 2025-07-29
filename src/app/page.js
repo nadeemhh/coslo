@@ -286,7 +286,7 @@ Real Estate, Products and Services<br />
     </div>
     {/* How It Works Section */}
     
-    <section className="how-it-works" id='HowItWorks'>
+    <section className="how-it-works" id='HowItWorks' style={{marginBottom:"60px"}}>
       <h2>How it works?</h2>
 
       <div className="section" id='ForRetailers'>
@@ -348,6 +348,42 @@ Real Estate, Products and Services<br />
         </div>
       </div>
     </section>
+
+
+{/* {br} */}
+<div className="card343">
+
+<div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
+      <h2 className="title343">Brochure PDF </h2>
+      <a
+  href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Coslomart_a5.PDF"
+  download='coslomart_Brochure_pdf'
+  rel="noopener noreferrer"
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#007BFF",
+    fontSize: "16px",
+    textDecoration: "none",
+    marginBottom: "12px"
+  }}
+>
+  download
+ 
+</a>
+</div>
+
+      <iframe
+        src="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Coslomart_a5.PDF"
+        title="PDF Viewer"
+        width="100%"
+        height="100%"
+        style={{ border: 'none' }}
+      ></iframe>
+      
+    </div>
+
 
     {/* Pricing Section */}
   
