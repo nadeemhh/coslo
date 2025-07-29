@@ -357,7 +357,7 @@ Real Estate, Products and Services<br />
       <h2 className="title343">Brochure PDF </h2>
       <a
   href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Coslomart_a5.PDF"
-  download='coslomart_Brochure_pdf'
+  target="_blank"
   rel="noopener noreferrer"
   style={{
     display: "flex",
@@ -366,7 +366,7 @@ Real Estate, Products and Services<br />
     color: "#007BFF",
     fontSize: "16px",
     textDecoration: "none",
-    marginBottom: "12px"
+    marginBottom:'12px'
   }}
 >
   download
