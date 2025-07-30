@@ -1,90 +1,87 @@
-"use client";
 
-import { useState, useEffect,Suspense } from "react";
-import './page.css'
-import { useParams } from "next/navigation";
-import slugifyurl from "../../../component/slugifyurl.js"
+import SubCategoriesPage from './maincategory.js'
 
- function Subcategory() {
-    
-     const searchParams = useParams();
-
-    const [data, setData] = useState([]);
-    const [name, setname] = useState(decodeURIComponent(searchParams.name));  
-
-
-    useEffect(() => {
+// export const metadata = {
+//   title: "Real Estate Properties in Bangalore | Coslomart",
+//   description:
+//     "Explore verified real estate properties in Bangalore on Coslomart. Buy plots, flats, villas, and more in top locations with trusted agents.",
+//   keywords: [
+//     "real estate properties in bangalore",
+//     "buy Housing properties in bangalore",
+//     "buy Apartments in bangalore",
+//   ],
+// };
 
 
-        if (!name) return; // Prevent fetch if id is null
+export async function generateMetadata({ params }) {
+  const { name } = await params;
 
-        const fetchData = async () => {
-            console.log(name)
-            document.querySelector(".loaderoverlay").style.display = "flex";
+  
+  console.log('name => ',name)
 
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/landing/${name}`);
-                if (!response.ok) throw new Error("Failed to fetch categories");
+  if(name === 'property'){
 
-                const result = await response.json();
-                console.log(result)
-                setData(result?.data ? result.data : []);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                document.querySelector(".loaderoverlay").style.display = "none";
-            }
-        };
+       return {
+    title: 'Real Estate Properties in Bangalore | Coslomart',
+    description:
+      'Explore verified real estate properties in Bangalore on Coslomart. Buy plots, flats, villas, and more in top locations with trusted agents.',
+    keywords: [
+      'real estate properties in bangalore',
+      'buy Housing properties in bangalore',
+      'buy Apartments in bangalore',
+    ],
+  };
+  }
 
-        fetchData();
-    }, []);
+   if (name === 'product') {
+    return {
+      title: 'Top Products Available Across India | Coslomart',
+      description:
+        'Browse top-quality products on Coslomart available across India. Shop electronics, home essentials, and more with trusted sellers nationwide.',
+      keywords: [
+        'buy products online india',
+        'top products in india',
+        'online shopping india',
+        'coslomart products',
+      ],
+    };
+  }
 
-    useEffect(() => {
-    
-      if(name==="property"){
-        localStorage.setItem("productType","property")
-     }else{
-       localStorage.setItem("productType","product")
-     }
-      }, []);
 
-    return (
-        <div>
-            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?name:'Real Estate'}</h3>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
-                {data.map((data,index) => (
-                  <div   key={index} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
-           
-                  <div className="product-category-h" >
-                 
-                  <div className="category-name-image-h">
-                 <a href={name!=='product'? `/home/all/${slugifyurl(name!=='property'?name:'Real Estate')}/${slugifyurl(data.name)}/${data._id}`:`/home/${slugifyurl(data.name)}/${data._id}`}>
-                 <img src={data.image} alt={data.name}/>
-                 </a>
-                 </div>
-                 
-                 <div className="category-name-product-h">
-                 <a href={name!=='product'? `/home/all/${slugifyurl(name!=='property'?name:'Real Estate')}/${slugifyurl(data.name)}/${data._id}`:`/home/${slugifyurl(data.name)}/${data._id}`}>
-                 <p>{data.name}</p>
-                 </a>
-                 </div>
-                 
-                 </div>
-                 
-                  </div>
-                ))}
-            </div>
+    if (name === 'service') {
+    return {
+      title: 'Trusted Home & Business Services in Bangalore | Coslomart',
+      description:
+        'Find reliable services in Bangalore for home maintenance, repairs, and business needs. Verified professionals with quality assurance.',
+      keywords: [
+        'home services in bangalore',
+        'business services bangalore',
+        'repair and maintenance services',
+        'coslomart services',
+      ],
+    };
+  }
 
-            { data.length === 0 && <h3>There are no sub category in this category.</h3> }
-        </div>
-    );
+   
+  // Optional fallback metadata
+  return {
+    title: 'Coslomart - Your One-Stop Marketplace',
+    description:
+      'Discover properties, services, and products on Coslomart. Trusted by thousands across India.',
+    keywords: ['coslomart', 'india marketplace', 'properties', 'services', 'products'],
+  };
+
 }
 
 
-export default function SubCategoriesPage() {
-    return (
-      <Suspense fallback={<div></div>}>
-        <Subcategory />
-      </Suspense>
-    );
+
+export default function Page() {
+  
+
+  return (
+   <SubCategoriesPage/>
+  );
   }
+
+
+  
