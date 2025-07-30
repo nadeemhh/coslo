@@ -355,9 +355,14 @@ data.orderSummary.items.map((order, index) => (
 <p className="card-date">Quantity - {order.quantity}</p>
 <div style={{display:'flex',gap:'15px'}} className='hgfhg'>
 <p className="card-price">₹ {order.price}/-</p>
-{/* <button className="delivered">● Delivered @ 27th August</button> */}
 
 </div>
+
+ <div style={{display:'flex',flexWrap:'wrap',gap:'5px'}}>
+     {order?.variation?.attributes.map((attr, index) => (
+   <p key={index}> <strong>{attr.key}:</strong> {attr.value},</p>
+    ))}
+  </div>
 
 </div>
 <div className="card-status">

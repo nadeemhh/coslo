@@ -332,9 +332,17 @@ data.orderSummary.deliveryProvider === "COSLO" &&
       {order.name}
       </p>
       <p className="card-price">₹ {order.price}/-</p>
-      {/* <p className="card-date">24th August '24</p> */}
+  
+    
+  <div style={{display:'flex',flexWrap:'wrap',gap:'5px',marginTop:'10px'}}>
+     {order?.variation?.attributes.map((attr, index) => (
+   <p key={index}> <strong>{attr.key}:</strong> {attr.value},</p>
+    ))}
+  </div>
+
+    
     </div>
-    <div className="card-status">
+    <div className="card-status" style={{width:'70px'}}>
    
      <p>Qty : {order.quantity}</p>
      

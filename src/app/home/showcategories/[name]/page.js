@@ -35,9 +35,9 @@ export async function generateMetadata({ params }) {
 
    if (name === 'product') {
     return {
-      title: 'Top Products Available Across India | Coslomart',
+      title: 'Explore B2B Product Categories | Coslomart',
       description:
-        'Browse top-quality products on Coslomart available across India. Shop electronics, home essentials, and more with trusted sellers nationwide.',
+        'Discover a wide range of B2B product categories on Coslomart. Connect with verified suppliers and grow your business with zero commission deals.',
       keywords: [
         'buy products online india',
         'top products in india',
@@ -50,9 +50,9 @@ export async function generateMetadata({ params }) {
 
     if (name === 'service') {
     return {
-      title: 'Trusted Home & Business Services in Bangalore | Coslomart',
+      title: 'Browse B2B Services Online | Coslomart',
       description:
-        'Find reliable services in Bangalore for home maintenance, repairs, and business needs. Verified professionals with quality assurance.',
+        'Find top B2B services on Coslomart. Connect directly with verified service providers for your business needs — no middlemen, no commission.',
       keywords: [
         'home services in bangalore',
         'business services bangalore',
