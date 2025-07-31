@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /Employee/
 Disallow: /user/
 Allow: /
-
+Sitemap: https://www.coslomart.com/sitemap.xml

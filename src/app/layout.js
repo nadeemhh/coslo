@@ -100,6 +100,19 @@ export default function RootLayout({ children }) {
 <link rel="apple-touch-icon" href="images/coslologo.png" />
 <meta name="mobile-web-app-capable" content="yes" />
 
+{/* other tags */}
+
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<meta name="author" content="Coslomart" />
+<meta name="publisher" content="Coslomart" />
+<meta name="geo.region" content="IN-KA" />
+<meta name="geo.placename" content="Bangalore" />
+<meta name="geo.position" content="12.690780234999613, 77.70471139815018" />
+<meta name="ICBM" content="12.690780234999613, 77.70471139815018" />
+<meta name="Yahoobot" content="Index, Follow" />
+<meta name="MSNbot" content="index, follow" />
+<meta name="allow-search" content="yes" />
+
             </head>
       <body>
         {/* <h1>nav1</h1>  */}

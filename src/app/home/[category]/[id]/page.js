@@ -29,6 +29,9 @@ export async function generateMetadata({ params }) {
       title: `${data?.title || 'coslomart'} - ${decodeURIComponent(category)}`,
       description: data?.description || 'coslomart' ,
       keywords: data?.keywords || 'coslomart',
+        alternates: {
+        canonical: `https://www.coslomart.com/home/${encodeURIComponent(category)}/${id}`,
+      },
     };
   } catch (error) {
     return {

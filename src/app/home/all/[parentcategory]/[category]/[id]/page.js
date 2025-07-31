@@ -3,7 +3,7 @@ import Allproducts from './allproductscontant.js'
 
 export async function generateMetadata({ params }) {
 
-  const { id } = await params;
+  const {parentcategory,category, id } = await params;
 
   if (!id) {
     return {
@@ -27,6 +27,9 @@ export async function generateMetadata({ params }) {
       title: data?.title || 'coslomart',
       description: data?.description || 'coslomart' ,
       keywords: data?.keywords || 'coslomart',
+       alternates: {
+        canonical: `https://www.coslomart.com/home/all/${parentcategory}/${category}/${id}`,
+      },
     };
   } catch (error) {
     return {
