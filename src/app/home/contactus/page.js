@@ -1,5 +1,15 @@
 import '../about-us/about.css'
 
+
+export const metadata = {
+    title: "contact us",
+  description: "contact us",
+   alternates: {
+      canonical: `https://www.coslomart.com/home/contactus`,
+    },
+};
+
+
 const Page = () => {
 
    
