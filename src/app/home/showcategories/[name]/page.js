@@ -29,7 +29,10 @@ export async function generateMetadata({ params }) {
       'real estate properties in bangalore',
       'buy Housing properties in bangalore',
       'buy Apartments in bangalore',
-    ],
+    ], 
+      alternates: {
+        canonical: `https://www.coslomart.com/home/showcategories/property`,
+      },
   };
   }
 
@@ -44,6 +47,9 @@ export async function generateMetadata({ params }) {
         'online shopping india',
         'coslomart products',
       ],
+          alternates: {
+        canonical: `https://www.coslomart.com/home/showcategories/product`,
+      },
     };
   }
 
@@ -59,6 +65,9 @@ export async function generateMetadata({ params }) {
         'repair and maintenance services',
         'coslomart services',
       ],
+        alternates: {
+        canonical: `https://www.coslomart.com/home/showcategories/service`,
+      },
     };
   }
 

@@ -50,7 +50,7 @@ import slugifyurl from "../../../component/slugifyurl.js"
 
     return (
         <div>
-            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?name:'Real Estate'}</h3>
+            <h3 style={{ color: "#1389F0", marginTop: "0px", marginBottom: "40px" }}>{name!=='property'?(name!=='product'?'Service':'Product'):'Real Estate'}</h3>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "20px" }}>
                 {data.map((data,index) => (
                   <div   key={index} style={{boxShadow:'rgb(0 0 0 / 21%) 0px 4px 6px',borderRadius:'10px' }}>
