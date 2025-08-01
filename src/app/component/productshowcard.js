@@ -30,7 +30,7 @@ productType= "product";
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <a href={`/home/products/${slugifyurl(pname)}/${pid}`}>
+      <a href={productType !== "property" ? `/home/products/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
         <img
           src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
           alt={pname}
@@ -42,7 +42,7 @@ productType= "product";
         </button> */}
         {seller.subscriptionDetails.plan !== 'FREE' &&  seller.subscriptionDetails.status === "ACTIVE" && <button className="aboluteveri verified">
           Recommended
-         <img src="\icons\veri.svg" width={'12px'} alt="" />
+         <img src="\icons\veri.svg" width={'8px'} alt="" />
         </button>
         }
 
@@ -64,7 +64,7 @@ productType= "product";
        
 
         {/* Title and Supplier */}
-        <a href={`/home/products/${slugifyurl(pname)}/${pid}`}>
+        <a href={productType !== "property" ? `/home/products/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
         <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
@@ -133,7 +133,7 @@ productType= "product";
 </a>
 
          
-<a href={`/home/products/${slugifyurl(pname)}/${pid}`}>
+<a href={productType !== "property" ? `/home/products/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
           <button className="contact-btn">Check Details</button>
           </a>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}

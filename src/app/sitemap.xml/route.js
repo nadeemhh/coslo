@@ -25,6 +25,7 @@ export async function GET() {
   let parentcategoryurls = [];
   let childcategoryurls = [];
   let prducturls = [];
+   let propertyurls = [];
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sitemap/urls`, {
@@ -35,6 +36,8 @@ export async function GET() {
     parentcategoryurls = data.parentCategoryUrls || [];
     childcategoryurls = data.childCategoryUrls || [];
     prducturls = data.productUrls || [];
+    propertyurls = data.propertyUrls || [];
+
   } catch (error) {
     console.error('Error fetching sitemap data:', error);
   }
@@ -45,6 +48,7 @@ export async function GET() {
     ...parentcategoryurls,
     ...childcategoryurls,
     ...prducturls,
+    ...propertyurls,
   ];
 
   // ✅ Build XML
