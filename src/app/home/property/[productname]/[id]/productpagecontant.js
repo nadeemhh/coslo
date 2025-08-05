@@ -669,9 +669,24 @@ function formatPhoneNumber(number) {
     </table>)}
     </div>
 
-<div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
+<div className="technical-details" style={{textAlign:'left',marginTop:'20px'}}>
 <ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
 </div>
+
+{/* amenities */}
+{data?.ammenties?.length && <div className="amenities-container-parent-878">
+   <p className='attribute-label522'>Amenities</p>
+    <div className="amenities-container-878">
+   
+      {data.ammenties.map((item, index) => (
+        <div key={index} className="amenity-item-878">
+          <span>{item}</span>
+          <i className="fas fa-check check-icon-878"></i>
+        </div>
+      ))}
+    </div>
+    </div>}
+
 
     {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
 

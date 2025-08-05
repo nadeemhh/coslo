@@ -29,6 +29,7 @@ export default function Page() {
       longitude:"",
       commonAttributes: [],
       reasonForReturn:[],
+      ammenties:[],
       category: "",
       tag:"",
       BrandName:"",
@@ -281,6 +282,54 @@ console.log(productimages,images)
         },
       }));
     };
+
+    // Add a new ammenties item
+    const addammenties = () => {
+      setUserData((prevState) => ({
+        ...prevState,
+        productData: {
+          ...prevState.productData,
+          ammenties: [
+            ...prevState.productData.ammenties,
+            "", 
+          ],
+        },
+      }));
+    };
+
+     // Handle input change for ammenties
+    const handleammentiesChange = (index,value) => {
+      setUserData((prevState) => {
+        const updatedammenties = [...prevState.productData.ammenties];
+        updatedammenties[index] = value; // Update specific field
+  
+        return {
+          ...prevState,
+          productData: {
+            ...prevState.productData,
+            ammenties: updatedammenties,
+          },
+        };
+      });
+    };
+
+
+
+    // remove ammenties 
+
+  function removeammenties(index) {
+   
+    let updatedammenties = userData.productData.ammenties.filter((_, i) => i !== index);
+    console.log(index,updatedammenties)
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        ammenties: updatedammenties,
+      },
+    }));
+
+  }
 
 
   // Handle input change for common attributes
@@ -1282,6 +1331,46 @@ onClick={addreason}
         <option value="property">Property</option>
       </select>
  </div>}
+
+
+ {userData.productData.productType === "property" &&
+<>
+<label htmlFor="product-video" style={{marginRight:'10px'}}>Add Amenities</label>
+
+<i
+className="fas fa-plus-circle"
+style={{ color: "green", fontSize: "20px", cursor: "pointer" ,margin:'20px 0px'}}
+onClick={addammenties}
+></i>
+
+{userData.productData.ammenties && userData.productData.ammenties.map((item, index) => (
+<div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
+  <div className="form-group">
+  <div style={{display:'flex',justifyContent:'space-between'}}>
+
+    <label className="form-label">Amenities {index+1}</label>
+    <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+          onClick={()=>{removeammenties(index)}}></i>
+          </div>
+    <div className="range-container">
+      <input
+        type="text"
+        className="form-input small-input"
+        placeholder="Write Amenities"
+        style={{ width: "100px" }}
+        value={item}
+        onChange={(e) => handleammentiesChange(index, e.target.value)}
+      />
+
+
+   
+    </div>
+  </div>
+</div>
+))}
+</>
+}
+
 
 
 {/* //// select tag */}
