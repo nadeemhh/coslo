@@ -32,6 +32,10 @@ import { useRef ,useState,useEffect,Suspense} from 'react';
   const [amazonproduct,setamazonproduct] = useState(null);
 const [activeIndex, setActiveIndex] = useState(0);
 
+  const [showAll, setShowAll] = useState(false);
+  const [shouldShowButton, setShouldShowButton] = useState(false);
+  const ammentiescontainerRef = useRef(null);
+
 
 console.log(data);
 
@@ -464,6 +468,13 @@ function formatPhoneNumber(number) {
 }
 
 
+
+  useEffect(() => {
+    if (ammentiescontainerRef.current) {
+      setShouldShowButton(ammentiescontainerRef.current.scrollHeight > 200);
+    }
+  }, [data?.ammenties]);
+
    
   return (
     <> {isdata &&
@@ -669,23 +680,53 @@ function formatPhoneNumber(number) {
     </table>)}
     </div>
 
-<div className="technical-details" style={{textAlign:'left',marginTop:'20px'}}>
+<div className="technical-details" style={{display:'flex',gap:'15px',alignItems:'flex-start',flexWrap:'wrap',textAlign:'left',marginTop:'40px'}}>
+  
 <ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
+
+ {(data.khataType || data.approvalType) &&  <div className="property-info-container-656">
+     {data.approvalType && <div className="info-box-656">
+        <h4 className="label-656">Approval Type</h4>
+        <span className="value-pill-656">{data.approvalType}</span>
+      </div>}
+
+     { data.khataType && <div className="info-box-656">
+        <h4 className="label-656">Khata Type</h4>
+        <span className="value-pill-656">{data.khataType}</span>
+      </div>}
+
+    </div>}
+
 </div>
 
 {/* amenities */}
-{data?.ammenties?.length && <div className="amenities-container-parent-878">
-   <p className='attribute-label522'>Amenities</p>
-    <div className="amenities-container-878">
-   
-      {data.ammenties.map((item, index) => (
-        <div key={index} className="amenity-item-878">
-          <span>{item}</span>
-          <i className="fas fa-check check-icon-878"></i>
+{  (data?.ammenties && data?.ammenties.length !== 0) && (
+      <div className="amenities-container-parent-878">
+        <p className='attribute-label522'>Amenities</p>
+
+        <div
+          className={`amenities-container-878 ${showAll ? 'expanded' : ''} ${shouldShowButton && !showAll ? 'has-shadow' : ''}`}
+          ref={ammentiescontainerRef}
+        >
+          {data.ammenties.map((item, index) => (
+            <div key={index} className="amenity-item-878">
+              <span>{item}</span>
+              <i className="fas fa-check check-icon-878"></i>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-    </div>}
+
+        {shouldShowButton && (
+          <button
+            className="show-more-btn-878"
+            onClick={() => setShowAll(prev => !prev)}
+          >
+            {showAll ? 'Show Less' : 'Show More'}
+          </button>
+        )}
+      </div>
+    )
+  }
 
 
     {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>

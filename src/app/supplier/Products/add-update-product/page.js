@@ -27,6 +27,8 @@ export default function Page() {
       pdfFile:"",
       latitude:"",
       longitude:"",
+      approvalType:"",
+      khataType:"",
       commonAttributes: [],
       reasonForReturn:[],
       ammenties:[],
@@ -1196,6 +1198,47 @@ function checkdefaultAttribute(variation) {
       <div className="add-product-container">
       <div className={productupdate ? 'basic-info2' : 'basic-info'}>
         <h2>Basic Information</h2>
+
+{/* /// select product type  */}
+
+       <div style={{display:'flex',justifyContent:'space-between',gap:'15px',marginBottom:'20px'}}> 
+{!productupdate && <div className="input-group">
+
+<label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
+<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => handleProductDataChange("productType", e.target.value)}>
+           <option value="product">Product</option>
+        <option value="property">Property</option>
+      </select>
+ </div>}
+
+
+{/* //// select tag */}
+
+        <div className="input-group">
+
+<label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
+
+  <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
+   
+      let id=e.target.children[e.target.selectedIndex].getAttribute('id');
+    handleProductDataChange("tag", id)
+    setselectedtag(e.target.value)}
+  }>
+
+      <option value="">Select a tag</option>
+      {tags.map((data, index) => (
+        <option value={data.tagName} id={data._id} key={index}>
+          {data.tagName}
+        </option>
+      ))}
+
+    </select>
+
+   </div>
+
+</div>
+
+
         <div className="input-group">
           <label htmlFor="product-name">Enter Product Name *</label>
           <input id="product-name" type="text" placeholder=""    value={userData.productData.productName || ""}
@@ -1220,6 +1263,18 @@ function checkdefaultAttribute(variation) {
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
+{userData.productData.productType !== "product" && <> <div className="input-group">
+          <label htmlFor="khataType">khata Type</label>
+          <input id="product-video" type="text" placeholder=""    value={userData.productData?.khataType || ""}
+          onChange={(e) => handleProductDataChange("khataType", e.target.value)} />
+        </div>
+
+         <div className="input-group">
+          <label htmlFor="approvalType">Approval Type</label>
+          <input id="product-video" type="text" placeholder=""    value={userData.productData?.approvalType || ""}
+          onChange={(e) => handleProductDataChange("approvalType", e.target.value)} />
+        </div>
+        </>}
 
   <div className="upload-container787">
       <input
@@ -1238,7 +1293,7 @@ function checkdefaultAttribute(variation) {
     </div>
 
         
-        <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
+        {/* <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
         <i
         className="fas fa-plus-circle"
@@ -1278,7 +1333,7 @@ function checkdefaultAttribute(variation) {
             </div>
           </div>
         </div>
-      ))}
+      ))} */}
 
 <br/>
 
@@ -1321,16 +1376,6 @@ onClick={addreason}
 }
 
 
-{/* /// select product type  */}
-
-{!productupdate && <div className="input-group">
-
-<label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
-<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => handleProductDataChange("productType", e.target.value)}>
-           <option value="product">Product</option>
-        <option value="property">Property</option>
-      </select>
- </div>}
 
 
  {userData.productData.productType === "property" &&
@@ -1370,32 +1415,6 @@ onClick={addammenties}
 ))}
 </>
 }
-
-
-
-{/* //// select tag */}
-
-        <div className="input-group">
-
-<label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
-
-  <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
-   
-      let id=e.target.children[e.target.selectedIndex].getAttribute('id');
-    handleProductDataChange("tag", id)
-    setselectedtag(e.target.value)}
-  }>
-
-      <option value="">Select a tag</option>
-      {tags.map((data, index) => (
-        <option value={data.tagName} id={data._id} key={index}>
-          {data.tagName}
-        </option>
-      ))}
-
-    </select>
-
-   </div>
        
       </div>
       
