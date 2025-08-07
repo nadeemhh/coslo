@@ -8,16 +8,31 @@ console.log(propertyData)
 
      const getEmbedUrl343 = (url) => {
 
-      if(!url.includes("youtube.com")){
-      return url;
-      }
+  
 
+        if(url.includes("youtube.com")){
     const urlObj = new URL(url);
     const videoId = urlObj.searchParams.get("v");
     const startTime = urlObj.searchParams.get("t") || "0s";
     const seconds = parseInt(startTime.replace("s", ""), 10);
 
     return `https://www.youtube.com/embed/${videoId}`;
+        }
+
+       // Instagram Reel embed handling
+    if (url.includes("instagram.com")) {
+
+       const reelIdMatch = url.match(/reel\/([^/]+)/);
+    const reelId = reelIdMatch ? reelIdMatch[1] : null;
+
+    if (reelId) {
+      return `https://www.instagram.com/reel/${reelId}/embed`;
+    }
+    
+    }
+
+      return url;
+
   };
 
 

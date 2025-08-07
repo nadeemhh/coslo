@@ -1128,6 +1128,7 @@ document.querySelector('.loaderoverlay').style.display='none';
 
   const resetPrimaryGroup = () => {
     setPrimaryGroup('');
+     userData.productData.primaryAttribute = '';
   };
 
 
@@ -1560,9 +1561,11 @@ onClick={addammenties}
       ) : (
         <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
           <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
-          {/* <button 
+          
+         { userData.variationsData.length === 0 && <i className="fas fa-sync"
             onClick={resetPrimaryGroup}
             style={{ 
+              margin:'5px',
               padding: '5px 10px', 
               backgroundColor: '#dc3545', 
               color: 'white', 
@@ -1571,9 +1574,7 @@ onClick={addammenties}
               cursor: 'pointer',
               fontSize: '12px'
             }}
-          >
-            Change Primary Group
-          </button> */}
+          ></i>}
         </div>
       )}
 
