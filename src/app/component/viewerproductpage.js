@@ -5,7 +5,13 @@ import './component-css/viewerproductpage.css';
 
 const Viewerproductpage = ({productType,productVideo,pdfFile,propertyData}) => {
 console.log(propertyData)
+
      const getEmbedUrl343 = (url) => {
+
+      if(!url.includes("youtube.com")){
+      return url;
+      }
+
     const urlObj = new URL(url);
     const videoId = urlObj.searchParams.get("v");
     const startTime = urlObj.searchParams.get("t") || "0s";
