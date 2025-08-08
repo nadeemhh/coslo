@@ -763,9 +763,8 @@ function formatPhoneNumber(number) {
   
           {/* Buttons */}
           
-             {isuser &&
-          <div className="button-group">
-
+            <div className="button-group" style={{marginTop:'20px'}}>
+     {isuser &&
            <>
             <button className="contact-supplier pb"  onClick={toggleModal} >
             Request Quotation <i className="fas fa-arrow-right"></i>
@@ -775,18 +774,23 @@ function formatPhoneNumber(number) {
             Legal Document <i className="fas fa-file-contract"></i>
             </a>}
 
-          {data?.productType === "property"  ?  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
-            Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
-            </a> : (data.variations[showslab].stock !== 0 && isuser && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
+          {data?.productType !== "property"  &&  (data.variations[showslab].stock !== 0 && isuser && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
               <i className="fas fa-shopping-cart"></i> Add to Cart
             </button>)
           }
 
             </>
+             }
+
+
+{data?.productType === "property"  &&  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
+            Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
+            </a>
+          }
+
           </div>
- }
              { !isuser && <div className="button-group">
-           <a href="/home/login" style={{color:'blue'}}>
+           <a href="/home/login" style={{color:'blue',marginTop:'20px'}}>
             Log in or create an account to buy this product. <i className="fas fa-arrow-right"></i>
             </a>
             </div>}
