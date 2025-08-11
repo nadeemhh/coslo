@@ -301,9 +301,18 @@ console.log(productimages,images)
 
      // Handle input change for ammenties
     const handleammentiesChange = (index,value) => {
+
       setUserData((prevState) => {
         const updatedammenties = [...prevState.productData.ammenties];
-        updatedammenties[index] = value; // Update specific field
+
+         // If value contains $, split into array
+    if (value.includes('$')) {
+    const splitValues = value.split('$').map(item => item.trim()).filter(Boolean);
+      updatedammenties.splice(index, 1, ...splitValues); // Replace the one item with many
+    } else {
+      updatedammenties[index] = value; // Just set as string
+    }
+
   
         return {
           ...prevState,
@@ -313,6 +322,7 @@ console.log(productimages,images)
           },
         };
       });
+
     };
 
 
@@ -1974,7 +1984,7 @@ onClick={addammenties}
                 style={{ width: "100px" }}
                 value={slab.min||''}
                 onChange={(e) => {
-                  const updatedSlabs = [...variation.priceSlabs];
+                  const updatedSlabs = structuredClone([...variation.priceSlabs]);
                   updatedSlabs[index].min = Number(e.target.value);
                   setVariation({ ...variation, priceSlabs: updatedSlabs });
                 }}
