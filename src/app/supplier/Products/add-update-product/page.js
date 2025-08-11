@@ -891,6 +891,46 @@ setselectedtag(data.data?.tagName)
     let updatevariation =structuredClone(variation);
 
 
+  if(userData.productData.productType === "property"){
+    
+    
+  if (Array.isArray(updatevariation.priceSlabs)) {
+    updatevariation.priceSlabs.forEach(slab => {
+      if (slab.max === "") slab.max = 0;
+      if (slab.discount === "") slab.discount = 0;
+      if (slab.deliveryFee === "") slab.deliveryFee = 0;
+    });
+  }
+
+
+function cleanVariationData() {
+  const keysToRemove = [
+    "lowStockThreshold",
+    "repeatBuyerDiscount",
+    "dimensions",
+    "weight",
+    "divertIndividualOrder",
+    "isReturnable",
+    "returnDays"
+  ];
+
+  
+    updatevariation.stock=1;
+    updatevariation.gst=0;
+    const cleaned = { ...updatevariation };
+    keysToRemove.forEach(key => delete cleaned[key]);
+    return cleaned;
+
+}
+
+// Call the function
+cleanVariationData();
+
+  }
+
+
+
+
     async function convertImagesToBase64(productData) {
       const variations = [productData];
   

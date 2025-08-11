@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import {
   GoogleMap,
-  LoadScript,
+  useLoadScript,
   Marker,
   InfoWindow
 } from '@react-google-maps/api';
 import '../component/component-css/PropertyLocationDisplay.css'
 
-// Utility function to check if Google Maps is already loaded
-const isGoogleMapsLoaded = () => {
-  return typeof window !== 'undefined' && window.google && window.google.maps;
-};
-
 const PropertyLocationDisplay = ({ propertyData }) => {
   console.log(propertyData)
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
-
   const googleMapsApiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: googleMapsApiKey,
+    libraries: ['places'],
+  });
 
   if (!propertyData || !propertyData.location || !propertyData.location.coordinates) {
     return (
@@ -35,7 +34,6 @@ const PropertyLocationDisplay = ({ propertyData }) => {
   const { propertyName, propertyType, price, description, location } = propertyData;
   const [longitude, latitude] = location.coordinates;
   const address = location.address;
-
   const mapCenter = { lat: latitude, lng: longitude };
 
   const mapOptions = {
@@ -62,11 +60,15 @@ const PropertyLocationDisplay = ({ propertyData }) => {
     return types[type] || type;
   };
 
-  // Check if Google Maps is already loaded
-  const mapsAlreadyLoaded = isGoogleMapsLoaded();
+  if (loadError) {
+    return <div>Error loading maps</div>;
+  }
 
-  // Map component that will be used in both cases
-  const MapComponent = () => (
+  if (!isLoaded) {
+    return <div>Loading maps...</div>;
+  }
+
+  return (
     <div className="map-display-container767">
       <GoogleMap
         mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -80,7 +82,6 @@ const PropertyLocationDisplay = ({ propertyData }) => {
           onClick={() => setShowInfoWindow(true)}
           title={propertyName}
         />
-
         {showInfoWindow && (
           <InfoWindow
             position={mapCenter}
@@ -94,29 +95,6 @@ const PropertyLocationDisplay = ({ propertyData }) => {
         )}
       </GoogleMap>
     </div>
-  );
-
-  return (
-    <>
-      {mapsAlreadyLoaded ? (
-        // If Google Maps is already loaded, render map directly
-        
-          <MapComponent />
-   
-      ) : (
-        // If Google Maps is not loaded, use LoadScript
-        <LoadScript 
-          googleMapsApiKey={googleMapsApiKey} 
-          libraries={['places']}
-          onLoad={() => console.log('Google Maps API loaded')}
-          onError={() => console.error('Error loading Google Maps API')}
-        >
-          
-            <MapComponent />
-     
-        </LoadScript>
-      )}
-    </>
   );
 };
 
