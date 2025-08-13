@@ -7,6 +7,7 @@ import './component-css/productcard.css'
 import {useState} from 'react';
 import getDiscountedPrice from './discountpricecalc.js'
 import slugifyurl from "./slugifyurl.js"
+import formatNumberIndian from './formatNumberIndian.js'
 
 // import Link from 'next/link';
 
@@ -71,7 +72,7 @@ productType= "product";
         </a>
         {/* Price */}
         <div className="product-actions">
-        {productType === "product" ?<p className="price">MRP ₹{variation?.mrp}</p>:<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{variation?.mrp*variation.priceSlabs[0].min}</p>}
+        {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.mrp*variation.priceSlabs[0].min))}</p>}
         </div>
 
 <div className="priceTableContainer56" style={{marginTop:'10px'}}>
@@ -111,9 +112,9 @@ productType= "product";
         {variation?.priceSlabs.map((sdata, index) => (
         
         <tr className="tableRow56" key={index}>
-          <td className="tableCell56">₹ {variation.mrp}</td>
+          <td className="tableCell56">₹ {Math.round(variation.mrp)}</td>
           <td className="tableCell56">{sdata.min}</td>
-          <td className="tableCell56">₹ {variation.mrp * sdata.min} </td>
+          <td className="tableCell56">₹ {Math.round(variation.mrp * sdata.min)} </td>
         </tr>
        
        

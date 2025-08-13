@@ -8,6 +8,25 @@ const ProductVariations = ({setshowslab, pdata,showslab,setActiveIndex,productTy
 
   const productData = pdata;
 
+
+
+  function updateAttributesWithMinInPlace(data) {
+  data.forEach(item => {
+    if (item.attributes?.length && item.priceSlabs?.length) {
+      const baseValue = item.attributes[0].defaultAttributeValue 
+                        || item.attributes[0].value.split(' - ')[0];
+      item.attributes[0].value = `${baseValue} - ${item.priceSlabs[0].min} sqft`;
+    }
+  });
+}
+
+if(pdata?.productType==="property" && pdata.variations[0].attributes[0].value.toLowerCase().includes('bhk')){
+console.log(pdata.variations[0].attributes[0].value)
+  updateAttributesWithMinInPlace(productData.variations);
+}
+
+
+
   const [selectedVariationId, setSelectedVariationId] = useState('');
   const [selectedVariationPosition, setSelectedVariationPosition] = useState(-1);
   const [selectedAttributes, setSelectedAttributes] = useState({});

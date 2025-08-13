@@ -632,7 +632,7 @@ function formatPhoneNumber(number) {
          {data.productType === "product" ? <>
           <span className="price-mrp">MRP</span>
             <span className="current-price">₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
-           </>: <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)}</span>}
+           </>: <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min))}</span>}
           </div>
 
 
@@ -671,9 +671,9 @@ function formatPhoneNumber(number) {
       </thead>
       <tbody className="tableBody565" style={{background:'white'}}>
         <tr className="tableRow565">
-          <td className="tableCell565">₹ {formatNumberIndian(data.variations[showslab].mrp)}</td>
+          <td className="tableCell565">₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp))}</td>
           <td className="tableCell565">{data.variations[showslab].priceSlabs[0].min}</td>
-          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min)} </td>
+          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min))} </td>
         </tr>
       
       </tbody>
