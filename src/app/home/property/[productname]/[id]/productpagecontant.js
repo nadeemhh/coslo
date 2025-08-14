@@ -686,12 +686,12 @@ function formatPhoneNumber(number) {
 
  {(data.khataType || data.approvalType) &&  <div className="property-info-container-656">
      {data.approvalType && <div className="info-box-656">
-        <h4 className="label-656">Approval Type</h4>
+        <h4 className="label-656">Approval</h4>
         <span className="value-pill-656">{data.approvalType}</span>
       </div>}
 
      { data.khataType && <div className="info-box-656">
-        <h4 className="label-656">Khata Type</h4>
+        <h4 className="label-656">Khata</h4>
         <span className="value-pill-656">{data.khataType}</span>
       </div>}
 
