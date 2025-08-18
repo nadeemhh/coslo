@@ -530,7 +530,7 @@ function formatPhoneNumber(number) {
 
  {/* Right Section - Product Details */}
  <div className="product-details89" style={{padding:'0px'}}>
-          <p className='productname'>{data.productName}</p>
+          <p className='productname'>{data.productName.toUpperCase()}</p>
           <div className="seller">
             <p>{data.BrandName}</p>
             

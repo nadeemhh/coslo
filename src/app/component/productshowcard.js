@@ -66,7 +66,7 @@ productType= "product";
 
         {/* Title and Supplier */}
         <a href={productType !== "property" ? `/home/product/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
-        <p className="product-title product-title-height" >{pname.length > 40 ? pname.substring(0, 40) + '...' : pname}
+        <p className="product-title product-title-height" >{pname.length > 40 ? (pname.substring(0, 40) + '...').toUpperCase() : pname.toUpperCase()}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
         </a>
