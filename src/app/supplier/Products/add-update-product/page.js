@@ -395,6 +395,8 @@ console.log(productimages,images)
     stock: "",
     lowStockThreshold: "",
     gst: "",
+    serviceName:"",
+    duration:"",
     repeatBuyerDiscount: "",
     priceSlabs: [],
     attributes: [],
@@ -451,6 +453,8 @@ const removePriceSlab = (index) => {
     mrp: "",
     stock: "",
     gst: "",
+    serviceName:"",
+    duration:"",
     lowStockThreshold: "",
     repeatBuyerDiscount: "",
     priceSlabs: [],
@@ -587,6 +591,8 @@ const removePriceSlab = (index) => {
       mrp: "",
       stock: "",
       gst: "",
+      serviceName:"",
+      duration:"",
       lowStockThreshold: "",
       repeatBuyerDiscount: "",
       priceSlabs: [],
@@ -610,6 +616,7 @@ setpreimages([])
 
 
 
+  
   
 
   const handleSubmit = async () => {
@@ -648,6 +655,25 @@ console.log(userDatacopy)
   }
 
 
+
+  function cleanVariationData(variationsDataRemove,productDataRemove) {
+  const keysToRemove = variationsDataRemove;
+  const keysToRemoveproductData = productDataRemove;
+
+  userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
+    const cleaned = { ...variation };
+    keysToRemove.forEach(key => delete cleaned[key]);
+    return cleaned;
+  });
+
+
+   
+    keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
+
+}
+
+
+
   if(userData.productData.productType === "property"){
     
     userDatacopy.variationsData.forEach(variation => {
@@ -660,8 +686,13 @@ console.log(userDatacopy)
   }
 });
 
-function cleanVariationData() {
-  const keysToRemove = [
+
+// Call the function
+cleanVariationData([
+    "gst",
+    "stock",
+    "serviceName",
+    "duration",
     "lowStockThreshold",
     "repeatBuyerDiscount",
     "dimensions",
@@ -669,22 +700,26 @@ function cleanVariationData() {
     "divertIndividualOrder",
     "isReturnable",
     "returnDays"
-  ];
-
-  userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
-    variation.stock=1;
-    variation.gst=0;
-    const cleaned = { ...variation };
-    keysToRemove.forEach(key => delete cleaned[key]);
-    return cleaned;
-  });
-}
-
-// Call the function
-cleanVariationData();
+  ],["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
 
   }
 
+
+  
+  if(userData.productData.productType === "product"){
+
+// Call the function
+cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataType", "approvalType"]);
+
+  }
+
+  if(userData.productData.productType === "service"){
+
+// Call the function
+cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn"]);
+
+  }
+  
   
 
     async function convertImagesToBase64(productData) {
@@ -723,7 +758,7 @@ cleanVariationData();
   // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
   convertImagesToBase64(userDatacopy).then((result) => {
       console.log('Converted Product Data:', result);
-      postdata(result)
+     postdata(result)
   });
 
   
@@ -901,20 +936,36 @@ setselectedtag(data.data?.tagName)
     let updatevariation =structuredClone(variation);
 
 
+
+
+  function cleanVariationData(variationsDataRemove) {
+  const keysToRemove = variationsDataRemove;
+
+    const cleaned = { ...updatevariation };
+    keysToRemove.forEach(key => delete cleaned[key]);
+    return cleaned;
+
+}
+
+
+
   if(userData.productData.productType === "property"){
     
-    
-  if (Array.isArray(updatevariation.priceSlabs)) {
+     if (Array.isArray(updatevariation.priceSlabs)) {
     updatevariation.priceSlabs.forEach(slab => {
       if (slab.max === "") slab.max = 0;
       if (slab.discount === "") slab.discount = 0;
       if (slab.deliveryFee === "") slab.deliveryFee = 0;
     });
   }
+  
 
-
-function cleanVariationData() {
-  const keysToRemove = [
+// Call the function
+cleanVariationData([
+    "gst",
+    "stock",
+    "serviceName",
+    "duration",
     "lowStockThreshold",
     "repeatBuyerDiscount",
     "dimensions",
@@ -922,21 +973,27 @@ function cleanVariationData() {
     "divertIndividualOrder",
     "isReturnable",
     "returnDays"
-  ];
-
-  
-    updatevariation.stock=1;
-    updatevariation.gst=0;
-    const cleaned = { ...updatevariation };
-    keysToRemove.forEach(key => delete cleaned[key]);
-    return cleaned;
-
-}
-
-// Call the function
-cleanVariationData();
+  ]);
 
   }
+
+
+  
+  if(userData.productData.productType === "product"){
+
+// Call the function
+cleanVariationData(["serviceName", "duration"]);
+
+  }
+
+  if(userData.productData.productType === "service"){
+
+// Call the function
+cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"]);
+
+  }
+  
+  
 
 
 
@@ -1259,6 +1316,7 @@ function checkdefaultAttribute(variation) {
 <select className="form-input" value={userData.productData.productType || ""} onChange={(e) => handleProductDataChange("productType", e.target.value)}>
            <option value="product">Product</option>
         <option value="property">Property</option>
+          <option value="service">Service</option>
       </select>
  </div>}
 
