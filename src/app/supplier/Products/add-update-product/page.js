@@ -396,7 +396,7 @@ console.log(productimages,images)
     lowStockThreshold: "",
     gst: "",
     serviceName:"",
-    duration:"",
+    duration:{value:"",unit:"minutes"},
     repeatBuyerDiscount: "",
     priceSlabs: [],
     attributes: [],
@@ -454,7 +454,7 @@ const removePriceSlab = (index) => {
     stock: "",
     gst: "",
     serviceName:"",
-    duration:"",
+    duration:{value:"",unit:"minutes"},
     lowStockThreshold: "",
     repeatBuyerDiscount: "",
     priceSlabs: [],
@@ -508,6 +508,26 @@ const removePriceSlab = (index) => {
   };
 
 
+   // Handle changes for service
+   const handleserviceChange = (serviceKey, value) => {
+
+  if(serviceKey==="serviceName"){
+   setVariation((prev) => ({
+      ...prev,
+      serviceName:value,
+    }));
+  }else{
+   setVariation((prev) => ({
+      ...prev,
+      duration: { ...prev.duration, [serviceKey]: serviceKey!== "value"?value:Number(value) },
+    }));
+  }
+
+ 
+  };
+
+
+
    const handleRealstateChange = (Realstatedata, value) => {
 
    if(value < 0){
@@ -549,13 +569,14 @@ const removePriceSlab = (index) => {
   // Save the current variation to variationsData
   const saveVariation = (update=false) => {
 
+ if(userData.productData.productType !== "service"){
   let hasdefaultAttribute = checkdefaultAttribute(variation)
 
     if(!hasdefaultAttribute){
       alert(`select one ${primaryGroup} Attribute`)
       return;
     }
-
+  }
 
     
     const filteredVariation = { ...variation };
@@ -592,7 +613,7 @@ const removePriceSlab = (index) => {
       stock: "",
       gst: "",
       serviceName:"",
-      duration:"",
+      duration:{value:"",unit:"minutes"},
       lowStockThreshold: "",
       repeatBuyerDiscount: "",
       priceSlabs: [],
@@ -716,7 +737,7 @@ cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataT
   if(userData.productData.productType === "service"){
 
 // Call the function
-cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn"]);
+cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
 
   }
   
@@ -925,12 +946,14 @@ setselectedtag(data.data?.tagName)
 
   function postnewVariation(newVariation=false) {
 
+    if(userData.productData.productType !== "service"){
    let hasdefaultAttribute = checkdefaultAttribute(variation)
 
     if(!hasdefaultAttribute){
       alert(`select one ${primaryGroup} Attribute`)
       return;
     }
+  }
 
 
     let updatevariation =structuredClone(variation);
@@ -1372,7 +1395,7 @@ function checkdefaultAttribute(variation) {
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
 
-{userData.productData.productType !== "product" && <> <div className="input-group">
+{userData.productData.productType === "property" && <> <div className="input-group">
           <label htmlFor="khataType">khata Type</label>
           <input id="product-video" type="text" placeholder=""    value={userData.productData?.khataType || ""}
           onChange={(e) => handleProductDataChange("khataType", e.target.value)} />
@@ -1393,9 +1416,9 @@ function checkdefaultAttribute(variation) {
         onChange={handlePDFUpload}
         style={{ display: "none" }}
       />
-      <button onClick={triggerFileInput} className="upload-btn787">
+    { userData.productData.productType !== "service" && <button onClick={triggerFileInput} className="upload-btn787">
         <i className="fas fa-file-upload icon787"></i> {userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Legal Document</>}
-      </button>
+      </button>}
       {userData.productData.pdfFile && (
         <p className="upload-status787">PDF uploaded successfully</p>
       )}
@@ -1772,11 +1795,10 @@ onClick={addammenties}
 
 
             <div className="form-group">
-              <label className="form-label">{userData.productData.productType === "product" ?'MRP':'Per sq ft cost'}</label>
+              <label className="form-label">{userData.productData.productType === "product" || userData.productData.productType === "service" ?'MRP':'Per sq ft cost'}</label>
               <input
                 type="number"
                 className="form-input"
-                placeholder="Eg. 500/-"
                 value={variation.mrp}
                 onChange={(e) => handleVariationChange("mrp", e.target.value)}
                 required
@@ -1784,6 +1806,61 @@ onClick={addammenties}
             </div>
 
 
+{ userData.productData.productType === "service" && <>
+
+ <div className="form-group">
+              <label className="form-label">GST %</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="Eg. 10%"
+                value={variation.gst}
+                required
+                onChange={(e) => handleVariationChange("gst", e.target.value)}
+              />
+            </div>
+
+
+  <div className="form-group">
+              <label className="form-label">Service Name</label>
+              <input
+                type="text"
+                className="form-input"
+                value={variation.serviceName}
+                required
+                onChange={(e) => handleserviceChange("serviceName", e.target.value)}
+              />
+            </div>
+
+<div style={{display:'flex',justifyContent:'space-between',gap:'15px',marginBottom:'20px'}}>
+              <div className="form-group">
+              <label className="form-label">Duration</label>
+              <input
+                type="number"
+                className="form-input"
+                value={variation.duration.value}
+                required
+                onChange={(e) => handleserviceChange("value", e.target.value)}
+              />
+            </div>
+
+          <div className="form-group">
+              <label className="form-label">Unit</label>
+            <select className="form-input" value={variation.duration.unit || ""} onChange={(e) => handleserviceChange("unit", e.target.value)}>
+
+          <option value="minutes">Minutes</option>
+          <option value="hours">Hours</option>
+         <option value="days">Days</option>
+         <option value="weeks">Weeks</option>
+         <option value="months">Months</option>
+
+      </select>
+        </div>
+
+      </div>
+            
+</>
+}
          { userData.productData.productType === "product" && <>
          
           <div className="form-group">
@@ -1838,8 +1915,8 @@ onClick={addammenties}
             </> }
 
 
-            <p style={{margin:'40px 0px',textAlign:'left'}}>Add Product Images</p>
-    <div className="image-uploader" style={{marginBottom:'50px'}}>
+            <p style={{marginTop:'20px',textAlign:'left'}}>Add Images</p>
+    <div className="image-uploader" style={{marginBottom:'10px'}}>
  
       <div className="add-image">
         <input
@@ -1890,56 +1967,13 @@ onClick={addammenties}
 
 
             {/* Add Attributes */}
-            <div style={{display:"flex",gap:'10px',alignItems:'center'}}>
-            {/* <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Attributes</strong>
-            <i
-              className="fas fa-plus-circle"
-              style={{ color: "green", fontSize: "20px", cursor: "pointer" }}
-              onClick={addAttribute}
-            ></i> */}
-
+          {userData.productData.productType !== "service" &&  <div style={{display:"flex",gap:'10px',alignItems:'center'}}>
+          
             <SelectedAttributeArray attributes={AllAttributes} primaryGroup={primaryGroup} addAttribute={addAttribute} currentattributes={variation.attributes}/>
-</div>
+</div>}
 
 
-            {/* {variation.attributes.map((attr, index) => (
-              <div className="quantity-range" key={index}>
-                <div className="form-group">
-
-                  <div style={{display:'flex',justifyContent:'space-between'}}>
-                  <label className="form-label">Attributes</label>
-                  <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-                  onClick={()=>{removeattribute(index)}}></i>
-                  </div>
-
-                  <div className="range-container">
-                    <input
-                      type="text"
-                      className="form-input small-input"
-                      placeholder="Key"
-                      style={{ width: "100px" }}
-                      value={attr.key}
-                      onChange={(e) => handleNestedChange("attributes", index, "key", e.target.value)}
-                      required
-                    />
-                    <input
-                      type="text"
-                      className="form-input small-input"
-                      placeholder="Value"
-                      style={{ width: "100px" }}
-                      value={attr.value}
-                      onChange={(e) => handleNestedChange("attributes", index, "value", e.target.value)}
-                      required
-                    />
-                    
-                  </div>
-                </div>
-              </div>
-            ))} */}
-
-
-            {/* Dimensions */}
-            {/* <strong className="form-label"  style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}> Add Dimensions</strong>  */}
+            
 
         {userData.productData.productType === "product" && <>
         <div className="quantity-range" style={{marginTop:'40px'}}>
@@ -2015,13 +2049,13 @@ onClick={addammenties}
 
 
             {/* Add Price Slabs */}
-         {variation.priceSlabs.length > 0 &&   <strong className="form-label" style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Price Slabs</strong>}
+        {userData.productData.productType !== "service" &&  (variation.priceSlabs.length > 0 &&   <strong className="form-label" style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Price Slabs</strong>)}
             
           
-            {variation.priceSlabs.map((slab, index) => (
+         {userData.productData.productType !== "service" &&   (variation.priceSlabs.map((slab, index) => (
         <div className="quantity-range" key={index}>
           <div className="form-group">
-          <div style={{display:'flex',justifyContent:'space-between'}}>
+        { userData.productData.productType === "product" && <div style={{display:'flex',justifyContent:'space-between'}}>
 
             <strong className="form-label" style={{ marginBottom: "10px" }}>
               Type: {slab.type==='individual'?(userData.productData.productType === "product"
@@ -2031,14 +2065,14 @@ onClick={addammenties}
             <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
                   onClick={()=>{remopriceslab(index)}}></i>
 
-                  </div>
+                  </div>}
 
             <label className="form-label">{userData.productData.productType === "product" ?'Enter Quantity Range':'Total sq ft'}</label>
             <div className="range-container">
               <input
                 type="number"
                 className="form-input small-input"
-                placeholder="Lower Limit"
+                placeholder={userData.productData.productType === "product" ? "Lower Limit":""}
                 style={{ width: "100px" }}
                 value={slab.min||''}
                 onChange={(e) => {
@@ -2114,8 +2148,8 @@ onClick={addammenties}
           </div> </>}
 
         </div>
-      ))}
-
+      )))
+}
 
 
               {/* Enable Return with Max Days */}
