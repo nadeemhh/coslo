@@ -1,10 +1,10 @@
 'use client'
 import { useState ,useEffect} from 'react';
-import Productcard from '../component/productshowcard.js'
+import Productcard from './productshowcard.js'
 import { useInView } from "react-intersection-observer";
 
 
-const RealEstateproducts = ({category_id=null}) => {
+const Otherproducts = ({category_id=null}) => {
     const [products, setProducts] = useState([]);  
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -85,4 +85,4 @@ const RealEstateproducts = ({category_id=null}) => {
     );
 }
 
-export default RealEstateproducts;
+export default Otherproducts;

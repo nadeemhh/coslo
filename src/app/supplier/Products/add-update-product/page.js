@@ -35,7 +35,9 @@ export default function Page() {
       category: "",
       tag:"",
       BrandName:"",
-      amazoneProductUrl:""
+      amazoneProductUrl:"",
+      canCall:true,
+      canBook:true,
     },
     variationsData: [
     
@@ -721,7 +723,7 @@ cleanVariationData([
     "divertIndividualOrder",
     "isReturnable",
     "returnDays"
-  ],["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
+  ],["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","canCall","canBook"]);
 
   }
 
@@ -730,7 +732,7 @@ cleanVariationData([
   if(userData.productData.productType === "product"){
 
 // Call the function
-cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataType", "approvalType"]);
+cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataType", "approvalType","canCall","canBook"]);
 
   }
 
@@ -1103,12 +1105,60 @@ cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "pric
 
 
 async function Updateproductdetails() {
-  
+   
   if(userData.productData.tag === "" || userData.productData.tag === null){
     alert('select a tag')
     return;
   }
 
+   let userDatacopy =structuredClone(userData);
+  
+  function cleanVariationData(productDataRemove) {
+
+  const keysToRemoveproductData = productDataRemove;
+
+   
+    keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
+
+}
+
+
+
+  if(userData.productData.productType === "property"){
+    
+    userDatacopy.variationsData.forEach(variation => {
+  if (Array.isArray(variation.priceSlabs)) {
+    variation.priceSlabs.forEach(slab => {
+      if (slab.max === "") slab.max = 0;
+      if (slab.discount === "") slab.discount = 0;
+      if (slab.deliveryFee === "") slab.deliveryFee = 0;
+    });
+  }
+});
+
+
+// Call the function
+cleanVariationData(["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
+
+  }
+
+
+  
+  if(userData.productData.productType === "product"){
+
+// Call the function
+cleanVariationData(["location", "ammenties", "khataType", "approvalType"]);
+
+  }
+
+  if(userData.productData.productType === "service"){
+
+// Call the function
+cleanVariationData(["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
+
+  }
+  
+  
 
   try {
     document.querySelector('.loaderoverlay').style.display='flex';
@@ -1124,7 +1174,7 @@ async function Updateproductdetails() {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
       },
-      body: JSON.stringify(userData.productData),
+      body: JSON.stringify(userDatacopy.productData),
     });
 
     if (response.ok) {
@@ -1336,7 +1386,11 @@ function checkdefaultAttribute(variation) {
 {!productupdate && <div className="input-group">
 
 <label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
-<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => handleProductDataChange("productType", e.target.value)}>
+<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => {
+  resetPrimaryGroup()
+
+  handleProductDataChange("productType", e.target.value)
+  }}>
            <option value="product">Product</option>
         <option value="property">Property</option>
           <option value="service">Service</option>
@@ -1424,7 +1478,65 @@ function checkdefaultAttribute(variation) {
       )}
     </div>
 
-        
+          {userData.productData.productType === "service" && <div
+      style={{
+        display: "flex",
+        gap: "30px",
+        maxWidth: "220px",
+        whiteSpace:'nowrap',
+        marginTop:'50px'
+      }}
+    >
+      {/* Call Option */}
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "5px",
+          cursor: "pointer",
+        }}
+      >
+        <input
+          type="checkbox"
+          style={{
+            transform: "scale(1.5)",
+            marginRight: "6px",
+            cursor: "pointer",
+          }}
+             onChange={(e) => {
+               handleProductDataChange("canCall", e.target.checked)
+          }}
+          checked={userData.productData?.canCall}
+        />
+        <span>Call Option</span>
+      </label>
+
+      {/* Book Now Option */}
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "5px",
+          cursor: "pointer",
+        }}
+      >
+        <input
+          type="checkbox"
+          style={{
+            transform: "scale(1.5)",
+            marginRight: "6px",
+            cursor: "pointer",
+          }}
+             onChange={(e) => {
+                handleProductDataChange("canBook", e.target.checked)
+          }}
+           checked={userData.productData?.canBook}
+
+        />
+        <span>Book Now Option</span>
+      </label>
+    </div>}
+
         {/* <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
         <i
@@ -1672,7 +1784,7 @@ onClick={addammenties}
       
 
           {/* Primary Group Selection */}
-      {!primaryGroup ? (
+     {userData.productData.productType !== "service" && (!primaryGroup ? (
         <div style={{ marginBottom: '20px' }}>
           <h4 style={{ marginBottom: '5px' }}>Select Primary Attribute:</h4>
           <select
@@ -1707,9 +1819,9 @@ onClick={addammenties}
             }}
           ></i>}
         </div>
-      )}
+      ))}
 
-        {primaryGroup && <button className="add-btn" onClick={()=>{
+        {primaryGroup &&  <button className="add-btn" onClick={()=>{
    
    function reset() {
 
@@ -1722,6 +1834,22 @@ onClick={addammenties}
           }}>
           Add Variation <i className="fas fa-plus"></i>
         </button>}
+
+
+       { userData.productData.productType === "service" && <button className="add-btn" onClick={()=>{
+   
+   function reset() {
+
+    toggleModal(false)
+      setSelectedPricingIndex(null);
+   }
+
+          selectedPricingIndex===null ? toggleModal() : reset()
+
+          }}>
+          Add Variation <i className="fas fa-plus"></i>
+        </button>}
+
       </div>
       {/* <div className="others-section">
         <h2 className="section-title">Others</h2>

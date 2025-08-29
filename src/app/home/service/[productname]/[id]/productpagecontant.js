@@ -8,7 +8,7 @@ import getDiscountedPrice from '../../../../component/discountpricecalc.js'
 import scrollToElement from '../../../../component/scrollToElement.js'
 import cartcountget from '../../../../component/cartcountget.js';
 import usePreventNumberInputScroll from '../../../../component/usePreventNumberInputScroll.js';
-import ProductVariations from '../../../../component/ProductVariations.js'
+import ServiceVariations from '../../../../component/servicevariations.js'
 import formatNumberIndian from '../../../../component/formatNumberIndian.js'
 import Viewerproductpage from '../../../../component/viewerproductpage.js'
 import { useParams } from "next/navigation";
@@ -592,17 +592,17 @@ function formatPhoneNumber(number) {
 
 
 {/* Pricing Section */}
-<div className="pricing">
-         {data.productType === "product" ? <>
-          <span className="price-mrp">MRP</span>
-            <span className="current-price">₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
-           </>: <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min))}</span>}
-          </div>
+<div className="pricing" style={{display:'flex',alignItems:"center",gap:'15px',fontSize: '18px', fontWeight: '550', color: 'rgb(9, 124, 225)'}}>
+
+<span>₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
+
+<span style={{fontSize:'15px', color:'#666'}}>• {data.variations[showslab].duration.value} {data.variations[showslab].duration.unit}</span>
+</div>
         
 
 <div className="technical-details" style={{display:'flex',gap:'15px',alignItems:'flex-start',flexWrap:'wrap',textAlign:'left',marginTop:'40px'}}>
   
-<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
+<ServiceVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
 
 
 </div>
@@ -610,14 +610,19 @@ function formatPhoneNumber(number) {
   
           {/* Buttons */}
           
-            <div className="button-group" style={{marginTop:'20px'}}>
+            {(data.canCall===true || data.canBook===true) && <div className="button-group" style={{marginTop:'20px'}}>
 
-{data?.productType === "property"  &&  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
-            Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
-            </a>
-          }
+{data.canCall && <a href={`tel:+91${data.sellerDetails.phone}`} className="call-supplier pb">
+           Call Now    <i className="fas fa-phone"></i>
 
-          </div>
+            </a>}
+          
+         {data.canBook && <button className="call-supplier pb">
+           Book Now    <i className="fas fa-calendar-check"></i>
+
+            </button>}
+
+          </div>}
 
   
         </div>

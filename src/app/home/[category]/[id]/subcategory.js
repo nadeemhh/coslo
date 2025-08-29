@@ -40,6 +40,8 @@ import Productcard from '../../../component/productshowcard.js'
 
   if(categoryname==="Real Estate"){
     localStorage.setItem("productType","property")
+ }else if(categoryname==="service"){
+    localStorage.setItem("productType","service")
  }else{
    localStorage.setItem("productType","product")
  }

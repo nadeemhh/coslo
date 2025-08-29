@@ -43,7 +43,9 @@ import slugifyurl from "../../../component/slugifyurl.js"
     
       if(name==="property"){
         localStorage.setItem("productType","property")
-     }else{
+     }else if(name==="service"){
+    localStorage.setItem("productType","service")
+ }else{
        localStorage.setItem("productType","product")
      }
       }, []);

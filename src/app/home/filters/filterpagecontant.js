@@ -36,7 +36,8 @@ function Filterpagedata() {
 
     }else{
 
-     let filter = filtertype === 'product' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
+    // let filter = filtertype === 'product' ? `query=${searchQuery}`: `sellerName=${searchQuery}` ;
+     let filter = `query=${searchQuery}`;
      url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/search?page=${page}&limit=10&${filter}`;
 
     }

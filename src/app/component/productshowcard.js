@@ -24,6 +24,17 @@ productType= "product";
     return number.startsWith("91") ? number : "91" + number;
 }
 
+let pageurl;
+
+if(productType === "property"){
+pageurl=`/home/property/${slugifyurl(pname)}/${pid}`;
+}
+else if(productType === "service"){
+pageurl=`/home/service/${slugifyurl(pname)}/${pid}`;
+}
+else{
+pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
+}
 
 
   return (
@@ -31,7 +42,7 @@ productType= "product";
 <div className="product-card">
       {/* Product Image */}
       <div className="product-image">
-      <a href={productType !== "property" ? `/home/product/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
+      <a href={pageurl}>
         <img
           src={pimage || '/images/noimgavl.jpg'} // Replace with actual image URL
           alt={pname}
@@ -65,17 +76,30 @@ productType= "product";
        
 
         {/* Title and Supplier */}
-        <a href={productType !== "property" ? `/home/product/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
+        <a href={pageurl}>
         <p className="product-title product-title-height" >{pname.length > 40 ? (pname.substring(0, 40) + '...').toUpperCase() : pname.toUpperCase()}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
         </a>
         {/* Price */}
         <div className="product-actions">
-        {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.mrp*variation.priceSlabs[0].min))}</p>}
+        {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:(productType === "property" ?<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.mrp*variation.priceSlabs[0].min))}</p>:<p className="price" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹{formatNumberIndian(variation?.mrp)}</p>)}
+
+        {productType === "service" && variation?.duration?.value && <p style={{ 
+  fontSize: "14px", 
+  color: "#444", 
+  margin: "6px 0", 
+  display: "flex", 
+  alignItems: "center", 
+  gap: "6px" 
+}}>
+  <i className="fas fa-clock" style={{ color: "#097CE1", fontSize: "15px" }}></i>
+  {variation?.duration.value} {variation?.duration.unit}
+</p>
+}
         </div>
 
-<div className="priceTableContainer56" style={{marginTop:'10px'}}>
+{productType !== "service" && <div className="priceTableContainer56" style={{marginTop:'10px'}}>
           {productType === "product" ? <table className="priceTable56">
       <thead className="tableHeader56">
         <tr className="headerRow56">
@@ -99,7 +123,7 @@ productType= "product";
       
       </tbody>
     </table>:
-    <table className="priceTable56">
+   <table className="priceTable56">
       <thead className="tableHeader56">
         <tr className="headerRow56">
            <th className="tableCell56">Per sq ft cost</th>
@@ -123,7 +147,7 @@ productType= "product";
       </tbody>
     </table>
     }
-    </div>
+    </div>}
       
 
         {/* Actions */}
@@ -134,7 +158,7 @@ productType= "product";
 </a>
 
          
-<a href={productType !== "property" ? `/home/product/${slugifyurl(pname)}/${pid}` : `/home/property/${slugifyurl(pname)}/${pid}`}>
+<a href={pageurl}>
           <button className="contact-btn">Check Details</button>
           </a>
           {/* <button className="Add-to-Cart">Add to Cart</button> */}

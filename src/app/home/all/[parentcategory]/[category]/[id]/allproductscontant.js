@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Productcard from '../../../../../component/productshowcard.js'
 import scrollToElement from '../../../../../component/scrollToElement.js'
 import Productbyusertype from '../../../../../component/Detail-tab/productbyusertype.jsx'
-import RealEstateproducts from '../../../../../component/RealEstateproducts.js'
+import Otherproducts from '../../../../../component/Otherproducts.js'
 import { useInView } from "react-intersection-observer";
 import { useState ,useEffect,Suspense } from 'react';
 import { useParams } from "next/navigation";
@@ -24,6 +24,8 @@ import { useParams } from "next/navigation";
 
   if(parentcategory==="Real Estate"){
     localStorage.setItem("productType","property")
+ }else if(parentcategory==="service"){
+    localStorage.setItem("productType","service")
  }else{
    localStorage.setItem("productType","product")
  }
@@ -38,7 +40,7 @@ import { useParams } from "next/navigation";
 {category && <h3 style={{color:'#1389F0',marginTop:'0px',marginBottom:'40px'}}>{category}</h3>}
 </div>
 
-{parentcategory === "Real Estate"?<RealEstateproducts category_id={category_id}/> : <Productbyusertype category_id={category_id}/>}
+{parentcategory === "Real Estate"||parentcategory === "service"?<Otherproducts category_id={category_id}/> : <Productbyusertype category_id={category_id}/>}
 
 
     </div>}

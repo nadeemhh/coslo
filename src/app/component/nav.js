@@ -29,7 +29,7 @@ const [selectedFilter, setSelectedFilter] = useState("product");
   const placeholderMap = {
   product: "Search Products",
   property: "Enter address to Search Property",
-  seller: "product by seller name",
+  service: "Search Services",
 };
 
 
@@ -65,12 +65,12 @@ console.log(selectedName)
 
       const onLoad = () => {
    setTimeout(() => {
+
     const productType = localStorage.getItem("productType");
-    if (productType === "property") {
-      setSelectedFilter("property");
-    }else{
-      setSelectedFilter("product");
-    }
+    
+if(productType){ setSelectedFilter(productType);}
+     
+
   }, 1000);
   };
 
@@ -197,7 +197,7 @@ console.log(selectedName)
   }}>
                <option value="product">Products</option>
                 <option value="property">Property</option>
-               <option value="seller">Seller</option>
+               <option value="service">Service</option>
                </select>
           
           </div>
