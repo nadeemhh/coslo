@@ -684,6 +684,12 @@ console.log(userDatacopy)
   const keysToRemoveproductData = productDataRemove;
 
   userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
+
+    if(!variation?.duration?.value){
+   delete variation.duration
+    }
+
+
     const cleaned = { ...variation };
     keysToRemove.forEach(key => delete cleaned[key]);
     return cleaned;
@@ -739,7 +745,7 @@ cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataT
   if(userData.productData.productType === "service"){
 
 // Call the function
-cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
+cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","primaryAttribute"]);
 
   }
   
@@ -1919,34 +1925,10 @@ onClick={addammenties}
                 
                 
                 }}>
-            {/* MRP Input */}
-
-
-            <div className="form-group">
-              <label className="form-label">{userData.productData.productType === "product" || userData.productData.productType === "service" ?'MRP':'Per sq ft cost'}</label>
-              <input
-                type="number"
-                className="form-input"
-                value={variation.mrp}
-                onChange={(e) => handleVariationChange("mrp", e.target.value)}
-                required
-              />
-            </div>
+        
 
 
 { userData.productData.productType === "service" && <>
-
- <div className="form-group">
-              <label className="form-label">GST %</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 10%"
-                value={variation.gst}
-                required
-                onChange={(e) => handleVariationChange("gst", e.target.value)}
-              />
-            </div>
 
 
   <div className="form-group">
@@ -1967,7 +1949,7 @@ onClick={addammenties}
                 type="number"
                 className="form-input"
                 value={variation.duration.value}
-                required
+                
                 onChange={(e) => handleserviceChange("value", e.target.value)}
               />
             </div>
@@ -1986,9 +1968,36 @@ onClick={addammenties}
         </div>
 
       </div>
+
+       <div className="form-group">
+              <label className="form-label">GST %</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="Eg. 10%"
+                value={variation.gst}
+                required
+                onChange={(e) => handleVariationChange("gst", e.target.value)}
+              />
+            </div>
+
             
 </>
 }
+
+            <div className="form-group">
+              <label className="form-label">{userData.productData.productType === "product" || userData.productData.productType === "service" ?'MRP':'Per sq ft cost'}</label>
+              <input
+                type="number"
+                className="form-input"
+                value={variation.mrp}
+                onChange={(e) => handleVariationChange("mrp", e.target.value)}
+                required
+              />
+            </div>
+
+
+
          { userData.productData.productType === "product" && <>
          
           <div className="form-group">

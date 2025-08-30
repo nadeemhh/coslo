@@ -53,8 +53,8 @@ const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, produc
   return (
     <div className="container522">
       <div className="attribute-section522">
-        <div className="attribute-label522">
-          Services Available:
+        <div className="attribute-label522" style={{color:'black'}}>
+          Services Available
         </div>
         <div className="attribute-options522" style={{marginTop:'20px'}}>
           {pdata.variations.map((variation, index) => {
@@ -92,7 +92,7 @@ const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, produc
                   )}
                   
                   {/* Service Name */}
-                  <p style={{margin:'10px 0px 5px 0px', fontWeight: '500'}}>
+                  <p style={{color:'#3a3a3a',margin:'10px 0px 5px 0px', fontWeight: '600'}}>
                     {variation.serviceName}
                   </p>
                   

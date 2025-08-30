@@ -87,7 +87,7 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
 
         {productType === "service" && variation?.duration?.value && <p style={{ 
   fontSize: "14px", 
-  color: "#444", 
+ color:'#0088ff',background:'rgb(19 137 240 / 17%)',padding:'5px',borderRadius:'6px',
   margin: "6px 0", 
   display: "flex", 
   alignItems: "center", 
