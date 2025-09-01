@@ -1986,7 +1986,7 @@ onClick={addammenties}
 }
 
             <div className="form-group">
-              <label className="form-label">{userData.productData.productType === "product" || userData.productData.productType === "service" ?'MRP':'Per sq ft cost'}</label>
+              <label className="form-label">{userData.productData.productType === "property" ?'Per sq ft cost':userData.productData.productType === "service" ?'Price':'Mrp'}</label>
               <input
                 type="number"
                 className="form-input"

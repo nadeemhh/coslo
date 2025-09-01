@@ -596,7 +596,16 @@ function formatPhoneNumber(number) {
 
 <span>₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
 
-<span style={{fontSize:'15px', color:'#666'}}>• {data.variations[showslab].duration.value} {data.variations[showslab].duration.unit}</span>
+<span style={{ 
+  fontSize: "14px", 
+ color:'#0088ff',background:'rgb(19 137 240 / 17%)',padding:'5px',borderRadius:'6px',
+  margin: "6px 0", 
+  display: "flex", 
+  alignItems: "center", 
+  gap: "6px" ,
+  fontWeight: '500'
+}}>
+    <i className="fas fa-clock" style={{ color: "#097CE1", fontSize: "15px" }}></i> {data.variations[showslab].duration.value} {data.variations[showslab].duration.unit}</span>
 </div>
         
 
