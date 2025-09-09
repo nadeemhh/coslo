@@ -1,89 +1,243 @@
-#usersidebar{gap: 10px !important;}
+/* User Sidebar Styles */
+#usersidebar {
+  gap: 10px !important;
+}
 
+/* Profile section styles */
 .profile {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    border: 2px solid #D7DADB;
-    border-radius: 20px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 2px solid #D7DADB;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid #000000;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-info h3 {
+  font-size: 16px;
+  margin: 0;
+  color: #333;
+}
+
+.logout-btn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #e63946;
+}
+
+/* Menu container */
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Base menu item styles */
+.menu-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Child menu item specific styles */
+.child-menu-item {
+  margin-bottom: 5px;
+  margin-left: 0;
+  background-color: #f8f9fa;
+  border-left: 3px solid #e6f7ff;
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+}
+
+.child-menu-item:hover {
+  background-color: #e6f7ff;
+  border-left-color: #1890ff;
+}
+
+.child-menu-item.active {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border-left-color: #1890ff;
+}
+
+.child-menu-item.active i {
+  color: #1890ff;
+}
+
+/* Menu item icons */
+.menu-item i {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #888;
+  min-width: 20px;
+  text-align: center;
+}
+
+.child-menu-item i {
+  font-size: 14px;
+  margin-right: 8px;
+  color: #666;
+}
+
+/* Menu item text */
+.menu-item span {
+  font-weight: 500;
+  flex: 1;
+}
+
+.child-menu-item span {
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+/* Hover effects */
+.menu-item:hover {
+  background-color: #e6f7ff;
+  transform: translateX(2px);
+}
+
+.menu-item:hover i {
+  color: #1890ff;
+}
+
+/* Active state styles */
+.menu-item.active {
+  background-color: #e6f7ff;
+  color: #1890ff;
+  border-left: 3px solid #1890ff;
+}
+
+.menu-item.active i {
+  color: #1890ff;
+}
+
+/* Parent menu item with children styles */
+.menu-item[style*="cursor: pointer"] {
+  position: relative;
+}
+
+.menu-item[style*="cursor: pointer"]:hover {
+  background-color: #f0f2f5;
+}
+
+/* Chevron icon styles for expandable menus */
+.menu-item .fa-chevron-right,
+.menu-item .fa-chevron-down {
+  font-size: 12px !important;
+  margin-left: auto !important;
+  margin-right: 5px !important;
+  transition: transform 0.3s ease;
+  color: #888 !important;
+}
+
+.menu-item .fa-chevron-down {
+  transform: rotate(0deg);
+}
+
+.menu-item .fa-chevron-right {
+  transform: rotate(0deg);
+}
+
+/* Child menu container */
+.menu-item + div[style*="marginLeft"] {
+  border-left: 2px solid #e6f7ff;
+  margin-left: 20px !important;
+  padding-left: 0;
+  margin-bottom: 10px;
+}
+
+/* Animation for child menu appearance */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
   }
-  
-  .profile-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-    border: 2px solid #000000;
+  to {
+    opacity: 1;
+    max-height: 200px;
+    transform: translateY(0);
   }
-  
-  .profile-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .profile-info h3 {
-    font-size: 16px;
-    margin: 0;
-    color: #333;
-  }
-  
-  .logout-btn {
-    background-color: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius:5px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .logout-btn:hover {
-    background-color: #e63946;
-  }
-  
-  .menu {
-    display: flex;
-    flex-direction: column;
-  }
-  
+}
+
+.menu-item + div[style*="marginLeft"] {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Support section styles */
+.menu p {
+  color: #666;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-align: left;
+}
+
+/* Customer support button styles */
+.menu-item[style*="backgroundColor"] {
+  border: 1px solid #179757 !important;
+  background-color: #E8FFF3 !important;
+  color: #179757 !important;
+}
+
+.menu-item[style*="backgroundColor"]:hover {
+  background-color: #d4f7e6 !important;
+  transform: translateX(2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .menu-item {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .child-menu-item {
+    padding: 6px 10px;
+    font-size: 12px;
   }
   
   .menu-item i {
-    font-size: 18px;
-    margin-right: 10px;
-    color: #888;
+    font-size: 16px;
+    margin-right: 8px;
   }
   
-  .menu-item span {
-    font-weight: 500;
+  .child-menu-item i {
+    font-size: 12px;
+    margin-right: 6px;
   }
-  
-  .menu-item:hover {
-    background-color: #e6f7ff;
-  }
-  
-  .menu-item.active {
-    background-color: #e6f7ff;
-    color: #1890ff;
-  }
-  
-  .menu-item.active i {
-    color: #1890ff;
-  }
+}

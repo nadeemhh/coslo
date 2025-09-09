@@ -21,13 +21,13 @@ console.log('id=',id,productname)
 
     let data = await res.json();
 
-     data = data?.data?.name;
      console.log('data=',data)
     return {
-      title: data || 'coslomart',
-      description: data || 'coslomart' ,
+        title: data.data.metatitle || 'coslomart',
+      description: data.data.metadescription || 'coslomart' ,
+      keywords:data.data.metakeywords||'coslomart',
         alternates: {
-        canonical: `https://www.coslomart.com/home/products/${productname}/${id}`,
+        canonical: `https://www.coslomart.com/home/product/${productname}/${id}`,
       },
     };
   } catch (error) {

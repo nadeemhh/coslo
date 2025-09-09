@@ -1,5 +1,7 @@
 import Script from "next/script";
 import { GlobalProvider } from './context/GlobalState';
+import ToastProvider from "./component/ToastProvider.js"; // adjust path
+
 
 import "./globals.css";
 export default function RootLayout({ children }) {
@@ -116,7 +118,10 @@ export default function RootLayout({ children }) {
             </head>
       <body>
         {/* <h1>nav1</h1>  */}
+              <ToastProvider /> 
         {children}
+
+   
 
       </body>
     </html>

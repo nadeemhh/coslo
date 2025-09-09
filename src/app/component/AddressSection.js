@@ -2,7 +2,7 @@
 
 import { useState,useEffect } from "react";
 
-function AddressSection({isaddress, setisaddress}) {
+function AddressSection({isaddress, setisaddress,fontsize=null,setselectedaddress=false}) {
   const [ModalOpen, setModalOpen] = useState(false);
   const [showadd,setshowadd]=useState(false);
   const [addresses,setaddresses]=useState([])
@@ -31,6 +31,12 @@ function AddressSection({isaddress, setisaddress}) {
           }
 
           setaddresses(data.shippingAddresses)
+        
+          if(setselectedaddress !== false){
+          
+            setselectedaddress(data.shippingAddresses.find(item => item.isDefault === true))
+          }
+
         })
         .catch((error) => console.error("Error fetching categories:", error));
     };
@@ -182,7 +188,7 @@ const SelectedAddressfun = async (index,id) => {
     <div className="address-section">
       {/* Select Address */}
       <div className="select-address">
-        {addresses.length !== 0 &&  <h3>Select Address</h3>}
+        {addresses.length !== 0 &&  <h3 style={{fontSize:fontsize}}>Select Address</h3>}
         {addresses.map((item, index) => (
           <div
             key={item._id}
@@ -193,9 +199,10 @@ const SelectedAddressfun = async (index,id) => {
           >
             <div style={{display:"flex",gap:'10px'}}>
             <div className="icon">
-              <i className="fas fa-map-marker-alt"></i>
+            { item.isDefault &&  <i className="fas fa-check"></i>}
+              {/* <input type="checkbox" checked={item.isDefault} style={{height:'17px',width:"17px"}} /> */}
             </div>
-            <div className="details">
+            <div className="details" style={{textAlign:'left'}}>
               <p className="address">{item.addressLine}</p>
               <p className="address">{item.landmark}</p>
               <p className="city">city - {item.city}</p>

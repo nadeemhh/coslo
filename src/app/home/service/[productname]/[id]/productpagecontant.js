@@ -11,6 +11,7 @@ import usePreventNumberInputScroll from '../../../../component/usePreventNumberI
 import ServiceVariations from '../../../../component/servicevariations.js'
 import formatNumberIndian from '../../../../component/formatNumberIndian.js'
 import Viewerproductpage from '../../../../component/viewerproductpage.js'
+import BookingButton from '../../../../component/BookingButton.js'
 import { useParams } from "next/navigation";
 import { useRef ,useState,useEffect,Suspense} from 'react';
 
@@ -35,7 +36,7 @@ const [activeIndex, setActiveIndex] = useState(0);
   const [showAll, setShowAll] = useState(false);
   const [shouldShowButton, setShouldShowButton] = useState(false);
   const ammentiescontainerRef = useRef(null);
-
+  const [selectedVariationIds, setSelectedVariationIds] = useState([]);
 
 console.log(data);
 
@@ -611,7 +612,7 @@ function formatPhoneNumber(number) {
 
 <div className="technical-details" style={{display:'flex',gap:'15px',alignItems:'flex-start',flexWrap:'wrap',textAlign:'left',marginTop:'40px'}}>
   
-<ServiceVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
+<ServiceVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType} selectedVariationIds={selectedVariationIds} setSelectedVariationIds={setSelectedVariationIds}/>
 
 
 </div>
@@ -626,10 +627,7 @@ function formatPhoneNumber(number) {
 
             </a>}
           
-         {data.canBook && <button className="call-supplier pb">
-           Book Now    <i className="fas fa-calendar-check"></i>
-
-            </button>}
+         {data.canBook && <BookingButton selectedVariationIds={selectedVariationIds}/>}
 
           </div>}
 

@@ -245,7 +245,7 @@ form input:focus {
 .cancel {
   background-color: #00000000;
   color: #000000;
-  border: 1px solid black;
+  border: 1px solid black !important;
 }
 
 .buttons .add {

@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 import '../component/component-css/ProductVariations.css';
 
-const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, productType}) => {
+const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, productType,selectedVariationIds, setSelectedVariationIds}) => {
   console.log(pdata);
 
-  const [selectedVariationIds, setSelectedVariationIds] = useState([]);
+
 
   // Initialize component - Set first variation as selected
   useEffect(() => {
@@ -14,9 +14,12 @@ const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, produc
       return;
     }
 
-    // Default to the first variation
+    // Default to the first variation with the required object structure
     const firstVariation = pdata.variations[0];
-    setSelectedVariationIds([firstVariation._id]);
+    setSelectedVariationIds([{
+      product: pdata._id,
+      variation: firstVariation._id
+    }]);
     setshowslab(0);
     
   }, [pdata]);
@@ -29,14 +32,19 @@ const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, produc
     // Reset image slider to start from 0
     setActiveIndex(0);
     
-    // Toggle selection - add or remove from array
+    // Toggle selection - add or remove from array with object structure
     setSelectedVariationIds(prev => {
-      if (prev.includes(variationId)) {
+      const existingIndex = prev.findIndex(item => item.variation === variationId);
+      
+      if (existingIndex !== -1) {
         // Remove if already selected
-        return prev.filter(id => id !== variationId);
+        return prev.filter(item => item.variation !== variationId);
       } else {
-        // Add if not selected
-        return [...prev, variationId];
+        // Add if not selected with required object structure
+        return [...prev, {
+          product: pdata._id,
+          variation: variationId
+        }];
       }
     });
     
@@ -58,7 +66,7 @@ const ServiceVariations = ({setshowslab, pdata, showslab, setActiveIndex, produc
         </div>
         <div className="attribute-options522" style={{marginTop:'20px'}}>
           {pdata.variations.map((variation, index) => {
-            const isSelected = selectedVariationIds.includes(variation._id);
+            const isSelected = selectedVariationIds.some(item => item.variation === variation._id);
             
             return (
               <div

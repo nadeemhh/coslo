@@ -51,7 +51,7 @@ const AddressPage = () => {
       <div className="cart-content">
         {/* Cart Items Section */}
         <div className="cart-items">
-        <AddressSection isaddress={isaddress} setisaddress={setisaddress}/>
+        <AddressSection isaddress={isaddress} setisaddress={setisaddress} fontsize={'22px'}/>
 
         </div>
 

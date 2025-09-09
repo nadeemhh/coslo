@@ -382,9 +382,9 @@ if(sellerdata==='COSLO'){
                 <td>{order.paymentType}</td>
                 <td>{order.paymentStatus}</td>
                 <td>{order.deliveryType}</td>
-                <td>₹ {order.totalAmount}</td>
+                <td>₹ {order.totalAmount.toFixed(2)}</td>
                 <td>
-                <Link href={`/supplier/orders/order-details?oid=${order.orderId}`}>
+                <Link href={`/supplier/productorders/order-details?oid=${order.orderId}`}>
                 <img src="\icons\editp.svg" alt="" />
                 </Link>
                 

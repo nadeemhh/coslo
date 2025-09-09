@@ -10,11 +10,13 @@ import Goback from '../../back.js'
 export default function Page() {
 
   const [activeCategory, setActiveCategory] = useState(null);
+    const [activeCategoryforproduct, setactiveCategoryforproduct] = useState(null);
   const [updateCategory, setupdateCategory] = useState(null);
   const [changeurl, setchangeurl] = useState(false);
   const [addcategory, setAddCategory] = useState(false);
   const [subcategory, setsubcategory] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [canshowCategoryProducts, setcanshowCategoryProducts] = useState(false);
 console.log(categories)
  
   const refreshCategories = () => {
@@ -78,7 +80,9 @@ console.log(categories)
 
           <div className="category-actions">
            
-          <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setupdateCategory={setupdateCategory}/>
+          <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setupdateCategory={setupdateCategory} setcanshowCategoryProducts={setcanshowCategoryProducts} setactiveCategoryforproduct={setactiveCategoryforproduct}/>
+
+{canshowCategoryProducts &&  <ShowCategoryProducts activeCategoryid={activeCategoryforproduct} />}
 
        {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} setchangeurl={setchangeurl} allcategory={categories}/>}
 
@@ -276,7 +280,7 @@ if(updateCategory !== false){
           <input
               type="text"
               className="form-input"
-              placeholder=""
+              placeholder="Enter Title"
               value={categorytitle}
               onChange={(e) => setCategorytitle(e.target.value)}
             />
@@ -284,12 +288,12 @@ if(updateCategory !== false){
 
          <div className="input-group">
           <label htmlFor="Keywords">Enter Keywords</label>
-          <textarea className='form-input' placeholder="" value={categorykeywords} onChange={(e) => setCategorykeywords(e.target.value)}></textarea>
+          <textarea className='form-input' placeholder="Enter meta keywords (comma separated)" value={categorykeywords} onChange={(e) => setCategorykeywords(e.target.value)}></textarea>
         </div>
           
           <div className="input-group">
           <label htmlFor="description">Enter Description</label>
-          <textarea className='form-input' placeholder="" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
+          <textarea className='form-input' placeholder="Enter Description" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
         </div>
 
           <div className="image-uploader">
@@ -355,7 +359,7 @@ const generatePaths = (categories, parentPath = '') => {
 };
 
 
-const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCategory,setupdateCategory}) => {
+const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCategory,setupdateCategory,setcanshowCategoryProducts,setactiveCategoryforproduct}) => {
  
   const [openCategories, setOpenCategories] = useState([]);
 //  const [activeCategory, setActiveCategory] = useState(null);
@@ -394,8 +398,13 @@ const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCatego
                   </span>
                 )}
 
+                   <i className="fas fa-boxes" onClick={()=>{
+                     setactiveCategoryforproduct(category.id)
+                    setcanshowCategoryProducts(true)
+                    }} style={{fontSize:'15px',color:'purple'}}></i>
+
                 <i className="fas fa-pencil-alt" style={{fontSize:'15px',color:'green'}} onClick={()=>(setupdateCategory({id:category.id,name:category.name,image:category.image,title:category.title,description:category.description,keywords:category.keywords}))}></i>
-                
+ 
                 <span onClick={() => setActive(category.id)} className="category-name342">
                   {category.name}
                 </span>
@@ -414,3 +423,369 @@ const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCatego
 
   return <div className="dropdown-container342">{renderCategories(categories)}</div>;
 };
+
+
+
+// Component to show products of a specific category
+function ShowCategoryProducts({ activeCategoryid }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [showEditMeta, setShowEditMeta] = useState(false);
+  const [productname, setproductname] = useState('');
+  useEffect(() => {
+    if (activeCategoryid) {
+      fetchCategoryProducts();
+    }
+  }, [activeCategoryid]);
+
+  const fetchCategoryProducts = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+
+          const token = localStorage.getItem('seotoken');
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seo/products/category/${activeCategoryid}`,
+        {
+        method: "GET",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }}
+      );
+
+       const result = await response.json();
+       
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to fetch products');
+      }
+      
+      if (result.success) {
+        setProducts(result.data);
+      } else {
+        setError('Failed to load products');
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditMeta = (productId,productname) => {
+    setSelectedProductId(productId);
+    setShowEditMeta(true);
+    setproductname(productname)
+  };
+
+  const handleCloseEditMeta = () => {
+    setShowEditMeta(false);
+    setSelectedProductId(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="category-products-container" style={{ padding: '20px' }}>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="category-products-container" style={{ padding: '20px' }}>
+        <p style={{ color: 'red' }}>{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="category-products-container" style={{ 
+      padding: '20px', 
+      backgroundColor: '#f9f9f9', 
+      borderRadius: '8px',
+      marginTop: '10px',
+      maxHeight: '400px',
+      overflowY: 'auto',
+      maxWidth:'600px'
+    }}>
+      <h4 style={{ marginBottom: '15px', fontSize: '18px' }}>
+        Category Products ({products.length})
+      </h4>
+      
+      {products.length === 0 ? (
+        <p>No products found in this category.</p>
+      ) : (
+        <div className="products-list">
+          {products.map((product) => (
+            <div 
+              key={product.productid} 
+              className="product-item" 
+              style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                padding: '10px 0',
+                borderBottom: '1px solid #eee'
+              }}
+            >
+              <span style={{ flex: 1, fontSize: '14px' }}>
+                {product.productname}
+              </span>
+              <button
+                onClick={() => handleEditMeta(product.productid,product.productname)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '5px'
+                }}
+                title="Edit Product Meta"
+              >
+                <i className="fas fa-pencil-alt" style={{ fontSize: '14px', color: '#007bff' }}></i>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showEditMeta && (
+        <EditProductMeta 
+          productId={selectedProductId} 
+          onClose={handleCloseEditMeta}
+         productname={productname}
+        />
+      )}
+    </div>
+  );
+}
+
+
+// Component to edit product meta details
+function EditProductMeta({ productId, onClose,productname }) {
+  const [metaData, setMetaData] = useState({
+    metatitle: '',
+    metadescription: '',
+    metakeywords: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+ console.log(metaData)
+   const fetchproductmetadetails = () => {
+
+       const token = localStorage.getItem('seotoken');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seo/products/${productId}/meta`, {
+        method: 'GET', // or PUT/PATCH depending on your API
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` })
+        }
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.metatitle )
+
+        setMetaData({   
+    metatitle: data.data.metatitle || '',
+    metadescription: data.data.metadescription || '',
+    metakeywords: data.data.metakeywords || ''})
+      })
+
+      .catch((error) => console.error("Error fetching meta details:", error));
+  };
+
+  useEffect(() => {
+   fetchproductmetadetails()
+  }, []);
+
+  const handleInputChange = (field, value) => {
+    setMetaData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    if (!metaData.metatitle.trim()) {
+      alert('Meta title is required');
+      return;
+    }
+
+    setSaving(true);
+
+    try {
+      const token = localStorage.getItem('seotoken');
+      
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seo/products/${productId}/meta`, {
+        method: 'PUT', // or PUT/PATCH depending on your API
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` })
+        },
+        body: JSON.stringify(metaData)
+      });
+
+      if (response.ok) {
+        alert('Product meta details updated successfully!');
+        onClose();
+      } else {
+        const errorData = await response.json();
+        alert('Failed to update meta details: ' + (errorData.message || 'Unknown error'));
+      }
+    } catch (error) {
+      console.error('Error updating meta details:', error);
+      alert('Something went wrong while updating meta details!');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="modal-overlay" style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000
+    }}>
+      <div className="edit-meta-modal" style={{
+        backgroundColor: 'white',
+        padding: '30px',
+        borderRadius: '8px',
+        width: '90%',
+        maxWidth: '500px',
+        maxHeight: '80vh',
+        overflowY: 'auto'
+      }}>
+
+        <div style={{textAlign:'center'}}>
+        <h4 style={{ fontSize: '20px',marginBottom: '5px' }}>
+          Edit Product Meta Details
+        </h4>
+<p style={{marginBottom: '20px',color:'blue'}}>{productname} *</p>
+</div>
+
+        <div className="form-group" style={{ marginBottom: '20px' }}>
+          <label className="form-label" style={{ 
+            display: 'block', 
+            marginBottom: '5px', 
+            fontWeight: 'bold' 
+          }}>
+            Meta Title *
+          </label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Enter meta title"
+            value={metaData.metatitle}
+            onChange={(e) => handleInputChange('metatitle', e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              fontSize: '14px'
+            }}
+          />
+        </div>
+
+        <div className="form-group" style={{ marginBottom: '20px' }}>
+          <label className="form-label" style={{ 
+            display: 'block', 
+            marginBottom: '5px', 
+            fontWeight: 'bold' 
+          }}>
+            Meta Description
+          </label>
+          <textarea
+            className="form-input"
+            placeholder="Enter meta description"
+            rows="4"
+            value={metaData.metadescription}
+            onChange={(e) => handleInputChange('metadescription', e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              fontSize: '14px',
+              resize: 'vertical'
+            }}
+          />
+        </div>
+
+        <div className="form-group" style={{ marginBottom: '30px' }}>
+          <label className="form-label" style={{ 
+            display: 'block', 
+            marginBottom: '5px', 
+            fontWeight: 'bold' 
+          }}>
+            Meta Keywords
+          </label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="Enter meta keywords (comma separated)"
+            value={metaData.metakeywords}
+            onChange={(e) => handleInputChange('metakeywords', e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              border: '1px solid #ddd',
+              borderRadius: '4px',
+              fontSize: '14px'
+            }}
+          />
+        </div>
+
+        <div className="button-group" style={{ 
+          display: 'flex', 
+          gap: '10px', 
+          justifyContent: 'flex-end' 
+        }}>
+          <button
+            className="cancel-button"
+            onClick={onClose}
+            disabled={saving}
+            style={{
+              padding: '10px 20px',
+              border: '1px solid #ddd',
+              backgroundColor: '#f8f9fa',
+              color: '#333',
+              borderRadius: '4px',
+              cursor: saving ? 'not-allowed' : 'pointer',
+              opacity: saving ? 0.6 : 1
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            className="save-button"
+            onClick={handleSubmit}
+            disabled={saving}
+            style={{
+              padding: '10px 20px',
+              border: 'none',
+              backgroundColor: '#007bff',
+              color: 'white',
+              borderRadius: '4px',
+              cursor: saving ? 'not-allowed' : 'pointer',
+              opacity: saving ? 0.6 : 1
+            }}
+          >
+            {saving ? 'Saving...' : 'Save Meta Details'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

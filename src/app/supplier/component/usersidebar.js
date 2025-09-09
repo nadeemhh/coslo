@@ -10,6 +10,7 @@ const Usersidebar = () => {
   const [menuItems, setmenuItems] = useState([]);
   const [iscosload, setiscosload] = useState(false);
   const [issuperadmin,setissuperadmin] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState({});
 
   useAuthCheck('/auth/sup-manu/login','token');
 
@@ -29,7 +30,10 @@ if(iscoslo){
 }else{
 
   setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' },
+    { path: null, icon: 'fas fa-shopping-cart', label: 'Orders', childmenu:[
+      { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'product orders' },
+    { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'service orders' }
+  ]},
     { path: '/supplier/Products', icon: 'fas fa-box', label: 'Products' },
     { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
@@ -66,6 +70,67 @@ if(iscoslo){
 
 
 
+   const toggleExpandMenu = (label) => {
+    setExpandedMenus(prev => ({
+      ...prev,
+      [label]: !prev[label]
+    }));
+  };
+
+  
+  const isChildActive = (childmenu) => {
+    return childmenu && childmenu.some(child => child.path === currentPath);
+  };
+
+
+  const renderMenuItem = (item, isChild = false) => {
+    // Handle parent menu items with no direct path (have children)
+    if (item.path === null && item.childmenu) {
+      const isExpanded = expandedMenus[item.label];
+      const hasActiveChild = isChildActive(item.childmenu);
+      
+      return (
+        <div key={item.label}>
+          {/* Parent menu item that toggles child visibility */}
+          <div
+            className={`menu-item ${hasActiveChild ? 'active' : ''}`}
+            onClick={() => toggleExpandMenu(item.label)}
+            style={{ cursor: 'pointer' }}
+          >
+            <i className={item.icon}></i>
+            <span>{item.label}</span>
+            {/* Arrow indicator for expandable menus */}
+            <i 
+              className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}
+              style={{ marginLeft: 'auto', fontSize: '12px' }}
+            ></i>
+          </div>
+          
+          {/* Child menu items (shown when parent is expanded) */}
+          {isExpanded && (
+            <div style={{ marginLeft: '20px' }}>
+              {item.childmenu.map((childItem) => renderMenuItem(childItem, true))}
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // Handle regular menu items with direct paths
+    return (
+      <a href={item.path} key={item.path}>
+        <div
+          className={`menu-item ${currentPath === item.path ? 'active' : ''} ${isChild ? 'child-menu-item' : ''}`}
+          style={isChild ? { paddingLeft: '15px' } : {}}
+        >
+          <i className={item.icon}></i>
+          <span>{item.label}</span>
+        </div>
+      </a>
+    );
+  };
+
+
   return (
     <div className="side-bar sidebar" id="sidebar">
   
@@ -78,16 +143,8 @@ if(iscoslo){
 
       {/* Menu Items */}
       <div className="menu">
-        {menuItems.map((item) => (
-          <a href={item.path} key={item.path}>
-            <div
-              className={`menu-item ${currentPath === item.path ? 'active' : ''}`}
-            >
-              <i className={item.icon}></i>
-              <span>{item.label}</span>
-            </div>
-          </a>
-        ))}
+
+      {menuItems.map((item) => renderMenuItem(item))}
 
 {issuperadmin === false && <div className='menu-item' onClick={handleLogout}>
               <i className='fas fa-sign-out-alt' style={{color:'red'}}></i>
