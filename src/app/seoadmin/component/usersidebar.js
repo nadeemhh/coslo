@@ -13,7 +13,7 @@ const AdminDashboard = () => {
   useEffect(() => {
 
     const baseMenuItems = [
-        { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' }
+        { path: '/seoadmin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' }
     ];
 
 
