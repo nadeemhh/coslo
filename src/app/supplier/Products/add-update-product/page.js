@@ -1710,6 +1710,7 @@ onClick={addammenties}
       state:userData.productData.location?.state||'',
       city:userData.productData.location?.city||'',
       area:userData.productData.location?.area||'',
+      googleAddress:userData.productData.location?.googleAddress||'',
     }} : {
 
     location: {
@@ -1719,6 +1720,7 @@ onClick={addammenties}
       state:"",
       city:"",
       area:"",
+      googleAddress:"",
     }
   }}/>
 }

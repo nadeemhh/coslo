@@ -130,7 +130,34 @@ console.log(userlocation)
     return;
   }
 
-    // Prepare data for backend
+
+    const geocode = async () => {
+      const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+      const address = formData.location.address;
+      console.log(address)
+
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=${apiKey}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.results.length > 0) {
+            console.log("Full Response:", data);
+
+           const longNames = data?.results[0]?.address_components
+  .map(comp => comp?.long_name)
+  .join(", ");
+
+console.log(longNames);
+
+ // Prepare data for backend
     const dataToSend = {
 
       location: {
@@ -140,6 +167,7 @@ console.log(userlocation)
          state:formData.location.state,
       city:formData.location.city,
       area:formData.location.area,
+      googleAddress:longNames,
       }
     };
 
@@ -154,6 +182,20 @@ console.log(dataToSend)
     }));
    
     alert('Location submitted successfully')
+
+          } else {
+            console.log("No results found.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching geocode data:", error.message);
+        });
+    };
+
+    geocode();
+
+
+   
   };
 
   if (!googleMapsApiKey) {

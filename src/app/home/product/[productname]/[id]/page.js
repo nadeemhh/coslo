@@ -4,7 +4,7 @@ import Productpagecontant from './productpagecontant.js'
 
 export async function generateMetadata({ params }) {
   const { productname,id } = await params;
-console.log('id=',id,productname)
+
   if (!id) {
     return {
       title: 'Not Found',
@@ -21,7 +21,7 @@ console.log('id=',id,productname)
 
     let data = await res.json();
 
-     console.log('data=',data)
+  
     return {
         title: data.data.metatitle || 'coslomart',
       description: data.data.metadescription || 'coslomart' ,

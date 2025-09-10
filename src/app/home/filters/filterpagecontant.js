@@ -32,7 +32,7 @@ function Filterpagedata() {
           let latitude = new URLSearchParams(window.location.search).get("lat");
     let longitude = new URLSearchParams(window.location.search).get("long");
 
-   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?maxDistance=20000&minDistance=0&searchText=${searchQuery}&page=${page}&limit=10&`;
+   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&page=${page}&limit=10`;
 
     }else{
 
@@ -58,9 +58,9 @@ function Filterpagedata() {
 
         console.log(data)
 
- if(filtertype === 'property'){
-  data.data=data.data.properties;
- }
+//  if(filtertype === 'property'){
+//   data.data=data.data.properties;
+//  }
 
    console.log(data)
 
