@@ -13,19 +13,18 @@ export default function Page() {
    const [data,setdata] = useState(false);
    const [paymentstatus, setpaymentstatus] = useState(''); 
    const [shippingstatus, setshippingstatus] = useState(''); 
-   const [invoiceUrl,setinvoiceUrl] = useState(false);
-   const [pickupdate,setpickupdate] = useState(null);
-   const paymentstatusChange = (e) => {
-    setpaymentstatus(e.target.value);
+   const [showCancelModal, setShowCancelModal] = useState(false);
+   const [reasonForCancel, setReasonForCancel] = useState('');
+
+console.log(reasonForCancel)
+     const showCancelBookingModal = () => {
+    setShowCancelModal(true);
   };
 
-
-  const shippingstatusChange = (e) => {
-    setshippingstatus(e.target.value);
+  const hideCancelBookingModal = () => {
+    setShowCancelModal(false);
+    setReasonForCancel('');
   };
-
-  console.log(paymentstatus,shippingstatus)
-
 
    const getdata = () => {
 
@@ -89,7 +88,8 @@ export default function Page() {
       headers: {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }
+      },
+      body: JSON.stringify({reason:reasonForCancel}),
     })
       .then((response) => {
         if (response.ok) {
@@ -113,88 +113,8 @@ export default function Page() {
       });
   };
 
-  
-  const getinvoice = (shipmentid) => {
-console.log(shipmentid)
-    
  
-
-    const token = localStorage.getItem('token');
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/label/${shipmentid}`, {
-      method: 'GET',
-       headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-    },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-           
-            throw new Error(errorData.error || 'Failed');
-          });
-        }
-      })
-      .then((data) => {
-        setinvoiceUrl(data.labelUrl)
-        
-      
-        document.querySelector('.loaderoverlay').style.display = 'none';
-       
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(err)
-      
-       
-      });
-  };
-
-
-  function ShiprocketPickup() {
-    
-    document.querySelector('.loaderoverlay').style.display='flex';
-
-    const oid = new URLSearchParams(window.location.search).get("oid");
-
-    const token = localStorage.getItem('token');
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/schedule-pickup/${oid}`, {
-      method: 'POST',
-       headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-    },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-           
-            throw new Error(errorData.error || 'Failed');
-          });
-        }
-      })
-      .then((data) => {
-
-      alert(`${data.message} - ${data.pickupDate}`)
-      setpickupdate(data.pickupDate)
-      
-        document.querySelector('.loaderoverlay').style.display = 'none';
-       
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(err)
-      
-       
-      });
-  }
-
+ 
 
   return (
     <>
@@ -277,11 +197,129 @@ console.log(shipmentid)
         <p className='totalp'>Total : <strong style={{color:'#097CE1'}}> ₹ {data.finalAmount.toFixed(2)}</strong></p>
       </div>
       <div className="action-buttons">
-   <button className="cancel-button" style={{backgroundColor:'red',color:'white'}} onClick={CancelBooking}>Cancel Booking</button> 
+   <button className="cancel-button" style={{backgroundColor:'red',color:'white'}} onClick={showCancelBookingModal}>Cancel Booking</button> 
+ 
       
       </div>
       </div>
     </div>}
+
+
+       {/* Cancel Booking Modal */}
+    {showCancelModal && (
+      <div className="modal-overlay" style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000
+      }}>
+        <div className="modal-content" style={{
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '10px',
+          maxWidth: '500px',
+          width: '90%',
+          maxHeight: '80%',
+          overflowY: 'auto',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+        }}>
+          <div className="modal-header" style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+            borderBottom: '1px solid #eee',
+            paddingBottom: '15px'
+          }}>
+
+            <button 
+              onClick={hideCancelBookingModal}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '30px',
+                cursor: 'pointer',
+                color: '#000000ff',
+                textAlign:'right'
+
+              }}
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="modal-body">
+            <p style={{ marginBottom: '15px', color: '#000000ff',textAlign:'left' }}>
+              Are you sure you want to cancel this booking?
+            </p>
+            
+            <div style={{ marginBottom: '20px' }}>
+             
+              <textarea
+                value={reasonForCancel}
+                onChange={(e) => setReasonForCancel(e.target.value)}
+                placeholder="Please write a reason for cancellation (optional)"
+                style={{
+                  width: '100%',
+                  minHeight: '100px',
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '5px',
+                  resize: 'vertical',
+                  fontFamily: 'inherit',
+                  fontSize: '14px'
+                }}
+                rows={4}
+              />
+            </div>
+          </div>
+          
+          <div className="modal-footer" style={{
+            display: 'flex',
+            gap: '10px',
+            justifyContent: 'flex-end',
+            paddingTop: '15px',
+            borderTop: '1px solid #eee'
+          }}>
+            <button
+              onClick={hideCancelBookingModal}
+              style={{
+                padding: '10px 20px',
+                border: '1px solid #ddd',
+                backgroundColor: 'white',
+                color: '#333',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              Keep Booking
+            </button>
+            <button
+              onClick={CancelBooking}
+              style={{
+                padding: '10px 20px',
+                border: 'none',
+                backgroundColor: '#dc3545',
+                color: 'white',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              Cancel Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
     </>
   );
 }

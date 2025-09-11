@@ -12,7 +12,7 @@ import formatNumberIndian from './formatNumberIndian.js'
 // import Link from 'next/link';
 
 
-export default function Productcard({veri=false , pname,productType,seller,pimage,variation,pid}) {
+export default function Productcard({veri=false , pname,productType,seller,pimage,variation,pid,location}) {
 
 if(!productType){
 productType= "product";
@@ -81,6 +81,7 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
         </p>
         <p className="product-supplier">{seller.businessName}</p>
         </a>
+
         {/* Price */}
         <div className="product-actions">
         {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:(productType === "property" ?<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.mrp*variation.priceSlabs[0].min))}</p>:<p className="price" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹{formatNumberIndian(variation?.mrp)}</p>)}
@@ -149,8 +150,21 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
     }
     </div>}
       
+       
+      </div>
 
-        {/* Actions */}
+{productType === "property" && <div className="product-details" style={{height:'100%',textAlign:'left'}}>
+<div>
+        <a  href={`https://www.google.com/maps?q=${location.coordinates[1]},${location.coordinates[0]}`}
+  target="_blank"
+  rel="noopener noreferrer" style={{fontSize:'14px',color:"rgba(59, 59, 59, 1)",textAlign:'left'}}>
+     <i className="fas fa-map-marker-alt" style={{color:"#097ce1",fontSize:'17px',marginRight:'6px'}}></i>
+  {location.address}</a>
+</div>
+      </div>}
+
+       <div className="product-details">
+ {/* Actions */}
         <div className="product-actions">
 
         <a href={`https://wa.me/+91${seller.phone}`}>
@@ -161,10 +175,10 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
 <a href={pageurl}>
           <button className="contact-btn">Check Details</button>
           </a>
-          {/* <button className="Add-to-Cart">Add to Cart</button> */}
-          {/* <button className="Remove-btn">Remove</button> */}
+
         </div>
       </div>
+
     </div>
   )
 }
