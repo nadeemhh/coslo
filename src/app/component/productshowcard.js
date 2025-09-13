@@ -12,7 +12,8 @@ import formatNumberIndian from './formatNumberIndian.js'
 // import Link from 'next/link';
 
 
-export default function Productcard({veri=false , pname,productType,seller,pimage,variation,pid,location}) {
+export default function Productcard({veri=false , pname,productType,seller,pimage,variation,pid,location,khataType,approvalType}) {
+
 
 if(!productType){
 productType= "product";
@@ -157,11 +158,30 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
 <div>
         <a  href={`https://www.google.com/maps?q=${location.coordinates[1]},${location.coordinates[0]}`}
   target="_blank"
-  rel="noopener noreferrer" style={{fontSize:'14px',color:"rgba(59, 59, 59, 1)",textAlign:'left'}}>
+  rel="noopener noreferrer" style={{fontSize:'12px',color:"rgba(0, 0, 0, 1)",textAlign:'left'}}>
      <i className="fas fa-map-marker-alt" style={{color:"#097ce1",fontSize:'17px',marginRight:'6px'}}></i>
   {location.address}</a>
 </div>
       </div>}
+
+
+      {productType === "property" && (khataType || approvalType) &&  <div className="product-details" style={{height:'100%',textAlign:'left'}}>
+
+<div className="property-info-container-333">
+     {approvalType && <div className="info-box-333">
+        <h4 className="label-333">Approval</h4>
+        <span className="value-pill-333">{approvalType}</span>
+      </div>}
+
+     { khataType && <div className="info-box-333">
+        <h4 className="label-333">Khata</h4>
+        <span className="value-pill-333">{khataType}</span>
+      </div>}
+
+    </div>
+
+      </div>}
+
 
        <div className="product-details">
  {/* Actions */}

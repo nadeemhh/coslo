@@ -64,8 +64,15 @@ export default function PlansTable({showbuybuttons=true,hidetry=false}) {
         <tr>
   <td>Price</td>
   <td>₹0</td>
-  <td>₹2000</td>
-  <td>₹20000</td>
+  <td>₹3000</td>
+  <td>₹30000</td>
+</tr>
+
+<tr>
+  <td>Buyers Leads</td>
+  <td><i className="fas fa-times not-available"></i></td>
+  <td>15 to 20 leads /month</td>
+  <td>25 to 30 leads /month</td>
 </tr>
 
         <tr>
@@ -94,12 +101,6 @@ export default function PlansTable({showbuybuttons=true,hidetry=false}) {
 </tr>
 <tr>
   <td>Chat with Buyers in WhatsApp</td>
-  <td><i className="fas fa-times not-available"></i></td>
-  <td><i className="fas fa-check available"></i></td>
-  <td><i className="fas fa-check available"></i></td>
-</tr>
-<tr>
-  <td>Unlimited Buyers Leads</td>
   <td><i className="fas fa-times not-available"></i></td>
   <td><i className="fas fa-check available"></i></td>
   <td><i className="fas fa-check available"></i></td>
@@ -149,8 +150,8 @@ export default function PlansTable({showbuybuttons=true,hidetry=false}) {
 <tr>
   <td>Per Day Cost</td>
   <td>₹0</td>
-  <td>₹65</td>
-  <td>₹55</td>
+  <td>₹100</td>
+  <td>₹82</td>
 </tr>
 
          
