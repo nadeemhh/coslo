@@ -21,11 +21,84 @@ const NavBar = () => {
 const [selectedFilter, setSelectedFilter] = useState("product");
   const [searchValue, setSearchValue] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
+   const [isproperty, setisproperty] = useState(null);
   const searchBoxRef = useRef(null);
+    const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
+
+   const [bengaluruPlaces, setbengaluruPlaces] = useState([
+  "Agara",
+  "Anekal",
+  "Attibele",
+  "Banashankari",
+  "Bannerghatta",
+  "Basavanagudi",
+  "Begur",
+  "Bellandur",
+  "Bommanahalli",
+  "BTM Layout",
+  "Chandapura",
+  "CV Raman Nagar",
+  "Dasarahalli",
+  "Domlur",
+  "Dommasandra",
+  "Electronic City",
+  "HAL",
+  "Hebbal",
+  "Hompalaghatta",
+  "Hoodi",
+  "HSR Layout",
+  "Indiranagar",
+  "Jalahalli",
+  "Jayanagar",
+  "Jigani",
+  "Kadugodi",
+  "Kasavanahalli",
+  "Kengeri",
+  "Koramangala",
+  "KR Market",
+  "KR Puram",
+  "Kudlu Gate",
+  "Kumaraswamy Layout",
+  "Malleshwaram",
+  "Marathahalli",
+  "MG Road",
+  "Nagarabhavi",
+  "Nayandahalli",
+  "Padmanabhanagar",
+  "Peenya",
+  "Rajarajeshwari Nagar",
+  "RT Nagar",
+  "Sadashivanagar",
+  "Sanjaynagar",
+  "Sarjapur",
+  "Shivajinagar",
+  "Singasandra",
+  "Uttarahalli",
+  "Varthur",
+  "Vijayanagar",
+  "Whitefield",
+  "Yeshwanthpur"
+]);
 
   BuyerAuthCheck(setuser)
 
   
+    // Handle Bengaluru place selection
+  const handleBengaluruPlaceChange = (e) => {
+    const selectedPlace = e.target.value;
+    setSelectedBengaluruPlace(selectedPlace);
+    // Store in localStorage if needed
+   // localStorage.setItem("selectedBengaluruPlace", selectedPlace);
+    console.log("Selected Bengaluru Place:", selectedPlace);
+
+      if (selectedPlace.trim() !== "") {
+    
+    window.location.href = `/home/filters?query=${encodeURIComponent(selectedPlace)}&type=${'property'}`;
+    
+    }
+
+  };
+
   const placeholderMap = {
   product: "Search Products",
   property: "Enter address to Search Property",
@@ -81,8 +154,9 @@ if(productType){ setSelectedFilter(productType);}
     return () => window.removeEventListener("load", onLoad);
   }
 
-  
 
+  
+setisproperty(window.location.href.includes("property")||window.location.href.includes("Real-Estate"))
   },[]);
 
 
@@ -139,7 +213,7 @@ if(productType){ setSelectedFilter(productType);}
         const selectedName = selectedOption.getAttribute("value"); 
 console.log(selectedName)
     
-    window.location.href = `/home/filters?query=${encodeURIComponent(locationData.address)}&type=${selectedName}&lat=${locationData.latitude}&long=${locationData.longitude}`;
+    window.location.href = `/home/filters?query=${encodeURIComponent(locationData.address)}&type=${'property'}`;
     }
       
       }
@@ -168,7 +242,10 @@ console.log(selectedName)
       <a href="/home">
         <div className="logo logocontainer">
            <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+         <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
           <h1>coslomart</h1>
+         {isproperty && <p style={{color:'#1389F0',fontSize:'15px',marginLeft:'2px'}}>properties</p>}
+         </div>
         </div>
         </a>
         
@@ -181,7 +258,10 @@ console.log(selectedName)
         <a href="/home">
         <div className="logo logocontainer logodesk">
          <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+         <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
           <h1>coslomart</h1>
+         {isproperty && <p style={{color:'#1389F0',fontSize:'17px',marginLeft:'2px'}}>properties</p>}
+         </div>
         </div>
         </a>
 
@@ -190,15 +270,39 @@ console.log(selectedName)
 
         <div className="search-bar">
           <div className="dropdown" style={{borderRight:'1.5px solid #9c9c9c'}}>
-            <select name="" id="" className="dropdown-btn filtertype"   value={selectedFilter}
-  onChange={(e) => {
-    setSelectedFilter(e.target.value)
-  localStorage.setItem("productType",e.target.value)
-  }}>
-               <option value="product">Products</option>
+            {!isproperty ? (
+              <select 
+                name="" 
+                id="" 
+                className="dropdown-btn filtertype"   
+                value={selectedFilter}
+                onChange={(e) => {
+                  setSelectedFilter(e.target.value)
+                  localStorage.setItem("productType",e.target.value)
+                }}
+              >
+                <option value="product">Products</option>
                 <option value="property">Property</option>
-               <option value="service">Service</option>
-               </select>
+                <option value="service">Service</option>
+              </select>
+            ) : (
+              // Show Bengaluru places dropdown when isproperty is true
+              <select 
+                name="" 
+                id="" 
+                className="dropdown-btn filtertype location-filter"   
+                value={selectedBengaluruPlace}
+                onChange={handleBengaluruPlaceChange}
+                style={{width:'90px'}}
+              >
+                <option value="">Locality</option>
+                {bengaluruPlaces.map((place, index) => (
+                  <option key={index} value={place}>
+                    {place}
+                  </option>
+                ))}
+              </select>
+            )}
           
           </div>
 

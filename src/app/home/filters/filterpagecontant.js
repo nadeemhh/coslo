@@ -108,20 +108,9 @@ function Filterpagedata() {
   return (
     <div>
 <div>
-{/* <div style={{display:'flex',whiteSpace:'nowrap',marginBottom:'40px'}}>
-        <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}} onClick={handleHideSidebar}>
-      
-        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
-        Filters
-      </button> */}
-
-      {/* <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-      <i className="fas fa-sort" style={{marginRight:'10px'}}></i>
-      Sort
-    </button> */}
-      {/* </div> */}
+{searchQuery && <h3 style={{color:'#1389f0da',marginTop:'10px',marginBottom:'40px',fontSize:'19px'}}>Showing results for <span style={{color:'#000000ac'}}>{searchQuery}</span></h3>}
 </div>
+
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',marginTop:'50px'}}>
 
