@@ -73,13 +73,13 @@ export default function Categorylist() {
  <div className="product-category-h" >
 
 <div className="category-name-image-h">
-<a href={`/home/showcategories/property`}>
+<a href={`/property`}>
 <img src="/images/realestate__.jpeg" alt="real estate"/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/showcategories/property`}>
+<a href={`/property`}>
 <p>Real Estate</p>
 </a>
 </div>
@@ -93,13 +93,13 @@ export default function Categorylist() {
  <div className="product-category-h" >
 
 <div className="category-name-image-h">
-<a href={`/home/showcategories/product`}>
+<a href={`/product`}>
 <img src="/images/products.jpeg" alt="real estate"/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/showcategories/product`}>
+<a href={`/product`}>
 <p>Products</p>
 </a>
 </div>
@@ -113,13 +113,13 @@ export default function Categorylist() {
  <div className="product-category-h" >
 
 <div className="category-name-image-h">
-<a href={`/home/showcategories/service`}>
+<a href={`/service`}>
 <img src="/images/services.jpeg" alt="real estate"/>
 </a>
 </div>
 
 <div className="category-name-product-h">
-<a href={`/home/showcategories/service`}>
+<a href={`/service`}>
 <p>Services</p>
 </a>
 </div>
