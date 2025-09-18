@@ -5,9 +5,9 @@ export async function GET() {
   const staticUrls = [
     '/',
     '/home',
-    '/home/showcategories/property',
-    '/home/showcategories/product',
-    '/home/showcategories/service',
+    '/property',
+    '/product',
+    '/service',
     '/home/Categories',
     '/home/productenquiry',
     '/auth/sup-manu/choose',

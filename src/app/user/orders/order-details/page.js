@@ -19,7 +19,9 @@ export default function Page() {
   const [images, setImages] = useState([]);
   const [data,setdata] = useState(false);
   const [invoiceUrl,setinvoiceUrl] = useState(false);
-  
+  const [orderType,setorderType] = useState(null);
+
+
 console.log(productimages)
     const handleImageUpload = (event) => {
 
@@ -136,6 +138,7 @@ console.log(productimages)
   
       useEffect(() => {
         getdata()
+        setorderType(new URLSearchParams(window.location.search).get("orderType"))
       }, []);
 
 
@@ -352,9 +355,9 @@ data.orderSummary.items.map((order, index) => (
   {order.name}
 </p>
 {data.orderSummary.deliveryStatus === 'DELIVERED' && (order.isReturnable && <p className="card-date">Return is available till {extendDate(data.orderSummary.orderDate,order.returnDays||0)}</p>)}
-<p className="card-date">Quantity - {order.quantity}</p>
+{orderType!=='service' && <p className="card-date">Quantity - {order.quantity}</p>}
 <div style={{display:'flex',gap:'15px'}} className='hgfhg'>
-<p className="card-price">₹ {order.price}/-</p>
+<p className="card-price">₹ {orderType!=='service'?order.price:order.total}</p>
 
 </div>
 

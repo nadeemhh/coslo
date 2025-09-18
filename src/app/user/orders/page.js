@@ -167,7 +167,7 @@ const handleFilterChange = (event) => {
 <div style={{display:'flex',flexDirection:'column'}} className='ordp' key={i}> 
 
   <div style={{width:'100%',marginBottom:'20px',textAlign:'left'}}>
-<p><strong>Final Amount:</strong> ₹{order.totalAmount}</p>
+<p><strong>Final Amount:</strong> ₹{(order.totalAmount).toFixed(2)}</p>
   <p><strong>Date:</strong> {extractDate(order.orderDate)}</p>
   </div>
   {order.subOrders.map((suborder, index) => {  
@@ -182,7 +182,7 @@ return (<div key={index} className='suborder'>
   {/* <p><strong>Status:</strong> {order.status}</p> */}
   <p><strong>Product Name:</strong> {subitems.productName}</p>
   <p><strong>Amount:</strong> ₹{subitems.price}</p>
-  <p><strong>Quantity:</strong> {subitems.quantity}</p>
+{ order.orderType !== 'service' && <p><strong>Quantity:</strong> {subitems.quantity}</p>}
 
 </div>
 
@@ -190,7 +190,7 @@ return (<div key={index} className='suborder'>
 
 ))}
 
-<Link href={`orders/order-details?oid=${suborder.subOrderId}`} className="cdt" style={{marginTop:'20px'}}>
+<Link href={`orders/order-details?oid=${suborder.subOrderId}&orderType=${order.orderType}`} className="cdt" style={{marginTop:'20px'}}>
 Check Details
 </Link>
 </div>);
