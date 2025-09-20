@@ -115,7 +115,7 @@ url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?s
 {searchQuery && <h3 style={{color:'#1389f0da',marginTop:'10px',marginBottom:'40px',fontSize:'19px'}}>Showing results for <span style={{color:'#000000ac'}}>{searchQuery}</span></h3>}
 </div>
 
-<FiltersComponent sortOrder={sortOrder} setSortOrder={setSortOrder} setPage={setPage} setProducts={setProducts} fetchProducts={fetchProducts}/>
+{/* <FiltersComponent sortOrder={sortOrder} setSortOrder={setSortOrder} setPage={setPage} setProducts={setProducts} fetchProducts={fetchProducts}/> */}
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',marginTop:'50px'}}>
 
