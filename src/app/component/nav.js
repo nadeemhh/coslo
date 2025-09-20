@@ -4,7 +4,7 @@ import "../component/component-css/btnbadge.css";
 import "../component/component-css/navbar.css";
 import Button from '../component/button';
 import Link from 'next/link';
-import { useRouter,usePathname } from 'next/navigation';
+import { useRouter,usePathname ,useSearchParams} from 'next/navigation';
 import { useState ,useEffect,useRef} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
@@ -14,6 +14,7 @@ const libraries = ['places'];
 
 const NavBar = () => {
   const router = useRouter();
+    const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
    const iconRef = useRef(null);
@@ -235,10 +236,19 @@ if(productType){ setSelectedFilter(productType);}
     return () => window.removeEventListener("load", onLoad);
   }
 
+  },[]);
+
+
+    useEffect(() => {
+    // Check if current path or search params contain property-related terms
+    const isPropertyPage = pathname.includes("property") || 
+                          pathname.includes("Real-Estate") || 
+                          searchParams.get('type') === 'property';
+    
+    setisproperty(isPropertyPage);
+  }, [pathname, searchParams]); // Dependencies that trigger re-run
 
   
-setisproperty(window.location.href.includes("property")||window.location.href.includes("Real-Estate"))
-  },[]);
 
 
   useEffect(() => {
