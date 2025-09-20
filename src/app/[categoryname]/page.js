@@ -14,12 +14,12 @@ import SubCategoriesPage from './maincategory.js'
 
 
 export async function generateMetadata({ params }) {
-  const { name } = await params;
+  const { categoryname } = await params;
 
   
-  console.log('name => ',name)
+  console.log('name => ',categoryname)
 
-  if(name === 'property'){
+  if(categoryname === 'property'){
 
        return {
     title: 'Real Estate Properties in Bangalore | Coslomart',
@@ -31,12 +31,12 @@ export async function generateMetadata({ params }) {
       'buy Apartments in bangalore',
     ], 
       alternates: {
-        canonical: `https://www.coslomart.com/home/showcategories/property`,
+        canonical: `https://www.coslomart.com/property`,
       },
   };
   }
 
-   if (name === 'product') {
+   if (categoryname === 'product') {
     return {
       title: 'Explore B2B Product Categories | Coslomart',
       description:
@@ -48,13 +48,13 @@ export async function generateMetadata({ params }) {
         'coslomart products',
       ],
           alternates: {
-        canonical: `https://www.coslomart.com/home/showcategories/product`,
+        canonical: `https://www.coslomart.com/product`,
       },
     };
   }
 
 
-    if (name === 'service') {
+    if (categoryname === 'service') {
     return {
       title: 'Browse B2B Services Online | Coslomart',
       description:
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }) {
         'coslomart services',
       ],
         alternates: {
-        canonical: `https://www.coslomart.com/home/showcategories/service`,
+        canonical: `https://www.coslomart.com/service`,
       },
     };
   }

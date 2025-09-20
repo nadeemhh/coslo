@@ -163,7 +163,7 @@ const [selectedFilter, setSelectedFilter] = useState("product");
 
   BuyerAuthCheck(setuser)
 
-  
+  console.log(isproperty)
     // Handle Bengaluru place selection
   const handleBengaluruPlaceChange = (e) => {
     const selectedPlace = e.target.value;

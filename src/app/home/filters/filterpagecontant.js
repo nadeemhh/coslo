@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Productcard from '../../component/productshowcard'
 import { useSearchParams } from 'next/navigation';
 import scrollToElement from '../../component/scrollToElement.js'
+import FiltersComponent from '../../component/FiltersComponent.js'
 import { useInView } from "react-intersection-observer";
 import { useState ,useEffect,Suspense} from 'react';
 
@@ -16,7 +17,7 @@ function Filterpagedata() {
   const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const { ref, inView } = useInView({ threshold: 1, rootMargin: "50px" });
-
+  const [sortOrder, setSortOrder] = useState('');
 
   console.log(searchQuery)
 
@@ -32,7 +33,12 @@ function Filterpagedata() {
           let latitude = new URLSearchParams(window.location.search).get("lat");
     let longitude = new URLSearchParams(window.location.search).get("long");
 
-   url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&page=${page}&limit=10`;
+    if(sortOrder){
+url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&sortBy=totalMrp&sortOrder=${sortOrder}&page=${page}&limit=10`;
+    }else{
+      url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&page=${page}&limit=10`;
+    }
+   
 
     }else{
 
@@ -87,8 +93,6 @@ function Filterpagedata() {
 
      
   
- 
-
 
   useEffect(() => {
     console.log(inView,hasMore)
@@ -111,6 +115,7 @@ function Filterpagedata() {
 {searchQuery && <h3 style={{color:'#1389f0da',marginTop:'10px',marginBottom:'40px',fontSize:'19px'}}>Showing results for <span style={{color:'#000000ac'}}>{searchQuery}</span></h3>}
 </div>
 
+<FiltersComponent sortOrder={sortOrder} setSortOrder={setSortOrder} setPage={setPage} setProducts={setProducts} fetchProducts={fetchProducts}/>
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',marginTop:'50px'}}>
 
