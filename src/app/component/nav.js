@@ -5,7 +5,7 @@ import "../component/component-css/navbar.css";
 import Button from '../component/button';
 import Link from 'next/link';
 import { useRouter,usePathname ,useSearchParams} from 'next/navigation';
-import { useState ,useEffect,useRef} from 'react';
+import { useState ,useEffect,useRef,Suspense} from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
 import { LoadScript, StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
@@ -489,4 +489,12 @@ console.log(selectedName)
     );
   };
 
-  export default NavBar;
+
+  export default function NavBarPage() {
+      return (
+        <Suspense fallback={<div>Loading...</div>}>
+          <NavBar />
+        </Suspense>
+      );
+    }
+  
