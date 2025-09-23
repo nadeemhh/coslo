@@ -30,15 +30,16 @@ function Filterpagedata() {
 
     if(filtertype === 'property'){
 
-          let latitude = new URLSearchParams(window.location.search).get("lat");
-    let longitude = new URLSearchParams(window.location.search).get("long");
+    //       let latitude = new URLSearchParams(window.location.search).get("lat");
+    // let longitude = new URLSearchParams(window.location.search).get("long");
+
 
     if(sortOrder){
 url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&sortBy=totalMrp&sortOrder=${sortOrder}&page=${page}&limit=10`;
     }else{
       url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?searchText=${searchQuery}&page=${page}&limit=10`;
     }
-   
+   console.log('sortOrder',sortOrder,url)
 
     }else{
 
@@ -94,15 +95,31 @@ url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?s
      
   
 
+   // Reset and fetch when sortOrder changes
   useEffect(() => {
-    console.log(inView,hasMore)
+    if (sortOrder !== '') {
 
-    if(hasMore && inView){  fetchProducts();}
-      
-    
-      }, [searchQuery,inView]);
+      fetchProducts(); // Pass true to indicate new search
+    }
+  }, [sortOrder]);
+
+  // Handle infinite scroll
+  useEffect(() => {
+    console.log(inView, hasMore)
+    if (hasMore && inView && page > 1) {
+      fetchProducts();
+    }
+  }, [inView]);
+
+  // Initial fetch when component mounts or searchQuery changes
+  useEffect(() => {
+    if (searchQuery && sortOrder === '') {
+      fetchProducts();
+    }
+  }, [searchQuery]);
 
 
+ 
 
 
   const handleHideSidebar = () => {
@@ -114,8 +131,8 @@ url=`${process.env.NEXT_PUBLIC_BASE_URL}/product/properties/search-by-location?s
 <div>
 {searchQuery && <h3 style={{color:'#1389f0da',marginTop:'10px',marginBottom:'40px',fontSize:'19px'}}>Showing results for <span style={{color:'#000000ac'}}>{searchQuery}</span></h3>}
 </div>
-
-{/* <FiltersComponent sortOrder={sortOrder} setSortOrder={setSortOrder} setPage={setPage} setProducts={setProducts} fetchProducts={fetchProducts}/> */}
+{
+filtertype === 'property' && <FiltersComponent sortOrder={sortOrder} setSortOrder={setSortOrder} setPage={setPage} setProducts={setProducts} fetchProducts={fetchProducts} setHasMore={setHasMore}/>}
 
 <div style={{display:'flex',flexWrap:'wrap',justifyContent:'center',gap:'20px',marginTop:'50px'}}>
 

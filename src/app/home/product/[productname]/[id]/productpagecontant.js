@@ -550,10 +550,10 @@ function formatPhoneNumber(number) {
           </>
           }
 
-          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
+          {/* {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
-        </button>}
+        </button>} */}
 
 
           {isuser &&   <div className='mylocationp' style={{cursor:'pointer'}} onClick={()=>(addtowishlist(data._id))}>

@@ -53,11 +53,11 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
         {/* <button className="cart-icon">
           <i className="fa fa-shopping-cart" style={{color:'#1389F0'}}></i>
         </button> */}
-        {seller.subscriptionDetails.plan !== 'FREE' &&  seller.subscriptionDetails.status === "ACTIVE" && <button className="aboluteveri verified">
+        {/* {seller.subscriptionDetails.plan !== 'FREE' &&  seller.subscriptionDetails.status === "ACTIVE" && <button className="aboluteveri verified">
           Recommended
          <img src="\icons\veri.svg" width={'8px'} alt="" />
         </button>
-        }
+        } */}
 
 
          {/* Location */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './component-css/FiltersComponent.css'
 
-const FiltersComponent = ({sortOrder,setSortOrder,setPage,setProducts,fetchProducts}) => {
+const FiltersComponent = ({sortOrder,setSortOrder,setPage,setProducts,fetchProducts,setHasMore}) => {
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -13,7 +13,8 @@ const FiltersComponent = ({sortOrder,setSortOrder,setPage,setProducts,fetchProdu
     setSortOrder(order);
     setPage(1);
     setProducts([]);
-    fetchProducts()
+  setHasMore(true)
+    // fetchProducts()
     console.log('Sort order set to:', sortOrder);
   };
 
