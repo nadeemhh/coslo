@@ -10,9 +10,10 @@ export default function page() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [searchquery, setsearchquery] = useState([]);
-
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+ const [ptype, setptype] = useState('property');
+ const [searchText,setsearchText]=useState('')
 
   const toggleconfirmation = (id = null) => {
       setSelectedId(id);
@@ -23,7 +24,8 @@ export default function page() {
   
      const handledata = () => {
       console.log(hasMore)
-      // if (hasMore===false) return; // Stop extra calls
+
+      if (!ptype){ return;}
       
     
         document.querySelector('.loaderoverlay').style.display='flex';
@@ -31,7 +33,15 @@ export default function page() {
        const token = localStorage.getItem('token');
     
        console.log('called')
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?page=${page}&limit=25${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
+
+// let url;
+// if(searchText){
+// url=``
+// }else{
+
+// }
+
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?productType=${ptype}${searchText&&`&search=${searchText}`}&page=${page}&limit=25${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -106,7 +116,7 @@ export default function page() {
       useEffect(() => {
      
           handledata();
-      }, [page,searchquery]);
+      }, [page,searchquery,ptype,searchText]);
 
       const nextPage = () => {
         setPage((prevPage) => prevPage + 1);
@@ -166,6 +176,8 @@ export default function page() {
       };
 
       console.log(searchquery)
+
+
   return (
     <div className="orders-container">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
@@ -183,7 +195,30 @@ export default function page() {
 
               <AttributeForm/>
 
-        <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+
+  
+     <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+      
+        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
+  
+      <select style={{border:'none'}} onChange={(e)=>{
+        setdata([])
+setPage(1)
+setHasMore(true)
+setsearchquery([])
+setSelectedId(null)
+setsearchText('')
+setptype(e.target.value)
+      }}>
+        <option value="">Product Type</option>
+        <option value="property">Property</option>
+        <option value="product">Product</option>
+        <option value="service">Service</option>
+      </select>
+
+      </button>
+
+       {ptype==='product' && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
@@ -196,17 +231,12 @@ export default function page() {
         <option value="desc" name="sortOrder">Most Recent</option>
 
       </select>
-      </button>
+      </button>}
 
-      {/* <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-      <i className="fas fa-sort" style={{marginRight:'10px'}}></i>
-      
-        
-    <select name="" id="" style={{border:'none'}}>
-      <option value="" >Sort</option>
-    </select>
-    </button> */}
+      <div  style={{width:'fit-content',backgroundColor:'#F4F7FB',border:'2px solid #007bffd4',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px',margin:'20px'}}>
+     <i className="fas fa-search" style={{cursor:'pointer'}}></i>
+      <input type="text" placeholder='Search by Name, Email' style={{width:'300px',border:'none',outline:'none',backgroundColor:'#F4F7FB'}} value={searchText} onChange={(e) => setsearchText(e.target.value)}/>
+     </div>
 
 
    {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
@@ -227,7 +257,15 @@ export default function page() {
             </tr>
           </thead>
           <tbody>
-            {data.map((data, index) => (
+            {data.length === 0 ? (
+      <tr>
+        <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
+          <strong> Nothing found</strong>
+         
+        </td>
+      </tr>
+    ) :
+            (data.map((data, index) => (
               <tr key={index}>
                 <td>#{index + 1}</td>
                 <td><img src={data.productImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" /></td>
@@ -239,7 +277,9 @@ export default function page() {
                     return(
                   <div key={i}>
 
-                  <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Net Price :   <strong>{vdata.mrp}/-</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p>
+                  {ptype==='product'? <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Net Price :   <strong>₹{vdata.mrp.toFixed(2)}</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p> :
+                  
+                  <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Price :   <strong>₹{vdata.mrp.toFixed(2)} </strong> Per sq ft </p>}
 
                   </div>
                   )
@@ -265,7 +305,7 @@ export default function page() {
                   
                 </td>
               </tr>
-            ))}
+            )))}
           </tbody>
         </table>
     
