@@ -12,6 +12,7 @@ export default function page() {
   const [searchquery, setsearchquery] = useState([]);
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+   const [isfetching, setisfetching] = useState(false);
  const [ptype, setptype] = useState('property');
  const [searchText,setsearchText]=useState('')
 
@@ -27,19 +28,13 @@ export default function page() {
 
       if (!ptype){ return;}
       
-    
+    setisfetching(true)
+
         document.querySelector('.loaderoverlay').style.display='flex';
     
        const token = localStorage.getItem('token');
     
        console.log('called')
-
-// let url;
-// if(searchText){
-// url=``
-// }else{
-
-// }
 
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?productType=${ptype}${searchText&&`&search=${searchText}`}&page=${page}&limit=25${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
           method: 'GET',
@@ -58,6 +53,8 @@ export default function page() {
             }
           })
           .then((data) => {
+
+          setisfetching(false)
 
             if (data.data.length === 0) {
               setHasMore(false);
@@ -110,9 +107,24 @@ export default function page() {
       };
     
 
+     useEffect(() => {
+
+    let producttype = localStorage.getItem('productType')
+    let page=sessionStorage.getItem('page')
+
+    if(producttype){
+     
+      setptype(producttype)
+    }
+
+    if(page){
+     
+      setPage(Number(page))
+    }
+
+      }, []);
     
-    
-  
+
       useEffect(() => {
      
           handledata();
@@ -201,14 +213,16 @@ export default function page() {
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
   
-      <select style={{border:'none'}} onChange={(e)=>{
-        setdata([])
+      <select style={{border:'none'}} value={ptype} onChange={(e)=>{
+setdata([])
 setPage(1)
 setHasMore(true)
 setsearchquery([])
 setSelectedId(null)
 setsearchText('')
 setptype(e.target.value)
+localStorage.setItem('productType',e.target.value)
+
       }}>
         <option value="">Product Type</option>
         <option value="property">Property</option>
@@ -235,7 +249,7 @@ setptype(e.target.value)
 
       <div  style={{width:'fit-content',backgroundColor:'#F4F7FB',border:'2px solid #007bffd4',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px',margin:'20px'}}>
      <i className="fas fa-search" style={{cursor:'pointer'}}></i>
-      <input type="text" placeholder='Search by Name, Email' style={{width:'300px',border:'none',outline:'none',backgroundColor:'#F4F7FB'}} value={searchText} onChange={(e) => setsearchText(e.target.value)}/>
+      <input type="text" placeholder='search by name' style={{width:'300px',border:'none',outline:'none',backgroundColor:'#F4F7FB'}} value={searchText} onChange={(e) => setsearchText(e.target.value)}/>
      </div>
 
 
@@ -257,10 +271,10 @@ setptype(e.target.value)
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {data.length === 0 && isfetching===false ? (
       <tr>
-        <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
-          <strong> Nothing found</strong>
+        <td colSpan="7" style={{ textAlign: "center", padding: "20px",color:'#ed2f2f' }}>
+          <strong>You do not have any {ptype} listed.</strong>
          
         </td>
       </tr>
@@ -287,11 +301,15 @@ setptype(e.target.value)
 
                 </td>
                 <td>
-                <a href={`/supplier/Products/add-update-product?pid=${data._id}`}>
-                  <img src="\icons\editp.svg" alt=""  style={{cursor:'pointer'}}/>
-             </a>
+                
+                  <img src="\icons\editp.svg" alt="edit"  style={{cursor:'pointer'}} onClick={()=>{
+                   sessionStorage.setItem('page',page)
+                   window.location.href = `/supplier/Products/add-update-product?pid=${data._id}`;
+                }}/>
+             
+
                   &nbsp;
-                  &nbsp;
+                  &nbsp; 
                   <img src="\icons\deletep.svg" alt="" style={{cursor:'pointer'}}  onClick={() => toggleconfirmation(data._id)}/>
                 </td>
                 <td>
