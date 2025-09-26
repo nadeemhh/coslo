@@ -46,7 +46,7 @@
           @media (max-width: 750px) {
 
             .side-bar{
-    width: 90vw;
+    width: 90vw !important;
 }
 
 .productsearchinput{max-width: 200px !important;}
