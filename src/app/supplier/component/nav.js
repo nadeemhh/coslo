@@ -1,5 +1,6 @@
 "use client"
 import "../../landing-page.css";
+import '../../component/component-css/adminpanelayout.css';
 // import Button from '../component/button';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -8,9 +9,11 @@ import Link from 'next/link';
 const NavBar = () => {
 
   const [issuperadmin,setissuperadmin] = useState(false);
+const [togglesidebar,settogglesidebar] = useState(true);
 
-    const handleShowSidebar = () => {
-      document.getElementById('sidebar').style.transform = 'translateY(0)';
+    const handleShowSidebar = (pos) => {
+      console.log(pos)
+      document.getElementById('sidebar').style.transform = `translateX(${pos})`;
     };
 
      useEffect(() => {
@@ -47,6 +50,18 @@ const NavBar = () => {
     
 
 <h4 style={{margin:'0px',textAlign:'right'}} className='adminemail'></h4>
+
+{togglesidebar ? <i className="fas fa-bars showsidebar" onClick={()=>{
+  handleShowSidebar('0%')
+  settogglesidebar(false)
+}}></i>
+:
+<i className="fas fa-times showsidebar" style={{color:'red'}} onClick={()=>{
+  handleShowSidebar('-100%')
+  settogglesidebar(true)
+}}></i>
+}
+
     </nav>
       </>
     );

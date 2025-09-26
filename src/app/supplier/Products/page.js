@@ -13,7 +13,7 @@ export default function page() {
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
    const [isfetching, setisfetching] = useState(false);
- const [ptype, setptype] = useState('property');
+ const [ptype, setptype] = useState('');
  const [searchText,setsearchText]=useState('')
 
   const toggleconfirmation = (id = null) => {
@@ -115,6 +115,8 @@ export default function page() {
     if(producttype){
      
       setptype(producttype)
+    }else{
+       setptype('property')
     }
 
     if(page){
@@ -209,7 +211,7 @@ export default function page() {
 
 
   
-     <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+     <button style={{textAlign:'left',marginRight:'10px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
   
@@ -232,7 +234,7 @@ localStorage.setItem('productType',e.target.value)
 
       </button>
 
-       {ptype==='product' && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+       {ptype==='product' && <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
@@ -247,13 +249,15 @@ localStorage.setItem('productType',e.target.value)
       </select>
       </button>}
 
-      <div  style={{width:'fit-content',backgroundColor:'#F4F7FB',border:'2px solid #007bffd4',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px',margin:'20px'}}>
+         {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
+
+      <div  style={{width:'fit-content',backgroundColor:'#F4F7FB',border:'2px solid #007bffd4',display:'flex',gap:'10px',padding:'10px',borderRadius:'10px',margin:'25px',marginLeft:'0px'}}>
      <i className="fas fa-search" style={{cursor:'pointer'}}></i>
-      <input type="text" placeholder='search by name' style={{width:'300px',border:'none',outline:'none',backgroundColor:'#F4F7FB'}} value={searchText} onChange={(e) => setsearchText(e.target.value)}/>
+      <input type="text" placeholder='search by name' className='productsearchinput' style={{width:'300px',border:'none',outline:'none',backgroundColor:'#F4F7FB'}} value={searchText} onChange={(e) => setsearchText(e.target.value)}/>
      </div>
 
 
-   {searchquery.length > 0 && <button style={{textAlign:'left',margin:'20px',border:'1px solid black',backgroundColor:'red',padding:'5px 10px',color:'white',border:'none',borderRadius:'5px'}} onClick={()=>{location.reload();}}>Remove Filters</button>}
+
 
       </div>
       
@@ -274,7 +278,7 @@ localStorage.setItem('productType',e.target.value)
             {data.length === 0 && isfetching===false ? (
       <tr>
         <td colSpan="7" style={{ textAlign: "center", padding: "20px",color:'#ed2f2f' }}>
-          <strong>You do not have any {ptype} listed.</strong>
+          <strong>Nothing Found</strong>
          
         </td>
       </tr>
@@ -282,7 +286,7 @@ localStorage.setItem('productType',e.target.value)
             (data.map((data, index) => (
               <tr key={index}>
                 <td>#{index + 1}</td>
-                <td><img src={data.productImage} width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" /></td>
+                <td><img src={data.productImage} className='productimage67' width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" /></td>
                 <td>{data.productName}</td>
                 <td>{data.categoryName}</td>
                 <td>

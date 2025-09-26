@@ -2,15 +2,20 @@
   padding: 16px;
   max-width: 600px;
   margin: 0 auto;
-  background: #fff;
-  border: 1px solid #ddd;
   border-radius: 8px;
 }
 
 .attribute-wrapper-679{
-  padding: 16px;
+  padding: 15px;
+  padding-left: 0px;
   background: #fff;
   border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.attribute-wrapper-679 i {
+  color: red;
+  margin-left: 10px;
 }
 
 .create-attribute-btn-671,
@@ -36,19 +41,31 @@
 .form-group-671 {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-group-671 input{
+  width: 120px;
 }
 
 .attribute-form-671 {
   margin-top: 20px;
   padding: 16px;
-  border: 1px solid #eee;
   border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
 .added-attributes-671 ul {
   list-style-type: disc;
   padding-left: 20px;
 }
+
+
+  @media (max-width: 750px) {
+.attribute-wrapper-679{
+  padding-left: 0px;
+}
+
+
+  }

@@ -134,7 +134,7 @@ if(checkGroupnameexist(attributes, newAttrName)){
 
 
   return (
-    <div className="attribute-wrapper-679" style={{border:showForm?'1px solid rgb(153 202 255)':'none'}}>
+    <div className="attribute-wrapper-679" style={{width:'fit-content',border:showForm?'1px solid rgb(153 202 255)':'none'}}>
       {showForm ? (
         <i className="fa fa-times" onClick={() => setShowForm(!showForm)}></i>
       ) : (
