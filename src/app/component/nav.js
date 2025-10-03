@@ -384,9 +384,9 @@ console.log(selectedName)
                 className="dropdown-btn filtertype location-filter"   
                 value={selectedBengaluruPlace}
                 onChange={handleBengaluruPlaceChange}
-                style={{width:'90px'}}
+                style={{width:'125px'}}
               >
-                <option value="">Locality</option>
+                <option value="">Select Locality</option>
                 {bengaluruPlaces.map((place, index) => (
                   <option key={index} value={place}>
                     {place}
@@ -427,7 +427,7 @@ console.log(selectedName)
     </div>
 
        {selectedFilter !== "property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>
-            <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />
+         {!isproperty && <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />}
           </button>}
         </div>
         </div>
@@ -451,15 +451,13 @@ console.log(selectedName)
       </div>
       </Link>
 
-          <Link href="/home/cart">
-      {/* <Button rightIcon="\icons\carticon.svg" className='hide'>Cart</Button> */}
-
+          {!isproperty && <Link href="/home/cart">
       <button className="btn_abc123">
   <span className="btn_text88">Cart</span>
   <img src="\icons\carticon.svg" alt="cart-icon" className="btn_icon" />
   <span className="btn_badge77"></span>
 </button>
-          </Link>
+          </Link>}
 
      </> 
 :

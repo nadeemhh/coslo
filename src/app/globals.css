@@ -51,6 +51,7 @@ body {
 }
 
 select,button{cursor: pointer;}
+label{text-transform: capitalize;}
 
 th,td {
 white-space: nowrap !important;
@@ -58,6 +59,9 @@ white-space: nowrap !important;
 
 i{cursor: pointer;}
 
+a{
+  text-decoration: none;
+}
 /* ////loader */
 
 #mycontainerloader {

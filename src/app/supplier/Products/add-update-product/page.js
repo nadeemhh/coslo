@@ -7,6 +7,7 @@ import  { useState,useEffect } from "react";
 import Goback from '../../../back.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
     import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
+        import AmenitiesSelector from '../../../component/AmenitiesSelector.js';
     import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
     import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
 
@@ -21,7 +22,7 @@ export default function Page() {
     productData: {
       productName: "",
       primaryAttribute:"",
-      productType:"product",
+      productType:"",
       description: "",
       productVideo: "",
       pdfFile:"",
@@ -74,7 +75,7 @@ export default function Page() {
   const [selectedPricingIndex, setSelectedPricingIndex] = useState(null);
   const [primaryGroup, setPrimaryGroup] = useState('');
    const [showMap, setshowMap] = useState(false);
-
+ const [selectedAmenities, setSelectedAmenities] = useState([]);
 
 
 console.log(selectedPricingIndex)
@@ -91,7 +92,7 @@ console.log(selectedPricingIndex)
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`)
       .then((response) => response.json())
       .then((data) =>{
-       //  console.log(data)
+     console.log(data)
         setCategories(data)
       })
       .catch((error) => console.error("Error fetching categories:", error));
@@ -148,6 +149,9 @@ console.log(selectedPricingIndex)
     refreshCategories(); // Load categories on mount
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
     const pid = new URLSearchParams(window.location.search).get("pid");
+    handleProductDataChange("productType", new URLSearchParams(window.location.search).get("ptype"))
+
+
     console.log(pid)
     if(pid){
       getproductdetails(pid)
@@ -295,7 +299,7 @@ console.log(productimages,images)
           ...prevState.productData,
           ammenties: [
             ...prevState.productData.ammenties,
-            "", 
+            {AmenitieImage:null,AmenitieName:''}, 
           ],
         },
       }));
@@ -312,7 +316,7 @@ console.log(productimages,images)
     const splitValues = value.split('$').map(item => item.trim()).filter(Boolean);
       updatedammenties.splice(index, 1, ...splitValues); // Replace the one item with many
     } else {
-      updatedammenties[index] = value; // Just set as string
+      updatedammenties[index] = {AmenitieImage: null,AmenitieName:value}; // Just set as string
     }
 
   
@@ -678,6 +682,10 @@ console.log(userDatacopy)
   }
 
 
+if(selectedAmenities.length){
+   userDatacopy.productData.ammenties=[...userDatacopy.productData.ammenties,...selectedAmenities];
+}
+ 
 
   function cleanVariationData(variationsDataRemove,productDataRemove) {
   const keysToRemove = variationsDataRemove;
@@ -1117,7 +1125,15 @@ async function Updateproductdetails() {
     return;
   }
 
+
+ 
+
    let userDatacopy =structuredClone(userData);
+
+   if(selectedAmenities.length){
+   userDatacopy.productData.ammenties=[...userDatacopy.productData.ammenties,...selectedAmenities];
+}
+
   
   function cleanVariationData(productDataRemove) {
 
@@ -1163,7 +1179,6 @@ cleanVariationData(["location", "ammenties", "khataType", "approvalType"]);
 cleanVariationData(["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
 
   }
-  
   
 
   try {
@@ -1389,10 +1404,10 @@ function checkdefaultAttribute(variation) {
 {/* /// select product type  */}
 
        <div style={{display:'flex',justifyContent:'space-between',gap:'15px',marginBottom:'20px'}}> 
-{!productupdate && <div className="input-group">
+{/* {!productupdate && <div className="input-group">
 
 <label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
-<select className="form-input" value={userData.productData.productType || ""} onChange={(e) => {
+<select className="form-input" value={userData.productData.productType || ptype} onChange={(e) => {
   resetPrimaryGroup()
 
   handleProductDataChange("productType", e.target.value)
@@ -1401,7 +1416,7 @@ function checkdefaultAttribute(variation) {
         <option value="property">Property</option>
           <option value="service">Service</option>
       </select>
- </div>}
+ </div>} */}
 
 
 {/* //// select tag */}
@@ -1432,7 +1447,7 @@ function checkdefaultAttribute(variation) {
 
 
         <div className="input-group">
-          <label htmlFor="product-name">Enter Product Name *</label>
+          <label htmlFor="product-name">Enter {userData.productData.productType} Name *</label>
           <input id="product-name" type="text" placeholder=""    value={userData.productData.productName || ""}
           onChange={(e) => handleProductDataChange("productName", e.target.value)}/>
         </div>
@@ -1442,7 +1457,7 @@ function checkdefaultAttribute(variation) {
           onChange={(e) => handleProductDataChange("BrandName", e.target.value)}/>
         </div> */}
         <div className="input-group">
-          <label htmlFor="description">Enter Description</label>
+          <label htmlFor="description">Enter {userData.productData.productType} Description</label>
           {/* <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
           onChange={(e) => handleProductDataChange("description", e.target.value)}></textarea> */}
           
@@ -1450,7 +1465,7 @@ function checkdefaultAttribute(variation) {
         </div>
 
         <div className="input-group">
-          <label htmlFor="product-video">Enter Product Video (Optional)</label>
+          <label htmlFor="product-video">Enter {userData.productData.productType} Video (Optional)</label>
           <input id="product-video" type="text" placeholder=""    value={userData.productData.productVideo || ""}
           onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
         </div>
@@ -1625,20 +1640,24 @@ onClick={addreason}
 </>
 }
 
+ 
 
+ {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities}/>}
+       
 
-
- {userData.productData.productType === "property" &&
+{userData.productData.productType === "property" &&
 <>
-<label htmlFor="product-video" style={{marginRight:'10px'}}>Add Amenities</label>
-
-<i
+<button className='upload-btn787' style={{marginTop:'20px'}} onClick={addammenties}>Add Your Own Amenity <i
 className="fas fa-plus-circle"
-style={{ color: "green", fontSize: "20px", cursor: "pointer" ,margin:'20px 0px'}}
-onClick={addammenties}
-></i>
+></i></button>
 
-{userData.productData.ammenties && userData.productData.ammenties.map((item, index) => (
+
+{userData.productData.ammenties && userData.productData.ammenties.map((item, index) =>{ 
+  if(typeof item === "object"){
+    item=item.AmenitieName;
+  }
+
+  return(
 <div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
   <div className="form-group">
   <div style={{display:'flex',justifyContent:'space-between'}}>
@@ -1662,10 +1681,13 @@ onClick={addammenties}
     </div>
   </div>
 </div>
-))}
+)}
+)}
 </>
 }
-       
+
+
+
       </div>
       
 

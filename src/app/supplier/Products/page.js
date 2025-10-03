@@ -197,11 +197,11 @@ export default function page() {
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
       <h3>Products</h3>
       
-      <Link href="/supplier/Products/add-update-product">
-      <button className="AddProduct">
-        Add Product &nbsp; <i className="fas fa-plus" style={{marginRight:'10px'}}></i>
+      {ptype && <Link href={`/supplier/Products/add-update-product?ptype=${ptype}`}>
+      <button className="AddProduct" style={{  textTransform: 'capitalize'}}>
+        Add {ptype} &nbsp; <i className="fas fa-plus" style={{marginRight:'10px'}}></i>
       </button>
-      </Link>
+      </Link>}
 
       </div>
 

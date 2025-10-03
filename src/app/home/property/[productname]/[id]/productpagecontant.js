@@ -710,7 +710,7 @@ function formatPhoneNumber(number) {
         >
           {data.ammenties.map((item, index) => (
             <div key={index} className="amenity-item-878">
-              <span>{item}</span>
+              <span>{item.name}</span>
               <i className="fas fa-check check-icon-878"></i>
             </div>
           ))}

@@ -10,15 +10,15 @@
     font-weight: bold;
   }
   
-  .main p {
+  /* .main p {
     font-size: 16px;
     margin-top: 1px;
     margin-bottom: 2rem;
-  }
+  } */
   
   .main .profile-pic {
     height: auto;
-    width: 500px;
+    width: 400px;
     object-fit: cover;
   }
   
@@ -41,7 +41,7 @@
     margin-top: 1rem;
   }
   
-  .form-tab input, select {
+  .form-tab input{
     border-radius: 10px;
     border: 1px solid #D7DADB;
     background-color: #F4F7FB;
@@ -49,8 +49,20 @@
     height: 40px;
     margin-top: 10px;
     padding: 10px;
+    
   }
   
+#mystates{
+      border-radius: 10px;
+    background-color: #F4F7FB;
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 2px solid #000;
+}
+ 
+
   .radio-btn {
     display: flex;
     gap: 20px;
@@ -61,7 +73,7 @@
     align-items: center;
     gap: 10px;
   }
-  .radio-btn input {
+  .radio-btn .main>input {
     width: auto;
     height: auto;
     margin-top: 0px;
@@ -169,11 +181,20 @@
 
 /* modal  start end*/
 
+
+
 .choosebuttons{
-  display: flex;gap: 50px;flex-wrap: wrap;
+  display: flex;gap: 20px;flex-wrap: wrap;margin-top: 20px;
 }
 
-.active8465{background-color: rgb(0, 170, 0) !important;color: rgb(255, 255, 255) !important;
+ .sellertype77{
+    font-size: 28px;
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 5px;
+  }
+
+.active8465{width: 120px;display: flex; justify-content: center;align-items: center;gap: 15px; background-color: #0356af!important;color: rgb(255, 255, 255) !important;
 margin: 20px 0px;}
 
   @media only screen and (max-width: 768px) {
@@ -181,22 +202,17 @@ margin: 20px 0px;}
       flex-direction: column;
     }
   
-    .main .profile-pic {
-      width: 196px;
-    }
   
     .right-container {
       width: auto;
     }
   
     .left-container {
-      width: auto;
-      display: flex;
-      justify-content: center;
+    display: none;
     }
 
     .choosebuttons{
-      display: flex;flex-direction: column; gap: 20px;align-items: flex-start;
+      display: flex;flex-direction: column; gap: 10px;align-items: flex-start;margin-top: 30px;
     }
 
     .active8465{margin: 0px 0px;}

@@ -52,6 +52,7 @@ function Page() {
   const [referenceId, setreferenceId] = useState(false);
       const [gstImages, setGstImages] = useState([]);
       const [gstverified, setgstverified] = useState(false);
+       const [sellertype, setsellertype] = useState('');
       const [complianceImages, setComplianceImages] = useState([]);
       const [policydata,setpolicydata] = useState(null);
       const [error, setError] = useState('');
@@ -76,7 +77,7 @@ AccountNumber:"",
 IFSCCode:"",
 BankName:"",
       });
-    console.log(user,gstImages)
+    console.log(user,gstImages,sellertype)
      
     
 
@@ -117,6 +118,9 @@ BankName:"",
   
     useEffect(() => {
       handlepolicydata();
+
+      setsellertype(new URLSearchParams(window.location.search).get("sellertype"))
+
     },[]);
 
 
@@ -157,25 +161,24 @@ BankName:"",
         formData.append("phone", user.phoneNo);
         formData.append("password", user.password);
         formData.append("businessName", user.company);
-        formData.append("gstNumber", user.gstNo);
         formData.append("businessType", user.role);
-        formData.append("deliveryType", user.DeliveryType);
         formData.append("subscriptionPlan", user.SubscriptionType);
+        formData.append("panNumber", user.panNumber);
+        formData.append("address[phone]", user.phoneNo);
+
+        if(sellertype !== 'Property'){
+          
+        formData.append("gstNumber", user.gstNo);
+        formData.append("deliveryType", user.DeliveryType);
         formData.append("address[addressLine]", user.location);
         formData.append("address[city]", user.city);
         formData.append("address[state]", user.state);
         formData.append("address[pincode]", user.pincode);
-        formData.append("panNumber", user.panNumber);
         formData.append("qualityCert", user.ComplianceNo);
-        formData.append("address[phone]", user.phoneNo);
         formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
         formData.append("bankDetails[accountNumber]", user.AccountNumber);
         formData.append("bankDetails[ifscCode]", user.IFSCCode);
         formData.append("bankDetails[bankName]", user.BankName);
-       
-
-
-
 
         if (gstImages.length > 0 && gstImages[0] instanceof File) {
           formData.append("gstCertificateFile", gstImages[0]); 
@@ -193,6 +196,8 @@ BankName:"",
         } else if (complianceImages.length > 0 && complianceImages[0].file instanceof File) {
           formData.append("complianceCertificateFile", complianceImages[0].file); // ✅ Extract actual File
         }
+
+      }
       
         console.log("FormData Entries:");
         for (let pair of formData.entries()) {
@@ -291,38 +296,7 @@ alert('enter GST Number')
       }
 
 
-    
-// function verifypan() {
 
-//   console.log('verifypan',user.panNumber)
-
-//   if(user.panNumber===''){
-//     alert('enter pan number')
-//               return;
-//             }
-            
-//   fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/pan/${user.panNumber}`)
-//     .then((response) => {
-//       if (response.ok) {
-//         return response.json();
-//       } else {
-//         return response.json().then((errorData) => {
-//           throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
-//         });
-//       }
-//     })
-//     .then((data) => {
-     
-//        console.log(data)
-    
-//     })
-//     .catch((err) => {
-//       document.querySelector('.loaderoverlay').style.display='none';
-//       console.log(err)
-//       alert(err.message || err.error || 'Failed to submit the form.')
-//     });
-
-// }
 
 function InitiateBankVerification(businessNamefromgst,tradeNamefromgst) {
 
@@ -440,23 +414,24 @@ setwaitconfirmationOpen(false)
     return (
         <div className='main' >
             <div className="left-container">
-                <img
-                    src="\images\img1.jpg"
+              { sellertype && <img
+                    src={sellertype === 'Property'?"/images/coslomart property.png" : "/images/img1.jpg"}
                     alt="Profile"
                     className="profile-pic"
-                />
+                />}
             </div>
            
             <div className='right-container'>
                 <form className="form" onSubmit={(e) => {
   e.preventDefault();
 
-  if(gstverified){
+  if(gstverified || sellertype === 'Property'){
 
+    if(sellertype !== 'Property'){
     if(!document.querySelector('#mystates').selectedIndex){
       alert('Select State/UT')
       return;
-        }
+        }}
 
         if(user.phoneNo.length<10 || user.phoneNo.length>10){
           alert('enter 10 digit phone number')
@@ -469,16 +444,23 @@ setwaitconfirmationOpen(false)
      }
 
     
-     
+     if(sellertype !== 'Property'){
     if(!user.role){
       alert('Select a role: whether you are a supplier or a manufacturer.')
       return;
      }
+    }else{
+        if(!user.role){
+      alert('Select a role: Are you an individual or an organization?')
+      return;
+     }
+    }
 
-     if(!user.DeliveryType){
+
+   if(sellertype !== 'Property'){  if(!user.DeliveryType){
        alert('Select a delivery type: whether you will deliver your product to buyers or you want Coslo to deliver it to them.')
          return;
-      }
+      }}
       
     toggleconfirmation();
   }else{
@@ -487,7 +469,7 @@ setwaitconfirmationOpen(false)
 
 }}>
                     <h1 className="">Self Registration</h1>
-                    <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>
+                    {sellertype == 'Product' && <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>}
 
                   
 
@@ -495,7 +477,7 @@ setwaitconfirmationOpen(false)
 
                  
 
-          {gstverified && <> 
+          {(sellertype === 'Property' || gstverified) && <> 
 
 
                     <div className="form-tab">
@@ -517,7 +499,8 @@ setwaitconfirmationOpen(false)
             <input type="text" name="password" id="boldinput66"  value={user.password} onChange={handleOnChange} required/>
           </div>
        
-          <div className="form-tab">
+         {sellertype !== 'Property' && <>
+         <div className="form-tab">
             <label htmlFor="BankName">Your Bank Name (optional)</label>
             <input type="text" name="BankName" id="boldinput66"  value={user.BankName} onChange={handleOnChange} />
           </div>
@@ -536,6 +519,7 @@ setwaitconfirmationOpen(false)
             <label htmlFor="IFSCCode">IFSC Code (optional)</label>
             <input type="text" id="boldinput66" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange}   />
           </div>
+          </>}
 
 
           <div className="form-tab">
@@ -549,7 +533,7 @@ setwaitconfirmationOpen(false)
 
 
         
-          <div className="form-tab">
+         {sellertype !== 'Property' && <> <div className="form-tab">
             <label htmlFor="location">Enter Pickup Address</label>
             <input type="text" name="location" id="boldinput66" value={user.location} onChange={handleOnChange} required/>
           </div>
@@ -593,6 +577,7 @@ setwaitconfirmationOpen(false)
             setImages={setComplianceImages}
             id="complianceUploader"
           />
+          
 
 
                       
@@ -600,7 +585,7 @@ setwaitconfirmationOpen(false)
 
 
                         <div className="radio-tab">
-                          <p style={{marginTop:'50px'}}>
+                          <p style={{marginTop:'50px',marginBottom:'10px'}}>
                             <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>whether you are a supplier or a manufacturer.</span>
                             </p>
 
@@ -630,31 +615,51 @@ setwaitconfirmationOpen(false)
                             </div>
                         </div>
 
-                       
                         <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
-            <input type="text" name="company" value={user.company} onChange={handleOnChange} readOnly />
+            <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} readOnly />
           </div>
         
+        </>
+          }
 
 
-                       
+          {sellertype === 'Property' && <> <div className="radio-tab">
+                          <p style={{marginTop:'50px',marginBottom:'10px'}}>
+                            <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>Are you an individual or an organization?</span>
+                            </p>
 
-                       
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"Individual"} onChange={handleOnChange} />
+                                <label>Individual</label>
+                            </div>
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='role' value={"Organization"} onChange={handleOnChange} />
+                                <label>Organization</label>
+                            </div>
+                        </div>
+
+                         {user.role ==='Organization' && <div className="form-tab">
+            <label htmlFor="company">Enter Company Name</label>
+            <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} />
+          </div>}
+          </>}
+
+
                         </> }
 
 
 
-                        <div className="form-tab">
+                       {sellertype !== 'Property' && <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
             
             <input type="text" name="gstNo" value={user.gstNo} onChange={handleOnChange}  {...(gstverified && { readOnly: true })} />
 
-          </div>
+          </div>}
 
                    
 
-         {gstverified === false && <div className="form-tab">
+         {(sellertype !== 'Property' && gstverified === false) && <div className="form-tab">
 
           <div style={{ display:'flex',gap:'10px',alignItems:'center',marginBottom:'20px'}}> 
 
@@ -667,7 +672,7 @@ setwaitconfirmationOpen(false)
 
 
 
-                        {gstverified === true &&
+                        {(sellertype === 'Property' || gstverified) &&
                         <button className="fo2">Send Account Creation Email ➜</button>
                          }
                     

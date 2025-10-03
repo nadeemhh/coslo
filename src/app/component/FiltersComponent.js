@@ -31,7 +31,7 @@ const FiltersComponent = ({sortOrder,setSortOrder,setPage,setProducts,fetchProdu
       </button>
 
       {isOpen && (
-        <div className={`filters-767-dropdown ${isOpen ? 'open' : 'closed'}`}>
+        <div className={`filters-767-dropdown ${isOpen ? 'open' : 'closed'}`} style={{position:'absolute',zIndex:'2'}}>
           <div className="filters-767-content">
             <div className="filters-767-title">
               <span>🏷️</span>
