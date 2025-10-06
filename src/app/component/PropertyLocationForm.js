@@ -6,14 +6,15 @@ import {
   StandaloneSearchBox 
 } from '@react-google-maps/api';
 import '../component/component-css/PropertyLocationForm.css'
-
+  import Nearbyarea from '../component/nearbyarea.js';
 
 const libraries = ['places'];
 
 const PropertyLocationForm = ({setUserData,show,userlocation}) => {
   // Form state
-console.log(userlocation)
+
   const [formData, setFormData] = useState(userlocation);
+    const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
 
   // Map state
   const [mapCenter, setMapCenter] = useState({
@@ -125,7 +126,9 @@ console.log(userlocation)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!formData.location.address||!formData.location.city||!formData.location.state||!formData.location.area){ 
+    
+
+    if(!formData.location.address||!formData.location.city||!formData.location.state||!selectedBengaluruPlace){ 
       alert('Enter All Details')
     return;
   }
@@ -166,7 +169,7 @@ console.log(longNames);
         coordinates:[formData.location.longitude,formData.location.latitude],
          state:formData.location.state,
       city:formData.location.city,
-      area:formData.location.area,
+      area:selectedBengaluruPlace,
       googleAddress:longNames,
       }
     };
@@ -253,19 +256,7 @@ console.log(dataToSend)
                     />
                 </div>
 
-                <div className="form-group767">
-                  <label className="form-label767">
-                  Enter Area
-                  </label>
-                    <input
-                      type="text"
-                      name="area"
-                      value={formData.location.area||''}
-                      onChange={handleInputChange}
-                      placeholder="Enter area"
-                      className="form-input767"
-                    />
-                </div>
+               
 
                 <div className="form-group767">
                   <label className="form-label767">
@@ -284,6 +275,14 @@ console.log(dataToSend)
                       className="form-input767"
                     />
                   </StandaloneSearchBox>
+                </div>
+
+                 <div className="form-group767">
+                  <label className="form-label767">
+                  Select Area
+                  </label>
+                  
+                  <Nearbyarea selectedBengaluruPlace={selectedBengaluruPlace} setSelectedBengaluruPlace={setSelectedBengaluruPlace}/>
                 </div>
 
               

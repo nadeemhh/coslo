@@ -59,7 +59,7 @@ const SelectedAttributeArray = ({attributes,primaryGroup,addAttribute,currentatt
         }}
         style={{ marginBottom: '10px' }}
       >
-        <option value="">Select Attribute</option>
+        <option value="">-- Select Attribute --</option>
         {attributes.map((attr, idx) => (
           <option key={idx} value={attr.GroupName}>
             {attr.GroupName}

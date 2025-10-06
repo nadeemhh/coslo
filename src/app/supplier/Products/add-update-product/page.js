@@ -10,6 +10,7 @@ import Goback from '../../../back.js'
         import AmenitiesSelector from '../../../component/AmenitiesSelector.js';
     import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
     import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
+     
 
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
@@ -87,12 +88,24 @@ console.log(selectedPricingIndex)
   ]);
 
   const Attributesitems = Array.from({ length: Attributes }, (_, index) => `Item ${index + 1}`);
+
   console.log(userData)
-  const refreshCategories = () => {
+
+  function filterObjectsByProperty(array, propertyName, matchingNames) {
+  return array.filter(obj => matchingNames.includes(obj[propertyName]));
+}
+
+
+  const refreshCategories = (productType) => {
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`)
       .then((response) => response.json())
       .then((data) =>{
      console.log(data)
+
+     if(productType==='property'){
+  data = filterObjectsByProperty(data, "name", ["Real Estate"]);
+     }
+
         setCategories(data)
       })
       .catch((error) => console.error("Error fetching categories:", error));
@@ -103,7 +116,7 @@ console.log(selectedPricingIndex)
   /// get tags
 
 
-    const gettag = () => {
+    const gettag = (productType) => {
      
   
       document.querySelector('.loaderoverlay').style.display='flex';
@@ -129,6 +142,9 @@ console.log(selectedPricingIndex)
         })
         .then((data) => {
               console.log(data)
+               if(productType==='property'){
+                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"]);
+               }
               settags([...data])
              document.querySelector('.loaderoverlay').style.display='none';
 
@@ -146,10 +162,12 @@ console.log(selectedPricingIndex)
 
 
   useEffect(() => {
-    refreshCategories(); // Load categories on mount
+
+  let productType=new URLSearchParams(window.location.search).get("ptype");
+    refreshCategories(productType); // Load categories on mount
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
     const pid = new URLSearchParams(window.location.search).get("pid");
-    handleProductDataChange("productType", new URLSearchParams(window.location.search).get("ptype"))
+    handleProductDataChange("productType", productType)
 
 
     console.log(pid)
@@ -158,7 +176,9 @@ console.log(selectedPricingIndex)
     }else{
       setshowMap(true)
     }
-    gettag()
+
+    fetchAttributes(productType)
+    gettag(productType)
 
     
 
@@ -1334,20 +1354,23 @@ document.querySelector('.loaderoverlay').style.display='none';
 
 
 
-  const fetchAttributes = async () => {
+  const fetchAttributes = async (productType) => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/attribute`);
-      const data = await res.json();
+      let data = await res.json();
+      console.log(data)
+       
+if(productType==='property'){
+      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"]);
+}
+
       setAllAttributes(data);
     } catch (err) {
       console.error('Error fetching attributes:', err);
     }
   };
 
-   // Fetch all attribute groups on mount
-  useEffect(() => {
-    fetchAttributes();
-  }, []);
+  
 
 
 
@@ -1423,16 +1446,17 @@ function checkdefaultAttribute(variation) {
 
         <div className="input-group">
 
-<label htmlFor="product-video" style={{marginTop:'10px',fontSize:'16px'}}>Select a tag</label>
+
 
   <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
    
       let id=e.target.children[e.target.selectedIndex].getAttribute('id');
     handleProductDataChange("tag", id)
-    setselectedtag(e.target.value)}
+    setselectedtag(e.target.value)
+  }
   }>
 
-      <option value="">Select a tag</option>
+    {userData.productData.productType !== 'property'? <option value="">Select a Tag</option> : <option value="">Select Property Type</option>}
       {tags.map((data, index) => (
         <option value={data.tagName} id={data._id} key={index}>
           {data.tagName}
@@ -1647,9 +1671,9 @@ onClick={addreason}
 
 {userData.productData.productType === "property" &&
 <>
-<button className='upload-btn787' style={{marginTop:'20px'}} onClick={addammenties}>Add Your Own Amenity <i
+{/* <button className='upload-btn787' style={{marginTop:'20px'}} onClick={addammenties}>Add Your Own Amenity <i
 className="fas fa-plus-circle"
-></i></button>
+></i></button> */}
 
 
 {userData.productData.ammenties && userData.productData.ammenties.map((item, index) =>{ 
@@ -1823,10 +1847,10 @@ className="fas fa-plus-circle"
             onChange={(e) => handlePrimaryGroupChange(e.target.value)}
             style={{ marginBottom: '10px' }}
           >
-            <option value="">Select Primary Group</option>
+            <option value="">-- Attributes --</option>
             {AllAttributes.map((attr, idx) => (
               <option key={idx} value={attr.GroupName}>
-                {attr.GroupName}
+               {idx+1}. {attr.GroupName}
               </option>
             ))}
           </select>

@@ -1,187 +1,118 @@
-import React, { useState, useRef ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AmenitiesSelector = ({selectedAmenities, setSelectedAmenities}) => {
-  const amenities = [
-  "24/7 Security",
-  "AC in Bedrooms",
-  "Air Conditioning",
-  "Amphitheater",
-  "ATM",
-  "Badminton Court",
-  "Basketball Court",
-  "BBQ Area",
-  "BBQ Pavilion",
-  "Billiards / Pool Table",
-  "Biometric Entry",
-  "Cafeteria / Coffee Shop",
-  "Car Parking",
-  "CCTV Surveillance",
-  "Children's Library",
-  "Children's Play Area",
-  "Clubhouse",
-  "Community Garden",
-  "Community Hall",
-  "Convenience Store",
-  "Covered Parking",
-  "Cricket Pitch",
-  "Dance / Yoga Studio",
-  "Designer Entrance Lobby",
-  "Dog Park",
-  "Electric Car Parking",
-  "Electric Vehicle Charging Station",
-  "Elevator / Lift",
-  "Emergency Power Backup",
-  "Fire Alarm System",
-  "Fire Safety System",
-  "Fitness Center / Gym",
-  "Flower Garden",
-  "Gated Community",
-  "Gazebo / Pergola",
-  "Golf Course",
-  "Green Landscaping",
-  "Guest Rooms",
-  "Helipad",
-  "Herbal / Medicinal Garden",
-  "Indoor Games Room",
-  "Indoor Swimming Pool",
-  "Intercom Facility",
-  "Jacuzzi / Hot Tub",
-  "Jogging Track",
-  "Juice / Snack Bar",
-  "Kids' Play Area",
-  "Kids' Pool",
-  "Landscape Lighting",
-  "Library / Reading Room",
-  "Lift / Elevator",
-  "Maintenance Staff",
-  "Meditation Area",
-  "Mini Golf",
-  "Mini Theater / Screening Room",
-  "Multipurpose Court",
-  "Open Air Theater",
-  "Open Terrace",
-  "Outdoor Gym",
-  "Outdoor Seating",
-  "Paved Driveway",
-  "Pet-Friendly Area",
-  "Piped Gas",
-  "Power Backup / Generator",
-  "Rainwater Harvesting",
-  "Rainwater Recharge System",
-  "Recycling Facility",
-  "Reflexology Path",
-  "Restaurant / Cafe",
-  "Retail Shops",
-  "Roof Garden",
-  "Rooftop Lounge",
-  "Security Cabin",
-  "Shopping Complex",
-  "Skating Rink",
-  "Smart Home Features",
-  "Smart Metering",
-  "Solar Panels",
-  "Spa / Sauna",
-  "Sports Facilities",
-  "Squash Court",
-  "Staff Quarters",
-  "Steam Room",
-  "Street Lighting",
-  "Swimming Pool",
-  "Swimming Pool with Slide",
-  "Tennis Court",
-  "Theater Room / Mini Cinema",
-  "Transformer / Electrical Substation",
-  "Trekkers' Path / Nature Trail",
-  "Trolley / Golf Cart",
-  "UGC Approved Community Hall",
-  "Underground Parking",
-  "Urban Garden / Park",
-  "Utility Shops",
-  "Vastu Compliant",
-  "Video Door Security",
-  "Video Intercom",
-  "Visitor Lounge",
-  "Visitor Parking",
-  "Washing / Laundry Area",
-  "Waste Disposal System",
-  "Water Fountain / Feature",
-  "Water Storage / Tank",
-  "Water Treatment Plant",
-  "Wellness Center",
-  "Wet Area / Jacuzzi",
-  "Wheelchair Access",
-  "Wi-Fi / Internet Connectivity",
-  "Wooden Deck / Patio",
-  "Work from Home / Office Room",
-  "Yoga Deck",
-  "Zebra Crossing / Internal Roads"
-  ];
-
- 
+  const [amenities, setAmenities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const fileInputRefs = useRef({});
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newAmenityName, setNewAmenityName] = useState('');
+  const [newAmenityImage, setNewAmenityImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-console.log(selectedAmenities)
+  console.log(selectedAmenities)
+  // Fetch amenities from API
+  useEffect(() => {
+    fetchAmenities();
+  }, []);
 
+  const fetchAmenities = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/amenity/`);
+      const data = await response.json();
+      setAmenities(data);
+    } catch (error) {
+      console.error('Error fetching amenities:', error);
+    }
+  };
 
   const filteredAmenities = amenities.filter(amenity =>
-    amenity.toLowerCase().includes(searchTerm.toLowerCase())
+    amenity.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const toggleAmenity = (amenity) => {
-    const existingIndex = selectedAmenities.findIndex(item => item.AmenitieName === amenity);
+  const existingIndex = selectedAmenities.findIndex(id => id === amenity._id);
+  
+  if (existingIndex !== -1) {
+    setSelectedAmenities(selectedAmenities.filter((_, index) => index !== existingIndex));
+  } else {
+    setSelectedAmenities([...selectedAmenities, amenity._id]);
+  }
+};
+
+const isAmenitySelected = (amenity) => {
+  return selectedAmenities.includes(amenity._id);
+};
+
+
+/////////
+
+// const toggleAmenity = (amenity) => {
+//     const existingIndex = selectedAmenities.findIndex(item => item._id === amenity._id);
     
-    if (existingIndex !== -1) {
-      setSelectedAmenities(selectedAmenities.filter((_, index) => index !== existingIndex));
-    } else {
-      setSelectedAmenities([...selectedAmenities, { AmenitieName: amenity, AmenitieImage: null }]);
-    }
-  };
+//     if (existingIndex !== -1) {
+//       setSelectedAmenities(selectedAmenities.filter((_, index) => index !== existingIndex));
+//     } else {
+//       setSelectedAmenities([...selectedAmenities, amenity]);
+//     }
+//   };
 
-  const isAmenitySelected = (amenity) => {
-    return selectedAmenities.some(item => item.AmenitieName === amenity);
-  };
+//   const isAmenitySelected = (amenity) => {
+//     return selectedAmenities.some(item => item._id === amenity._id);
+//   };
 
-  const getAmenityData = (amenity) => {
-    return selectedAmenities.find(item => item.AmenitieName === amenity);
-  };
+/////
 
-  const handleImageUpload = (amenity, event) => {
-    event.stopPropagation();
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
-    
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        setSelectedAmenities(prev => 
-          prev.map(item => 
-            item.AmenitieName === amenity 
-              ? { ...item, AmenitieImage: base64String }
-              : item
-          )
-        );
-      };
-      reader.readAsDataURL(file);
+      setNewAmenityImage(file);
     }
   };
 
-  const removeImage = (amenity, event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setSelectedAmenities(prev => 
-      prev.map(item => 
-        item.AmenitieName === amenity 
-          ? { ...item, AmenitieImage: null }
-          : item
-      )
-    );
-  };
+  const handleCreateAmenity = async () => {
+    if (!newAmenityName.trim()) {
+      alert('Please enter amenity name');
+      return;
+    }
+    if (!newAmenityImage) {
+      alert('Please select an image');
+      return;
+    }
 
-  const openFileInput = (amenity, event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    fileInputRefs.current[amenity]?.click();
+    setIsLoading(true);
+    
+    const formData = new FormData();
+    formData.append('AmenitieName', newAmenityName);
+    formData.append('AmenitieImage', newAmenityImage);
+
+    try {
+         const token = localStorage.getItem('token');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/amenity/`, {
+        method: 'POST',
+          headers: {
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Refresh amenities list
+        await fetchAmenities();
+        
+        // Reset form
+        setNewAmenityName('');
+        setNewAmenityImage(null);
+        setShowAddForm(false);
+        alert('Amenity created successfully!');
+      } else {
+        alert('Failed to create amenity');
+      }
+    } catch (error) {
+      console.error('Error creating amenity:', error);
+      alert('Error creating amenity');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const styles = {
@@ -294,43 +225,6 @@ console.log(selectedAmenities)
       userSelect: 'none',
       flex: 1,
     },
-    uploadButton676: {
-      width: '28px',
-      height: '28px',
-      borderRadius: '50%',
-      backgroundColor: '#4caf50',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      cursor: 'pointer',
-      transition: 'all 0.2s',
-      marginLeft: '8px',
-      flexShrink: 0,
-    },
-    uploadIcon676: {
-      color: '#fff',
-      fontSize: '12px',
-    },
-    removeButton676: {
-      width: '28px',
-      height: '28px',
-      borderRadius: '50%',
-      backgroundColor: '#f44336',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      cursor: 'pointer',
-      transition: 'all 0.2s',
-      marginLeft: '8px',
-      flexShrink: 0,
-    },
-    removeIcon676: {
-      color: '#fff',
-      fontSize: '12px',
-    },
-    fileInput676: {
-      display: 'none',
-    },
     noResults676: {
       padding: '20px',
       textAlign: 'center',
@@ -339,14 +233,87 @@ console.log(selectedAmenities)
       width: '100%',
     },
     imagePreview676: {
-      width: '28px',
-      height: '28px',
+      width: '30px',
+      height: '30px',
       borderRadius: '4px',
       objectFit: 'cover',
       marginLeft: '8px',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderColor: '#ddd',
+    },
+    addButton: {
+      padding: '10px 16px',
+      backgroundColor: '#007bff',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: '500',
+      marginBottom: '12px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      transition: 'background-color 0.2s',
+    },
+    addFormContainer: {
+      padding: '16px',
+      backgroundColor: '#f5f5f5',
+      borderRadius: '6px',
+      marginBottom: '12px',
+    },
+    formInput: {
+      width: '100%',
+      padding: '10px',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: '#ddd',
+      borderRadius: '6px',
+      fontSize: '14px',
+      marginBottom: '12px',
+      boxSizing: 'border-box',
+      outline: 'none',
+    },
+    fileInputLabel: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '10px',
+      backgroundColor: '#fff',
+      border: '1px dashed #999',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      color: '#666',
+      marginBottom: '12px',
+      transition: 'border-color 0.2s',
+    },
+    fileInputHidden: {
+      display: 'none',
+    },
+    createButton: {
+      padding: '10px 16px',
+      backgroundColor: '#4caf50',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: '500',
+      marginRight: '8px',
+      transition: 'background-color 0.2s',
+    },
+    cancelButton: {
+      padding: '10px 16px',
+      backgroundColor: '#999',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '6px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      fontWeight: '500',
+      transition: 'background-color 0.2s',
     },
   };
 
@@ -358,6 +325,8 @@ console.log(selectedAmenities)
       />
       
       <div style={styles.header676}>
+      
+
         <h3 style={styles.title676}>Select Amenities</h3>
         <div style={styles.searchContainer676}>
           <i className="fa fa-search" style={styles.searchIcon676}></i>
@@ -379,12 +348,10 @@ console.log(selectedAmenities)
         {filteredAmenities.length > 0 ? (
           filteredAmenities.map((amenity) => {
             const isSelected = isAmenitySelected(amenity);
-            const amenityData = getAmenityData(amenity);
-            const hasImage = amenityData?.AmenitieImage;
-            
+           
             return (
               <div
-                key={amenity}
+                key={amenity._id}
                 onClick={() => toggleAmenity(amenity)}
                 style={{
                   ...styles.amenityItem676,
@@ -402,69 +369,14 @@ console.log(selectedAmenities)
                     <i className="fa fa-check" style={styles.checkIcon676}></i>
                   )}
                 </div>
-                <span style={styles.amenityText676}>{amenity}</span>
+                <span style={styles.amenityText676}>{amenity.name}</span>
                 
-                {isSelected && (
-                  <>
-                    <input
-                      ref={(el) => (fileInputRefs.current[amenity] = el)}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleImageUpload(amenity, e)}
-                      style={styles.fileInput676}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    
-                    {hasImage ? (
-                      <>
-                        <img 
-                          src={amenityData.AmenitieImage} 
-                          alt={amenity}
-                          style={styles.imagePreview676}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <div
-                          onMouseDown={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            removeImage(amenity, e);
-                          }}
-                          style={styles.removeButton676}
-                          className="removeButton676"
-                          title="Remove image"
-                        >
-                          <i 
-                            className="fa fa-times" 
-                            style={{...styles.removeIcon676, pointerEvents: 'none'}}
-                          ></i>
-                        </div>
-                      </>
-                    ) : (
-                      <div
-                        onMouseDown={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          openFileInput(amenity, e);
-                        }}
-                        style={styles.uploadButton676}
-                        className="uploadButton676"
-                        title="Upload image"
-                      >
-                        <i 
-                          className="fa fa-upload" 
-                          style={{...styles.uploadIcon676, pointerEvents: 'none'}}
-                        ></i>
-                      </div>
-                    )}
-                  </>
+                {amenity.image && (
+                  <img 
+                    src={amenity.image} 
+                    alt={amenity.name}
+                    style={styles.imagePreview676}
+                  />
                 )}
               </div>
             );
@@ -477,6 +389,65 @@ console.log(selectedAmenities)
         )}
       </div>
 
+       <div style={styles.header676}>
+
+
+ <button 
+          style={styles.addButton}
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="addButton"
+        >
+          Add Your Own Amenity 
+          <i className="fas fa-plus-circle"></i>
+        </button>
+
+        {showAddForm && (
+          <div style={styles.addFormContainer}>
+            <input
+              type="text"
+              placeholder="Amenity Name"
+              value={newAmenityName}
+              onChange={(e) => setNewAmenityName(e.target.value)}
+              style={styles.formInput}
+            />
+            
+            <label style={styles.fileInputLabel} className="fileInputLabel">
+              <i className="fas fa-upload"></i>
+              {newAmenityImage ? newAmenityImage.name : 'Upload Amenity Image'}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={styles.fileInputHidden}
+              />
+            </label>
+
+            <div>
+              <button 
+                style={styles.createButton}
+                onClick={handleCreateAmenity}
+                disabled={isLoading}
+                className="createButton"
+              >
+                {isLoading ? 'Creating...' : 'Create Amenity'}
+              </button>
+              <button 
+                style={styles.cancelButton}
+                onClick={() => {
+                  setShowAddForm(false);
+                  setNewAmenityName('');
+                  setNewAmenityImage(null);
+                }}
+                className="cancelButton"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+</div>
+
       <style>{`
         .searchInput676:focus {
           border-color: #2196f3;
@@ -485,13 +456,21 @@ console.log(selectedAmenities)
           background-color: #f5f5f5;
           transform: translateX(2px);
         }
-        .uploadButton676:hover {
-          background-color: #45a049;
-          transform: scale(1.1);
+        .addButton:hover {
+          background-color: #1976d2;
         }
-        .removeButton676:hover {
-          background-color: #da190b;
-          transform: scale(1.1);
+        .createButton:hover:not(:disabled) {
+          background-color: #45a049;
+        }
+        .createButton:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        .cancelButton:hover {
+          background-color: #777;
+        }
+        .fileInputLabel:hover {
+          border-color: #2196f3;
         }
         .listContainer676::-webkit-scrollbar {
           width: 8px;
