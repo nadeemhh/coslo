@@ -151,7 +151,6 @@ const Nearbyarea = ({selectedBengaluruPlace, setSelectedBengaluruPlace}) => {
                 className="form-input"   
                 value={selectedBengaluruPlace}
                 onChange={handleBengaluruPlaceChange}
-                style={{width:'125px'}}
               >
                 <option value="">Area</option>
                 {bengaluruPlaces.map((place, index) => (

@@ -77,7 +77,7 @@ export default function Page() {
   const [primaryGroup, setPrimaryGroup] = useState('');
    const [showMap, setshowMap] = useState(false);
  const [selectedAmenities, setSelectedAmenities] = useState([]);
-
+const [LocationformData, setLocationFormData] = useState(null);
 
 console.log(selectedPricingIndex)
 
@@ -667,45 +667,56 @@ setpreimages([])
   
 
   const handleSubmit = async () => {
-   
 
-   let userDatacopy =structuredClone(userData);
-console.log(userDatacopy)
 
    try{
 
-    userDatacopy.productData.category=document.querySelector('.active342').getAttribute('categoryid');
+    userData.productData.category=document.querySelector('.active342').getAttribute('categoryid');
 
   }catch(er){
     alert('Select Category')
     return;
   }
 
-   if(getCategoryNestingLevel(categories,userDatacopy.productData.category) !== 1){
+   if(getCategoryNestingLevel(categories,userData.productData.category) !== 1){
      alert(' Select a child category.')
     return;
   }
 
-   if(userDatacopy.productData.productName === ""){
+   if(userData.productData.productName === ""){
     alert('enter product name')
     return;
   }
 
-  if(userDatacopy.productData.tag === "" || userDatacopy.productData.tag === null){
+  if(userData.productData.tag === "" || userData.productData.tag === null){
     alert('select a tag')
     return;
   }
 
-  if(userDatacopy.variationsData.length===0){
+  if(userData.variationsData.length===0){
     alert('Add Price')
     return;
   }
 
 
-if(selectedAmenities.length){
-   userDatacopy.productData.ammenties=[...userDatacopy.productData.ammenties,...selectedAmenities];
-}
- 
+  
+     let userDatacopy =structuredClone(userData);
+     console.log(userDatacopy)
+
+    // Handle location for property type
+  if(userData.productData.productType === "property"){
+    const locationData = await handlelocationSubmit();
+    if (!locationData) {
+      alert('Enter all location details')
+      return;
+    }
+    // Directly assign the location data to the copy
+    userDatacopy.productData.location = locationData;
+  }
+
+
+
+
 
   function cleanVariationData(variationsDataRemove,productDataRemove) {
   const keysToRemove = variationsDataRemove;
@@ -964,6 +975,7 @@ console.log(data.data,data.data.productType)
 setselectedtag(data.data?.tagName)
        // setisdata(true)
         setshowMap(true)
+setSelectedAmenities(data.data.ammenties)
 
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -1146,14 +1158,21 @@ async function Updateproductdetails() {
   }
 
 
- 
-
    let userDatacopy =structuredClone(userData);
 
-   if(selectedAmenities.length){
-   userDatacopy.productData.ammenties=[...userDatacopy.productData.ammenties,...selectedAmenities];
-}
+      // Handle location for property type
+  if(userData.productData.productType === "property"){
+    const locationData = await handlelocationSubmit();
+    if (!locationData) {
+      alert('Enter all location details')
+      return;
+    }
+    // Directly assign the location data to the copy
+    userDatacopy.productData.location = locationData;
+  }
 
+
+  
   
   function cleanVariationData(productDataRemove) {
 
@@ -1410,6 +1429,88 @@ function checkdefaultAttribute(variation) {
 
  console.log(userData.productData?.location?.coordinates[0])
 
+
+
+ // Handle location form submission
+  const handlelocationSubmit = async () => {
+    
+
+    if(!LocationformData.location.address||!LocationformData.location.city||!LocationformData.location.state||!LocationformData.location.area){ 
+     
+   return false;
+  }
+
+
+    const geocode = async () => {
+       return new Promise((resolve, reject) => {
+      const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+      const address = LocationformData.location.address;
+      console.log(address)
+
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=${apiKey}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.results.length > 0) {
+            console.log("Full Response:", data);
+
+           const longNames = data?.results[0]?.address_components
+  .map(comp => comp?.long_name)
+  .join(", ");
+
+console.log(longNames);
+
+ // Prepare data for backend
+    const location= {
+        geoJsonType: "Point",
+        address: LocationformData.location.address,
+        coordinates:[LocationformData.location.longitude,LocationformData.location.latitude],
+         state:LocationformData.location.state,
+      city:LocationformData.location.city,
+      area:LocationformData.location.area,
+      googleAddress:longNames,
+      };
+
+console.log(location)
+
+ setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        ['location']: location,
+      },
+    }));
+   
+  
+resolve(location);
+
+          } else {
+            console.log("No results found.");
+              reject(new Error("No results found"));
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching geocode data:", error.message);
+           reject(error);
+        });
+        });
+    };
+
+    const locationData = await geocode(); // Wait for geocode to complete
+return locationData;
+   
+  };
+
+
+
   return (
     <div className="order-details">
       <div className="header">
@@ -1444,7 +1545,7 @@ function checkdefaultAttribute(variation) {
 
 {/* //// select tag */}
 
-        <div className="input-group">
+       {!productupdate && <div className="input-group">
 
 
 
@@ -1465,7 +1566,7 @@ function checkdefaultAttribute(variation) {
 
     </select>
 
-   </div>
+   </div>}
 
 </div>
 
@@ -1666,51 +1767,8 @@ onClick={addreason}
 
  
 
- {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities}/>}
+ {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities} propertyAmenities={userData.productData.ammenties} setUserData={setUserData}/>}
        
-
-{userData.productData.productType === "property" &&
-<>
-{/* <button className='upload-btn787' style={{marginTop:'20px'}} onClick={addammenties}>Add Your Own Amenity <i
-className="fas fa-plus-circle"
-></i></button> */}
-
-
-{userData.productData.ammenties && userData.productData.ammenties.map((item, index) =>{ 
-  if(typeof item === "object"){
-    item=item.AmenitieName;
-  }
-
-  return(
-<div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
-  <div className="form-group">
-  <div style={{display:'flex',justifyContent:'space-between'}}>
-
-    <label className="form-label">Amenities {index+1}</label>
-    <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-          onClick={()=>{removeammenties(index)}}></i>
-          </div>
-    <div className="range-container">
-      <input
-        type="text"
-        className="form-input small-input"
-        placeholder="Write Amenities"
-        style={{ width: "100px" }}
-        value={item}
-        onChange={(e) => handleammentiesChange(index, e.target.value)}
-      />
-
-
-   
-    </div>
-  </div>
-</div>
-)}
-)}
-</>
-}
-
-
 
       </div>
       
@@ -1768,7 +1826,10 @@ className="fas fa-plus-circle"
       area:"",
       googleAddress:"",
     }
-  }}/>
+  }}
+  
+  formData={LocationformData} setFormData={setLocationFormData}
+  />
 }
 
 

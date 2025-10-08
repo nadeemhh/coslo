@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef,useEffect } from 'react';
 import { 
   GoogleMap, 
   LoadScript, 
@@ -6,15 +6,156 @@ import {
   StandaloneSearchBox 
 } from '@react-google-maps/api';
 import '../component/component-css/PropertyLocationForm.css'
-  import Nearbyarea from '../component/nearbyarea.js';
+
 
 const libraries = ['places'];
 
-const PropertyLocationForm = ({setUserData,show,userlocation}) => {
+const PropertyLocationForm = ({setUserData,show,userlocation,formData, setFormData}) => {
   // Form state
 
-  const [formData, setFormData] = useState(userlocation);
+      const [bengaluruPlaces, setbengaluruPlaces] = useState([
+      "AECS Layout",
+      "Adugodi",
+      "Agram",
+      "Akshayanagar",
+      "Amruthahalli",
+      "Anand Nagar",
+      "Anekal",
+      "Anjanapura",
+      "Arakere",
+      "Ashok Nagar",
+      "Attibele",
+      "Bagalur",
+      "Banashankari",
+      "Banashankari Stage 2",
+      "Banashankari Stage 3",
+      "Banashankari Stage 5",
+      "Banashankari Stage 6",
+      "Banaswadi",
+      "Bannerghatta",
+      "Bannerghatta Road",
+      "Basavanagudi",
+      "Basaveshwaranagar",
+      "Begur",
+      "Bellandur",
+      "Benson Town",
+      "Bharath Nagar",
+      "Bidadi",
+      "Bilekahalli",
+      "Bommanahalli",
+      "Bommasandra",
+      "Brookefield",
+      "BTM Layout",
+      "CV Raman Nagar",
+      "Chamarajpet",
+      "Chandapura",
+      "Chikkabanavara",
+      "Chikkajala",
+      "Cooke Town",
+      "Cox Town",
+      "Cunningham Road",
+      "Dasarahalli",
+      "Devanahalli",
+      "Doddanekkundi",
+      "Domlur",
+      "Dommasandra",
+      "Ejipura",
+      "Electronic City",
+      "Frazer Town",
+      "Ganganagar",
+      "Girinagar",
+      "Gottigere",
+      "HAL Layout",
+      "HBR Layout",
+      "Hebbal",
+      "Hennur",
+      "Hoodi",
+      "Horamavu",
+      "Hompalaghatta",
+      "Hosa Road",
+      "Hosakerehalli",
+      "HRBR Layout",
+      "HSR Layout",
+      "Hulimavu",
+      "Indiranagar",
+      "ISRO Layout",
+      "ITPL",
+      "Jakkur",
+      "Jalahalli",
+      "Jayanagar",
+      "Jigani",
+      "JP Nagar",
+      "Kadubeesanahalli",
+      "Kadugodi",
+      "Kaggadasapura",
+      "Kalyan Nagar",
+      "Kammanahalli",
+      "Kanakapura Road",
+      "Kasturi Nagar",
+      "Kathriguppe",
+      "Kengeri",
+      "Kodihalli",
+      "Kodigehalli",
+      "Koramangala",
+      "KR Market",
+      "KR Puram",
+      "Kudlu Gate",
+      "Kumaraswamy Layout",
+      "Lalbagh Road",
+      "Lavelle Road",
+      "Lingarajapuram",
+      "Madiwala",
+      "Magadi Road",
+      "Mahadevapura",
+      "Majestic",
+      "Malleshpalya",
+      "Malleshwaram",
+      "Marathahalli",
+      "Mathikere",
+      "Mico Layout",
+      "Millers Road",
+      "Murugeshpalya",
+      "Mysore Road",
+      "Nagavara",
+      "Nagarabhavi",
+      "Nandi Hills",
+      "Padmanabhanagar",
+      "Peenya",
+      "Race Course Road",
+      "Rajajinagar",
+      "Rajarajeshwari Nagar",
+      "Ramamurthy Nagar",
+      "Richmond Town",
+      "RT Nagar",
+      "Sadashivanagar",
+      "Sahakar Nagar",
+      "Sanjay Nagar",
+      "Sarjapur",
+      "Shanti Nagar",
+      "Shivaji Nagar",
+      "Singasandra",
+      "Sunkadakatte",
+      "Thanisandra",
+      "Ulsoor",
+      "Uttarahalli",
+      "Varthur",
+      "Vasanth Nagar",
+      "Vidyaranyapura",
+      "Vijayanagar",
+      "Whitefield",
+      "Wilson Garden",
+      "Yelahanka",
+      "Yeswanthpur",
+      "Yeshwanthpur"
+    ]);
+
     const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
+
+
+  useEffect(() => {
+
+setFormData(userlocation)
+  }, []);
 
   // Map state
   const [mapCenter, setMapCenter] = useState({
@@ -122,84 +263,7 @@ const PropertyLocationForm = ({setUserData,show,userlocation}) => {
     });
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    
-
-    if(!formData.location.address||!formData.location.city||!formData.location.state||!selectedBengaluruPlace){ 
-      alert('Enter All Details')
-    return;
-  }
-
-
-    const geocode = async () => {
-      const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
-      const address = formData.location.address;
-      console.log(address)
-
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
-        )}&key=${apiKey}`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (data.results.length > 0) {
-            console.log("Full Response:", data);
-
-           const longNames = data?.results[0]?.address_components
-  .map(comp => comp?.long_name)
-  .join(", ");
-
-console.log(longNames);
-
- // Prepare data for backend
-    const dataToSend = {
-
-      location: {
-        geoJsonType: "Point",
-        address: formData.location.address,
-        coordinates:[formData.location.longitude,formData.location.latitude],
-         state:formData.location.state,
-      city:formData.location.city,
-      area:selectedBengaluruPlace,
-      googleAddress:longNames,
-      }
-    };
-
-console.log(dataToSend)
-
- setUserData((prevState) => ({
-      ...prevState,
-      productData: {
-        ...prevState.productData,
-        ['location']: dataToSend.location,
-      },
-    }));
-   
-    alert('Location submitted successfully')
-
-          } else {
-            console.log("No results found.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching geocode data:", error.message);
-        });
-    };
-
-    geocode();
-
-
-   
-  };
+ 
 
   if (!googleMapsApiKey) {
     return (
@@ -223,7 +287,7 @@ console.log(dataToSend)
           googleMapsApiKey={googleMapsApiKey}
           libraries={libraries}
         >
-          <div className="form-container767">
+         {formData !== null && <div className="form-container767">
             <div className="form-grid767">
               {/* Form Fields */}
               <div className="form-section767">
@@ -282,7 +346,19 @@ console.log(dataToSend)
                   Select Area
                   </label>
                   
-                  <Nearbyarea selectedBengaluruPlace={selectedBengaluruPlace} setSelectedBengaluruPlace={setSelectedBengaluruPlace}/>
+                   <select 
+                className="form-input" 
+                name="area"
+                value={formData.location.area}
+                onChange={handleInputChange}
+              >
+                <option value="">Area</option>
+                {bengaluruPlaces.map((place, index) => (
+                  <option key={index} value={place}>
+                    {place}
+                  </option>
+                ))}
+              </select>
                 </div>
 
               
@@ -342,16 +418,8 @@ console.log(dataToSend)
               </div>
             </div>
 
-            <div className="form-footer767">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="submit-button767"
-              >
-                Submit Location
-              </button>
-            </div>
-          </div>
+           
+          </div>}
         </LoadScript>
       </div>
    

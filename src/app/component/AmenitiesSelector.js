@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const AmenitiesSelector = ({selectedAmenities, setSelectedAmenities}) => {
+const AmenitiesSelector = ({selectedAmenities, setSelectedAmenities, propertyAmenities,setUserData}) => {
   const [amenities, setAmenities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
@@ -8,17 +8,34 @@ const AmenitiesSelector = ({selectedAmenities, setSelectedAmenities}) => {
   const [newAmenityImage, setNewAmenityImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(selectedAmenities)
+  // console.log(selectedAmenities,propertyAmenities)
   // Fetch amenities from API
   useEffect(() => {
     fetchAmenities();
   }, []);
 
+
+   useEffect(() => {
+
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        ['ammenties']: selectedAmenities,
+      },
+    }));
+
+  }, [selectedAmenities]);
+
   const fetchAmenities = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/amenity/`);
       const data = await response.json();
+      console.log(data)
       setAmenities(data);
+
+       
+
     } catch (error) {
       console.error('Error fetching amenities:', error);
     }

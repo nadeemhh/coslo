@@ -534,7 +534,7 @@ setwaitconfirmationOpen(false)
 
         
          {sellertype !== 'Property' && <> <div className="form-tab">
-            <label htmlFor="location">Enter Pickup Address</label>
+            <label htmlFor="location">{sellertype === 'Product'?<>Enter Pickup Address</>:<>Enter Address</>}</label>
             <input type="text" name="location" id="boldinput66" value={user.location} onChange={handleOnChange} required/>
           </div>
 
@@ -542,10 +542,7 @@ setwaitconfirmationOpen(false)
             <label htmlFor="location">Enter City</label>
             <input type="text" name="city" id="boldinput66" value={user.city} onChange={handleOnChange} required/>
           </div>
-          {/* <div className="form-tab">
-            <label htmlFor="location">Enter State</label>
-            <input type="text" name="state" value={user.state} onChange={handleOnChange}/>
-          </div> */}
+
 
           <IndianStates value={user.state} handleOnChange={handleOnChange}/>
           
@@ -565,7 +562,7 @@ setwaitconfirmationOpen(false)
             id="gstUploader"
           />
 
-          <div className="form-tab">
+          {sellertype === 'Product' && <> <div className="form-tab">
             <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
             <input type="text" name="ComplianceNo" id="boldinput66"  value={user.ComplianceNo} onChange={handleOnChange} />
           </div>
@@ -577,11 +574,6 @@ setwaitconfirmationOpen(false)
             setImages={setComplianceImages}
             id="complianceUploader"
           />
-          
-
-
-                      
-
 
 
                         <div className="radio-tab">
@@ -613,7 +605,7 @@ setwaitconfirmationOpen(false)
                                 <input type='radio' className='btn' name='DeliveryType' value={"SELF"} onChange={handleOnChange} />
                                 <label>Self Delivery Model</label>
                             </div>
-                        </div>
+                        </div></>}
 
                         <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
@@ -639,10 +631,19 @@ setwaitconfirmationOpen(false)
                             </div>
                         </div>
 
-                         {user.role ==='Organization' && <div className="form-tab">
+                         {user.role ==='Organization' && <> <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
             <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} />
-          </div>}
+          </div>
+          
+          <div className="form-tab">
+            <label htmlFor="gstNo">Enter GST Number</label>
+            
+            <input type="text" id="boldinput66" name="gstNo" value={user.gstNo} onChange={handleOnChange}  />
+
+          </div>
+          </>
+          }
           </>}
 
 
