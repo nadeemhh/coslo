@@ -354,7 +354,7 @@ Real Estate, Products and Services<br />
 <div className="card343">
 
 <div style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'10px'}}>
-      <h2 className="title343">Brochure PDF </h2>
+      <h2 className="title343">Property Brochure PDF </h2>
       <a
   href="https://coslomart-bucket-prod.s3.ap-south-1.amazonaws.com/Coslomart_a5.PDF"
   download='coslomart_Brochure_pdf'

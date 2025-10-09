@@ -160,21 +160,30 @@ BankName:"",
         formData.append("email", user.email);
         formData.append("phone", user.phoneNo);
         formData.append("password", user.password);
-        formData.append("businessName", user.company);
         formData.append("businessType", user.role);
         formData.append("subscriptionPlan", user.SubscriptionType);
         formData.append("panNumber", user.panNumber);
-        formData.append("address[phone]", user.phoneNo);
+        formData.append("qualityCert", user.ComplianceNo);
+        formData.append("sellertype", sellertype);
+        formData.append("businessName", user.company);
+
+         if(sellertype === 'Property' && user.role === 'Organization'){
+           formData.append("gstNo", user.gstNo);
+            
+         }
 
         if(sellertype !== 'Property'){
-          
-        formData.append("gstNumber", user.gstNo);
+       
+        formData.append("gstNo", user.gstNo);
+
+        if(sellertype !== 'Service'){
         formData.append("deliveryType", user.DeliveryType);
+        }
+
         formData.append("address[addressLine]", user.location);
         formData.append("address[city]", user.city);
         formData.append("address[state]", user.state);
         formData.append("address[pincode]", user.pincode);
-        formData.append("qualityCert", user.ComplianceNo);
         formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
         formData.append("bankDetails[accountNumber]", user.AccountNumber);
         formData.append("bankDetails[ifscCode]", user.IFSCCode);
@@ -224,11 +233,11 @@ BankName:"",
 
       if(user.DeliveryType === 'COSLO'){
         
-        enableshiprocket(data.sellerId,'/home','We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+        enableshiprocket(data.sellerId,'/home','We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
 
               }else{
                 window.location.href = '/home';
-                alert('We have sent an email to verify your account. Open your email and click on the link to verify your account.')
+                alert('We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
               }
 
  
@@ -444,12 +453,14 @@ setwaitconfirmationOpen(false)
      }
 
     
-     if(sellertype !== 'Property'){
+     if(sellertype === 'Product'){
     if(!user.role){
       alert('Select a role: whether you are a supplier or a manufacturer.')
       return;
      }
-    }else{
+    }
+    
+    else if (sellertype === 'Property'){
         if(!user.role){
       alert('Select a role: Are you an individual or an organization?')
       return;
@@ -457,7 +468,7 @@ setwaitconfirmationOpen(false)
     }
 
 
-   if(sellertype !== 'Property'){  if(!user.DeliveryType){
+   if(sellertype === 'Product'){  if(!user.DeliveryType){
        alert('Select a delivery type: whether you will deliver your product to buyers or you want Coslo to deliver it to them.')
          return;
       }}
@@ -674,7 +685,7 @@ setwaitconfirmationOpen(false)
 
 
                         {(sellertype === 'Property' || gstverified) &&
-                        <button className="fo2">Send Account Creation Email ➜</button>
+                        <button className="fo2">Send whatsapp verification URL ➜</button>
                          }
                     
                 </form>
