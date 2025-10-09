@@ -136,6 +136,7 @@ const PropertyLocationForm = ({setUserData,show,userlocation,formData, setFormDa
       "Singasandra",
       "Sunkadakatte",
       "Thanisandra",
+      "Thali",
       "Ulsoor",
       "Uttarahalli",
       "Varthur",

@@ -90,10 +90,10 @@ const isAmenitySelected = (amenity) => {
       alert('Please enter amenity name');
       return;
     }
-    if (!newAmenityImage) {
-      alert('Please select an image');
-      return;
-    }
+    // if (!newAmenityImage) {
+    //   alert('Please select an image');
+    //   return;
+    // }
 
     setIsLoading(true);
     
