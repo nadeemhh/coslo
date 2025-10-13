@@ -91,8 +91,12 @@ console.log(selectedPricingIndex)
 
   console.log(userData)
 
-  function filterObjectsByProperty(array, propertyName, matchingNames) {
-  return array.filter(obj => matchingNames.includes(obj[propertyName]));
+
+function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_remove) {
+  return array.filter(obj => {
+    const isMatch = matchingNames.includes(obj[propertyName]);
+    return keep_or_remove === 1 ? isMatch : !isMatch;
+  });
 }
 
 
@@ -103,7 +107,15 @@ console.log(selectedPricingIndex)
      console.log(data)
 
      if(productType==='property'){
-  data = filterObjectsByProperty(data, "name", ["Real Estate"]);
+  data = filterObjectsByProperty(data, "name", ["Real Estate"],1);
+     }
+
+      if(productType==='product'){
+  data = filterObjectsByProperty(data, "name", ["Real Estate","Services"],0);
+     }
+
+     if(productType==='service'){
+  data = filterObjectsByProperty(data, "name", ["Services"],1);
      }
 
         setCategories(data)
@@ -143,8 +155,17 @@ console.log(selectedPricingIndex)
         .then((data) => {
               console.log(data)
                if(productType==='property'){
-                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"]);
+                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"],1);
                }
+
+               if(productType==='product'){
+                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"],0);
+               }
+
+               if(productType==='service'){
+                data= filterObjectsByProperty(data, "tagName", ["service"],1);
+               }
+
               settags([...data])
              document.querySelector('.loaderoverlay').style.display='none';
 
@@ -1380,8 +1401,16 @@ document.querySelector('.loaderoverlay').style.display='none';
       console.log(data)
        
 if(productType==='property'){
-      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"]);
+      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"],1);
 }
+
+if(productType==='product'){
+      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"],0);
+}
+
+// if(productType==='service'){
+//       data = filterObjectsByProperty(data, "GroupName", ["area","appartment"]);
+// }
 
       setAllAttributes(data);
     } catch (err) {

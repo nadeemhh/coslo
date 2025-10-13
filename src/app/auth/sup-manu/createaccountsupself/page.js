@@ -502,7 +502,7 @@ setwaitconfirmationOpen(false)
           </div>
           <div className="form-tab">
             <label htmlFor="phoneNo">Enter Phone Number</label>
-            <input type="number" name="phoneNo" id="boldinput66" placeholder=""  value={user.phoneNo} onChange={handleOnChange} required/>
+            <input type="number" name="phoneNo" id="boldinput66" placeholder="+91"  value={user.phoneNo} onChange={handleOnChange} required/>
           </div>
 
           <div className="form-tab">
