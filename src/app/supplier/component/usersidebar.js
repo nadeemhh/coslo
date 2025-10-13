@@ -17,6 +17,12 @@ const Usersidebar = () => {
 
   useEffect(() => {
 
+let sellerdata =JSON.parse(localStorage.getItem('sellerdata'))
+
+console.log(sellerdata.sellerType)
+
+localStorage.setItem('productType',sellerdata.sellerType.toLowerCase())
+
     const admindata = JSON.parse(localStorage.getItem('sellerdata'))?.role;
     const iscoslo = admindata === 'COSLO_SELLER';
 
@@ -30,22 +36,48 @@ if(iscoslo){
 
 }else{
 
+const typeMap = {
+  Product: ['My Products','fas fa-box'],
+  Property: ['My Properties','fas fa-building'],
+  Service: ['My Services','fas fa-tools']
+};
+
+let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
+
   setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    { path: null, icon: 'fas fa-shopping-cart', label: 'Orders', childmenu:[
-      { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'product orders' },
-    { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'service orders' }
-  ]},
-    { path: '/supplier/Products', icon: 'fas fa-box', label: 'Products' },
-    { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+  //   { path: null, icon: 'fas fa-shopping-cart', label: 'Orders', childmenu:[
+  //     { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'product orders' },
+  //   { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'service orders' }
+  // ]},
+    { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1]||'fas fa-box', label: listingtype},
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
     { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
     { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
-    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
-    { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' }
   
   ]
   
   )
+
+  
+  if(sellerdata.sellerType ==='Product'){
+setmenuItems(prevMenuItems => [
+    ...prevMenuItems,
+    { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
+    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
+       { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+           { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+  ])
+}
+
+if(sellerdata.sellerType ==='Service'){
+setmenuItems(prevMenuItems => [
+    ...prevMenuItems,
+    { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
+       { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+           { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+  ])
+}
+
 
 }
 
@@ -168,5 +200,3 @@ if(iscoslo){
 };
 
 export default Usersidebar;
-
-

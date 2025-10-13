@@ -10,7 +10,7 @@ import Goback from '../../../back.js'
         import AmenitiesSelector from '../../../component/AmenitiesSelector.js';
     import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
     import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
-     
+         import PropertyListingForm from '../../../component/PropertyListingForm.js';
 
 import dynamic from 'next/dynamic';
  const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
@@ -1569,6 +1569,8 @@ return locationData;
    </div>}
 
 </div>
+
+{/* <PropertyListingForm listingType={selectedtag}/> */}
 
 
         <div className="input-group">

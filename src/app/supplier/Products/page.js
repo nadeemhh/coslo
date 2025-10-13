@@ -211,7 +211,7 @@ export default function page() {
 
 
   
-     <button style={{textAlign:'left',marginRight:'10px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+     {/* <button style={{textAlign:'left',marginRight:'10px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
   
@@ -232,7 +232,7 @@ localStorage.setItem('productType',e.target.value)
         <option value="service">Service</option>
       </select>
 
-      </button>
+      </button> */}
 
        {ptype==='product' && <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       

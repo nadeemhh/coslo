@@ -168,13 +168,13 @@ BankName:"",
         formData.append("businessName", user.company);
 
          if(sellertype === 'Property' && user.role === 'Organization'){
-           formData.append("gstNo", user.gstNo);
+           formData.append("gstNumber", user.gstNo);
             
          }
 
         if(sellertype !== 'Property'){
        
-        formData.append("gstNo", user.gstNo);
+        formData.append("gstNumber", user.gstNo);
 
         if(sellertype !== 'Service'){
         formData.append("deliveryType", user.DeliveryType);
@@ -604,7 +604,7 @@ setwaitconfirmationOpen(false)
 
                         <div className="radio-tab" style={{marginBottom:'40px'}}>
                              
-                             <p>
+                             <p style={{marginBottom:'10px'}}>
                             <span htmlFor='DeliveryType'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Delivery Type:</span> <span> whether you will deliver your product to buyers or you want Coslo to deliver it to them.</span>
                             </p>
 

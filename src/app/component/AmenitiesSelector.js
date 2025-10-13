@@ -30,7 +30,18 @@ const AmenitiesSelector = ({selectedAmenities, setSelectedAmenities, propertyAme
   const fetchAmenities = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/amenity/`);
-      const data = await response.json();
+      let data = await response.json();
+  
+
+// Separate into two groups: starting with number vs not
+const withNumber = data.filter(item => /^\d/.test(item.name));
+const withoutNumber = data.filter(item => !/^\d/.test(item.name));
+
+// Sort only the ones without numbers
+ data = [
+  ...withoutNumber.sort((a, b) => a.name.localeCompare(b.name)),
+  ...withNumber // keep number-starting names at the end (unchanged order)
+];
       console.log(data)
       setAmenities(data);
 
