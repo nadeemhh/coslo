@@ -343,8 +343,8 @@ setFormData(userlocation)
                 </div>
 
                  <div className="form-group767">
-                  <label className="form-label767">
-                  Select Area
+                  <label className="form-label767" style={{textTransform:'unset'}}>
+                  Select area or nearby area
                   </label>
                   
                    <select 
