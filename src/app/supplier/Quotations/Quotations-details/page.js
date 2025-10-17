@@ -7,7 +7,7 @@ import { useState,useEffect } from "react";
 export default function page() {
 
     const [data,setdata] = useState(null);
-   
+   const [productType, setproductType] = useState('');
     const [status, setStatus] = useState(''); 
 
 
@@ -55,8 +55,12 @@ export default function page() {
 
       const id = new URLSearchParams(window.location.search).get("id");
 
-
          handledata(id);
+
+         let str = localStorage.getItem('productType');
+         str=str.charAt(0).toUpperCase() + str.slice(1)
+         setproductType(str)
+
        },[]);
 
 
@@ -127,7 +131,7 @@ export default function page() {
           <span className="value">{data.id}</span>
         </div>
           <div className="enquiry-row">
-          <span className="label">Product Name :</span>
+          <span className="label">{productType} Name :</span>
           <span className="value">{data.product}</span>
         </div>
         <div className="enquiry-row">

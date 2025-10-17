@@ -42,7 +42,7 @@ const withoutNumber = data.filter(item => !/^\d/.test(item.name));
   ...withoutNumber.sort((a, b) => a.name.localeCompare(b.name)),
   ...withNumber // keep number-starting names at the end (unchanged order)
 ];
-      console.log(data)
+     
       setAmenities(data);
 
        

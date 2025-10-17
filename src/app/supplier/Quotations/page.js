@@ -9,6 +9,7 @@ export default function page() {
   const [data,setdata] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+    const [productType, setproductType] = useState('');
   const [searchquery, setsearchquery] = useState([]);
  
    const handledata = () => {
@@ -63,6 +64,12 @@ export default function page() {
  
    useEffect(() => {
     handledata();
+
+let str = localStorage.getItem('productType');
+str=str.charAt(0).toUpperCase() + str.slice(1)
+    setproductType(str)
+
+
   }, [page,searchquery]);
 
 
@@ -132,7 +139,7 @@ export default function page() {
               <th>Date</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Product</th>
+              <th>{productType}</th>
               <th>Status</th>
               <th>Details</th>
             </tr>

@@ -78,6 +78,53 @@ export default function Page() {
    const [showMap, setshowMap] = useState(false);
  const [selectedAmenities, setSelectedAmenities] = useState([]);
 const [LocationformData, setLocationFormData] = useState(null);
+const [propertyVideo, setPropertyVideo] = useState(null);  
+
+ const handleVideoUpload = (files) => {
+    const fileArray = Array.from(files);
+    if (fileArray.length > 0) {
+      // Store the actual File object, not base64
+      setPropertyVideo(fileArray[0]);
+    }
+  };
+
+const removeVideo = () => {
+    setPropertyVideo(null);
+  };
+
+
+  const handleVideoSubmit = async (id) => {
+    const formData = new FormData();
+
+    // Add property video with key name "propertvideo"
+    if (propertyVideo) {
+      formData.append('productVideo', propertyVideo);
+    }
+
+    try {
+       const token = localStorage.getItem('token');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/updateproductvideo/${id}`, {
+        method: 'PUT',
+         headers: {
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Success:', result);
+        // Handle success (show message, redirect, etc.)
+      } else {
+        console.error('Error:', response.statusText);
+        // Handle error
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Handle error
+    }
+  };
 
 console.log(selectedPricingIndex)
 
@@ -868,6 +915,9 @@ cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "pric
       });
   
       if (response.ok) {
+          let data = await response.json();
+      await handleVideoSubmit(data.data._id)
+
   document.querySelector('.loaderoverlay').style.display='none';
         alert("Product added successfully!");
       window.location='/supplier/Products';
@@ -997,6 +1047,7 @@ setselectedtag(data.data?.tagName)
        // setisdata(true)
         setshowMap(true)
 setSelectedAmenities(data.data.ammenties)
+
 
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -1639,7 +1690,38 @@ return locationData;
         </div>
         </>}
 
-  <div className="upload-container787">
+  <div className="upload-container787" style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
+
+  <div className="video-upload-section-878">
+
+          
+          <label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
+            <i className="fa fa-video-camera"></i> Upload Property Video
+            <input
+              type="file"
+              accept="video/*"
+              onChange={(e) => handleVideoUpload(e.target.files)}
+            />
+          </label>
+
+          {(propertyVideo || productupdate === true) && (
+            <div className="preview-container-878" style={{ margin: '15px',padding:'10px',display:'flex',flexDirection:'column',gap:'15px',alignItems:'center'}}>
+              <div className="preview-item-878" style={{height:'150px',width:'150px'}}>
+                <video src={propertyVideo===null ? userData.productData.productVideo : URL.createObjectURL(propertyVideo)} controls />
+                  {!productupdate &&<button
+                  className="preview-remove-878"
+                  onClick={removeVideo}
+                >
+                <i className="fa fa-times"></i>
+                </button>}
+              </div>
+           {productupdate && propertyVideo!==null && <button style={{padding:'5px 15px',backgroundColor:'#11a411',outline:'none',color:'white',borderRadius:'5px'}} onClick={()=>(handleVideoSubmit(userData.productData._id))}>save video</button>}
+            </div>
+          )}
+        </div>
+
+
+    <div>
       <input
         id="pdfUploadInput787"
         type="file"
@@ -1653,6 +1735,9 @@ return locationData;
       {userData.productData.pdfFile && (
         <p className="upload-status787">PDF uploaded successfully</p>
       )}
+      </div>
+
+
     </div>
 
           {userData.productData.productType === "service" && <div
