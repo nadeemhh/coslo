@@ -1731,7 +1731,7 @@ return locationData;
         style={{ display: "none" }}
       />
     { userData.productData.productType !== "service" && <button onClick={triggerFileInput} className="upload-btn787">
-        <i className="fas fa-file-upload icon787"></i> {userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Legal Document</>}
+        <i className="fas fa-file-upload icon787"></i> {userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Brochure PDF</>}
       </button>}
       {userData.productData.pdfFile && (
         <p className="upload-status787">PDF uploaded successfully</p>

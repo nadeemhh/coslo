@@ -771,7 +771,7 @@ function formatPhoneNumber(number) {
             </button>
             
             {data?.productType === "property" && data?.pdfFile && <a href={data.pdfFile} className="LegalDocument pb"   target="_blank" >
-            Legal Document <i className="fas fa-file-contract"></i>
+            Brochure PDF <i className="fas fa-file-contract"></i>
             </a>}
 
           {data?.productType !== "property"  &&  (data.variations[showslab].stock !== 0 && isuser && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
