@@ -94,6 +94,10 @@ const removeVideo = () => {
 
 
   const handleVideoSubmit = async (id) => {
+
+        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'flex';}
+       
+
     const formData = new FormData();
 
     // Add property video with key name "propertvideo"
@@ -115,12 +119,15 @@ const removeVideo = () => {
       if (response.ok) {
         const result = await response.json();
         console.log('Success:', result);
+        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
         // Handle success (show message, redirect, etc.)
       } else {
+        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
         console.error('Error:', response.statusText);
         // Handle error
       }
     } catch (error) {
+      if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
       console.error('Error submitting form:', error);
       // Handle error
     }
@@ -1671,12 +1678,6 @@ return locationData;
           <QuillEditor value={userData.productData.description || ""} onChange={(value) => handleProductDataChange("description", value)}  editorwidth={'200px'}/>
         </div>
 
-        <div className="input-group">
-          <label htmlFor="product-video">Enter {userData.productData.productType} Video (Optional)</label>
-          <input id="product-video" type="text" placeholder=""    value={userData.productData.productVideo || ""}
-          onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
-        </div>
-
 {userData.productData.productType === "property" && <> <div className="input-group">
           <label htmlFor="khataType">khata Type</label>
           <input id="product-video" type="text" placeholder=""    value={userData.productData?.khataType || ""}
@@ -1704,11 +1705,11 @@ return locationData;
             />
           </label>
 
-          {(propertyVideo || productupdate === true) && (
+          {(propertyVideo || (productupdate === true && userData.productData.productVideo)) && (
             <div className="preview-container-878" style={{ margin: '15px',padding:'10px',display:'flex',flexDirection:'column',gap:'15px',alignItems:'center'}}>
               <div className="preview-item-878" style={{height:'150px',width:'150px'}}>
                 <video src={propertyVideo===null ? userData.productData.productVideo : URL.createObjectURL(propertyVideo)} controls />
-                  {!productupdate &&<button
+                  {!productupdate && <button
                   className="preview-remove-878"
                   onClick={removeVideo}
                 >
