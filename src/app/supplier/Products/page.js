@@ -195,7 +195,7 @@ export default function page() {
   return (
     <div className="orders-container">
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-      <h3>Products</h3>
+      <h3 style={{textTransform:'capitalize'}}>{ptype}</h3>
       
       {ptype && <Link href={`/supplier/Products/add-update-product?ptype=${ptype}`}>
       <button className="AddProduct" style={{  textTransform: 'capitalize'}}>
@@ -207,7 +207,7 @@ export default function page() {
 
       <div style={{textAlign:'left',marginBottom:'20px'}}>
 
-              <AttributeForm/>
+          <AttributeForm/>
 
 
   
@@ -267,9 +267,9 @@ localStorage.setItem('productType',e.target.value)
             <tr>
             <th>##</th>
               <th>Thumbnail</th>
-              <th>Product Name</th>
+              <th style={{textTransform:'capitalize'}}>{ptype} Name</th>
               <th>Category Name</th>
-              <th>Price/Stock</th>
+              <th>{ptype==='property'?'Price per sqft':(ptype==='product'?'Price/Stock':'Price')}</th>
               <th>Actions</th>
               <th>Visibility</th>
             </tr>
@@ -297,7 +297,7 @@ localStorage.setItem('productType',e.target.value)
 
                   {ptype==='product'? <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Net Price :   <strong>₹{vdata.mrp.toFixed(2)}</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p> :
                   
-                  <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Price :   <strong>₹{vdata.mrp.toFixed(2)} </strong> Per sq ft </p>}
+                  <p style={{backgroundColor:vdata.stock !== 0 ?'#D9F0FF':'rgb(255 158 158)',padding:'5px',borderRadius:'5px',marginBottom:'5px'}}>{i+1}. Price :   <strong>₹{vdata.perSqftCost.toFixed(2)} </strong> Per sq ft </p>}
 
                   </div>
                   )

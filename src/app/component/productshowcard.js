@@ -60,14 +60,7 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
         } */}
 
 
-         {/* Location */}
- {/* <div className='mylocation'>
- <span className="location">
-<img src="\icons\locationmark.svg" alt="" />
-
-          Lucknow
-        </span>
-        </div> */}
+       
       </div>
 
 
@@ -85,7 +78,7 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
 
         {/* Price */}
         <div className="product-actions">
-        {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:(productType === "property" ?<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.mrp*variation.priceSlabs[0].min))}</p>:<p className="price" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹{formatNumberIndian(variation?.mrp)}</p>)}
+        {productType === "product" ?<p className="price">MRP ₹{formatNumberIndian(variation?.mrp)}</p>:(productType === "property" ?<p className="price"  style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}> ₹{formatNumberIndian(Math.round(variation?.perSqftCost*variation?.totalSqft))}</p>:<p className="price" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹{formatNumberIndian(variation?.mrp)}</p>)}
 
         {productType === "service" && variation?.duration?.value && <p style={{ 
   fontSize: "14px", 
@@ -135,16 +128,11 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
       </thead>
       <tbody className="tableBody56">
 
-        {variation?.priceSlabs.map((sdata, index) => (
-        
-        <tr className="tableRow56" key={index}>
-          <td className="tableCell56">₹ {Math.round(variation.mrp)}</td>
-          <td className="tableCell56">{sdata.min}</td>
-          <td className="tableCell56">₹ {Math.round(variation.mrp * sdata.min)} </td>
+        <tr className="tableRow56">
+          <td className="tableCell56">₹ {Math.round(variation.perSqftCost)}</td>
+          <td className="tableCell56">{variation.totalSqft}</td>
+          <td className="tableCell56">₹ {Math.round(variation.perSqftCost * variation.totalSqft)} </td>
         </tr>
-       
-       
-      ))}
       
       </tbody>
     </table>

@@ -8,7 +8,7 @@ export default function page() {
 
     const [data,setdata] = useState({});
     const [isdata,setisdata] = useState(false);
-
+    const [productType, setproductType] = useState('');
 
      const handledata = (id) => {
         
@@ -55,6 +55,11 @@ export default function page() {
 
 
          handledata(id);
+
+         let str = localStorage.getItem('productType');
+         str=str.charAt(0).toUpperCase() + str.slice(1)
+         setproductType(str)
+
        },[]);
 
 
@@ -167,8 +172,8 @@ export default function page() {
         </div>
 
         <div className="enquiry-row">
-          <span className="label">Product Details :</span>
-          <a href={`/supplier/orders/order-details?oid=${data.cancellationDetails.requestId}`} style={{color:'blue'}}>
+          <span className="label">{productType} Details :</span>
+          <a href={`/supplier/${productType === 'product' ? 'productorders' : 'serviceorders'}/order-details?oid=${data.cancellationDetails.requestId}`} style={{color:'blue'}}>
                          check details
                           </a>
         </div>

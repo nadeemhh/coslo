@@ -79,6 +79,16 @@ export default function Page() {
  const [selectedAmenities, setSelectedAmenities] = useState([]);
 const [LocationformData, setLocationFormData] = useState(null);
 const [propertyVideo, setPropertyVideo] = useState(null);  
+  const [propertyvariations, setpropertyvariations] = useState([{
+    id: Date.now(),
+    totalSqft: '',
+    perSqftCost: '',
+    totalCost: 0,
+    bhkTypes: [],
+    productImages: [],
+  }]);
+
+
 
  const handleVideoUpload = (files) => {
     const fileArray = Array.from(files);
@@ -768,7 +778,7 @@ setpreimages([])
     return;
   }
 
-  if(userData.variationsData.length===0){
+  if(userData.variationsData.length===0 && userData.productData.productType !== "property"){
     alert('Add Price')
     return;
   }
@@ -776,8 +786,7 @@ setpreimages([])
 
   
      let userDatacopy =structuredClone(userData);
-     console.log(userDatacopy)
-
+    
     // Handle location for property type
   if(userData.productData.productType === "property"){
     const locationData = await handlelocationSubmit();
@@ -787,6 +796,7 @@ setpreimages([])
     }
     // Directly assign the location data to the copy
     userDatacopy.productData.location = locationData;
+    userDatacopy.variationsData = propertyvariations;
   }
 
 
@@ -818,32 +828,10 @@ setpreimages([])
 
 
   if(userData.productData.productType === "property"){
-    
-    userDatacopy.variationsData.forEach(variation => {
-  if (Array.isArray(variation.priceSlabs)) {
-    variation.priceSlabs.forEach(slab => {
-      if (slab.max === "") slab.max = 0;
-      if (slab.discount === "") slab.discount = 0;
-      if (slab.deliveryFee === "") slab.deliveryFee = 0;
-    });
-  }
-});
 
 
 // Call the function
-cleanVariationData([
-    "gst",
-    "stock",
-    "serviceName",
-    "duration",
-    "lowStockThreshold",
-    "repeatBuyerDiscount",
-    "dimensions",
-    "weight",
-    "divertIndividualOrder",
-    "isReturnable",
-    "returnDays"
-  ],["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","canCall","canBook"]);
+cleanVariationData([],["commonAttributes","amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","canCall","canBook"]);
 
   }
 
@@ -866,6 +854,7 @@ cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "pric
   
 
     async function convertImagesToBase64(productData) {
+
       const variations = productData.variationsData;
   
       const convertToBase64 = (file) => {
@@ -899,12 +888,18 @@ cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "pric
   
   // Example usage
   // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
+   if(userData.productData.productType !== "property"){
   convertImagesToBase64(userDatacopy).then((result) => {
       console.log('Converted Product Data:', result);
      postdata(result)
   });
+}else{
+  postdata(userDatacopy)
+}
 
-  
+
+   console.log(userDatacopy)
+
   async function postdata(data) {
    
     try {
@@ -1055,6 +1050,9 @@ setselectedtag(data.data?.tagName)
         setshowMap(true)
 setSelectedAmenities(data.data.ammenties)
 
+if(data.data.productType==='property'){
+  setpropertyvariations([...data.data.variations])
+}
 
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -1657,7 +1655,7 @@ return locationData;
 
 </div>
 
-{/* <PropertyListingForm listingType={selectedtag}/> */}
+{userData.productData.productType === 'property' && <PropertyListingForm listingType={selectedtag} propertyvariations={propertyvariations} setpropertyvariations={setpropertyvariations} productupdate={productupdate}/>}
 
 
         <div className="input-group">
@@ -1697,7 +1695,7 @@ return locationData;
 
           
           <label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
-            <i className="fa fa-video-camera"></i> Upload Property Video
+            <i className="fa fa-video-camera"></i> Upload {userData.productData.productType} Video
             <input
               type="file"
               accept="video/*"
@@ -1956,7 +1954,7 @@ onClick={addreason}
 
     </div>
 
-    <div className="container" style={{marginTop:'50px'}}>
+{userData.productData.productType !== "property" && <div className="container" style={{marginTop:'50px'}}>
       <div className="pricing-section">
        {!userData.variationsData.length === 0 && <h2 className="section-title">Pricing</h2>}
         {userData.variationsData.map((pricing, index) => {
@@ -2083,59 +2081,15 @@ onClick={addreason}
         </button>}
 
       </div>
-      {/* <div className="others-section">
-        <h2 className="section-title">Others</h2>
-
-          
-      <div className="input-group" style={{ width: "350px", display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-        <label>{showDeliveryFeeInput ? "Enter Delivery Fee" : "Free Delivery"}</label>
-
-       
-        {showDeliveryFeeInput && (
-          <input
-            type="number"
-            placeholder="Enter Amount"
-            className="input-group"
-            style={{ width: "110px", marginBottom: "0px" }}
-            value={userData.productData.deliveryFee || ""}
-            onChange={(e) => handleProductDataChange("deliveryFee", e.target.value)}
-          />
-        )}
-
-
-        <label className="switch">
-          <input
-            type="checkbox"
-            className="deliveryen"
-            checked={userData.productData.isDeliveryFree} // ✅ Ensures it appears ON initially
-            onChange={() => {
-              const newState = !userData.productData.isDeliveryFree;
-              setShowDeliveryFeeInput(!newState); // ✅ Show input only when free delivery is OFF
-              handleProductDataChange("isDeliveryFree", newState);
-              if (newState) {
-                handleProductDataChange("deliveryFee", null); // ✅ Reset fee if free delivery is selected
-              }
-            }}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
     
+    </div>}
 
 
-
-        <div className="input-group">
-          <label>Enter additional taxes if available</label>
-          <input type="number" placeholder="500"  value={userData.productData.taxes || ""}
-          onChange={(e) => handleProductDataChange("taxes", e.target.value)}/>
-        </div>
-      </div> */}
-    </div>
 
     <div className="action-buttons">
 
     {  !productupdate && <><button className="cancel-button" onClick={()=>{location.reload();}}>Cancel</button>
-        <button className="update-button" onClick={handleSubmit}>Add Product</button>
+        <button className="update-button" onClick={handleSubmit} style={{textTransform:'capitalize'}}>Add {userData.productData.productType}</button>
         </>}
       </div>
 

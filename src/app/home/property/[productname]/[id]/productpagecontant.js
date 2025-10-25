@@ -39,52 +39,7 @@ const [activeIndex, setActiveIndex] = useState(0);
 
 console.log(data);
 
-  const handleChange = (event) => {
-    setQuantity(event.target.value);
 
-    let quantity= event.target.value;
-let price=data.variations[showslab].mrp;
-
-    console.log(quantity,price)
-
-    const discountData = data.variations[showslab].priceSlabs;
-
-    function calculatePrice(quantity, price) {
-      quantity = parseInt(quantity, 10); // Ensure quantity is a number
-  
-    
-  
-      let selectedCategory = discountData.find(item => quantity >= item.min && quantity <= item.max);
-  
-      // If quantity is greater than max range, apply the highest discount
-      if (!selectedCategory && quantity > Math.max(...discountData.map(item => item.max))) {
-          selectedCategory = discountData.reduce((prev, curr) => (curr.discount > prev.discount ? curr : prev), { discount: 0, deliveryFee: 0 });
-      }
-  
-      // If quantity does not match any range, set discount to 0
-      if (!selectedCategory) {
-          selectedCategory = { type: "none", discount: 0, deliveryFee: 0 };
-          
-      }
-  
-      let discountAmount = (price * selectedCategory.discount) / 100;
-      let finalPrice = price - discountAmount;
-      let savings = discountAmount.toFixed(2); // Amount saved
-  
-      setsaved(savings*quantity)
-      return {
-          category: selectedCategory.type,
-          originalPrice: price,
-          discount: selectedCategory.discount,
-          discountedPrice: finalPrice,
-          savings: savings,
-          deliveryFee: selectedCategory.deliveryFee
-      };
-  }
-  
-  // Example Usage
-  console.log(calculatePrice(quantity, price));
-  };
 
   const toggleModal = () => {
   
@@ -258,60 +213,6 @@ return;
       }
 
       
- // if(isdata === true && amazonproduct === null){  getamazonprice(data.amazoneProductUrl)}
-
-function addtocart(variationId) {
-  
-let pquantity=Number(quantity);
-
-if(!pquantity){
-  alert('Add Quantity')
-return;}
-
-console.log(variationId,pquantity);
-
-    document.querySelector('.loaderoverlay').style.display = 'flex';
-  
-    const userData = {
-      
-      variationId,
-      quantity:pquantity
-    };
-  
-    const token = localStorage.getItem('buyertoken');
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cart/add`, {
-      method: 'POST',
-       headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-    },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-           
-            throw new Error(errorData.error || 'Failed');
-          });
-        }
-      })
-      .then((data) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        alert(data.message)
-        cartcountget()
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(err)
-        alert(err);
-       
-      });
-
-  
-}
 
 
 function addtowishlist(productId) {
@@ -532,35 +433,8 @@ function formatPhoneNumber(number) {
  <div className="product-details89" style={{padding:'0px'}}>
           <p className='productname'>{data.productName.toUpperCase()}</p>
           <div className="seller">
-            <p>{data.BrandName}</p>
-            
-            {/* <div className='mylocationp'>
-   <span className="location">
-  <img src="\icons\locationmark.svg" alt="" />
-  
-            Lucknow
-          </span> 
-  
-          </div>  */}
           
-          {data.productType === "product" && <> {data.variations[showslab].isReturnable && <div className='mylocationp'>
-   <span className="location">
-  <img src="\icons\rightgreen.svg" alt="" />
-  
-  Return Available
-          </span> 
-  
-          </div>}
-
-          {data.variations[showslab].isReturnable && <div className='mylocationp' style={{cursor:'pointer'}}onClick={()=>(setreturnmodal(true))}>
-   <span className="location">
-   Return Reasons ?
-          </span> 
-  
-          </div>}
-          </>
-          }
-
+            
           {/* {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
@@ -629,60 +503,65 @@ function formatPhoneNumber(number) {
 
 {/* Pricing Section */}
 <div className="pricing">
-         {data.productType === "product" ? <>
+         
           <span className="price-mrp">MRP</span>
-            <span className="current-price">₹{formatNumberIndian(data.variations[showslab].mrp)}</span>
-           </>: <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min))}</span>}
+             <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))}</span>
           </div>
 
 
           <div className="priceTableContainer565">
-         {data.productType === "product"  ? <table className="priceTable565">
-      <thead className="tableHeader565" style={{background:'#dee1e4'}}>
-      {data.variations[showslab].priceSlabs.length > 0 &&  <tr className="headerRow565">
-          <th className="tableCell565">Quantity</th>
-          <th className="tableCell565">Discount</th>
-          <th className="tableCell565">Net Price</th>
-        </tr>
-        }
-      </thead>
-      <tbody className="tableBody565" style={{background:'white'}}>
-      {data.variations[showslab].priceSlabs.map((sdata, index) => (
-        
-        <tr className="tableRow565" key={index}>
-          <td className="tableCell565">{sdata.min}-{sdata.max} items</td>
-          <td className="tableCell565">{sdata.discount}%</td>
-          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹{(getDiscountedPrice(sdata.discount,data.variations[showslab].mrp).toFixed(0))} </td>
-        </tr>
-       
-       
-      ))}
-      </tbody>
-    </table>
-    : 
-     (data.variations[showslab]?.priceSlabs.length > 0 && <table className="priceTable565">
+     {data.variations.length > 0 && <table className="priceTable565">
       <thead className="tableHeader565" style={{background:'#dee1e4'}}>
       <tr className="headerRow565">
-          <th className="tableCell565">Per sq ft cost</th>
-          <th className="tableCell565">Total sq ft</th>
+          <th className="tableCell565">Per sqft cost</th>
+          <th className="tableCell565">Total sqft</th>
           <th className="tableCell565">Total cost</th>
         </tr>
 
       </thead>
       <tbody className="tableBody565" style={{background:'white'}}>
         <tr className="tableRow565">
-          <td className="tableCell565">₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp))}</td>
-          <td className="tableCell565">{data.variations[showslab].priceSlabs[0].min}</td>
-          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].mrp * data.variations[showslab].priceSlabs[0].min))} </td>
+          <td className="tableCell565">₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost))}</td>
+          <td className="tableCell565">{data.variations[showslab].totalSqft}</td>
+          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))} </td>
         </tr>
       
       </tbody>
-    </table>)}
+    </table>}
     </div>
 
 <div className="technical-details" style={{display:'flex',gap:'15px',alignItems:'flex-start',flexWrap:'wrap',textAlign:'left',marginTop:'40px'}}>
   
-<ProductVariations setshowslab={setshowslab} pdata={data} showslab={showslab} setActiveIndex={setActiveIndex} productType={data.productType}/>
+ <div className="container522">
+      
+        <div className="attribute-section522">
+
+          <div className="attribute-label522">
+           size
+          </div>
+
+          <div className="attribute-options522">
+             {data?.variations.map((variation,index) => (
+                <div
+                  key={index}
+                  className={`attribute-box522 ${
+                       showslab===index
+                        ? 'selected522' 
+                        : ''
+                  }`}
+                  onClick={() =>(setshowslab(index))}
+                >
+
+                  <p>{variation.bhkTypes.length?<>{variation.bhkTypes} - </>:''}{variation.totalSqft} sqft</p> 
+
+                </div>
+             ))}
+         
+          </div>
+        </div>
+  
+
+    </div>
 
  {(data.khataType || data.approvalType) &&  <div className="property-info-container-656">
      {data.approvalType && <div className="info-box-656">
@@ -729,37 +608,6 @@ function formatPhoneNumber(number) {
   }
 
 
-    {/* <div className="technical-details" style={{textAlign:'left',margin:'20px 0px'}}>
-
- {data.commonAttributes.length  > 0 || data.variations[showslab].attributes.length > 0 ? <p style={{fontSize:'20px',fontWeight:'600',color:'#007bff'}}>Product Details :-</p> : <></>}
-
-    {data.commonAttributes.map((data, index) => (
-
-<p key={index} style={{fontSize:'17px'}}><strong>{data.key}:</strong> {data.value}</p>
-
-))}
-
-    {data.variations[showslab].attributes.map((data, index) => (
-
-                        <p key={index} style={{fontSize:'17px'}}><strong>{data.key}:</strong> {data.value}</p>
-
-                      ))}
-
-                    </div> */}
-
-                   
-
-          {/* Quantity Section */}
-        {data.productType === "product"  &&  <div className="quantity-section">
-           <div style={{display:'flex',flexDirection:'column',gap:'5px',marginRight:'20px'}}>
-           <label style={{fontSize:'15px',color:'#1389F0'}}>Enter Quantity</label>
-           <input type="number" value={quantity}    onChange={handleChange} />
-           </div>
-           
-            <span className="save-info">You Saved Total ₹{(saved).toFixed(0)}!</span>
-          </div>}
-  
-          
   
           {/* Buttons */}
           
