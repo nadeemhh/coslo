@@ -219,11 +219,11 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
         .then((data) => {
               console.log(data)
                if(productType==='property'){
-                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"],1);
+                data= filterObjectsByProperty(data, "tagName", ["Plots","Villa","Apartments"],1);
                }
 
                if(productType==='product'){
-                data= filterObjectsByProperty(data, "tagName", ["Plots","villa","Apartments"],0);
+                data= filterObjectsByProperty(data, "tagName", ["Plots","Villa","Apartments"],0);
                }
 
                if(productType==='service'){
