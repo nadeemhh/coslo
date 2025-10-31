@@ -45,7 +45,8 @@ const RealEstateForm = () => {
     const payload = {
       name: formData.name,
       phone: formData.phone,
-      tags: formData.tags
+      tags: formData.tags,
+      productType:'property'
     };
     
     console.log('Form Data:', payload);

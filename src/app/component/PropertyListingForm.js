@@ -308,7 +308,7 @@ try {
             />
           </div>
 
-          {(listingType === 'Apartments' || listingType === 'villa') && (
+          {(listingType === 'Apartments' || listingType === 'Villa') && (
               <div className="input-group-878" style={{marginBottom:listingType!=='Plots'?'60px':'30px'}}>
                 <label className="input-label-878">Select BHK Types</label>
                 <div className="bhk-container-878" style={{marginBottom:'7px'}}>

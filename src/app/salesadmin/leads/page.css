@@ -1,0 +1,172 @@
+  .container765 {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .header765 {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 30px;
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        .title765 {
+          color: #1890ff;
+          font-size: 28px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .refresh-btn765 {
+          background: #1890ff;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(24, 144, 255, 0.3);
+        }
+
+        .refresh-btn765:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(24, 144, 255, 0.4);
+          background: #0084ff;
+        }
+
+        .refresh-btn765:active {
+          transform: translateY(0);
+        }
+
+        .loading765 {
+          text-align: center;
+          color: #1890ff;
+          font-size: 24px;
+          padding: 60px;
+        }
+
+        .spinner765 {
+          display: inline-block;
+          animation: spin765 1s linear infinite;
+          font-size: 32px;
+        }
+
+        @keyframes spin765 {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .table-wrapper765 {
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+          overflow-x: auto;
+        }
+
+        .table765 {
+          width: 100%;
+          border-collapse: collapse;
+          min-width: 1000px;
+        }
+
+        .table765 thead {
+          background: linear-gradient(135deg, #1890ff 0%, #0084ff 100%);
+          color: white;
+        }
+
+        .table765 th {
+          padding: 16px;
+          text-align: left;
+          font-weight: 600;
+          font-size: 14px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          white-space: nowrap;
+        }
+
+        .table765 tbody tr {
+          border-bottom: 1px solid #e0e0e0;
+          transition: background 0.2s ease;
+        }
+
+        .table765 tbody tr:hover {
+          background: #f8f9ff;
+        }
+
+        .table765 tbody tr:last-child {
+          border-bottom: none;
+        }
+
+        .table765 td {
+          padding: 16px;
+          vertical-align: middle;
+        }
+
+        .phone-link765 {
+          color: #1890ff;
+          text-decoration: none;
+          font-weight: 500;
+        }
+
+        .phone-link765:hover {
+          text-decoration: underline;
+        }
+
+        .status-select765 {
+          width: 100%;
+          min-width: 180px;
+          padding: 8px 12px;
+          border: 2px solid #e0e0e0;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+          background: white;
+          transition: border-color 0.3s ease;
+        }
+
+        .status-select765:focus {
+          outline: none;
+          border-color: #1890ff;
+        }
+
+        .date-input765 {
+          width: 100%;
+          min-width: 150px;
+          padding: 8px 12px;
+          border: 2px solid #e0e0e0;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: border-color 0.3s ease;
+        }
+
+        .date-input765:focus {
+          outline: none;
+          border-color: #1890ff;
+        }
+
+        .empty-state765 {
+          text-align: center;
+          padding: 60px;
+          color: #999;
+        }
+
+        .empty-state765 .icon765 {
+          font-size: 64px;
+          margin-bottom: 20px;
+          opacity: 0.5;
+        }
+
+        .empty-state765 p {
+          font-size: 20px;
+        }

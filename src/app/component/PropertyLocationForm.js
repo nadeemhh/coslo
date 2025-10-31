@@ -67,6 +67,7 @@ const PropertyLocationForm = ({setUserData,show,userlocation,formData, setFormDa
       "Gottigere",
       "HAL Layout",
       "HBR Layout",
+      "Haragadde",
       "Hebbal",
       "Hennur",
       "Hoodi",
