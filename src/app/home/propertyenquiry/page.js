@@ -53,21 +53,23 @@ const RealEstateForm = () => {
     
     // Simulate API call
     try {
+      document.querySelector('.loaderoverlay').style.display='flex';
       // Replace with your actual API endpoint
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/leadQuotation/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      
+       document.querySelector('.loaderoverlay').style.display='none';
        showSuccess("Thank you! Our property consultant will contact you soon.")
 
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
         setFormData({ name: '', phone: '', tags: [] });
-      }, 3000);
+      }, 1000);
     } catch (error) {
+       document.querySelector('.loaderoverlay').style.display='none';
       console.error('Error submitting form:', error);
     }
   };
