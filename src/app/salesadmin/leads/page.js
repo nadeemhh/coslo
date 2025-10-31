@@ -7,8 +7,10 @@ const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
   const [loading765, setLoading765] = useState(true);
   const [error765, setError765] = useState(null);
-    const [showdate, setshowdate] = useState(false);
-      const [showdatetime, setshowdatetime] = useState(false);
+ const [editingField, setEditingField] = useState(null);
+  const [showModal765, setShowModal765] = useState(false);
+  const [currentComment765, setCurrentComment765] = useState('');
+  const [currentInquiryId765, setCurrentInquiryId765] = useState(null);
 
   const callStatusOptions765 = [
     { value: 'Select', label: '📌 Select' },
@@ -90,7 +92,7 @@ const page = () => {
   };
 
   const updateStatus = async (id, statuvalue,statusname) => {
-
+console.log(statuvalue)
 if(statuvalue==='Select'){return;}
 
     try {
@@ -127,37 +129,25 @@ if(statuvalue==='Select'){return;}
     }
   };
 
-  const updateFollowUpDate765 = async (id, followUpDate) => {
-    try {
-      const response = await fetch(`https://api.example.com/inquiries/${id}`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      },
-        body: JSON.stringify({ follow_up_date: followUpDate })
-      });
+  
 
-      if (!response.ok) {
-        throw new Error('Failed to update follow-up date');
-      }
-
-      // Update local state
-      setInquiries765(prevInquiries =>
-        prevInquiries.map(inquiry =>
-          inquiry.id === id ? { ...inquiry, follow_up_date: followUpDate } : inquiry
-        )
-      );
-    } catch (err) {
-      console.error('Error updating follow-up date:', err);
-      // Update local state even if API fails (for demo)
-      setInquiries765(prevInquiries =>
-        prevInquiries.map(inquiry =>
-          inquiry.id === id ? { ...inquiry, follow_up_date: followUpDate } : inquiry
-        )
-      );
-    }
+const openModal765 = (inquiryId, currentComments) => {
+    setCurrentInquiryId765(inquiryId);
+    setCurrentComment765(currentComments || '');
+    setShowModal765(true);
   };
+
+  const closeModal765 = () => {
+    setShowModal765(false);
+    setCurrentInquiryId765(null);
+    setCurrentComment765('');
+  };
+
+  const handleCommentChange765 = (e) => {
+    setCurrentComment765(e.target.value);
+    updateStatus(currentInquiryId765, e.target.value, 'comments');
+  };
+
 
   if (loading765) {
     return (
@@ -241,18 +231,35 @@ if(statuvalue==='Select'){return;}
                     ))}
                   </select>
                 </td>
-                <td>
-                {!inquiry.follow_up_date &&  <input
-                    type="date"
-                    className="date-input765"
-                    value={inquiry.follow_up_date}
-                    onChange={(e) => updateStatus(inquiry._id, e.target.value,'follow_up_date')}
-                  />}
-
-              {inquiry.follow_up_date && <p className="date-input765" style={{display:"flex",justifyContent:'space-between'}} >{formatDate(inquiry.follow_up_date,0)}<i className="fas fa-calendar"></i>
-                </p>}
-
+               <td>
+                  {(!inquiry.follow_up_date || editingField === `${inquiry._id}-follow_up_date`) ? (
+                    <input
+                      type="date"
+                      className="date-input765"
+                      value={inquiry.follow_up_date ? inquiry.follow_up_date.split('T')[0] : ''}
+                      onChange={(e) => {
+                        updateStatus(inquiry._id, e.target.value, 'follow_up_date');
+                        setEditingField(null);
+                      }}
+                      onBlur={() => setEditingField(null)}
+                       onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                      autoFocus={editingField === `${inquiry._id}-follow_up_date`}
+                    />
+                  ) : (
+                    <p 
+                      className="date-input765" 
+                      style={{display:"flex", justifyContent:'space-between', cursor:'pointer'}}
+                    >
+                      {formatDate(inquiry.follow_up_date, 0)}
+                      <i 
+                        className="fas fa-calendar" 
+                        onClick={() => setEditingField(`${inquiry._id}-follow_up_date`)}
+                        style={{cursor:'pointer'}}
+                      ></i>
+                    </p>
+                  )}
                 </td>
+
                 <td> 
                   <select
                     className="status-select765"
@@ -268,19 +275,44 @@ if(statuvalue==='Select'){return;}
                   </td>
 
                  <td>
+                  {(!inquiry.scheduled_datetime || editingField === `${inquiry._id}-scheduled_datetime`) ? (
+                    <input
+                      type="datetime-local"
+                      className="date-input765"
+                      value={inquiry.scheduled_datetime ? inquiry.scheduled_datetime.slice(0, 16) : ''}
+                      onChange={(e) => {
+                        updateStatus(inquiry._id, e.target.value, 'scheduled_datetime');
+                        setEditingField(null);
+                      }}
+                      onBlur={() => setEditingField(null)}
+                      onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                      autoFocus={editingField === `${inquiry._id}-scheduled_datetime`}
+                    />
+                  ) : (
+                    <p 
+                      className="date-input765" 
+                      style={{display:"flex", justifyContent:'space-between', cursor:'pointer'}}
+                    >
+                      {formatDate(inquiry.scheduled_datetime, 1)}
+                      <i 
+                        className="fas fa-calendar" 
+                        onClick={() => setEditingField(`${inquiry._id}-scheduled_datetime`)}
+                        style={{cursor:'pointer'}}
+                      ></i>
+                    </p>
+                  )}
+                </td>
 
-                  {!inquiry.scheduled_datetime && <input
-                    type="datetime-local"
-                    className="date-input765"
-                    value={inquiry.scheduled_datetime}
-                    onChange={(e) => updateStatus(inquiry._id, e.target.value,'scheduled_datetime')}
-                  />}
-
-                   {inquiry.scheduled_datetime && <p className="date-input765" style={{display:"flex",justifyContent:'space-between'}} >{formatDate(inquiry.follow_up_date,1)}<i className="fas fa-calendar"></i>
-                </p>}
-
-                  </td>
-                  <td><input type="text" /></td>
+                  <td>
+                    
+                    <button 
+                    className="show-btn765"
+                    onClick={() => openModal765(inquiry._id, inquiry.comments)}
+                  >
+                    Show
+                  </button>
+                  
+                    </td>
                    <td>{inquiry.source}</td>
               </tr>
             ))}
@@ -292,6 +324,28 @@ if(statuvalue==='Select'){return;}
         <div className="empty-state765">
           <i className="fas fa-inbox"></i>
           <p>No inquiries found</p>
+        </div>
+      )}
+
+        {showModal765 && (
+        <div className="modal-overlay765" onClick={closeModal765}>
+          <div className="modal-content765" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header765">
+              <h3>Comments</h3>
+              <button className="close-btn765" onClick={closeModal765}>
+                ×
+              </button>
+            </div>
+            <div className="modal-body765">
+              <textarea
+                className="modal-textarea765"
+                value={currentComment765}
+                onChange={handleCommentChange765}
+                placeholder="Enter your comments here..."
+                autoFocus
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>

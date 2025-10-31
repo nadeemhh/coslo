@@ -170,3 +170,94 @@
         .empty-state765 p {
           font-size: 20px;
         }
+
+        .show-btn765 {
+          padding: 6px 8px;
+          background: #1890ff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+        }
+        .show-btn765:hover {
+          background: #40a9ff;
+        }
+
+         .modal-overlay765 {
+          display: flex;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .modal-content765 {
+          display: flex;
+          flex-direction: column;
+          background: white;
+          border-radius: 8px;
+          width: 90%;
+          max-width: 600px;
+          max-height: 80vh;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .modal-header765 {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+          border-bottom: 1px solid #f0f0f0;
+        }
+        .modal-header765 h3 {
+          margin: 0;
+          color: #434343;
+        }
+        .close-btn765 {
+          background: none;
+          border: none;
+          font-size: 30px;
+          cursor: pointer;
+          color: #ff0000;
+          padding: 0;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .close-btn765:hover {
+          color: #434343;
+        }
+        .modal-body765 {
+          display: flex;
+          flex: 1;
+          padding: 20px;
+        }
+        .modal-textarea765 {
+          width: 100%;
+          min-height: 200px;
+          padding: 12px;
+          border: 1px solid #d9d9d9;
+          border-radius: 4px;
+          font-family: Arial, sans-serif;
+          font-size: 14px;
+          resize: vertical;
+        }
+        .modal-textarea765:focus {
+          outline: none;
+          border-color: #1890ff;
+        }
+        .loading765 {
+          text-align: center;
+          padding: 40px;
+        }
+        .empty-state765 {
+          text-align: center;
+          padding: 40px;
+          color: #999;
+        }
