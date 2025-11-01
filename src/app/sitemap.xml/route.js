@@ -1,3 +1,5 @@
+import extractDate from '../component/extdate.js';
+
 export async function GET() {
   const baseUrl = 'https://www.coslomart.com';
 
@@ -44,7 +46,6 @@ export async function GET() {
 
   // ✅ Combine all URLs
   const allUrls = [
-    ...staticUrls.map(path => `${baseUrl}${path}`),
     ...parentcategoryurls,
     ...childcategoryurls,
     ...prducturls,
@@ -54,10 +55,18 @@ export async function GET() {
   // ✅ Build XML
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticUrls
+  .map(
+    staticUrl => `<url>
+  <loc>${baseUrl}${staticUrl}</loc>
+</url>`
+  )
+  .join('\n')}
 ${allUrls
   .map(
     url => `<url>
-  <loc>${url}</loc>
+  <loc>${url.loc}</loc>
+  <lastmod>${extractDate(url.lastmod)}</lastmod>
 </url>`
   )
   .join('\n')}
