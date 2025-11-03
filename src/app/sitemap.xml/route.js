@@ -1,4 +1,4 @@
-import extractDate from '../component/extdate.js';
+
 
 export async function GET() {
   const baseUrl = 'https://www.coslomart.com';
@@ -66,7 +66,7 @@ ${allUrls
   .map(
     url => `<url>
   <loc>${url.loc}</loc>
-  <lastmod>${extractDate(url.lastmod)}</lastmod>
+  <lastmod>${url.lastmod}</lastmod>
 </url>`
   )
   .join('\n')}

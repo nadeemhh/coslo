@@ -31,6 +31,7 @@ export default function Page() {
       longitude:"",
       approvalType:"",
       khataType:"",
+      images:[],
       commonAttributes: [],
       reasonForReturn:[],
       ammenties:[],
@@ -78,7 +79,7 @@ export default function Page() {
    const [showMap, setshowMap] = useState(false);
  const [selectedAmenities, setSelectedAmenities] = useState([]);
 const [LocationformData, setLocationFormData] = useState(null);
-const [propertyVideo, setPropertyVideo] = useState(null);  
+const [propertyVideo, setPropertyVideo] = useState(null);   
   const [propertyvariations, setpropertyvariations] = useState([{
     id: Date.now(),
     totalSqft: '',
@@ -1034,6 +1035,13 @@ if(!data.data.productType){
 data.data.productType="product"
 }
 
+if(data.data.productType==='property'){
+  setpropertyvariations([...data.data.variations])
+    data.data.awsImages = [...data.data.images];
+    data.data.images=[];
+  data.data.deleteImages = [];
+}
+
 console.log(data.data,data.data.productType)
 
 
@@ -1050,9 +1058,6 @@ setselectedtag(data.data?.tagName)
         setshowMap(true)
 setSelectedAmenities(data.data.ammenties)
 
-if(data.data.productType==='property'){
-  setpropertyvariations([...data.data.variations])
-}
 
         document.querySelector('.loaderoverlay').style.display = 'none';
         })
@@ -1595,6 +1600,60 @@ return locationData;
   };
 
 
+  
+
+const handlepropertyimageUpload = (files) => {
+  const fileArray = Array.from(files);
+  
+    // For images, read all files and collect results
+    const promises = fileArray.map(file => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    });
+        
+    Promise.all(promises).then(results => {
+          setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        images: [...userData.productData.images,...results],
+      },
+    }));})
+  
+};
+
+
+    const removepropertyImage = (imgIndex) => {
+
+
+     setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        images: prevState.productData.images.filter((_, i) => i !== imgIndex),
+      },
+    }))
+
+  };
+
+
+ const removepropertyawsImage = (imgIndex) => {
+  
+      setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        awsImages: prevState.productData.awsImages.filter((_, i) => i !== imgIndex),
+        deleteImages: [...prevState.productData.deleteImages ,prevState.productData.awsImages[imgIndex]]
+      },
+    }))
+  };
+
+
+
 
   return (
     <div className="order-details">
@@ -1690,6 +1749,46 @@ return locationData;
         </>}
 
   <div className="upload-container787" style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
+{userData.productData.productType === "property" && <div>
+<label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
+           <i className="fa fa-image"></i> Upload {userData.productData.productType} Images
+            <input
+              type="file"
+                accept="image/*"
+                multiple
+              onChange={(e) => handlepropertyimageUpload(e.target.files)}
+            />
+          </label>
+
+            <div style={{margin:'25px 0px'}}>
+            <div className="preview-container-878">
+              {userData.productData.images.map((img, imgIndex) => (
+                <div key={imgIndex} className="preview-item-878">
+                  <img src={img} alt={`Property ${imgIndex + 1}`} />
+                  <button
+                    className="preview-remove-878"
+                    onClick={() => removepropertyImage(imgIndex)}
+                  >
+                    <i className="fa fa-times"></i>
+                  </button>
+                </div>
+              ))}
+
+ {userData.productData?.awsImages?.map((img, imgIndex) => (
+                <div key={imgIndex} className="preview-item-878">
+                  <img src={img} alt={`Property ${imgIndex + 1}`} />
+                  <button
+                    className="preview-remove-878"
+                    onClick={() => removepropertyawsImage(imgIndex)}
+                  >
+                    <i className="fa fa-times"></i>
+                  </button>
+                </div>
+              ))}
+
+            </div>
+            </div>
+</div>}
 
   <div className="video-upload-section-878">
 
@@ -1704,7 +1803,7 @@ return locationData;
           </label>
 
           {(propertyVideo || (productupdate === true && userData.productData.productVideo)) && (
-            <div className="preview-container-878" style={{ margin: '15px',padding:'10px',display:'flex',flexDirection:'column',gap:'15px',alignItems:'center'}}>
+            <div className="preview-container-878" style={{ margin: '25px 0px',padding:'10px',display:'flex',flexDirection:'column',gap:'15px'}}>
               <div className="preview-item-878" style={{height:'150px',width:'150px'}}>
                 <video src={propertyVideo===null ? userData.productData.productVideo : URL.createObjectURL(propertyVideo)} controls />
                   {!productupdate && <button

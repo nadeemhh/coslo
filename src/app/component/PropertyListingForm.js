@@ -397,7 +397,7 @@ try {
 
 
           <div className="upload-section-878">
-            <label className="upload-btn-878">
+            {/* <label className="upload-btn-878">
               <i className="fa fa-image"></i> Upload Images
               <input
                 type="file"
@@ -405,7 +405,7 @@ try {
                 multiple
                 onChange={(e) => handleFileUpload(variation.id, 'images', e.target.files)}
               />
-            </label>
+            </label> */}
 
           
 
