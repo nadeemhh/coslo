@@ -261,3 +261,14 @@
           padding: 40px;
           color: #999;
         }
+
+
+        /* Responsive Design */
+  @media (max-width: 768px) {
+
+    .container765 {
+    
+          padding: 5px;
+        }
+   
+  }

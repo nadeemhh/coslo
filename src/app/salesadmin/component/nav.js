@@ -20,12 +20,12 @@ const NavBar = () => {
 <nav className="navbar" style={{padding:'5px',backgroundColor:'#F4F7FB'}}>
 <h4 style={{margin:'0px',textAlign:'right'}} className='adminemail'>Sales Admin</h4>
 
-{togglesidebar ? <i className="fas fa-bars showsidebar" onClick={()=>{
+{togglesidebar ? <i className="fas fa-bars showsidebar" style={{fontSize:'22px'}} onClick={()=>{
   handleShowSidebar('0%')
   settogglesidebar(false)
 }}></i>
 :
-<i className="fas fa-times showsidebar" style={{color:'red'}} onClick={()=>{
+<i className="fas fa-times showsidebar" style={{color:'red',fontSize:'22px'}} onClick={()=>{
   handleShowSidebar('-100%')
   settogglesidebar(true)
 }}></i>

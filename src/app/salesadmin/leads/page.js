@@ -277,7 +277,7 @@ const openModal765 = (inquiryId, currentComments) => {
                  <td>
                   {(!inquiry.scheduled_datetime || editingField === `${inquiry._id}-scheduled_datetime`) ? (
                     <input
-                      type="datetime-local"
+                      type="date"
                       className="date-input765"
                       value={inquiry.scheduled_datetime ? inquiry.scheduled_datetime.slice(0, 16) : ''}
                       onChange={(e) => {
@@ -293,7 +293,7 @@ const openModal765 = (inquiryId, currentComments) => {
                       className="date-input765" 
                       style={{display:"flex", justifyContent:'space-between', cursor:'pointer'}}
                     >
-                      {formatDate(inquiry.scheduled_datetime, 1)}
+                      {formatDate(inquiry.scheduled_datetime, 0)}
                       <i 
                         className="fas fa-calendar" 
                         onClick={() => setEditingField(`${inquiry._id}-scheduled_datetime`)}
