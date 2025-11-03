@@ -402,7 +402,7 @@ function formatPhoneNumber(number) {
             />
 
             <img
-              src={data?.variations[showslab]?.productImages[0] || '/images/noimgavl.jpg'}
+              src={data?.variations[showslab]?.productImages?.[0] || data?.images?.[0] || '/images/noimgavl.jpg'}
               alt="Product Image"
               className="main-image"
             />
@@ -412,7 +412,7 @@ function formatPhoneNumber(number) {
             <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
 
             <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
-  {data?.variations[showslab]?.productImages.map((url, index) => (
+  {data?.variations[showslab]?.productImages?.map((url, index) => (
     <img
       src={url}
       alt={`Thumbnail ${index + 1}`}

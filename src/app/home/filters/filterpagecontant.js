@@ -138,7 +138,7 @@ filtertype === 'property' && <FiltersComponent sortOrder={sortOrder} setSortOrde
 
 {products.map((data, index) => (
 
-<Productcard pname={data.productName} productType={data?.productType} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} location={data?.location} khataType={data?.khataType} approvalType={data?.approvalType} key={index}/>
+<Productcard pname={data.productName} productType={data?.productType} seller={data.sellerDetails} pimage={data.variations[0]?.productImages?.[0]||data.images[0]} variation={data.variations[0]} pid={data._id} location={data?.location} khataType={data?.khataType} approvalType={data?.approvalType} key={index}/>
 
  ))}
 

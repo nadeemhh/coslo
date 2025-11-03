@@ -1,6 +1,6 @@
 'use client'
 import { useState ,useEffect} from 'react';
-import Productcard from '../../component/productshowcard'
+import Productcard from '../../component/productshowcard.js'
 import scrollToElement from '../../component/scrollToElement.js'
 import { useInView } from "react-intersection-observer";
 import '../component-css/tab.css'
@@ -76,7 +76,7 @@ const Productbyusertype = ({category_id=null}) => {
 
                 {  products.map((data, index) => (
                   
-                 data.productType === "property" ? <div key={index}></div> : <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0].productImages[0]} variation={data.variations[0]} pid={data._id} key={index}/>
+                 data.productType === "property" ? <div key={index}></div> : <Productcard pname={data.productName} seller={data.sellerDetails} pimage={data.variations[0]?.productImages?.[0]||data.images[0]} variation={data.variations[0]} pid={data._id} key={index}/>
                   
                    ))}
 
