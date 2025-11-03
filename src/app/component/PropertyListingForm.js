@@ -160,7 +160,7 @@ const handleFileUpload = (id, type, files) => {
     return cleaned;
 }
 
- propertyvariation = cleanVariationData(["attributes","availableSlots","priceSlabs"]);
+ propertyvariation = cleanVariationData(["attributes","availableSlots","priceSlabs","productImages"]);
  console.log(propertyvariation)
 try {
     document.querySelector('.loaderoverlay').style.display = 'flex';
@@ -469,7 +469,7 @@ try {
                         fontSize: '14px'
                       }}
                     >
-                      Save n Changes
+                      Save Variation
                     </button>}
 
         </div>

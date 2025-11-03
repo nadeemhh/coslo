@@ -67,7 +67,7 @@ const scrollLeft = () => {
 };
 
 const scrollRight = () => {
-  const images = data?.variations[showslab]?.productImages || [];
+  const images = data?.variations[showslab]?.productImages || data?.images || [];
   if (activeIndex < images.length - 1) {
     const newIndex = activeIndex + 1;
     setActiveIndex(newIndex);
@@ -412,7 +412,7 @@ function formatPhoneNumber(number) {
             <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
 
             <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
-  {data?.variations[showslab]?.productImages?.map((url, index) => (
+  {(data?.variations[showslab]?.productImages || data?.images || []).map((url, index) => (
     <img
       src={url}
       alt={`Thumbnail ${index + 1}`}
