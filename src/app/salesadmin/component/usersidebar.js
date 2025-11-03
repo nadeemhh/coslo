@@ -52,7 +52,7 @@ const Usersidebar = ({menuItems}) => {
   return (
     <div className="side-bar sidebar" id="sidebar" style={{height:'100%'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
-      <label>Coslomart Seo Admin</label></div>
+      <label>Coslomart Sales Admin</label></div>
       
       {/* Menu Items */}
       <div className="menu">
