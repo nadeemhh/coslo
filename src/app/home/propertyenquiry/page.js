@@ -28,7 +28,7 @@ const RealEstateForm = () => {
     setFormData(prev => ({
       ...prev,
       tags: checked 
-        ? [...prev.tags, value]
+        ? [value]
         : prev.tags.filter(item => item !== value)
     }));
   };
