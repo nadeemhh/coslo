@@ -5,14 +5,15 @@ padding: 0px;
   .c818-container {
           display: flex;
           padding: 10px 0px;
+              background-color: white;
         }
 
         .c818-image-container {
           flex: 1;
-          background: 
-                      url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1973&q=80');
-          background-size: cover;
+          background:url('/images/bannerimg.jpeg');
+          background-size: contain;
           background-position: center;
+          background-repeat: no-repeat;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -20,7 +21,7 @@ padding: 0px;
           position: relative;
         }
 
-        .c818-image-overlay {
+        /* .c818-image-overlay {
           text-align: center;
           color: white;
           z-index: 1;
@@ -55,7 +56,7 @@ padding: 0px;
             opacity: 1;
             transform: translateY(0);
           }
-        }
+        } */
 
         .c818-form-container {
           flex: 1;

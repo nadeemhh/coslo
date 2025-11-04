@@ -84,10 +84,10 @@ const RealEstateForm = () => {
     <div className="c818-container">
    
       <div className="c818-image-container">
-        <div className="c818-image-overlay">
+        {/* <div className="c818-image-overlay">
           <h1 className="c818-image-title">Find Your Dream Home</h1>
           <p className="c818-image-subtitle">Luxury Properties at Your Fingertips</p>
-        </div>
+        </div> */}
       </div>
 
       <div className="c818-form-container">
