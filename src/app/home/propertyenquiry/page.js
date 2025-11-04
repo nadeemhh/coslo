@@ -46,7 +46,8 @@ const RealEstateForm = () => {
       name: formData.name,
       phone: formData.phone,
       tags: formData.tags,
-      productType:'property'
+      productType:'property',
+      source:new URLSearchParams(window.location.search).get("source")||''
     };
     
     console.log('Form Data:', payload);
@@ -95,12 +96,6 @@ const RealEstateForm = () => {
             <h1 className="c818-title">Property Inquiry</h1>
             <p className="c818-subtitle">Tell us what you're looking for</p>
           </div>
-
-          {submitted && (
-            <div className="c818-success-message">
-              ✓ Thank you! Your inquiry has been submitted successfully.
-            </div>
-          )}
 
           <div>
             <div className="c818-form-group">
