@@ -4,6 +4,7 @@ import './page.css'
 import Link from 'next/link';
 import  { useState,useEffect } from "react";
   import AttributeForm from '../../component/AttributeForm.js';
+import slugifyurl from "../../component/slugifyurl.js"
 
 export default function page() {
   const [data,setdata] = useState([]);
@@ -272,6 +273,7 @@ localStorage.setItem('productType',e.target.value)
               <th>{ptype==='property'?'Price per sqft':(ptype==='product'?'Price/Stock':'Price')}</th>
               <th>Actions</th>
               <th>Visibility</th>
+              <th>Visit</th>
             </tr>
           </thead>
           <tbody>
@@ -326,6 +328,13 @@ localStorage.setItem('productType',e.target.value)
 
                   
                 </td>
+
+                 <td>
+
+                <a href={`/home/property/${slugifyurl(data.productName)}/${data._id}`} target="_blank" style={{color:'blue'}}>visit page</a>   
+                 
+                </td>
+
               </tr>
             )))}
           </tbody>
