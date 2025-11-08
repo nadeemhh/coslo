@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import { useState,useEffect } from 'react';
 import './page.css'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,9 +11,55 @@ const RealEstateForm = () => {
     tags: []
   });
   
-
-  console.log(formData)
   const [submitted, setSubmitted] = useState(false);
+
+   // Facebook tracking parameters
+  const [fbTrackingParams, setFbTrackingParams] = useState({
+    event_id: '',
+    fbp: '',
+    fbc: ''
+  });
+
+  // Initialize Facebook tracking parameters
+  useEffect(() => {
+    // Generate unique event_id
+    const eventId = `${Date.now()}.${Math.random().toString(36).substring(2, 11)}`;
+    
+    // Get _fbp cookie (Facebook Browser Pixel)
+    const fbp = getCookie('_fbp') || '';
+    
+    // Get _fbc cookie (Facebook Click ID) - from fbclid URL parameter
+    let fbc = getCookie('_fbc') || '';
+    
+    // If _fbc doesn't exist, check for fbclid in URL and create it
+    if (!fbc) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fbclid = urlParams.get('fbclid');
+      if (fbclid) {
+        fbc = `fb.1.${Date.now()}.${fbclid}`;
+        // Optionally set the cookie for future use
+        document.cookie = `_fbc=${fbc}; path=/; max-age=7776000`; // 90 days
+      }
+    }
+    
+    setFbTrackingParams({
+      event_id: eventId,
+      fbp: fbp,
+      fbc: fbc
+    });
+  }, []);
+
+  // Helper function to get cookie value
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return '';
+  };
+
+  console.log(formData);
+  console.log('FB Tracking Params:', fbTrackingParams);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,21 +80,38 @@ const RealEstateForm = () => {
   };
 
   const handleSubmit = async () => {
-
-   
     
     if (!formData.name || !formData.phone) {
       alert('Please fill in all required fields');
       return;
     }
     
+
+    // Fire Facebook Pixel Lead event with the SAME event_id
+    // This allows Facebook to deduplicate between browser and server events
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead', {
+        content_name: 'Property Inquiry Form',
+        content_category: 'real_estate',
+        value: 0,
+        currency: 'INR'
+      }, {
+        eventID: fbTrackingParams.event_id  // ⭐ CRITICAL: Same ID for deduplication
+      });
+      console.log('Facebook Pixel Lead event fired with event_id:', fbTrackingParams.event_id);
+    }
+    
+
     const payload = {
       name: formData.name,
       phone: formData.phone,
       tags: formData.tags,
       productType:'property',
-      source:new URLSearchParams(window.location.search).get("source")||''
-    };
+      source:new URLSearchParams(window.location.search).get("source")||'',
+      event_id: fbTrackingParams.event_id,
+      fbp: fbTrackingParams.fbp,
+      fbc: fbTrackingParams.fbc,
+     };
     
     console.log('Form Data:', payload);
     
