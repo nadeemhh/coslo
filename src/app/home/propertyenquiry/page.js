@@ -8,6 +8,8 @@ const RealEstateForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    location:'',
+    budget:'',
     tags: []
   });
   
@@ -58,9 +60,7 @@ const RealEstateForm = () => {
   };
 
   console.log(formData);
-  console.log('FB Tracking Params:', fbTrackingParams);
-
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -81,6 +81,12 @@ const RealEstateForm = () => {
 
   const handleSubmit = async () => {
     
+     if (!formData.tags.length) {
+      alert('Select whether you are looking for plots, apartments, or villas.');
+      return;
+    }
+    
+
     if (!formData.name || !formData.phone) {
       alert('Please fill in all required fields');
       return;
@@ -105,6 +111,8 @@ const RealEstateForm = () => {
     const payload = {
       name: formData.name,
       phone: formData.phone,
+      location:formData.location,
+      budget:formData.budget,
       tags: formData.tags,
       productType:'property',
       source:new URLSearchParams(window.location.search).get("source")||'',
@@ -130,7 +138,7 @@ const RealEstateForm = () => {
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
-        setFormData({ name: '', phone: '', tags: [] });
+        setFormData({ name: '', phone: '',location:'',budget:'', tags: [] });
       }, 1000);
     } catch (error) {
        document.querySelector('.loaderoverlay').style.display='none';
@@ -161,37 +169,8 @@ const RealEstateForm = () => {
           </div>
 
           <div>
-            <div className="c818-form-group">
-              <label className="c818-label">Full Name</label>
-              <div className="c818-input-wrapper">
-                <i className="fa fa-user c818-icon"></i>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                  className="c818-input"
-                />
-              </div>
-            </div>
 
-            <div className="c818-form-group">
-              <label className="c818-label">Phone Number</label>
-              <div className="c818-input-wrapper">
-                <i className="fa fa-phone c818-icon"></i>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Enter your phone number"
-                  className="c818-input"
-                />
-              </div>
-            </div>
-
-            <div className="c818-form-group">
+             <div className="c818-form-group">
               <label className="c818-label" style={{textTransform:'unset'}}>I am interested in <i className="fas fa-arrow-down"></i></label>
               <div className="c818-checkbox-group">
                 <div className={`c818-checkbox-wrapper ${formData.tags.includes('6876642cf2a9732e3582191e') ? 'c818-checked' : ''}`}>
@@ -238,6 +217,67 @@ const RealEstateForm = () => {
                     Apartments
                   </label>
                 </div>
+              </div>
+            </div>
+
+            <div className="c818-form-group">
+              <label className="c818-label">Full Name</label>
+              <div className="c818-input-wrapper">
+                <i className="fa fa-user c818-icon"></i>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Enter your full name"
+                  className="c818-input"
+                />
+              </div>
+            </div>
+
+            <div className="c818-form-group">
+              <label className="c818-label">Phone Number</label>
+              <div className="c818-input-wrapper">
+                <i className="fa fa-phone c818-icon"></i>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Enter your phone number"
+                  className="c818-input"
+                />
+              </div>
+            </div>
+
+            
+          <div className="c818-form-group">
+              <label className="c818-label">Location</label>
+              <div className="c818-input-wrapper">
+                <i className="fa fa-map-marker-alt c818-icon"></i>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  placeholder="Enter your location for the property"
+                  className="c818-input"
+                />
+              </div>
+            </div>
+
+           <div className="c818-form-group">
+              <label className="c818-label">Budget</label>
+              <div className="c818-input-wrapper">
+                <i className="fa fa-rupee-sign c818-icon"></i>
+                <input
+                  type="text"
+                  name="budget"
+                  value={formData.budget}
+                  onChange={handleInputChange}
+                  placeholder="Enter your budget for the property"
+                  className="c818-input"
+                />
               </div>
             </div>
 

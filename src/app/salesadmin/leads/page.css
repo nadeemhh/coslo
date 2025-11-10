@@ -266,9 +266,13 @@
         /* Responsive Design */
   @media (max-width: 768px) {
 
+    .main-content {
+    padding: 5px;
+}
+
     .container765 {
     
-          padding: 5px;
+          padding: 0px;
         }
    
   }

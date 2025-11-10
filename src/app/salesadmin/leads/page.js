@@ -203,6 +203,8 @@ const openModal765 = (inquiryId, currentComments) => {
               <th>Lead Status</th>
               <th>Site Visit</th>
               <th>Comments</th>
+              <th>Location</th>
+              <th>Budget</th>
               <th>Source</th>
             </tr>
           </thead>
@@ -313,6 +315,8 @@ const openModal765 = (inquiryId, currentComments) => {
                   </button>
                   
                     </td>
+                    <td>{inquiry.location}</td>
+                    <td>{inquiry.budget}</td>
                    <td>{inquiry.source}</td>
               </tr>
             ))}
