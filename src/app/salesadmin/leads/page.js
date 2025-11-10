@@ -212,10 +212,10 @@ const openModal765 = (inquiryId, currentComments) => {
             {inquiries765.map((inquiry,index) => (
               <tr key={index}>
                 <td>{extractDate(inquiry.inquiry_date)}</td>
-                <td><strong>{inquiry.buyer_name}</strong></td>
+                <td><strong>{inquiry.buyer_name||'N/A'}</strong></td>
                 <td>
                   <a href={`tel:${inquiry.phone_number}`} className="phone-link765">
-                    {inquiry.phone_number}
+                    {inquiry.phone_number||'N/A'}
                   </a>
                 </td>
                 <td>{inquiry.interested_in}</td>
@@ -315,9 +315,9 @@ const openModal765 = (inquiryId, currentComments) => {
                   </button>
                   
                     </td>
-                    <td>{inquiry.location}</td>
-                    <td>{inquiry.budget}</td>
-                   <td>{inquiry.source}</td>
+                    <td>{inquiry.location||'N/A'}</td>
+                    <td>{inquiry.budget||'N/A'}</td>
+                   <td>{inquiry.source||'N/A'}</td>
               </tr>
             ))}
           </tbody>
