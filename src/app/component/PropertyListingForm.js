@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import './component-css/PropertyListingForm.css';
 
 const PropertyListingForm = ({ listingType = null,propertyvariations, setpropertyvariations,productupdate }) => {
@@ -10,6 +10,20 @@ const PropertyListingForm = ({ listingType = null,propertyvariations, setpropert
 
 
    console.log(propertyvariations)
+
+   function bhkfinder() {
+     // Collect & normalize all BHKs
+    const allBhkTypes = propertyvariations.flatMap(v =>
+      v.bhkTypes.map(bhk => bhk.replace(/\s+/g, "").toLowerCase())
+    );
+
+    // Merge old + new, remove duplicates
+    setbhkOptions(prev => {
+      const merged = [...new Set([...prev, ...allBhkTypes])];
+      return merged;
+    });
+
+   }
 
 
   const handleAddVariation = () => {
@@ -72,7 +86,7 @@ const PropertyListingForm = ({ listingType = null,propertyvariations, setpropert
 
   const handleAddNewBhk = () => {
     if (newBhk.trim() && !bhkOptions.includes(newBhk.trim()) && newBhk.toLowerCase().includes('bhk') ) {
-      setbhkOptions([...bhkOptions, newBhk.trim()]);
+      setbhkOptions([...bhkOptions, newBhk.trim().replaceAll(' ','')]);
       setNewBhk('');
       setShowAddBhk(true);
     }
@@ -247,6 +261,10 @@ try {
       
     }
 
+
+       useEffect(() => {
+    bhkfinder() 
+  }, []);
 
 
   return (
