@@ -11,6 +11,8 @@ const page = () => {
   const [showModal765, setShowModal765] = useState(false);
   const [currentComment765, setCurrentComment765] = useState('');
   const [currentInquiryId765, setCurrentInquiryId765] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const callStatusOptions765 = [
     { value: 'Select', label: '📌 Select' },
@@ -30,15 +32,13 @@ const page = () => {
     { value: 'Deal Closed', label: '✅ Deal Closed' }]
 
 
-  useEffect(() => {
-    fetchInquiries765();
-  }, []);
+   
 
   const fetchInquiries765 = async () => {
     try {
        const token = localStorage.getItem('salestoken');
       setLoading765(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?page=${page}&limit=20`, {
         method: 'GET',
          headers: {
         'Content-Type': 'application/json',
@@ -50,9 +50,24 @@ const page = () => {
       }
       
       const data = await response.json();
-      setInquiries765(data.data.leads);
+   
+
+      
+ if (data.data.leads.length === 0) {
+
+              setHasMore(false);
+              if(page!==1){ setPage((prevPage) => prevPage - 1);}
+              setInquiries765(data.data.leads);
+              console.log( hasMore,page)
+
+            } else {
+
+       setInquiries765(data.data.leads);
       setError765(null);
       console.log(data)
+            }
+
+
     } catch (err) {
       setError765(err.message);
       // Demo data for testing
@@ -90,6 +105,24 @@ const page = () => {
       setLoading765(false);
     }
   };
+
+
+  useEffect(() => {
+     
+          fetchInquiries765();
+      }, [page]);
+
+      const nextPage = () => {
+        setPage((prevPage) => prevPage + 1);
+       
+      };
+    
+      const prevPage = () => {
+        setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+        setHasMore(true);
+      };
+
+
 
   const updateStatus = async (id, statuvalue,statusname) => {
 console.log(statuvalue)
@@ -193,6 +226,7 @@ const openModal765 = (inquiryId, currentComments) => {
       <table className="table765">
           <thead>
             <tr>
+              <th>##</th>
               <th>Inquiry Date</th>
               <th>Buyer Name</th>
               <th>Phone Number</th>
@@ -211,6 +245,7 @@ const openModal765 = (inquiryId, currentComments) => {
           <tbody>
             {inquiries765.map((inquiry,index) => (
               <tr key={index}>
+                <td>{index+1}</td>
                 <td>{extractDate(inquiry.inquiry_date)}</td>
                 <td><strong>{inquiry.buyer_name||'N/A'}</strong></td>
                 <td>
@@ -322,7 +357,9 @@ const openModal765 = (inquiryId, currentComments) => {
             ))}
           </tbody>
         </table>
+
       </div>
+
 
       {inquiries765.length === 0 && !loading765 && (
         <div className="empty-state765">
@@ -330,6 +367,18 @@ const openModal765 = (inquiryId, currentComments) => {
           <p>No inquiries found</p>
         </div>
       )}
+
+        <div className="pagination">
+       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
+        <i className="fas fa-arrow-left"></i> Previous
+      </span>
+
+      <span className="page-number">Page {page}</span>
+
+    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
+        Next <i className="fas fa-arrow-right"></i>
+      </span>}
+      </div>
 
         {showModal765 && (
         <div className="modal-overlay765" onClick={closeModal765}>
