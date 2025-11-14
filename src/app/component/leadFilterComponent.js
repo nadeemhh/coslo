@@ -1,0 +1,223 @@
+import React, { useState } from 'react';
+import '../component/component-css/leadFilterComponent.css';
+
+const FilterComponent = ({ onFilterChange }) => {
+  const [showFilters565, setShowFilters565] = useState(false);
+  const [filters565, setFilters565] = useState({
+    call_status: '',
+    lead_status: '',
+    from_date: '',
+    to_date: ''
+  });
+  const [loading565, setLoading565] = useState(false);
+
+  const callStatusOptions565 = [
+    { value: '', label: 'All' },
+    { value: 'Connected', label: '📞 Connected' },
+    { value: 'Not Reachable', label: '🚫 Not Reachable' },
+    { value: 'Switched Off', label: '📱 Switched Off' },
+    { value: 'Did Not Pick', label: '🔕 Did Not Pick' },
+    { value: 'Call Back Later', label: '🔁 Call Back Later' },
+    { value: 'Wrong Number', label: '❌ Wrong Number' },
+    { value: 'Maybe Later', label: '🤔 Maybe Later' }
+  ];
+
+  const leadStatusOptions565 = [
+    { value: '', label: 'All' },
+    { value: 'Interested', label: '💬 Interested' },
+    { value: 'Not Interested', label: '💤 Not Interested' },
+    { value: 'Deal Closed', label: '✅ Deal Closed' }
+  ];
+
+  const buildQueryString565 = (page = 1) => {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('limit', 20);
+    
+    if (filters565.call_status) {
+      params.append('call_status', filters565.call_status);
+    }
+    if (filters565.lead_status) {
+      params.append('lead_status', filters565.lead_status);
+    }
+    if (filters565.from_date) {
+      params.append('from_date', filters565.from_date);
+    }
+    if (filters565.to_date) {
+      params.append('to_date', filters565.to_date);
+    }
+    
+    return params.toString();
+  };
+
+  const fetchFilteredData565 = async (updatedFilters) => {
+    try {
+      setLoading565(true);
+      const token = localStorage.getItem('salestoken');
+      
+      // Build query with updated filters
+      const params = new URLSearchParams();
+      params.append('page', 1);
+      params.append('limit', 20);
+      
+      if (updatedFilters.call_status) {
+        params.append('call_status', updatedFilters.call_status);
+      }
+      if (updatedFilters.lead_status) {
+        params.append('lead_status', updatedFilters.lead_status);
+      }
+      if (updatedFilters.from_date) {
+        params.append('from_date', updatedFilters.from_date);
+      }
+      if (updatedFilters.to_date) {
+        params.append('to_date', updatedFilters.to_date);
+      }
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?${params.toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }),
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch filtered data');
+      }
+
+      const data = await response.json();
+      
+      // Send the filtered data back to parent component
+      onFilterChange(data.data.leads, updatedFilters);
+      
+    } catch (err) {
+      console.error('Error fetching filtered data:', err);
+      // Send empty array on error
+      onFilterChange([], updatedFilters);
+    } finally {
+      setLoading565(false);
+    }
+  };
+
+  const handleFilterChange565 = (name, value) => {
+    const updatedFilters = {
+      ...filters565,
+      [name]: value
+    };
+    setFilters565(updatedFilters);
+    
+    // Fetch data immediately when filter changes
+    fetchFilteredData565(updatedFilters);
+  };
+
+  const handleClearFilters565 = () => {
+    const clearedFilters = {
+      call_status: '',
+      lead_status: '',
+      from_date: '',
+      to_date: ''
+    };
+    setFilters565(clearedFilters);
+    
+    // Fetch data with cleared filters
+    fetchFilteredData565(clearedFilters);
+  };
+
+  return (
+    <div className="filter-wrapper565">
+      <button 
+        className="refresh-btn765" 
+        style={{ marginBottom: '30px' }}
+        onClick={() => setShowFilters565(!showFilters565)}
+      >
+        <i className="fas fa-filter"></i> Filters
+        {/* {(filters565.call_status || filters565.lead_status || filters565.from_date || filters565.to_date) && (
+          <span className="filter-badge565">
+            {[filters565.call_status, filters565.lead_status, filters565.from_date, filters565.to_date].filter(Boolean).length}
+          </span>
+        )} */}
+      </button>
+
+      {showFilters565 && (
+        <div className="filter-container565">
+          {loading565 && (
+            <div className="filter-loading565">
+              <i className="fas fa-spinner fa-spin"></i>
+            </div>
+          )}
+          
+          <div className="filter-grid565">
+            <div className="filter-item565">
+              <label className="filter-label565">Call Status</label>
+              <select
+                className="filter-select565"
+                value={filters565.call_status}
+                onChange={(e) => handleFilterChange565('call_status', e.target.value)}
+                disabled={loading565}
+              >
+                {callStatusOptions565.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-item565">
+              <label className="filter-label565">Lead Status</label>
+              <select
+                className="filter-select565"
+                value={filters565.lead_status}
+                onChange={(e) => handleFilterChange565('lead_status', e.target.value)}
+                disabled={loading565}
+              >
+                {leadStatusOptions565.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-item565">
+              <label className="filter-label565">From Date</label>
+              <input
+                type="date"
+                className="filter-date565"
+                value={filters565.from_date}
+                onChange={(e) => handleFilterChange565('from_date', e.target.value)}
+                disabled={loading565}
+              />
+            </div>
+
+            <div className="filter-item565">
+              <label className="filter-label565">To Date</label>
+              <input
+                type="date"
+                className="filter-date565"
+                value={filters565.to_date}
+                onChange={(e) => handleFilterChange565('to_date', e.target.value)}
+                disabled={loading565}
+              />
+            </div>
+          </div>
+
+          <div className="filter-actions565">
+            <button 
+              className="clear-filter-btn565" 
+              onClick={handleClearFilters565}
+              disabled={loading565}
+            >
+              <i className="fas fa-times" style={{fontSize:'17px'}}></i> Remove Filters
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FilterComponent;

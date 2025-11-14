@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import './page.css'
 import extractDate from '../../component/extdate.js';
+import LeadFilterComponent from '../../component/leadFilterComponent.js';
 
 const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
@@ -112,6 +113,15 @@ const page = () => {
           fetchInquiries765();
       }, [page]);
 
+        const onFilterChange = (filteredData, filters) => {
+  setInquiries765(filteredData);
+    setPage(1);
+    
+    console.log('Filtered data received:', filteredData);
+    console.log('Applied filters:', filters);
+  };
+
+
       const nextPage = () => {
         setPage((prevPage) => prevPage + 1);
        
@@ -217,10 +227,17 @@ const openModal765 = (inquiryId, currentComments) => {
         <h3 style={{color:'#1890ff'}}>
           <i className="fas fa-phone-alt" style={{color:'#434343ff'}}></i> Inquiry Management
         </h3>
-        <button className="refresh-btn765" onClick={fetchInquiries765}>
+        {/* <button className="refresh-btn765" onClick={fetchInquiries765}>
           <i className="fas fa-sync-alt"></i> Refresh
-        </button>
+        </button> */}
+
+        
       </div>
+
+  
+         
+         <LeadFilterComponent onFilterChange={onFilterChange}/>
+
 
       <div className="table-wrapper765">
       <table className="table765">
