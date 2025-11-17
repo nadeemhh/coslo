@@ -1748,6 +1748,13 @@ const handlepropertyimageUpload = (files) => {
         </div>
         </>}
 
+         <div className="input-group">
+          <label htmlFor="productVideo">{userData.productData.productType} Video Youtube Url</label>
+          <input id="product-video" type="text" placeholder=""    value={userData.productData?.productVideo || ""}
+          onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
+        </div>
+        
+
   <div className="upload-container787" style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
 {userData.productData.productType === "property" && <div>
 <label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
