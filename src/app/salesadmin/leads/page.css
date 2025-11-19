@@ -112,6 +112,7 @@
           vertical-align: middle;
         }
 
+       
         .phone-link765 {
           color: #1890ff;
           text-decoration: none;
@@ -274,5 +275,11 @@
     
           padding: 0px;
         }
+
+         .leadlocation{
+          max-width: 100px;
+          overflow-x: auto;
+        }
+
    
   }

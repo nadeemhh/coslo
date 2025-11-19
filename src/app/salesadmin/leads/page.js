@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './page.css'
 import extractDate from '../../component/extdate.js';
 import LeadFilterComponent from '../../component/leadFilterComponent.js';
+import scrollToElement from '../../component/scrollToElement.js';
 
 const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
@@ -14,6 +15,7 @@ const page = () => {
   const [currentInquiryId765, setCurrentInquiryId765] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [filterurl, setfilterurl] = useState('');
 
   const callStatusOptions765 = [
     { value: 'Select', label: '📌 Select' },
@@ -38,8 +40,11 @@ const page = () => {
   const fetchInquiries765 = async () => {
     try {
        const token = localStorage.getItem('salestoken');
+
       setLoading765(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?page=${page}&limit=20`, {
+      
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?page=${page}&limit=20${filterurl?`&${filterurl}`:''}`, {
         method: 'GET',
          headers: {
         'Content-Type': 'application/json',
@@ -65,6 +70,7 @@ const page = () => {
 
        setInquiries765(data.data.leads);
       setError765(null);
+      scrollToElement('toptable')
       console.log(data)
             }
 
@@ -111,14 +117,14 @@ const page = () => {
   useEffect(() => {
      
           fetchInquiries765();
-      }, [page]);
+      }, [page,filterurl]);
 
-        const onFilterChange = (filteredData, filters) => {
-  setInquiries765(filteredData);
+        const onFilterChange = (filters,filterforurl) => {
+  
+    setfilterurl(filterforurl)
     setPage(1);
     
-    console.log('Filtered data received:', filteredData);
-    console.log('Applied filters:', filters);
+    console.log('filterforurl:',filterforurl);
   };
 
 
@@ -136,7 +142,8 @@ const page = () => {
 
   const updateStatus = async (id, statuvalue,statusname) => {
 console.log(statuvalue)
-if(statuvalue==='Select'){return;}
+
+if(statuvalue==='Select'){statuvalue='';}
 
     try {
       const token = localStorage.getItem('salestoken');
@@ -192,15 +199,6 @@ const openModal765 = (inquiryId, currentComments) => {
   };
 
 
-  if (loading765) {
-    return (
-      <div className="container765">
-        <div className="loading765">
-          <i className="fas fa-spinner fa-spin"></i> Loading...
-        </div>
-      </div>
-    );
-  }
 
  function formatDate(dateString, includeTime = 0) {
   const date = new Date(dateString);
@@ -223,9 +221,12 @@ const openModal765 = (inquiryId, currentComments) => {
 
   return (
     <div className="container765">
+      
+
+        
       <div className="header765">
-        <h3 style={{color:'#1890ff'}}>
-          <i className="fas fa-phone-alt" style={{color:'#434343ff'}}></i> Inquiry Management
+        <h3 style={{color:'#1890ff'}} className='toptable'>
+          <i className="fas fa-phone-alt"></i> Inquiry Management
         </h3>
         {/* <button className="refresh-btn765" onClick={fetchInquiries765}>
           <i className="fas fa-sync-alt"></i> Refresh
@@ -236,8 +237,9 @@ const openModal765 = (inquiryId, currentComments) => {
 
   
          
-         <LeadFilterComponent onFilterChange={onFilterChange}/>
+         <LeadFilterComponent onFilterChange={onFilterChange} inquiries765={inquiries765}/>
 
+       
 
       <div className="table-wrapper765">
       <table className="table765">
@@ -248,14 +250,14 @@ const openModal765 = (inquiryId, currentComments) => {
               <th>Buyer Name</th>
               <th>Phone Number</th>
               <th>Interested In</th>
+              <th>Location</th>
+              <th>Budget</th>
               <th>Assigned To</th>
               <th>Call Status</th>
               <th>Follow-up Date</th>
               <th>Lead Status</th>
               <th>Site Visit</th>
               <th>Comments</th>
-              <th>Location</th>
-              <th>Budget</th>
               <th>Source</th>
             </tr>
           </thead>
@@ -271,6 +273,8 @@ const openModal765 = (inquiryId, currentComments) => {
                   </a>
                 </td>
                 <td>{inquiry.interested_in}</td>
+                <td className='leadlocation'>{inquiry.location||'N/A'}</td>
+                <td>{inquiry.budget||'N/A'}</td>
                 <td>{inquiry.assigned_to}</td>
                 <td>
                   <select
@@ -367,8 +371,7 @@ const openModal765 = (inquiryId, currentComments) => {
                   </button>
                   
                     </td>
-                    <td>{inquiry.location||'N/A'}</td>
-                    <td>{inquiry.budget||'N/A'}</td>
+                  
                    <td>{inquiry.source||'N/A'}</td>
               </tr>
             ))}
@@ -384,6 +387,13 @@ const openModal765 = (inquiryId, currentComments) => {
           <p>No inquiries found</p>
         </div>
       )}
+
+      {loading765 && <div className="container765">
+        <div className="loading765">
+          <i className="fas fa-spinner fa-spin"></i> Loading...
+        </div>
+      </div>
+      }
 
         <div className="pagination">
        <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>

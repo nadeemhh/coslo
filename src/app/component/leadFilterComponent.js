@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../component/component-css/leadFilterComponent.css';
+import Importleads from './importleads.js';
 
-const FilterComponent = ({ onFilterChange }) => {
+
+const FilterComponent = ({ onFilterChange,inquiries765 }) => {
   const [showFilters565, setShowFilters565] = useState(false);
   const [filters565, setFilters565] = useState({
     call_status: '',
@@ -29,36 +31,14 @@ const FilterComponent = ({ onFilterChange }) => {
     { value: 'Deal Closed', label: '✅ Deal Closed' }
   ];
 
-  const buildQueryString565 = (page = 1) => {
-    const params = new URLSearchParams();
-    params.append('page', page);
-    params.append('limit', 20);
-    
-    if (filters565.call_status) {
-      params.append('call_status', filters565.call_status);
-    }
-    if (filters565.lead_status) {
-      params.append('lead_status', filters565.lead_status);
-    }
-    if (filters565.from_date) {
-      params.append('from_date', filters565.from_date);
-    }
-    if (filters565.to_date) {
-      params.append('to_date', filters565.to_date);
-    }
-    
-    return params.toString();
-  };
-
+ 
   const fetchFilteredData565 = async (updatedFilters) => {
     try {
       setLoading565(true);
-      const token = localStorage.getItem('salestoken');
-      
+
       // Build query with updated filters
       const params = new URLSearchParams();
-      params.append('page', 1);
-      params.append('limit', 20);
+     
       
       if (updatedFilters.call_status) {
         params.append('call_status', updatedFilters.call_status);
@@ -73,30 +53,15 @@ const FilterComponent = ({ onFilterChange }) => {
         params.append('to_date', updatedFilters.to_date);
       }
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?${params.toString()}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }),
-          }
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch filtered data');
-      }
-
-      const data = await response.json();
+     
       
       // Send the filtered data back to parent component
-      onFilterChange(data.data.leads, updatedFilters);
+      onFilterChange(updatedFilters,params.toString());
       
     } catch (err) {
       console.error('Error fetching filtered data:', err);
       // Send empty array on error
-      onFilterChange([], updatedFilters);
+      onFilterChange(updatedFilters,'');
     } finally {
       setLoading565(false);
     }
@@ -133,12 +98,8 @@ const FilterComponent = ({ onFilterChange }) => {
         style={{ marginBottom: '30px' }}
         onClick={() => setShowFilters565(!showFilters565)}
       >
-        <i className="fas fa-filter"></i> Filters
-        {/* {(filters565.call_status || filters565.lead_status || filters565.from_date || filters565.to_date) && (
-          <span className="filter-badge565">
-            {[filters565.call_status, filters565.lead_status, filters565.from_date, filters565.to_date].filter(Boolean).length}
-          </span>
-        )} */}
+        {!showFilters565 && <i className="fas fa-filter"></i>} Filters {showFilters565 && <i className="fas fa-times" style={{color:'#ff3f3f',fontSize:'20px'}}></i>}
+    
       </button>
 
       {showFilters565 && (
@@ -204,6 +165,10 @@ const FilterComponent = ({ onFilterChange }) => {
               />
             </div>
           </div>
+
+ <div className="filter-grid565" style={{marginTop:'30px'}}>
+   <Importleads inquiries={inquiries765}/>
+ </div>
 
           <div className="filter-actions565">
             <button 
