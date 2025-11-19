@@ -274,7 +274,7 @@ const openModal765 = (inquiryId, currentComments) => {
                 </td>
                 <td>{inquiry.interested_in}</td>
                 <td className='leadlocation'>{inquiry.location||'N/A'}</td>
-                <td>{inquiry.budget||'N/A'}</td>
+                <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
                 <td>{inquiry.assigned_to}</td>
                 <td>
                   <select

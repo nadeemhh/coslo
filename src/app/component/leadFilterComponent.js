@@ -167,7 +167,7 @@ const FilterComponent = ({ onFilterChange,inquiries765 }) => {
           </div>
 
  <div className="filter-grid565" style={{marginTop:'30px'}}>
-   <Importleads inquiries={inquiries765}/>
+   {/* <Importleads inquiries={inquiries765}/> */}
  </div>
 
           <div className="filter-actions565">

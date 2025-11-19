@@ -276,10 +276,11 @@
           padding: 0px;
         }
 
-         .leadlocation{
-          max-width: 100px;
+         .leadlocation,.leadbudget{
+          max-width: 200px;
           overflow-x: auto;
         }
 
+      
    
   }
