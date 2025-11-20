@@ -9,7 +9,7 @@ const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
   const [loading765, setLoading765] = useState(true);
   const [error765, setError765] = useState(null);
- const [editingField, setEditingField] = useState(null);
+  const [editingField, setEditingField] = useState(null);
   const [showModal765, setShowModal765] = useState(false);
   const [currentComment765, setCurrentComment765] = useState('');
   const [currentInquiryId765, setCurrentInquiryId765] = useState(null);

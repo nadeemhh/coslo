@@ -12,6 +12,7 @@ const FilterComponent = ({ onFilterChange,inquiries765 }) => {
     to_date: ''
   });
   const [loading565, setLoading565] = useState(false);
+ const [filterurl, setfilterurl] = useState('');
 
   const callStatusOptions565 = [
     { value: '', label: 'All' },
@@ -57,7 +58,8 @@ const FilterComponent = ({ onFilterChange,inquiries765 }) => {
       
       // Send the filtered data back to parent component
       onFilterChange(updatedFilters,params.toString());
-      
+      setfilterurl(params.toString())
+
     } catch (err) {
       console.error('Error fetching filtered data:', err);
       // Send empty array on error
@@ -167,7 +169,7 @@ const FilterComponent = ({ onFilterChange,inquiries765 }) => {
           </div>
 
  <div className="filter-grid565" style={{marginTop:'30px'}}>
-   {/* <Importleads inquiries={inquiries765}/> */}
+   <Importleads filterurl={filterurl}/>
  </div>
 
           <div className="filter-actions565">

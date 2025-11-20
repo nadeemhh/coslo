@@ -2,12 +2,46 @@ import React from 'react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import '../component/component-css/Importleads.css';
+import { useState,useEffect } from 'react';
 
-const Importleads = ({ inquiries }) => {
+const Importleads = ({ filterurl }) => {
+
+   const [inquiries, setinquiries] = useState([]);
+     const [filetype, setfiletype] = useState('');
+     
+
+    const fetchleads = async (filetype) => {
+      try {
+         const token = localStorage.getItem('salestoken');
+  
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?${filterurl?`${filterurl}`:''}`, {
+          method: 'GET',
+           headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }});
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        
+        const data = await response.json();
+     
+                setinquiries(data.data.leads);
+                setfiletype(filetype)
+      } catch (err) {
+       console.log(err)
+      } 
+
+    };
+
 
   // -------------------- TABULAR PDF DOWNLOAD --------------------
   const downloadPDF = () => {
-    if (!inquiries || inquiries.length === 0) return;
+    if (!inquiries || inquiries.length === 0){
+      alert('No leads found.')
+      return;
+    }
 
     const doc = new jsPDF();
 
@@ -52,7 +86,10 @@ const Importleads = ({ inquiries }) => {
 
   // -------------------- CSV DOWNLOAD --------------------
 const downloadCSV = () => {
-  if (!inquiries || inquiries.length === 0) return;
+  if (!inquiries || inquiries.length === 0){
+    alert('No leads found.')
+     return;
+    }
 
   // Extract headers
     const headers = Object.keys(inquiries[0]).filter(key => key !== "_id");
@@ -88,18 +125,36 @@ const downloadCSV = () => {
 };
 
 
+ useEffect(() => {
+     
+        if(filetype){
+
+         if(filetype==='pdf'){
+          downloadPDF()
+          setfiletype('')
+         }else{
+          downloadCSV()
+          setfiletype('')
+         }
+
+        }else{
+          console.log('file type not found')
+        }
+
+      }, [filetype]);
+
   return (
     <div style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
       <button 
         className="downloadleads"
-        onClick={downloadPDF}
+        onClick={()=>(fetchleads('pdf'))}
       >
         <i className="fas fa-file-pdf" style={{color:'#ff0000'}}></i> Download Pdf
       </button>
 
      <button 
         className="downloadleads"
-        onClick={downloadCSV}
+        onClick={()=>(fetchleads('csv'))}
       >
         <i className="fas fa-file-excel" style={{color:'#00ff00'}}></i> Download csv
       </button>
