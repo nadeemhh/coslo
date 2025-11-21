@@ -152,7 +152,7 @@ const PropertyLocationForm = ({setUserData,show,userlocation,formData, setFormDa
     ]);
 
     const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
-
+const [showareainput, setshowareainput] = useState(false);
 
   useEffect(() => {
 
@@ -345,10 +345,19 @@ setFormData(userlocation)
 
                  <div className="form-group767">
                   <label className="form-label767" style={{textTransform:'unset'}}>
-                  Select area or nearby area
+                  <span className={showareainput===true?'showarea':''} onClick={()=>(setshowareainput(false))}>Select area</span> or <span className={showareainput===false?'showarea':''}   onClick={()=>(setshowareainput(true))}>enter nearby area</span>
                   </label>
+
+                     {showareainput && <input
+                      type="text"
+                      name="area"
+                      value={formData.location.area||''}
+                      onChange={handleInputChange}
+                      placeholder="Enter area"
+                      className="form-input767"
+                    />}
                   
-                   <select 
+                  { !showareainput && <select 
                 className="form-input" 
                 name="area"
                 value={formData.location.area}
@@ -360,7 +369,8 @@ setFormData(userlocation)
                     {place}
                   </option>
                 ))}
-              </select>
+              </select>}
+
                 </div>
 
               
