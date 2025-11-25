@@ -14,6 +14,7 @@ const RealEstateForm = () => {
   });
   
   const [submitted, setSubmitted] = useState(false);
+  const [tags,settags] = useState([]);
 
    // Facebook tracking parameters
   const [fbTrackingParams, setFbTrackingParams] = useState({
@@ -49,7 +50,56 @@ const RealEstateForm = () => {
       fbp: fbp,
       fbc: fbc
     });
+
+    gettag();
+    
   }, []);
+
+
+  function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_remove) {
+  return array.filter(obj => {
+    const isMatch = matchingNames.includes(obj[propertyName]);
+    return keep_or_remove === 1 ? isMatch : !isMatch;
+  });
+}
+
+
+     const gettag = () => {
+     
+  
+      document.querySelector('.loaderoverlay').style.display='flex';
+  
+  
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Failed. Please try again.');
+            });
+          }
+        })
+        .then((data) => {
+              console.log(data)
+              data= filterObjectsByProperty(data, "tagName", ["Plots","Villa","Apartments"],1);
+              settags([...data])
+             document.querySelector('.loaderoverlay').style.display='none';
+
+         
+        })
+        .catch((err) => {
+          document.querySelector('.loaderoverlay').style.display='none';
+          console.log(err)
+        });
+    };
+
+    console.log(tags)
 
   // Helper function to get cookie value
   const getCookie = (name) => {

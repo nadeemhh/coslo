@@ -7,7 +7,7 @@ import { useState,useEffect } from 'react';
 function Login() {
   
 
-    const [email, setEmail] = useState('');
+    const [phone, setphone] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -18,7 +18,7 @@ function Login() {
 
 
         const userData = {
-          email,
+          phone,
           password,
         };
     
@@ -44,6 +44,7 @@ function Login() {
                 // Save token to localStorage
                
         localStorage.setItem('salestoken', data.token);
+         localStorage.setItem('salesuser', JSON.stringify(data.user));
          window.location.href = '/salesadmin/leads';
            
           })
@@ -80,12 +81,12 @@ function Login() {
         {error && <p style={{color:'red'}}>{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="form-tab">
-            <label>Enter Email</label>
+            <label>Enter phone</label>
             <input
-              type="email"
-              placeholder="@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="number"
+              placeholder="Phone number"
+              value={phone}
+              onChange={(e) => setphone(e.target.value)}
               required
             />
           </div>
@@ -100,7 +101,7 @@ function Login() {
             />
           </div>
           <button type="submit" className="form-tab">
-           Sales Admin Login ➜
+           Login ➜
           </button>
         </form>
       </div>

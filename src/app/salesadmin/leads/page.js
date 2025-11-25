@@ -7,6 +7,7 @@ import scrollToElement from '../../component/scrollToElement.js';
 
 const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
+   const [Salesperson, setSalesperson] = useState([]);
   const [loading765, setLoading765] = useState(true);
   const [error765, setError765] = useState(null);
   const [editingField, setEditingField] = useState(null);
@@ -16,6 +17,8 @@ const page = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [filterurl, setfilterurl] = useState('');
+   const [salesrole, setsalesrole] = useState('');
+  
 
   const callStatusOptions765 = [
     { value: 'Select', label: '📌 Select' },
@@ -34,6 +37,31 @@ const page = () => {
     { value: 'Not Interested', label: '💤 Not Interested' },
     { value: 'Deal Closed', label: '✅ Deal Closed' }]
 
+
+     const fetchSalesperson = async () => {
+    try {
+       const token = localStorage.getItem('salestoken');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/persons`, {
+        method: 'GET',
+         headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      }});
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const data = await response.json();
+  
+ console.log(data)
+ setSalesperson(data.data)
+
+    } catch (err) {
+     
+    }
+  };
 
    
 
@@ -77,37 +105,6 @@ const page = () => {
 
     } catch (err) {
       setError765(err.message);
-      // Demo data for testing
-      setInquiries765([
-        {
-          id: 1,
-          inquiry_date: '2025-10-25',
-          buyer_name: 'John Doe',
-          phone_number: '+91 9876543210',
-          interested_in: 'plots',
-          assigned_to: 'Sukumar',
-          call_status: '',
-          follow_up_date: '',
-          lead_status: '',
-          scheduled_datetime: '',
-          comments: '',
-          source: ''
-        },
-        {
-          id: 2,
-          inquiry_date: '2025-10-26',
-          buyer_name: 'Jane Smith',
-          phone_number: '+91 9876543211',
-          interested_in: 'villas',
-          assigned_to: 'Sukumar',
-          call_status: '',
-          follow_up_date: '',
-          lead_status: '',
-          scheduled_datetime: '',
-          comments: '',
-          source: ''
-        }
-      ]);
     } finally {
       setLoading765(false);
     }
@@ -118,6 +115,18 @@ const page = () => {
      
           fetchInquiries765();
       }, [page,filterurl]);
+
+
+      useEffect(() => {
+     
+          fetchSalesperson();
+
+        setsalesrole(JSON.parse(localStorage.getItem('salesuser'))?.role)
+      }, []);
+
+      console.log(salesrole)
+
+      
 
         const onFilterChange = (filters,filterforurl) => {
   
@@ -146,6 +155,9 @@ console.log(statuvalue)
 if(statuvalue==='Select'){statuvalue='';}
 
     try {
+
+      document.querySelector('.loaderoverlay').style.display='flex';
+
       const token = localStorage.getItem('salestoken');
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads/${id}`, {
@@ -168,8 +180,12 @@ if(statuvalue==='Select'){statuvalue='';}
           inquiry._id === id ? { ...inquiry, [statusname]: statuvalue } : inquiry
         )
       );
+
+      document.querySelector('.loaderoverlay').style.display='none';
+
     } catch (err) {
       console.error('Error updating call status:', err);
+       document.querySelector('.loaderoverlay').style.display='none';
       // Update local state even if API fails (for demo)
       setInquiries765(prevInquiries =>
         prevInquiries.map(inquiry =>
@@ -179,7 +195,43 @@ if(statuvalue==='Select'){statuvalue='';}
     }
   };
 
+
+
+const assignlead = async (leadId,salesPersonId)=> {
+    console.log(leadId,salesPersonId)
+    
+      try {
+
+        document.querySelector('.loaderoverlay').style.display='flex';
+
+         const token = localStorage.getItem('salestoken');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/assign-lead`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), 
+        },
+        body: JSON.stringify({leadId,salesPersonId})
+      });
+
+      if (response.ok) {
+        alert('Lead Assigned Successfully!');
+        fetchInquiries765()
+          document.querySelector('.loaderoverlay').style.display='none';
+      } else {
+        alert('Error, Please try again.');
+          document.querySelector('.loaderoverlay').style.display='none';
+      }
+    } catch (error) {
+      alert('Network error. Please try again.');
+        document.querySelector('.loaderoverlay').style.display='none';
+      console.error('Error:', error);
+    }
+
+  }
   
+console.log(inquiries765)
 
 const openModal765 = (inquiryId, currentComments) => {
     setCurrentInquiryId765(inquiryId);
@@ -219,6 +271,8 @@ const openModal765 = (inquiryId, currentComments) => {
   return formatted;
 }
 
+
+
   return (
     <div className="container765">
       
@@ -237,7 +291,7 @@ const openModal765 = (inquiryId, currentComments) => {
 
   
          
-         <LeadFilterComponent onFilterChange={onFilterChange} inquiries765={inquiries765}/>
+         <LeadFilterComponent onFilterChange={onFilterChange} inquiries765={inquiries765} salesrole={salesrole}/>
 
        
 
@@ -275,7 +329,26 @@ const openModal765 = (inquiryId, currentComments) => {
                 <td>{inquiry.interested_in}</td>
                 <td className='leadlocation'>{inquiry.location||'N/A'}</td>
                 <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
-                <td>{inquiry.assigned_to}</td>
+                
+                <td>
+
+                 {salesrole === 'SALES_MANAGER' ?  <select
+                    className="status-select765"
+                    value={inquiry?.assigned_to?._id||''}
+                    onChange={(e) => assignlead(inquiry._id, e.target.value,)}
+                  >
+                     <option value={''}>
+                       📌 Select
+                      </option>
+
+                    {Salesperson.map((option,i) => (
+                      <option key={i} value={option._id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>: <td>{inquiry?.assigned_to?.name||'N/A'}</td>}
+                  </td>
+
                 <td>
                   <select
                     className="status-select765"

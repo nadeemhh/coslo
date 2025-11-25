@@ -149,7 +149,7 @@ const downloadCSV = () => {
         className="downloadleads"
         onClick={()=>(fetchleads('pdf'))}
       >
-        <i className="fas fa-file-pdf" style={{color:'#ff0000'}}></i> Download Pdf
+        <i className="fas fa-file-pdf" style={{color:'#ff0000'}}></i> Download pdf
       </button>
 
      <button 

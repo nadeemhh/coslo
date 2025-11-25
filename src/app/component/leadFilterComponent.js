@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import '../component/component-css/leadFilterComponent.css';
 import Importleads from './importleads.js';
+import SalespersonForm from './SalespersonForm.js';
 
-
-const FilterComponent = ({ onFilterChange,inquiries765 }) => {
+const FilterComponent = ({ onFilterChange,inquiries765,salesrole }) => {
   const [showFilters565, setShowFilters565] = useState(false);
   const [filters565, setFilters565] = useState({
     call_status: '',
@@ -95,14 +95,20 @@ const FilterComponent = ({ onFilterChange,inquiries765 }) => {
 
   return (
     <div className="filter-wrapper565">
+
+      <div style={{display:'flex',gap:'15px'}}>
       <button 
         className="refresh-btn765" 
-        style={{ marginBottom: '30px' }}
+        style={{ marginBottom: '10px' }}
         onClick={() => setShowFilters565(!showFilters565)}
       >
         {!showFilters565 && <i className="fas fa-filter"></i>} Filters {showFilters565 && <i className="fas fa-times" style={{color:'#ff3f3f',fontSize:'20px'}}></i>}
     
       </button>
+
+   {salesrole === 'SALES_MANAGER' && <SalespersonForm />}
+
+   </div>
 
       {showFilters565 && (
         <div className="filter-container565">
