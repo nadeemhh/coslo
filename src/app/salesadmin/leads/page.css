@@ -68,9 +68,11 @@
 
         .table-wrapper765 {
           background: white;
-          border-radius: 12px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-          overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  max-height: calc(100vh - 200px);  /* ← Added here */
+  overflow-y: auto;   
         }
 
         .table765 {
@@ -80,8 +82,11 @@
         }
 
         .table765 thead {
-          background: linear-gradient(135deg, #1890ff 0%, #0084ff 100%);
+        background: linear-gradient(135deg, #1890ff 0%, #0084ff 100%);
           color: white;
+          position: sticky;
+          top: 0;
+          z-index: 10;
         }
 
         .table765 th {
@@ -92,6 +97,8 @@
           text-transform: uppercase;
           letter-spacing: 0.5px;
           white-space: nowrap;
+         background: linear-gradient(135deg, #1890ff 0%, #0084ff 100%);
+
         }
 
         .table765 tbody tr {

@@ -139,12 +139,22 @@ const page = () => {
 
       const nextPage = () => {
         setPage((prevPage) => prevPage + 1);
+          // Scroll to top of table wrapper
+  const tableWrapper = document.querySelector('.table765');
+  if (tableWrapper) {
+    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
        
       };
     
       const prevPage = () => {
         setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
         setHasMore(true);
+          // Scroll to top of table wrapper
+  const tableWrapper = document.querySelector('.table765');
+  if (tableWrapper) {
+    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
       };
 
 
@@ -318,7 +328,7 @@ const openModal765 = (inquiryId, currentComments) => {
           <tbody>
             {inquiries765.map((inquiry,index) => (
               <tr key={index}>
-                <td>{index+1}</td>
+                <td>{(page - 1) * 20 + index + 1}</td>
                 <td>{extractDate(inquiry.inquiry_date)}</td>
                 <td><strong>{inquiry.buyer_name||'N/A'}</strong></td>
                 <td>
@@ -337,7 +347,7 @@ const openModal765 = (inquiryId, currentComments) => {
                     value={inquiry?.assigned_to?._id||''}
                     onChange={(e) => assignlead(inquiry._id, e.target.value,)}
                   >
-                     <option value={''}>
+                     <option value=''>
                        📌 Select
                       </option>
 
