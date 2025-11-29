@@ -37,7 +37,7 @@ export default function page() {
     
        console.log('called')
 
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?productType=${ptype}${searchText&&`&search=${searchText}`}&page=${page}&limit=25${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?productType=${ptype}${searchText&&`&search=${searchText}`}&page=${page}&limit=20${searchquery.length ? `&${encodeURIComponent(searchquery[0])}=${encodeURIComponent(searchquery[1])}` : ''}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -135,12 +135,26 @@ export default function page() {
 
       const nextPage = () => {
         setPage((prevPage) => prevPage + 1);
-       
+        // Scroll to top of table wrapper
+  const tableWrapper = document.querySelector('.orders-table');
+  if (tableWrapper) {
+    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+   sessionStorage.setItem('page',page + 1)
+
       };
     
       const prevPage = () => {
         setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
         setHasMore(true);
+         // Scroll to top of table wrapper
+  const tableWrapper = document.querySelector('.table765');
+  if (tableWrapper) {
+    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+   sessionStorage.setItem('page',page > 1 ? page - 1 : 1)
       };
 
 
@@ -287,7 +301,7 @@ localStorage.setItem('productType',e.target.value)
     ) :
             (data.map((data, index) => (
               <tr key={index}>
-                <td>#{index + 1}</td>
+                <td>{(page - 1) * 20 + index + 1}</td>
                 <td><img src={data.productImage} className='productimage67' width={'80px'} height={'80px'} style={{borderRadius: '50%',objectFit:'cover'}}  alt="" /></td>
                 <td>{data.productName}</td>
                 <td>{data.categoryName}</td>
@@ -309,7 +323,6 @@ localStorage.setItem('productType',e.target.value)
                 <td>
                 
                   <img src="\icons\editp.svg" alt="edit"  style={{cursor:'pointer'}} onClick={()=>{
-                   sessionStorage.setItem('page',page)
                    window.location.href = `/supplier/Products/add-update-product?pid=${data._id}`;
                 }}/>
              

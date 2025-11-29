@@ -1,7 +1,7 @@
 
 .orders-container {
   padding: 20px;
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
 }
 
 .orders-container h2 {
@@ -9,13 +9,16 @@
 }
 
 .table-wrapper {
-  overflow-x: auto;
+    overflow-x: auto;
+  max-height: calc(100vh - 200px);  /* ← Added here */
+  overflow-y: auto;  
+
 }
 
 .orders-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+min-width: 1000px;
 }
 
 .orders-table th,
