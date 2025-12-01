@@ -346,7 +346,7 @@ const isAmenitySelected = (amenity) => {
   };
 
   return (
-    <div style={styles.container676}>
+    <div style={styles.container676} className='Amenitiesparent'>
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"

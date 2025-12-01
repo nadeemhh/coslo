@@ -1767,7 +1767,8 @@ const handlepropertyimageUpload = (files) => {
             />
           </label>
 
-            <div style={{margin:'25px 0px'}}>
+          {(userData.productData?.images?.length > 0 ||
+  userData.productData?.awsImages?.length > 0)  && <div style={{margin:'25px 0px'}}>
             <div className="preview-container-878">
               {userData.productData.images.map((img, imgIndex) => (
                 <div key={imgIndex} className="preview-item-878">
@@ -1794,7 +1795,7 @@ const handlepropertyimageUpload = (files) => {
               ))}
 
             </div>
-            </div>
+            </div>}
 </div>}
 
   <div className="video-upload-section-878">
@@ -1835,7 +1836,7 @@ const handlepropertyimageUpload = (files) => {
         style={{ display: "none" }}
       />
     { userData.productData.productType !== "service" && <button onClick={triggerFileInput} className="upload-btn787">
-        <i className="fas fa-file-upload icon787"></i> {userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Document PDF</>}
+        <i className="fas fa-file-upload icon787"></i>{userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Document PDF</>}
       </button>}
       {userData.productData.pdfFile && (
         <p className="upload-status787">PDF uploaded successfully</p>
@@ -2056,7 +2057,7 @@ onClick={addreason}
 
 <div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
   
-    {productupdate &&  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'30px 0px'}} onClick={()=>{Updateproductdetails()}}>Update</button>}
+    {productupdate &&  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'40px 10px'}} onClick={()=>{Updateproductdetails()}}>Update</button>}
 
     </div>
 

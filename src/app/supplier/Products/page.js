@@ -149,7 +149,7 @@ export default function page() {
         setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
         setHasMore(true);
          // Scroll to top of table wrapper
-  const tableWrapper = document.querySelector('.table765');
+  const tableWrapper = document.querySelector('.orders-table');
   if (tableWrapper) {
     tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -279,7 +279,7 @@ localStorage.setItem('productType',e.target.value)
       <div className="table-wrapper">
         <table className="orders-table">
           <thead>
-            <tr>
+            <tr style={{position:'sticky',top:'0'}}>
             <th>##</th>
               <th>Thumbnail</th>
               <th style={{textTransform:'capitalize'}}>{ptype} Name</th>
