@@ -279,7 +279,7 @@ localStorage.setItem('productType',e.target.value)
       <div className="table-wrapper">
         <table className="orders-table">
           <thead>
-            <tr style={{position:'sticky',top:'0'}}>
+            <tr style={{position:'sticky',top:'0',zIndex:'10'}}>
             <th>##</th>
               <th>Thumbnail</th>
               <th style={{textTransform:'capitalize'}}>{ptype} Name</th>

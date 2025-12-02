@@ -40,7 +40,11 @@ function Login() {
     if (revert === 'planspage') {
       window.location.href = '/#cosloplans';
     } else {
+      if(data.sellerType==="Property"){
+        window.location.href = '/supplier/Products';
+      }else{
       window.location.href = '/supplier/dashboard';
+    }
            
     }
          })

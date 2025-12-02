@@ -1,3 +1,6 @@
+.main-content {
+    padding: 0px;
+}
 
 .orders-container {
   padding: 20px;
@@ -276,3 +279,12 @@ input:checked + .slider:before {
 }
 
 /* confarmation box end */
+
+
+/* Responsive Design */
+  @media (max-width: 768px) {
+.orders-container {
+  padding: 10px !important;
+}
+
+  }

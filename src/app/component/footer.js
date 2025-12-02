@@ -118,7 +118,8 @@ const Footer = () => (
       </div>
 
       <div className="footer-bottom">
-        <p>© 2024 Coslomart. All Rights Reserved.</p>
+        <p>© 2024 Coslomart. All Rights Reserved. <a href="https://ecarts.agency/" target="_blank" style={{color:'wheat'}}>Powered by ecarts.agency</a>
+</p>
       </div>
     </footer>
     </div>

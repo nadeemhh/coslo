@@ -1661,7 +1661,7 @@ const handlepropertyimageUpload = (files) => {
         <button className="back-button">
         <Goback/>
         </button>
-        <h2>Add/Update Product</h2>
+        <h2>Add/Update {userData.productData.productType||''}</h2>
      
       </div>
 
@@ -2123,7 +2123,7 @@ onClick={addreason}
           {/* Primary Group Selection */}
      {userData.productData.productType !== "service" && (!primaryGroup ? (
         <div style={{ marginBottom: '20px' }}>
-          <h4 style={{ marginBottom: '5px' }}>Select Primary Attribute:</h4>
+          <h4 style={{ marginBottom: '5px',whiteSpace:'nowrap' }}>Select Primary Attribute:</h4>
           <select
             className="select-attribute-671"
             value=""
@@ -2139,7 +2139,7 @@ onClick={addreason}
           </select>
         </div>
       ) : (
-        <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+        <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px',width:'fit-content',whiteSpace:'nowrap' }}>
           <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
           
          { userData.variationsData.length === 0 && <i className="fas fa-sync"

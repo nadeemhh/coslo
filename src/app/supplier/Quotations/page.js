@@ -105,7 +105,7 @@ str=str.charAt(0).toUpperCase() + str.slice(1)
      
       </div>
       
-      <div style={{display:'flex',justifyContent:'space-between',margin:'20px'}}>
+      <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:'20px'}}>
       <div style={{textAlign:'left'}}>
         <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       

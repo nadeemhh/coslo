@@ -267,11 +267,11 @@ if(sellerdata==='COSLO'){
         </div>}
 
    
-      <div style={{display:'flex',justifyContent:'space-between',margin:'20px'}}>
+      <div style={{display:'flex',flexDirection:'column',justifyContent:'space-between',flexWrap:'wrap',gap:'20px'}}>
 
-      <div style={{textAlign:'left'}}>
+      <div style={{display:'flex',justifyContent:'flex-start',alignItems:'center',flexWrap:'wrap',gap:'10px'}}>
 
-        <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+        <button style={{width:'230px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
@@ -295,26 +295,8 @@ if(sellerdata==='COSLO'){
 
       </button>
 
-      {/* <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px',margin:'5px'}}>
-      
-        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
-        
-          
-        <select
-        name="deliveryType"
-        id="deliveryType"
-        style={{ border: "none" }}
-        onChange={handleDeliveryTypeChange}
-      >
-        <option value="">Filter by Delivery Type</option>
-        <option value="In House">In House</option>
-        <option value="Coslo">Coslo</option>
-      </select>
 
-      </button> */}
-
-&nbsp;
-      <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
+      <button style={{width:'230px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         
@@ -329,7 +311,7 @@ if(sellerdata==='COSLO'){
       </select>
       </button>
 
-      <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px',margin:'5px'}}>
+      <button style={{width:'230px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
       
         <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
         

@@ -31,7 +31,8 @@ import { useState } from "react";
     };
   
     return (
-      <div className="date-range-picker">
+      <div className="date-range-picker" style={{marginBottom:'20px',display:'flex',flexWrap:'wrap',alignItems:'flex-end',textAlign:'left'}}>
+        <div>
         <label htmlFor="">Start Date</label>
         <div className="date-input">
           
@@ -42,6 +43,9 @@ import { useState } from "react";
             onChange={(e) => handleDateChange("start", e.target.value)}
           />
         </div>
+        </div>
+
+  <div>
         <label htmlFor="">End Date</label>
         <div className="date-input">
         
@@ -52,6 +56,8 @@ import { useState } from "react";
             onChange={(e) => handleDateChange("end", e.target.value)}
           />
         </div>
+        </div>
+
         {!isRangeSelected && (
           <button className="apply-button" onClick={handleApply}>
             Apply

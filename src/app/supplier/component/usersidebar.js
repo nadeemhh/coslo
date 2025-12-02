@@ -44,7 +44,7 @@ const typeMap = {
 
 let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
 
-  setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+  setmenuItems([ 
   //   { path: null, icon: 'fas fa-shopping-cart', label: 'Orders', childmenu:[
   //     { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'product orders' },
   //   { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'service orders' }
@@ -61,6 +61,7 @@ let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
   
   if(sellerdata.sellerType ==='Product'){
 setmenuItems(prevMenuItems => [
+  { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
     ...prevMenuItems,
     { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
     { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
@@ -71,6 +72,7 @@ setmenuItems(prevMenuItems => [
 
 if(sellerdata.sellerType ==='Service'){
 setmenuItems(prevMenuItems => [
+  { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
     ...prevMenuItems,
     { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
        { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
