@@ -1671,29 +1671,9 @@ const handlepropertyimageUpload = (files) => {
 
 {/* /// select product type  */}
 
-       <div style={{display:'flex',justifyContent:'space-between',gap:'15px',marginBottom:'20px'}}> 
-{/* {!productupdate && <div className="input-group">
-
-<label htmlFor="TypeofListing" style={{marginTop:'10px',fontSize:'16px'}}>Select Type of Listing</label>
-<select className="form-input" value={userData.productData.productType || ptype} onChange={(e) => {
-  resetPrimaryGroup()
-
-  handleProductDataChange("productType", e.target.value)
-  }}>
-           <option value="product">Product</option>
-        <option value="property">Property</option>
-          <option value="service">Service</option>
-      </select>
- </div>} */}
-
-
-{/* //// select tag */}
-
        {!productupdate && <div className="input-group">
 
-
-
-  <select className="form-input" value={selectedtag || ""}   onChange={(e) => {
+  <select className="form-input" value={selectedtag || ""} style={{width:'100%'}}   onChange={(e) => {
    
       let id=e.target.children[e.target.selectedIndex].getAttribute('id');
     handleProductDataChange("tag", id)
@@ -1711,8 +1691,6 @@ const handlepropertyimageUpload = (files) => {
     </select>
 
    </div>}
-
-</div>
 
 {userData.productData.productType === 'property' && <PropertyListingForm listingType={selectedtag} propertyvariations={propertyvariations} setpropertyvariations={setpropertyvariations} productupdate={productupdate}/>}
 
@@ -2067,7 +2045,7 @@ onClick={addreason}
         {userData.variationsData.map((pricing, index) => {
           
           return(
-          <div key={index} className="pricing-item" style={{border:pricing.stock ===0 ? '2px solid #ff0000':'1px solid #818181'}}>
+          <div key={index} className="pricing-item" style={{border:pricing.stock ===0 ? '2px solid #ff0000':'1px solid #818181',width:'fit-content'}}>
             <span>
               {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> {userData.productData.productType === "product" && <>/ Stock:<span style={{color:'#1389F0'}}>{pricing.stock}</span></>}
             </span>
@@ -2413,7 +2391,7 @@ onClick={addreason}
                 className="form-input small-input"
                 required
                 placeholder=""
-                style={{width:'100px'}}
+                style={{width:'60px'}}
                 value={variation.dimensions.length}
                 onChange={(e) => handleDimensionChange("length", e.target.value)}
               />
@@ -2427,7 +2405,7 @@ onClick={addreason}
                 className="form-input small-input"
                 placeholder=""
                 required
-                style={{width:'100px'}}
+                style={{width:'60px'}}
                 value={variation.dimensions.height}
                 onChange={(e) => handleDimensionChange("height", e.target.value)}
               />
@@ -2441,7 +2419,7 @@ onClick={addreason}
                 className="form-input small-input"
                 placeholder=""
                 required
-                style={{width:'100px'}}
+                style={{width:'60px'}}
                 value={variation.dimensions.width}
                 onChange={(e) => handleDimensionChange("width", e.target.value)}
               />

@@ -223,50 +223,23 @@ const RealEstateForm = () => {
              <div className="c818-form-group">
               <label className="c818-label" style={{textTransform:'unset'}}>I am interested in <i className="fas fa-arrow-down"></i></label>
               <div className="c818-checkbox-group">
-                <div className={`c818-checkbox-wrapper ${formData.tags.includes('6876642cf2a9732e3582191e') ? 'c818-checked' : ''}`}>
+
+               {tags.map((tag,index) => (
+                <div key={index} className={`c818-checkbox-wrapper ${formData.tags.includes(tag._id) ? 'c818-checked' : ''}`}>
                   <input
                     type="checkbox"
-                    id="plots"
-                    value="6876642cf2a9732e3582191e"
-                    checked={formData.tags.includes('6876642cf2a9732e3582191e')}
+                    id={tag.tagName}
+                    value={tag._id}
+                    checked={formData.tags.includes(tag._id)}
                     onChange={handleCheckboxChange}
                     className="c818-checkbox"
                   />
-                  <label htmlFor="plots" className="c818-checkbox-label">
+                  <label htmlFor={tag.tagName} className="c818-checkbox-label">
                     <i className="fa fa-map-marker c818-checkbox-icon"></i>
-                    Plots
+                    {tag.tagName}
                   </label>
-                </div>
-
-                <div className={`c818-checkbox-wrapper ${formData.tags.includes('68930da6e7b8fca340446c82') ? 'c818-checked' : ''}`}>
-                  <input
-                    type="checkbox"
-                    id="villas"
-                    value="68930da6e7b8fca340446c82"
-                    checked={formData.tags.includes('68930da6e7b8fca340446c82')}
-                    onChange={handleCheckboxChange}
-                    className="c818-checkbox"
-                  />
-                  <label htmlFor="villas" className="c818-checkbox-label">
-                    <i className="fa fa-home c818-checkbox-icon"></i>
-                    Villas
-                  </label>
-                </div>
-
-                <div className={`c818-checkbox-wrapper ${formData.tags.includes('68766454f2a9732e35821922') ? 'c818-checked' : ''}`}>
-                  <input
-                    type="checkbox"
-                    id="apartments"
-                    value="68766454f2a9732e35821922"
-                    checked={formData.tags.includes('68766454f2a9732e35821922')}
-                    onChange={handleCheckboxChange}
-                    className="c818-checkbox"
-                  />
-                  <label htmlFor="apartments" className="c818-checkbox-label">
-                    <i className="fa fa-building c818-checkbox-icon"></i>
-                    Apartments
-                  </label>
-                </div>
+                </div> ))}
+                
               </div>
             </div>
 

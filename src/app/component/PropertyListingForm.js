@@ -361,7 +361,7 @@ try {
                     Add More BHK
                   </button>
                 ) : (
-                  <div style={{ marginTop: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <div style={{ marginTop: '10px', display: 'flex',flexWrap:'wrap', gap: '8px', alignItems: 'center' }}>
                     <input
                       type="text"
                       value={newBhk}
@@ -380,6 +380,7 @@ try {
                         }
                       }}
                     />
+                    <div>
                     <button 
                       onClick={handleAddNewBhk}
                       style={{
@@ -403,11 +404,13 @@ try {
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        fontSize: '14px'
+                        fontSize: '14px',
+                        marginLeft:'5px'
                       }}
                     >
                       Cancel
                     </button>
+                    </div>
                   </div>
                 )}
               </div>

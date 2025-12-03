@@ -248,6 +248,8 @@ margin: 10px;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+    gap: 10px;
 }
 
 .actions {

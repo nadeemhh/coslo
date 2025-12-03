@@ -109,19 +109,16 @@ function Login() {
 
 
        useEffect(() => {
-      
-                  function getCookie(name) {
-                      let cookies = document.cookie.split("; ");
-                      for (let cookie of cookies) {
-                          let [key, value] = cookie.split("=");
-                          if (key === name) return value;
-                      }
-                      return null;
-                  }
-                  
-                     
+
                   if (localStorage.getItem('token')) {
-                    window.location.href = '/supplier/dashboard';
+
+                let data = JSON.parse(localStorage.getItem('sellerdata'));
+                
+                    if(data.sellerType==="Property"){
+        window.location.href = '/supplier/Products';
+      }else{
+      window.location.href = '/supplier/dashboard';
+    }
                 }
               
                 },[]);
