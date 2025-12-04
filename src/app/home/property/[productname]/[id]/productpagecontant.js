@@ -602,8 +602,7 @@ function formatPhoneNumber(number) {
           {/* Buttons */}
           
             <div className="button-group" style={{marginTop:'20px'}}>
-     {isuser &&
-           <>
+  
             <button className="contact-supplier pb"  onClick={toggleModal} >
             Request Quotation <i className="fas fa-arrow-right"></i>
             </button>
@@ -611,14 +610,6 @@ function formatPhoneNumber(number) {
             {data?.productType === "property" && data?.pdfFile && <a href={data.pdfFile} className="LegalDocument pb"   target="_blank" >
             Document PDF <i className="fas fa-file-contract"></i>
             </a>}
-
-          {data?.productType !== "property"  &&  (data.variations[showslab].stock !== 0 && isuser && <button className="add-to-cart pb" onClick={()=>{addtocart(data.variations[showslab]._id)}}>
-              <i className="fas fa-shopping-cart"></i> Add to Cart
-            </button>)
-          }
-
-            </>
-             }
 
 
 {data?.productType === "property"  &&  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
