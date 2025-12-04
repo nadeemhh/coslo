@@ -329,14 +329,14 @@ const openModal765 = (inquiryId, currentComments) => {
             {inquiries765.map((inquiry,index) => (
               <tr key={index}>
                 <td>{(page - 1) * 20 + index + 1}</td>
-                <td>{extractDate(inquiry.inquiry_date)}</td>
+                <td>{extractDate(inquiry.inquiry_date)||'N/A'}</td>
                 <td><strong>{inquiry.buyer_name||'N/A'}</strong></td>
                 <td>
                   <a href={`tel:${inquiry.phone_number}`} className="phone-link765">
                     {inquiry.phone_number||'N/A'}
                   </a>
                 </td>
-                <td>{inquiry.interested_in}</td>
+                <td>{inquiry.interested_in||'N/A'}</td>
                 <td className='leadlocation'>{inquiry.location||'N/A'}</td>
                 <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
                 

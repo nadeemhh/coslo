@@ -101,7 +101,7 @@ const deletewishlist = (id) => {
       <Link href={`/home/products/${slugifyurl(wishlist.product.productName)}/${wishlist.product._id}`}>
       <div className="product-image">
         <img
-          src={wishlist.product.variations[0].productImages[0]} // Replace with actual image URL
+          src={wishlist.product.variations[0].productImages[0]||wishlist.product.images[0]} // Replace with actual image URL
           alt={wishlist.product.productName}
           style={{width:'auto',height:'200px'}}
         />

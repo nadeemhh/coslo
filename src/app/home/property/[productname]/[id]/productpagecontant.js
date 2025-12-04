@@ -295,37 +295,27 @@ function setproductType(productType) {
 
 const sendquotation = () => {
  
-
-      // Accessing input fields using querySelector
       const name = document.querySelector('.modalform input[name="name"]').value;
       const phone = document.querySelector('.modalform input[name="phone"]').value;
-      const email = document.querySelector('.modalform input[name="email"]').value;
-      const details = document.querySelector('.modalform textarea[name="details"]').value;
   
-      console.log( name, phone, email, details ,data._id );
-
-    
+      console.log( name, phone);
 
 document.querySelector('.loaderoverlay').style.display='flex';
 
 
   const userData = {
-    message:details,
-    productId:data._id,
+    name,
     phone,
-
+    source:new URLSearchParams(window.location.search).get("source")||'our website lead'
   };
 
 console.log('send quotation',userData)
 
 
-  const token = localStorage.getItem('buyertoken');
-
-  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/`, {
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/leadQuotation/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
     },
     body: JSON.stringify(userData),
   })
@@ -728,17 +718,14 @@ function formatPhoneNumber(number) {
             <i className="fa fa-times"></i>
           </button>
           </div>
-            <h2>Ask your queries here!</h2>
-            <p>The Supplier will get back to you soon!</p>
+            <h2>Property Inquiry</h2>
             <form className='modalform' onSubmit={(e)=>{
 
              e.preventDefault();
               sendquotation()
               }}>
             <input type="text" name="name" placeholder="Type your name *" required />
-        <input type="number" name="phone" placeholder="Type your phone no*" required />
-        <input type="email" name="email" placeholder="Type your email*" required />
-        <textarea name="details" placeholder="Type Your Message" required></textarea>
+            <input type="number" name="phone" placeholder="Type your phone number*" required style={{marginBottom:'20px'}} />
               <button type="submit">Submit</button>
             </form>
           </div>
