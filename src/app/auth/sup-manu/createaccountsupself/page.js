@@ -480,7 +480,7 @@ setwaitconfirmationOpen(false)
 
 }}>
                     <h1 className="">Self Registration</h1>
-                    {sellertype == 'Product' && <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>}
+                    {sellertype == 'Product' ? <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>:(sellertype === 'Property' && <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}> Coslomart will charge a 2% commission on the total project cost for every property deal closed.</p>)}
 
                   
 
