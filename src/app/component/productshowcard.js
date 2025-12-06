@@ -71,7 +71,7 @@ pageurl=`/home/product/${slugifyurl(pname)}/${pid}`;
 
         {/* Title and Supplier */}
         <a href={pageurl}>
-        <p className="product-title product-title-height" >{pname.length > 40 ? (pname.substring(0, 40) + '...').toUpperCase() : pname.toUpperCase()}
+        <p className="product-title product-title-height" >{pname.length > 40 ? (pname.substring(0, 40) + '...') : pname}
         </p>
         <p className="product-supplier">{seller.businessName}</p>
         </a>

@@ -76,6 +76,7 @@ function Page() {
 AccountNumber:"",
 IFSCCode:"",
 BankName:"",
+serviceChargeAccepted:false
       });
     console.log(user,gstImages,sellertype)
      
@@ -166,6 +167,11 @@ BankName:"",
         formData.append("qualityCert", user.ComplianceNo);
         formData.append("sellertype", sellertype);
         formData.append("businessName", user.company);
+
+         if(sellertype === 'Property'){
+           formData.append("serviceChargeAccepted", user.serviceChargeAccepted);
+            
+         }
 
          if(sellertype === 'Property' && user.role === 'Organization'){
            formData.append("gstNumber", user.gstNo);
@@ -461,6 +467,12 @@ setwaitconfirmationOpen(false)
     }
     
     else if (sellertype === 'Property'){
+
+      if(!user.serviceChargeAccepted){
+       alert('Please accept the 2% service charge. Click on the checkbox to accept.')
+       return;
+      }
+
         if(!user.role){
       alert('Select a role: Are you an individual or an organization?')
       return;
@@ -480,7 +492,7 @@ setwaitconfirmationOpen(false)
 
 }}>
                     <h1 className="">Self Registration</h1>
-                    {sellertype == 'Product' ? <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>:(sellertype === 'Property' && <ul style={{marginBottom:'30px'}}> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>Coslomart will charge a 2% service charge on the total project cost for every property deal closed</li> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>End to end service - From property site visit to registration</li></ul>)}
+                    {sellertype == 'Product' ? <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>:(sellertype === 'Property' && <ul style={{marginBottom:'30px'}}> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>We provide end-to-end services — from property site visits to final registration.</li></ul>)}
 
                   
 
@@ -628,7 +640,7 @@ setwaitconfirmationOpen(false)
 
 
           {sellertype === 'Property' && <> <div className="radio-tab">
-                          <p style={{marginTop:'50px',marginBottom:'10px'}}>
+                          <p style={{marginTop:'30px',marginBottom:'10px'}}>
                             <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Role:</span> <span>Are you an individual or an organization?</span>
                             </p>
 
@@ -644,18 +656,33 @@ setwaitconfirmationOpen(false)
 
                          {user.role ==='Organization' && <> <div className="form-tab">
             <label htmlFor="company">Enter Company Name</label>
-            <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} />
+            <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} required/>
           </div>
           
           <div className="form-tab">
             <label htmlFor="gstNo">Enter GST Number</label>
             
-            <input type="text" id="boldinput66" name="gstNo" value={user.gstNo} onChange={handleOnChange}  />
+            <input type="text" id="boldinput66" name="gstNo" value={user.gstNo} onChange={handleOnChange}  required/>
 
           </div>
           </>
           }
           </>}
+
+         {sellertype === 'Property' && <div className="radio-tab" style={{display:'flex',alignItems:'center',gap:'10px',marginTop:'20px',color:'green'}}>
+                           <input
+          type="checkbox"
+          id="acceptServiceCharge"
+          onChange={(e) => setUser({ ...user, serviceChargeAccepted: e.target.checked })}
+          style={{ width: "20px", height: "20px"}}
+        />
+        <label
+          htmlFor="acceptServiceCharge"
+          style={{ fontSize: "14px", cursor: "pointer" }}
+        >
+          I agree to the 2% service charge terms.
+        </label>
+                        </div>}
 
 
                         </> }
