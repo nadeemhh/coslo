@@ -8,6 +8,9 @@ const nextConfig = withPWA({
     disable: process.env.NODE_ENV === 'development'
   })({
     // your existing Next.js config options can go here
+      experimental: {
+    turbo: false,
+  },
   });;
 
 export default nextConfig;
