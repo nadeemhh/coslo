@@ -269,7 +269,7 @@ if(updateCategory !== false){
   return (
     <div className="modal-overlay">
       <div className="addcategory">
-        <div className="form" style={{ width: '600px',height:'90vh',overflowY:'auto' }}>
+        <div className="form categoryform">
           <div className="form-group">
             <label className="form-label">Enter Category Name</label>
             <input
@@ -293,7 +293,7 @@ if(updateCategory !== false){
         </div>
 
          <div className="input-group">
-          <label htmlFor="Keywords">Enter Keywords</label>
+          <label htmlFor="Keywords">Enter Keywords ("," Comma separated)</label>
           <textarea className='form-input' placeholder="" value={categorykeywords} onChange={(e) => setCategorykeywords(e.target.value)}></textarea>
         </div>
           

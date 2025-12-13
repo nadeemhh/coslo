@@ -531,6 +531,12 @@ margin-top: 20px;
   gap: 20px;
 }
 
+.categoryform{
+  width: 600px;
+  height: 90vh;
+  overflow-y: auto;
+}
+
 /* modal  start end*/
 
 
@@ -647,3 +653,9 @@ margin-top: 20px;
 }
 
 /* //// nested category  end*/
+
+  @media (max-width: 1046px) {
+.categoryform{
+  width: 90vw;
+}
+  }
