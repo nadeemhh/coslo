@@ -210,3 +210,7 @@
 
 
   /* card for super admin ends */
+
+     @media (max-width: 1046px) {
+      .main-content{padding: 10px;}
+     }

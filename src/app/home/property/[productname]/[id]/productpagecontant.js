@@ -618,12 +618,6 @@ function formatPhoneNumber(number) {
           }
 
           </div>
-             { !isuser && <div className="button-group">
-           <a href="/home/login" style={{color:'blue',marginTop:'20px'}}>
-            Log in or create an account to buy this product. <i className="fas fa-arrow-right"></i>
-            </a>
-            </div>}
-  
         </div>
 
       </div>

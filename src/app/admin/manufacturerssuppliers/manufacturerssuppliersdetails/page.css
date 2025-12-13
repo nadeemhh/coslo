@@ -19,6 +19,13 @@ gap: 20px;
   color: #333;
 }
 
+.details877{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 50px;
+}
+
 .card-details-container {
 width: fit-content;
   background-color: #ffffff;
@@ -108,3 +115,16 @@ width: fit-content;
 .orders-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
+
+
+
+     @media (max-width: 1046px) {
+      .content-wrapper{padding: 5px;}
+
+.details877{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+     }

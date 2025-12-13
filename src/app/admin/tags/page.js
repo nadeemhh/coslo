@@ -363,7 +363,7 @@ if(updatetag !== false){
   return (
     <div className="modal-overlay">
       <div className="addcategory">
-        <div className="form" style={{ width: '600px' }}>
+        <div className="form tagform">
           <div className="form-group">
             <label className="form-label">Enter Tag Name</label>
             <input

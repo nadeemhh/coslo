@@ -199,6 +199,8 @@ input:checked + .slider:before {
   gap: 20px;
 }
 
+.tagform{width: 600px;}
+
 /* modal  start end*/
 
 
@@ -491,3 +493,7 @@ input:checked + .slider:before {
 
 
 /* modal  end*/
+
+     @media (max-width: 1046px) {
+.tagform{width: 90vw;}
+     }

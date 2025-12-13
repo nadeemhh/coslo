@@ -94,7 +94,7 @@ console.log(data)
     <div className="order-details">
       {data && (
         <div className="add-product-container">
-          <div className="basic-info" style={{ minWidth: '600px' }}>
+          <div className="basic-info">
             <h2>Platform Customisation</h2>
 
             <div className="input-group">

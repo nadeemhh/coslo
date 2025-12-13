@@ -72,8 +72,8 @@ export default function Page() {
       </div>
 
       <div className="add-product-container">
-        <img src="\icons\iii.png" alt="" width={'400px'}/>
-      <div className="basic-info">
+        <img src="\icons\iii.png" className='icon87'/>
+      <div className="basic-info" style={{margin:'5px'}}>
         <h2>Employee Information</h2>
         {error && <p style={{color:'red',padding:'10px'}}>{error}</p>}
         <div className="input-group">

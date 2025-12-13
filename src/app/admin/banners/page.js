@@ -213,9 +213,8 @@ console.log(data)
     
 
    { data &&  <div className="add-product-container">
-        {/* <img src="\icons\iiii.svg" alt="" width={'400px'}/> */}
-      <div className="basic-info" style={{width:'600px'}}>
-        <h2>Upload Home Page Banners</h2>
+      <div className="basic-info" >
+        <h2 style={{textAlign:'left'}}>Upload Home Page Banners</h2>
         
 
         <div className="image-uploader" style={{marginBottom:'50px'}}>

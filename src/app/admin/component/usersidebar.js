@@ -1,6 +1,7 @@
 "use client";
 
 import '../../component/component-css/usersidebar.css';
+import '../../component/component-css/adminpanelayout.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useAuthCheck from '../../useAuthCheck.js';

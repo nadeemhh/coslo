@@ -191,7 +191,7 @@ export default function Page() {
      
       </div>
 
-<div style={{display:'flex',justifyContent:'space-between',marginTop:'50px'}}>
+<div className='details877'>
     <div className="card-details-container">
     <div style={{display:'flex',gap:'10px',alignItems:'center',textAlign:'left',marginBottom:'10px'}}>
       <div>

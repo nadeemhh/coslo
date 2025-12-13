@@ -139,9 +139,6 @@
   gap: 16px;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 20px 0px;
-  margin-bottom: 50px;
-  margin-left: 40px;
 }
 
 .card {
@@ -212,3 +209,7 @@
 
 
   /* card for super admin ends */
+
+   @media (max-width: 1046px) {
+      .main-content{padding: 10px;}
+     }
