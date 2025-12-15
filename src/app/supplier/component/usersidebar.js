@@ -18,7 +18,7 @@ const Usersidebar = () => {
   useEffect(() => {
 
 let sellerdata =JSON.parse(localStorage.getItem('sellerdata'))
-
+let serviceChargeAccepted=sellerdata.serviceChargeAccepted||false;
 console.log(sellerdata.sellerType)
 
 localStorage.setItem('productType',sellerdata.sellerType.toLowerCase())
@@ -44,20 +44,16 @@ const typeMap = {
 
 let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
 
-  setmenuItems([ 
-  //   { path: null, icon: 'fas fa-shopping-cart', label: 'Orders', childmenu:[
-  //     { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'product orders' },
-  //   { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'service orders' }
-  // ]},
-    { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1]||'fas fa-box', label: listingtype},
+  setmenuItems([
+    { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1]||'fas fa-box', label: listingtype}, ])
+
+  if(!serviceChargeAccepted){
+  setmenuItems(prevMenuItems =>[
+      ...prevMenuItems,
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
     { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
-    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
-  
-  ]
-  
-  )
-
+    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' } ])
+  }
   
   if(sellerdata.sellerType ==='Product'){
 setmenuItems(prevMenuItems => [
