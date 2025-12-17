@@ -336,7 +336,7 @@ const openModal765 = (inquiryId, currentComments) => {
                     {inquiry.phone_number||'N/A'}
                   </a>
                 </td>
-                <td>{inquiry.interested_in||(inquiry?.adDetails?.adName.startsWith('SP-') && inquiry?.adDetails?.adName.replace('SP-','').replace('-AD',''))||'N/A'}</td>
+                <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-','').replace('-AD','') : (inquiry.interested_in || 'N/A')}</td>
                 <td className='leadlocation'>{inquiry.location||'N/A'}</td>
                 <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
                 

@@ -76,7 +76,7 @@ function Page() {
 AccountNumber:"",
 IFSCCode:"",
 BankName:"",
-serviceChargeAccepted:false
+serviceChargeAccepted:null
       });
     console.log(user,gstImages,sellertype)
      
@@ -492,7 +492,7 @@ setwaitconfirmationOpen(false)
 
 }}>
                     <h1 className="">Self Registration</h1>
-                    {sellertype == 'Product' ? <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>:(sellertype === 'Property' && <ul style={{marginBottom:'30px'}}> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>We provide end-to-end services — from property site visits to final registration.</li></ul>)}
+                    {sellertype == 'Product' && <p style={{fontSize:'1.3rem',color:'#1389F0',marginTop:'10px',fontWeight:'600'}}> I want to Sell directly to Buyers With ZERO Commission</p>}
 
                   
 
@@ -669,20 +669,22 @@ setwaitconfirmationOpen(false)
           }
           </>}
 
-         {sellertype === 'Property' && <div className="radio-tab" style={{display:'flex',alignItems:'center',gap:'10px',marginTop:'20px',color:'green'}}>
-                           <input
-          type="checkbox"
-          id="acceptServiceCharge"
-          onChange={(e) => setUser({ ...user, serviceChargeAccepted: e.target.checked })}
-          style={{ width: "20px", height: "20px"}}
-        />
-        <label
-          htmlFor="acceptServiceCharge"
-          style={{ fontSize: "14px", cursor: "pointer" }}
-        >
-          I agree to the 2% service charge terms.
-        </label>
+            {sellertype === 'Property' && <div className="radio-tab">
+                          <p style={{marginTop:'30px',marginBottom:'10px'}}>
+                            <span htmlFor='role'  style={{textAlign:'left',fontSize:'19px',fontWeight:'600',}}>Select Payment Modal :</span>
+                            </p>
+             <div className='fo2'>
+                                <input type='radio' className='btn' name='Modal' onClick={()=>(setUser({ ...user, serviceChargeAccepted: true }))} />
+                                <label>2% commision</label>
+                            </div>
+
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='Modal'  onClick={()=>(setUser({ ...user, serviceChargeAccepted: false }))} />
+                                <label>subscription</label>
+                            </div>
                         </div>}
+
+         {user.serviceChargeAccepted === true && <ul style={{marginBottom:'30px'}}> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>We provide end-to-end services — from property site visits to final registration.</li></ul>}
 
 
                         </> }
