@@ -4,6 +4,7 @@ import './page.css'
 import extractDate from '../../component/extdate.js';
 import LeadFilterComponent from '../../component/leadFilterComponent.js';
 import scrollToElement from '../../component/scrollToElement.js';
+import slugifyurl from '../../component/slugifyurl.js';
 
 const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
@@ -19,6 +20,51 @@ const page = () => {
   const [filterurl, setfilterurl] = useState('');
    const [salesrole, setsalesrole] = useState('');
   
+    // New states for property modal
+  const [showPropertyModal676, setShowPropertyModal676] = useState(false);
+  const [properties676, setProperties676] = useState([]);
+  const [loadingProperties676, setLoadingProperties676] = useState(false);
+
+
+  // Fetch dummy properties from server
+  const fetchProperties676 = async (id) => {
+    setLoadingProperties676(true);
+    try {
+     
+       const token = localStorage.getItem('salestoken');
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads/${id}/looking-for`, {
+        method: 'GET',
+         headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      }});
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const data = await response.json();
+  
+ console.log(data)
+
+      setProperties676(data.data);
+    } catch (err) {
+      console.error('Error fetching properties:', err);
+    } finally {
+      setLoadingProperties676(false);
+    }
+  };
+
+  const openPropertyModal676 = (id) => {
+    setShowPropertyModal676(true);
+    fetchProperties676(id);
+  };
+
+  const closePropertyModal676 = () => {
+    setShowPropertyModal676(false);
+    setProperties676([]);
+  };
 
   const callStatusOptions765 = [
     { value: 'Select', label: '📌 Select' },
@@ -314,6 +360,7 @@ const openModal765 = (inquiryId, currentComments) => {
               <th>Buyer Name</th>
               <th>Phone Number</th>
               <th>Interested In</th>
+              <th>Looking for</th>
               <th>Location</th>
               <th>Budget</th>
               <th>Assigned To</th>
@@ -337,6 +384,16 @@ const openModal765 = (inquiryId, currentComments) => {
                   </a>
                 </td>
                 <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-','').replace('-AD','') : (inquiry.interested_in || 'N/A')}</td>
+                 <td>
+                    
+                  {inquiry.lookingfor ? <button 
+                      className="showPropertiesBtn676"
+                      onClick={()=>(openPropertyModal676(inquiry._id))}
+                    >
+                      Show Properties
+                    </button>:'N/A'}
+                  
+                    </td>
                 <td className='leadlocation'>{inquiry.location||'N/A'}</td>
                 <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
                 
@@ -511,6 +568,49 @@ const openModal765 = (inquiryId, currentComments) => {
           </div>
         </div>
       )}
+
+      {/* Property Modal */}
+        {showPropertyModal676 && (
+          <div className="modalOverlay676" onClick={closePropertyModal676}>
+            <div className="modalContent676" onClick={(e) => e.stopPropagation()}>
+              <div className="modalHeader676">
+                <h3 className="modalTitle676">Properties</h3>
+                <button className="closeBtn676" onClick={closePropertyModal676}>
+                  ×
+                </button>
+              </div>
+              <div className="modalBody676">
+                {loadingProperties676 ? (
+                  <div className="loadingContainer676">Loading properties...</div>
+                ) : (
+                  <div className="propertyGrid676">
+                    {properties676.map((property,index) => (
+                      <div key={index} className="propertyCard676">
+                        <img 
+                          src={property?.images.length?property?.images[0]:property.variations[0].propertyImages[0]} 
+                          alt={property.productName}
+                          className="propertyImage676"
+                        />
+                        <div className="propertyContent676">
+                          <h4 className="propertyName676">{property.productName}</h4>
+                          <a 
+                            href={`/home/property/${slugifyurl(property.productName)}/${property._id}`} 
+                            className="propertyLink676"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            View Details →
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        
     </div>
   );
 };
