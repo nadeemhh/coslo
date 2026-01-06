@@ -193,3 +193,10 @@ label{text-align: left;}
   .form-tab select {
     border: 2px solid rgb(0, 0, 0);
   }
+
+
+      @media (max-width: 480px) {
+         .right-container {
+    padding:0px;
+}
+        }

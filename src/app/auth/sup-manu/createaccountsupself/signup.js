@@ -6,6 +6,7 @@ import  { useState,useEffect } from "react";
 import enableshiprocket from '../../../component/enableshiprocket.js';
 import IndianStates from '../../../component/indianstate.js'
  import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
+ import PropertyPlansTable from '../../../component/PropertyPlansTable.js';
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -80,9 +81,6 @@ serviceChargeAccepted:null
       });
     console.log(user,gstImages,sellertype)
      
-    
-
-
     
     const handlepolicydata = () => {
          
@@ -468,8 +466,8 @@ setwaitconfirmationOpen(false)
     
     else if (sellertype === 'Property'){
 
-      if(!user.serviceChargeAccepted){
-       alert('Please accept the 2% service charge. Click on the checkbox to accept.')
+      if(user.serviceChargeAccepted === null){
+       alert('Please Select Payment Modal')
        return;
       }
 
@@ -683,6 +681,8 @@ setwaitconfirmationOpen(false)
                                 <label>subscription</label>
                             </div>
                         </div>}
+
+                      {user.serviceChargeAccepted === false && <PropertyPlansTable/>}
 
          {user.serviceChargeAccepted === true && <ul style={{marginBottom:'30px'}}> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{fontSize:'1.2rem',color:'#1389F0',marginTop:'10px',fontWeight:'500'}}>We provide end-to-end services — from property site visits to final registration.</li></ul>}
 
