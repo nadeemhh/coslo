@@ -241,7 +241,7 @@ serviceChargeAccepted:null
         enableshiprocket(data.sellerId,'/home','We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
 
               }else{
-                // window.location.href = '/home';
+               window.location.href = '/home';
                 alert('We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
               }
 
@@ -674,13 +674,19 @@ setwaitconfirmationOpen(false)
                             </p>
              <div className='fo2'>
                                 <input type='radio' className='btn' name='Modal' onClick={()=>(setUser({ ...user, serviceChargeAccepted: true }))} />
-                                <label>2% commision</label>
+                                <label>2% Commision</label>
                             </div>
 
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='Modal'  onClick={()=>(setUser({ ...user, serviceChargeAccepted: false }))} />
-                                <label>subscription</label>
+                                <label>Subscription</label>
                             </div>
+
+                            <div className='fo2'>
+                                <input type='radio' className='btn' name='Modal'  onClick={()=>(setUser({ ...user, serviceChargeAccepted: false }))} />
+                                <label>Free</label>
+                            </div>
+
                         </div>}
 
                       {user.serviceChargeAccepted === false && <PropertyPlansTable/>}
