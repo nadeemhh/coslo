@@ -80,7 +80,7 @@ gap: 20px;
 .plan-details {
 background-color: #D9F0FF;
 width: 430px;
-height: 245px;
+min-height: 150px;
 display: flex;
 flex-direction: column;
 justify-content: space-between;

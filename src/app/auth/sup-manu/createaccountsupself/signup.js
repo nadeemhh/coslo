@@ -167,6 +167,7 @@ serviceChargeAccepted:null
         formData.append("businessName", user.company);
 
          if(sellertype === 'Property'){
+
            formData.append("serviceChargeAccepted", user.serviceChargeAccepted);
             
          }
@@ -240,7 +241,7 @@ serviceChargeAccepted:null
         enableshiprocket(data.sellerId,'/home','We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
 
               }else{
-                window.location.href = '/home';
+                // window.location.href = '/home';
                 alert('We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
               }
 

@@ -293,7 +293,7 @@ localStorage.setItem('productType',e.target.value)
           <tbody>
             {data.length === 0 && isfetching===false ? (
       <tr>
-        <td colSpan="7" style={{ textAlign: "center", padding: "20px",color:'#ed2f2f' }}>
+        <td colSpan="8" style={{ textAlign: "center", padding: "20px",color:'#ed2f2f' }}>
           <strong>Nothing Found</strong>
          
         </td>

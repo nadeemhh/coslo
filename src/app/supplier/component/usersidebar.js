@@ -47,11 +47,10 @@ let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
   setmenuItems([
     { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1]||'fas fa-box', label: listingtype}, ])
 
-  if(!serviceChargeAccepted){
+  if(sellerdata.sellerType ==='Property' && !serviceChargeAccepted){
   setmenuItems(prevMenuItems =>[
       ...prevMenuItems,
     { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-    { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
     { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' } ])
   }
   
@@ -62,7 +61,10 @@ setmenuItems(prevMenuItems => [
     { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
     { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
        { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+         { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' } ,
            { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+            { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
   ])
 }
 
@@ -73,6 +75,7 @@ setmenuItems(prevMenuItems => [
     { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
        { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
            { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+           { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
   ])
 }
 

@@ -6,9 +6,8 @@ const PropertyPlansTable = () => {
   const planData = {
     monthly: {
       price: '3000',
-      propertyListing: '5',
+      propertyListing: true,
       leads: '1 TO 5',
-      aiTool: false,
       refund: false,
       perDayCost: '100'
     },
@@ -16,15 +15,13 @@ const PropertyPlansTable = () => {
       price: '30000',
       propertyListing: true,
       leads: '10 TO 15',
-      aiTool: true,
       refund: true,
       perDayCost: '82'
     },
     free: {
       price: '0',
-      propertyListing: '5',
+      propertyListing: true,
       leads: '0',
-      aiTool: false,
       refund: false,
       perDayCost: '0'
     }
@@ -275,9 +272,7 @@ const PropertyPlansTable = () => {
           <tr className="row876">
             <td className="cell876 feature876">Unlimited Property Listing</td>
             <td className="cell876 value876">
-            {selectedPlan !== 'yearly' ? <>{currentPlan.propertyListing}</>:
               <i className="fa fa-check icon876"></i>
-            }
             </td>
           </tr>
           <tr className="row876">
@@ -286,12 +281,12 @@ const PropertyPlansTable = () => {
               <i className="fa fa-check icon876"></i>
             </td>
           </tr>
-          <tr className="row876">
+          {/* <tr className="row876">
             <td className="cell876 feature876">Recommended Seller Badge Display</td>
             <td className="cell876 value876">
               <i className="fa fa-check icon876"></i>
             </td>
-          </tr>
+          </tr> */}
           <tr className="row876">
             <td className="cell876 feature876">Legal Certificate Display</td>
             <td className="cell876 value876">
@@ -322,17 +317,7 @@ const PropertyPlansTable = () => {
               <i className="fa fa-check icon876"></i>
             </td>
           </tr>
-          <tr className="row876">
-            <td className="cell876 feature876">AI Tool Access To Edit The Images</td>
-            <td className="cell876 value876">
-              {currentPlan.aiTool ? (
-                <i className="fa fa-check icon876"></i>
-              ) : (
-                <i className="fa fa-times icon876 cross876"></i>
-              )}
-            </td>
-          </tr>
-          <tr className="row876">
+         {selectedPlan !== 'free' && <tr className="row876">
             <td className="cell876 feature876">100% Refund If The Zero Leads/sales</td>
             <td className="cell876 value876">
               {currentPlan.refund ? (
@@ -341,11 +326,11 @@ const PropertyPlansTable = () => {
                 <i className="fa fa-times icon876 cross876"></i>
               )}
             </td>
-          </tr>
-          <tr className="row876">
+          </tr>}
+          {selectedPlan !== 'free' && <tr className="row876">
             <td className="cell876 feature876">Per Day Cost</td>
             <td className="cell876 value876">{currentPlan.perDayCost}</td>
-          </tr>
+          </tr>}
         </tbody>
       </table>
 

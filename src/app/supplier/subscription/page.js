@@ -2,6 +2,7 @@
 import './page.css'
 import Link from 'next/link';
 import PlansTable from '../../component/planstables.js';
+import PropertyPlansTable from '../../component/PropertyPlansTable.js';
 import { useState,useEffect } from "react";
 
 
@@ -12,7 +13,10 @@ export default function page() {
   const [subscriptionHistory,setsubscriptionHistory] = useState([]);
   const [showdata,setshowdata] = useState(null);
   const [cplan, setcplan] = useState(''); 
-  
+   const [sellertype, setsellertype] = useState(''); 
+   
+console.log(sellertype)
+
     const handledata = () => {
      
       document.querySelector('.loaderoverlay').style.display='flex';
@@ -95,7 +99,7 @@ export default function page() {
 
     useEffect(() => {
       handledata();
-     
+     setsellertype(JSON.parse(localStorage.getItem('sellerdata'))?.sellerType)
     },[]);
   
 
@@ -200,15 +204,16 @@ async function handlebuy(plan) {
         </div>
         {/* <button className="cancel-button"  onClick={toggleconfirmation}>Cancel Subscription</button> */}
       </div>
-      {data.plan !== 'TRIAL' && data.plan !== 'FREE' && <div className="change-plan-section">
+       <div className="change-plan-section">
         <label className="change-plan-label" htmlFor="plan-select">
           Change Plan:
         </label>
         <select id="plan-select" className="plan-select" value={cplan} onChange={handleChange}>
+           <option value="">Select Plan</option>
           <option value="MONTHLY">Monthly</option>
           <option value="YEARLY">Yearly</option>
         </select>
-      </div>}
+      </div>
     {data.plan !== 'FREE' &&  <div className="current-plan">
         <span className="current-plan-label">Current Plan :</span>{" "}
         <span className="current-plan-dates">{extractDate(data.currentPeriod.startDate)} <span style={{color:'black'}}> &nbsp; / &nbsp; </span> {extractDate(data.currentPeriod.endDate)}</span>
@@ -291,7 +296,7 @@ async function handlebuy(plan) {
        
        </div>
        
-       <PlansTable hidetry={true}/>
+   {sellertype !== 'Property' ? <PlansTable hidetry={true}/> : <PropertyPlansTable/>}
              
            </div> 
 
