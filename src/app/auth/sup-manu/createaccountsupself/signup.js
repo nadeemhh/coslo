@@ -677,7 +677,7 @@ setwaitconfirmationOpen(false)
                                 <label>2% Commision</label>
                             </div>
 
-                            <div className='fo2'>
+                            {/* <div className='fo2'>
                                 <input type='radio' className='btn' name='Modal'  onClick={()=>(setUser({ ...user, serviceChargeAccepted: false }))} />
                                 <label>Subscription</label>
                             </div>
@@ -685,7 +685,7 @@ setwaitconfirmationOpen(false)
                             <div className='fo2'>
                                 <input type='radio' className='btn' name='Modal'  onClick={()=>(setUser({ ...user, serviceChargeAccepted: false }))} />
                                 <label>Free</label>
-                            </div>
+                            </div> */}
 
                         </div>}
 
