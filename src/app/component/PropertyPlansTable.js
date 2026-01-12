@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-const PropertyPlansTable = () => {
+const PropertyPlansTable = ({ user, setUser }) => {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
+
 
   const planData = {
     monthly: {
@@ -30,7 +31,7 @@ const PropertyPlansTable = () => {
   const currentPlan = planData[selectedPlan];
 
   return (
-    <div className="container876" style={{display:'flex',flexDirection:'column',justifyContent:'center'}}>
+    <div className="container876" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <style>{`
         * {
           margin: 0;
@@ -219,41 +220,45 @@ const PropertyPlansTable = () => {
       `}</style>
 
       <div className="tabs876">
-        <button 
+        <button
           className={`tab876 ${selectedPlan === 'monthly' ? 'active876' : ''}`}
           onClick={(e) => {
             e.preventDefault()
-            setSelectedPlan('monthly')}}
+            setSelectedPlan('monthly')
+            setUser({ ...user, purchasePlan: 'MONTHLY' })
+          }}
         >
           Monthly Plan
         </button>
-        <button 
+        <button
           className={`tab876 ${selectedPlan === 'yearly' ? 'active876' : ''}`}
           onClick={(e) => {
-             e.preventDefault()
-            setSelectedPlan('yearly')}}
+            e.preventDefault()
+            setSelectedPlan('yearly')
+            setUser({ ...user, purchasePlan: 'YEARLY' })
+          }}
         >
           Yearly Plan
         </button>
-        <button 
+        {/* <button 
           className={`tab876 ${selectedPlan === 'free' ? 'active876' : ''}`}
           onClick={(e) => {
              e.preventDefault()
             setSelectedPlan('free')}}
         >
           Free Plan
-        </button>
+        </button> */}
       </div>
 
       <table className="table876">
         <thead className="header876">
           <tr>
             <th className="header876-title876">FEATURES PRICE</th>
-            <th className="header876-price876" style={{color:'#003d6b'}}>₹ {currentPlan.price}</th>
+            <th className="header876-price876" style={{ color: '#003d6b' }}>₹ {currentPlan.price}</th>
           </tr>
         </thead>
         <tbody>
-              <tr className="row876">
+          <tr className="row876">
             <td className="cell876 feature876">Leads Per Month</td>
             <td className="cell876 value876">{selectedPlan !== 'free' ? currentPlan.leads : <i className="fa fa-times icon876 cross876"></i>}</td>
           </tr>
@@ -317,7 +322,7 @@ const PropertyPlansTable = () => {
               <i className="fa fa-check icon876"></i>
             </td>
           </tr>
-         {selectedPlan !== 'free' && <tr className="row876">
+          {selectedPlan !== 'free' && <tr className="row876">
             <td className="cell876 feature876">100% Refund If The Zero Leads/sales</td>
             <td className="cell876 value876">
               {currentPlan.refund ? (
