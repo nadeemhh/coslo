@@ -695,7 +695,7 @@ function Signup() {
 
             </div>}
 
-            {user.serviceChargeAccepted === false && <div className="radio-tab">
+            {user.serviceChargeAccepted === false && user.purchasePlan !== '' && <div className="radio-tab">
               <p style={{ marginTop: '30px', marginBottom: '10px' }}>
                 <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Plan : {user.purchasePlan}</span>
               </p>

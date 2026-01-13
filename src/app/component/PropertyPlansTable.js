@@ -225,7 +225,10 @@ const PropertyPlansTable = ({ user, setUser }) => {
           onClick={(e) => {
             e.preventDefault()
             setSelectedPlan('monthly')
-            setUser({ ...user, purchasePlan: 'MONTHLY' })
+
+            try {
+              setUser({ ...user, purchasePlan: 'MONTHLY' })
+            } catch (e) { console.log(e) }
           }}
         >
           Monthly Plan
@@ -235,7 +238,9 @@ const PropertyPlansTable = ({ user, setUser }) => {
           onClick={(e) => {
             e.preventDefault()
             setSelectedPlan('yearly')
-            setUser({ ...user, purchasePlan: 'YEARLY' })
+            try {
+              setUser({ ...user, purchasePlan: 'YEARLY' })
+            } catch (e) { console.log(e) }
           }}
         >
           Yearly Plan
