@@ -8,7 +8,7 @@ import slugifyurl from '../../component/slugifyurl.js';
 
 const page = () => {
   const [inquiries765, setInquiries765] = useState([]);
-   const [Salesperson, setSalesperson] = useState([]);
+  const [Salesperson, setSalesperson] = useState([]);
   const [loading765, setLoading765] = useState(true);
   const [error765, setError765] = useState(null);
   const [editingField, setEditingField] = useState(null);
@@ -18,9 +18,9 @@ const page = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [filterurl, setfilterurl] = useState('');
-   const [salesrole, setsalesrole] = useState('');
-  
-    // New states for property modal
+  const [salesrole, setsalesrole] = useState('');
+
+  // New states for property modal
   const [showPropertyModal676, setShowPropertyModal676] = useState(false);
   const [properties676, setProperties676] = useState([]);
   const [loadingProperties676, setLoadingProperties676] = useState(false);
@@ -30,23 +30,24 @@ const page = () => {
   const fetchProperties676 = async (id) => {
     setLoadingProperties676(true);
     try {
-     
-       const token = localStorage.getItem('salestoken');
+
+      const token = localStorage.getItem('salestoken');
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads/${id}/looking-for`, {
         method: 'GET',
-         headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }});
-      
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-      
+
       const data = await response.json();
-  
- console.log(data)
+
+      console.log(data)
 
       setProperties676(data.data);
     } catch (err) {
@@ -77,76 +78,78 @@ const page = () => {
     { value: 'Maybe Later', label: '🤔 Maybe Later' }
   ];
 
-     const leadStatusOptions =  [
-          { value: 'Select', label: '📌 Select' },
-      { value: 'Interested', label: '💬 Interested' },
+  const leadStatusOptions = [
+    { value: 'Select', label: '📌 Select' },
+    { value: 'Interested', label: '💬 Interested' },
     { value: 'Not Interested', label: '💤 Not Interested' },
     { value: 'Deal Closed', label: '✅ Deal Closed' }]
 
 
-     const fetchSalesperson = async () => {
+  const fetchSalesperson = async () => {
     try {
-       const token = localStorage.getItem('salestoken');
+      const token = localStorage.getItem('salestoken');
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/persons`, {
         method: 'GET',
-         headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }});
-      
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-      
+
       const data = await response.json();
-  
- console.log(data)
- setSalesperson(data.data)
+
+      console.log(data)
+      setSalesperson(data.data)
 
     } catch (err) {
-     
+
     }
   };
 
-   
+
 
   const fetchInquiries765 = async () => {
     try {
-       const token = localStorage.getItem('salestoken');
+      const token = localStorage.getItem('salestoken');
 
       setLoading765(true);
-      
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?page=${page}&limit=20${filterurl?`&${filterurl}`:''}`, {
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads?page=${page}&limit=20${filterurl ? `&${filterurl}` : ''}`, {
         method: 'GET',
-         headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }});
-      
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        }
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
-      
+
       const data = await response.json();
-   
 
-      
- if (data.data.leads.length === 0) {
 
-              setHasMore(false);
-              if(page!==1){ setPage((prevPage) => prevPage - 1);}
-              setInquiries765(data.data.leads);
-              console.log( hasMore,page)
 
-            } else {
+      if (data.data.leads.length === 0) {
 
-       setInquiries765(data.data.leads);
-      setError765(null);
-      scrollToElement('toptable')
-      console.log(data)
-            }
+        setHasMore(false);
+        if (page !== 1) { setPage((prevPage) => prevPage - 1); }
+        setInquiries765(data.data.leads);
+        console.log(hasMore, page)
+
+      } else {
+
+        setInquiries765(data.data.leads);
+        setError765(null);
+        scrollToElement('toptable')
+        console.log(data)
+      }
 
 
     } catch (err) {
@@ -158,71 +161,71 @@ const page = () => {
 
 
   useEffect(() => {
-     
-          fetchInquiries765();
-      }, [page,filterurl]);
+
+    fetchInquiries765();
+  }, [page, filterurl]);
 
 
-      useEffect(() => {
-     
-          fetchSalesperson();
+  useEffect(() => {
 
-        setsalesrole(JSON.parse(localStorage.getItem('salesuser'))?.role)
-      }, []);
+    fetchSalesperson();
 
-      console.log(salesrole)
+    setsalesrole(JSON.parse(localStorage.getItem('salesuser'))?.role)
+  }, []);
 
-      
+  console.log(salesrole)
 
-        const onFilterChange = (filters,filterforurl) => {
-  
+
+
+  const onFilterChange = (filters, filterforurl) => {
+
     setfilterurl(filterforurl)
     setPage(1);
-    
-    console.log('filterforurl:',filterforurl);
+
+    console.log('filterforurl:', filterforurl);
   };
 
 
-      const nextPage = () => {
-        setPage((prevPage) => prevPage + 1);
-          // Scroll to top of table wrapper
-  const tableWrapper = document.querySelector('.table765');
-  if (tableWrapper) {
-    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-       
-      };
-    
-      const prevPage = () => {
-        setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
-        setHasMore(true);
-          // Scroll to top of table wrapper
-  const tableWrapper = document.querySelector('.table765');
-  if (tableWrapper) {
-    tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-      };
+  const nextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+    // Scroll to top of table wrapper
+    const tableWrapper = document.querySelector('.table765');
+    if (tableWrapper) {
+      tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+  };
+
+  const prevPage = () => {
+    setPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+    setHasMore(true);
+    // Scroll to top of table wrapper
+    const tableWrapper = document.querySelector('.table765');
+    if (tableWrapper) {
+      tableWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
 
 
-  const updateStatus = async (id, statuvalue,statusname) => {
-console.log(statuvalue)
+  const updateStatus = async (id, statuvalue, statusname) => {
+    console.log(statuvalue)
 
-if(statuvalue==='Select'){statuvalue='';}
+    if (statuvalue === 'Select') { statuvalue = ''; }
 
     try {
 
-      document.querySelector('.loaderoverlay').style.display='flex';
+      document.querySelector('.loaderoverlay').style.display = 'flex';
 
       const token = localStorage.getItem('salestoken');
-      
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/leads/${id}`, {
         method: 'PATCH',
         headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      },
-        
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+        },
+
         body: JSON.stringify({ [statusname]: statuvalue })
       });
 
@@ -237,11 +240,11 @@ if(statuvalue==='Select'){statuvalue='';}
         )
       );
 
-      document.querySelector('.loaderoverlay').style.display='none';
+      document.querySelector('.loaderoverlay').style.display = 'none';
 
     } catch (err) {
       console.error('Error updating call status:', err);
-       document.querySelector('.loaderoverlay').style.display='none';
+      document.querySelector('.loaderoverlay').style.display = 'none';
       // Update local state even if API fails (for demo)
       setInquiries765(prevInquiries =>
         prevInquiries.map(inquiry =>
@@ -253,43 +256,43 @@ if(statuvalue==='Select'){statuvalue='';}
 
 
 
-const assignlead = async (leadId,salesPersonId)=> {
-    console.log(leadId,salesPersonId)
-    
-      try {
+  const assignlead = async (leadId, salesPersonId) => {
+    console.log(leadId, salesPersonId)
 
-        document.querySelector('.loaderoverlay').style.display='flex';
+    try {
 
-         const token = localStorage.getItem('salestoken');
+      document.querySelector('.loaderoverlay').style.display = 'flex';
+
+      const token = localStorage.getItem('salestoken');
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/sales/assign-lead`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }), 
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify({leadId,salesPersonId})
+        body: JSON.stringify({ leadId, salesPersonId })
       });
 
       if (response.ok) {
         alert('Lead Assigned Successfully!');
         fetchInquiries765()
-          document.querySelector('.loaderoverlay').style.display='none';
+        document.querySelector('.loaderoverlay').style.display = 'none';
       } else {
         alert('Error, Please try again.');
-          document.querySelector('.loaderoverlay').style.display='none';
+        document.querySelector('.loaderoverlay').style.display = 'none';
       }
     } catch (error) {
       alert('Network error. Please try again.');
-        document.querySelector('.loaderoverlay').style.display='none';
+      document.querySelector('.loaderoverlay').style.display = 'none';
       console.error('Error:', error);
     }
 
   }
-  
-console.log(inquiries765)
 
-const openModal765 = (inquiryId, currentComments) => {
+  console.log(inquiries765)
+
+  const openModal765 = (inquiryId, currentComments) => {
     setCurrentInquiryId765(inquiryId);
     setCurrentComment765(currentComments || '');
     setShowModal765(true);
@@ -308,51 +311,51 @@ const openModal765 = (inquiryId, currentComments) => {
 
 
 
- function formatDate(dateString, includeTime = 0) {
-  const date = new Date(dateString);
+  function formatDate(dateString, includeTime = 0) {
+    const date = new Date(dateString);
 
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
 
-  let formatted = `${day}-${month}-${year}`;
+    let formatted = `${day}-${month}-${year}`;
 
-  if (includeTime) {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    formatted += ` ${hours}:${minutes}:${seconds}`;
+    if (includeTime) {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      formatted += ` ${hours}:${minutes}:${seconds}`;
+    }
+
+    return formatted;
   }
-
-  return formatted;
-}
 
 
 
   return (
     <div className="container765">
-      
 
-        
+
+
       <div className="header765">
-        <h3 style={{color:'#1890ff'}} className='toptable'>
+        <h3 style={{ color: '#1890ff' }} className='toptable'>
           <i className="fas fa-phone-alt"></i> Inquiry Management
         </h3>
         {/* <button className="refresh-btn765" onClick={fetchInquiries765}>
           <i className="fas fa-sync-alt"></i> Refresh
         </button> */}
 
-        
+
       </div>
 
-  
-         
-         <LeadFilterComponent onFilterChange={onFilterChange} inquiries765={inquiries765} salesrole={salesrole}/>
 
-       
+
+      <LeadFilterComponent onFilterChange={onFilterChange} inquiries765={inquiries765} salesrole={salesrole} />
+
+
 
       <div className="table-wrapper765">
-      <table className="table765">
+        <table className="table765">
           <thead>
             <tr>
               <th>##</th>
@@ -373,54 +376,54 @@ const openModal765 = (inquiryId, currentComments) => {
             </tr>
           </thead>
           <tbody>
-            {inquiries765.map((inquiry,index) => (
+            {inquiries765.map((inquiry, index) => (
               <tr key={index}>
                 <td>{(page - 1) * 20 + index + 1}</td>
-                <td>{extractDate(inquiry.inquiry_date)||'N/A'}</td>
-                <td><strong>{inquiry.buyer_name||'N/A'}</strong></td>
+                <td>{extractDate(inquiry.inquiry_date) || 'N/A'}</td>
+                <td><strong>{inquiry.buyer_name || 'N/A'}</strong></td>
                 <td>
                   <a href={`tel:${inquiry.phone_number}`} className="phone-link765">
-                    {inquiry.phone_number||'N/A'}
+                    {inquiry.phone_number || 'N/A'}
                   </a>
                 </td>
-                <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-','').replace('-AD','') : (inquiry.interested_in || 'N/A')}</td>
-                 <td>
-                    
-                  {inquiry.lookingfor ? <button 
-                      className="showPropertiesBtn676"
-                      onClick={()=>(openPropertyModal676(inquiry._id))}
-                    >
-                      Show Properties
-                    </button>:'N/A'}
-                  
-                    </td>
-                <td className='leadlocation'>{inquiry.location||'N/A'}</td>
-                <td className='leadbudget'>{inquiry.budget||'N/A'}</td>
-                
+                <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-', '').replace('-AD', '') : (inquiry.interested_in || 'N/A')}</td>
                 <td>
 
-                 {salesrole === 'SALES_MANAGER' ?  <select
+                  {inquiry.lookingfor.length > 0 ? <button
+                    className="showPropertiesBtn676"
+                    onClick={() => (openPropertyModal676(inquiry._id))}
+                  >
+                    Show Properties
+                  </button> : 'N/A'}
+
+                </td>
+                <td className='leadlocation'>{inquiry.location || 'N/A'}</td>
+                <td className='leadbudget'>{inquiry.budget || 'N/A'}</td>
+
+                <td>
+
+                  {salesrole === 'SALES_MANAGER' ? <select
                     className="status-select765"
-                    value={inquiry?.assigned_to?._id||''}
+                    value={inquiry?.assigned_to?._id || ''}
                     onChange={(e) => assignlead(inquiry._id, e.target.value,)}
                   >
-                     <option value=''>
-                       📌 Select
-                      </option>
+                    <option value=''>
+                      📌 Select
+                    </option>
 
-                    {Salesperson.map((option,i) => (
+                    {Salesperson.map((option, i) => (
                       <option key={i} value={option._id}>
                         {option.name}
                       </option>
                     ))}
-                  </select>: <td>{inquiry?.assigned_to?.name||'N/A'}</td>}
-                  </td>
+                  </select> : <td>{inquiry?.assigned_to?.name || 'N/A'}</td>}
+                </td>
 
                 <td>
                   <select
                     className="status-select765"
                     value={inquiry.call_status}
-                    onChange={(e) => updateStatus(inquiry._id, e.target.value,'call_status')}
+                    onChange={(e) => updateStatus(inquiry._id, e.target.value, 'call_status')}
                   >
                     {callStatusOptions765.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -429,7 +432,7 @@ const openModal765 = (inquiryId, currentComments) => {
                     ))}
                   </select>
                 </td>
-               <td>
+                <td>
                   {(!inquiry.follow_up_date || editingField === `${inquiry._id}-follow_up_date`) ? (
                     <input
                       type="date"
@@ -440,29 +443,29 @@ const openModal765 = (inquiryId, currentComments) => {
                         setEditingField(null);
                       }}
                       onBlur={() => setEditingField(null)}
-                       onFocus={(e) => e.target.showPicker && e.target.showPicker()}
+                      onFocus={(e) => e.target.showPicker && e.target.showPicker()}
                       autoFocus={editingField === `${inquiry._id}-follow_up_date`}
                     />
                   ) : (
-                    <p 
-                      className="date-input765" 
-                      style={{display:"flex", justifyContent:'space-between', cursor:'pointer'}}
+                    <p
+                      className="date-input765"
+                      style={{ display: "flex", justifyContent: 'space-between', cursor: 'pointer' }}
                     >
                       {formatDate(inquiry.follow_up_date, 0)}
-                      <i 
-                        className="fas fa-calendar" 
+                      <i
+                        className="fas fa-calendar"
                         onClick={() => setEditingField(`${inquiry._id}-follow_up_date`)}
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       ></i>
                     </p>
                   )}
                 </td>
 
-                <td> 
+                <td>
                   <select
                     className="status-select765"
                     value={inquiry.lead_status}
-                    onChange={(e) => updateStatus(inquiry._id, e.target.value,'lead_status')}
+                    onChange={(e) => updateStatus(inquiry._id, e.target.value, 'lead_status')}
                   >
                     {leadStatusOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -470,9 +473,9 @@ const openModal765 = (inquiryId, currentComments) => {
                       </option>
                     ))}
                   </select>
-                  </td>
+                </td>
 
-                 <td>
+                <td>
                   {(!inquiry.scheduled_datetime || editingField === `${inquiry._id}-scheduled_datetime`) ? (
                     <input
                       type="date"
@@ -487,32 +490,32 @@ const openModal765 = (inquiryId, currentComments) => {
                       autoFocus={editingField === `${inquiry._id}-scheduled_datetime`}
                     />
                   ) : (
-                    <p 
-                      className="date-input765" 
-                      style={{display:"flex", justifyContent:'space-between', cursor:'pointer'}}
+                    <p
+                      className="date-input765"
+                      style={{ display: "flex", justifyContent: 'space-between', cursor: 'pointer' }}
                     >
                       {formatDate(inquiry.scheduled_datetime, 0)}
-                      <i 
-                        className="fas fa-calendar" 
+                      <i
+                        className="fas fa-calendar"
                         onClick={() => setEditingField(`${inquiry._id}-scheduled_datetime`)}
-                        style={{cursor:'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       ></i>
                     </p>
                   )}
                 </td>
 
-                  <td>
-                    
-                    <button 
+                <td>
+
+                  <button
                     className="show-btn765"
                     onClick={() => openModal765(inquiry._id, inquiry.comments)}
                   >
                     Show
                   </button>
-                  
-                    </td>
-                  
-                   <td>{inquiry.source||'N/A'}</td>
+
+                </td>
+
+                <td>{inquiry.source || 'N/A'}</td>
               </tr>
             ))}
           </tbody>
@@ -535,19 +538,19 @@ const openModal765 = (inquiryId, currentComments) => {
       </div>
       }
 
-        <div className="pagination">
-       <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity:  page === 0 ? 0.5 : 1 }}>
-        <i className="fas fa-arrow-left"></i> Previous
-      </span>
+      <div className="pagination">
+        <span className="pre" onClick={prevPage} style={{ cursor: "pointer", opacity: page === 0 ? 0.5 : 1 }}>
+          <i className="fas fa-arrow-left"></i> Previous
+        </span>
 
-      <span className="page-number">Page {page}</span>
+        <span className="page-number">Page {page}</span>
 
-    { hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
-        Next <i className="fas fa-arrow-right"></i>
-      </span>}
+        {hasMore && <span className="next" onClick={nextPage} style={{ cursor: "pointer" }}>
+          Next <i className="fas fa-arrow-right"></i>
+        </span>}
       </div>
 
-        {showModal765 && (
+      {showModal765 && (
         <div className="modal-overlay765" onClick={closeModal765}>
           <div className="modal-content765" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header765">
@@ -570,47 +573,47 @@ const openModal765 = (inquiryId, currentComments) => {
       )}
 
       {/* Property Modal */}
-        {showPropertyModal676 && (
-          <div className="modalOverlay676" onClick={closePropertyModal676}>
-            <div className="modalContent676" onClick={(e) => e.stopPropagation()}>
-              <div className="modalHeader676">
-                <h3 className="modalTitle676">Properties</h3>
-                <button className="closeBtn676" onClick={closePropertyModal676}>
-                  ×
-                </button>
-              </div>
-              <div className="modalBody676">
-                {loadingProperties676 ? (
-                  <div className="loadingContainer676">Loading properties...</div>
-                ) : (
-                  <div className="propertyGrid676">
-                    {properties676.map((property,index) => (
-                      <div key={index} className="propertyCard676">
-                        <img 
-                          src={property?.images.length?property?.images[0]:property.variations[0].propertyImages[0]} 
-                          alt={property.productName}
-                          className="propertyImage676"
-                        />
-                        <div className="propertyContent676">
-                          <h4 className="propertyName676">{property.productName}</h4>
-                          <a 
-                            href={`/home/property/${slugifyurl(property.productName)}/${property._id}`} 
-                            className="propertyLink676"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            View Details →
-                          </a>
-                        </div>
+      {showPropertyModal676 && (
+        <div className="modalOverlay676" onClick={closePropertyModal676}>
+          <div className="modalContent676" onClick={(e) => e.stopPropagation()}>
+            <div className="modalHeader676">
+              <h3 className="modalTitle676">Properties</h3>
+              <button className="closeBtn676" onClick={closePropertyModal676}>
+                ×
+              </button>
+            </div>
+            <div className="modalBody676">
+              {loadingProperties676 ? (
+                <div className="loadingContainer676">Loading properties...</div>
+              ) : (
+                <div className="propertyGrid676">
+                  {properties676.map((property, index) => (
+                    <div key={index} className="propertyCard676">
+                      <img
+                        src={property?.images.length ? property?.images[0] : property.variations[0].propertyImages[0]}
+                        alt={property.productName}
+                        className="propertyImage676"
+                      />
+                      <div className="propertyContent676">
+                        <h4 className="propertyName676">{property.productName}</h4>
+                        <a
+                          href={`/home/property/${slugifyurl(property.productName)}/${property._id}`}
+                          className="propertyLink676"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View Details →
+                        </a>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        )}
-        
+        </div>
+      )}
+
     </div>
   );
 };
