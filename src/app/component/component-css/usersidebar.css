@@ -172,7 +172,7 @@
 }
 
 /* Child menu container */
-.menu-item + div[style*="marginLeft"] {
+.menu-item+div[style*="marginLeft"] {
   border-left: 2px solid #e6f7ff;
   margin-left: 20px !important;
   padding-left: 0;
@@ -186,6 +186,7 @@
     max-height: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     max-height: 200px;
@@ -193,7 +194,7 @@
   }
 }
 
-.menu-item + div[style*="marginLeft"] {
+.menu-item+div[style*="marginLeft"] {
   animation: slideDown 0.3s ease-out;
 }
 
@@ -223,19 +224,19 @@
 @media (max-width: 768px) {
   .menu-item {
     padding: 8px 12px;
-    font-size: 13px;
+    font-size: 16px;
   }
-  
+
   .child-menu-item {
     padding: 6px 10px;
     font-size: 12px;
   }
-  
+
   .menu-item i {
     font-size: 16px;
     margin-right: 8px;
   }
-  
+
   .child-menu-item i {
     font-size: 12px;
     margin-right: 6px;

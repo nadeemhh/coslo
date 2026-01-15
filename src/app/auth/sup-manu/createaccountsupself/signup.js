@@ -697,14 +697,14 @@ function Signup() {
 
             {user.serviceChargeAccepted === false && user.purchasePlan !== '' && <div className="radio-tab">
               <p style={{ marginTop: '30px', marginBottom: '10px' }}>
-                <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Plan : {user.purchasePlan}</span>
+                <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Selected Plan = {user.purchasePlan}</span>
               </p>
 
               <PropertyPlansTable user={user} setUser={setUser} />
             </div>}
 
 
-            {user.serviceChargeAccepted === true && <ul style={{ marginBottom: '30px' }}> <li style={{ fontSize: '1.2rem', color: '#1389F0', marginTop: '10px', fontWeight: '500' }}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{ fontSize: '1.2rem', color: '#1389F0', marginTop: '10px', fontWeight: '500' }}>We provide end-to-end services — from property site visits to final registration.</li></ul>}
+            {user.serviceChargeAccepted === true && <ul style={{ marginBottom: '30px' }} className='slideleftanimate'> <li style={{ fontSize: '1.2rem', color: '#1389F0', marginTop: '10px', fontWeight: '500' }}>Coslomart will apply a 2% service charge on the total project cost for every successfully closed property deal.</li> <li style={{ fontSize: '1.2rem', color: '#1389F0', marginTop: '10px', fontWeight: '500' }}>We provide end-to-end services — from property site visits to final registration.</li></ul>}
 
 
           </>}

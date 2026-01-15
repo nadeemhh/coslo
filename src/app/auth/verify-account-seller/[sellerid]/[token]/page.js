@@ -119,7 +119,7 @@ function ResetPassword() {
         />
       </div>
       <div className='right-container'>
-        <div className="form">
+        <div className="form slideupanimate">
           <h1 className="">Verify Your Account</h1>
           {error && <p style={{ color: 'red', padding: '10px' }}>{error}</p>}
 

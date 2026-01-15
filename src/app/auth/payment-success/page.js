@@ -6,7 +6,7 @@ function Page() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="success-box">
+      <div className="success-box slideupanimate">
         <p className="message2">You have successfully purchased the plan.</p>
         <a href="/auth/sup-manu/login">
           <button className="login-button2">Go To Your Account</button>

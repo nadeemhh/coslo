@@ -80,7 +80,36 @@ const PropertyPlansTable = ({ user, setUser }) => {
           box-shadow: 0 2px 10px rgba(0,0,0,0.1);
           overflow: hidden;
           border-radius: 8px;
+             animation: c818-slideIn 0.5s ease-out;
         }
+
+        .yearlyplan{
+          animation: c818-slideInYearly 0.5s ease-out;
+        }
+
+          @keyframes c818-slideIn {
+          from {
+            opacity: 0;
+            transform: translateX(60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes c818-slideInYearly {
+          from {
+            opacity: 0;
+            transform: translateX(60px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+
 
         .header876 {
           background: linear-gradient(135deg, #FF8C00, #FFA500);
@@ -148,7 +177,7 @@ const PropertyPlansTable = ({ user, setUser }) => {
           }
 
             .tab876 {
-          padding: 5px 10px !important;
+          padding: 10px 10px !important;
           background: #f0f0f0;
           border: none;
           cursor: pointer;
@@ -255,7 +284,7 @@ const PropertyPlansTable = ({ user, setUser }) => {
         </button> */}
       </div>
 
-      <table className="table876">
+      <table className={`table876${selectedPlan === 'monthly' ? '' : ' yearlyplan'}`}>
         <thead className="header876">
           <tr>
             <th className="header876-title876">FEATURES PRICE</th>
