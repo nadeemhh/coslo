@@ -2,6 +2,8 @@
 import { useParams, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import "../../../CreateAccount.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ResetPassword() {
   const params = useParams();
@@ -13,6 +15,13 @@ function ResetPassword() {
   const [error, setError] = useState('');
 
   console.log(token)
+
+
+  const showSuccess = (message = "Action completed successfully!") => {
+    toast.success(message, {
+      autoClose: 1000, // 5 seconds in milliseconds
+    });
+  };
 
   const handleLVerify = (e) => {
     e.preventDefault();
@@ -84,6 +93,8 @@ function ResetPassword() {
         document.querySelector('.loaderoverlay').style.display = 'none';
 
         if (purchasePlan) {
+
+          showSuccess(data.message || data.error || "Something went wrong")
 
           handlebuy(purchasePlan, data.token)
 

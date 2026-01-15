@@ -1,95 +1,99 @@
+.main-content {
+  background-color: white;
+}
 
-  .main-content{   background-color: white;}
+.main {
+  display: flex;
+}
 
-  .main {
-    display: flex;
-  }
-  
-  .main h1 {
-    font-size: xx-large;
-    font-weight: bold;
-  }
-  
-  /* .main p {
+.main h1 {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+/* .main p {
     font-size: 16px;
     margin-top: 1px;
     margin-bottom: 2rem;
   } */
-  
-  .main .profile-pic {
-    height: auto;
-    width: 400px;
-    object-fit: cover;
-  }
-  
-  .right-container {
-    width: 50%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .left-container {
-    width: 50%;
-    padding: 20px;
-  }
-  
-  .form{text-align: left;}
 
-  .form-tab {
-    margin-top: 1rem;
-  }
-  
-  .form-tab input{
-    border-radius: 10px;
-    border: 1px solid #D7DADB;
-    background-color: #F4F7FB;
-    width: 100%;
-    height: 40px;
-    margin-top: 10px;
-    padding: 10px;
-    
-  }
-  
-#mystates{
-      border-radius: 10px;
-    background-color: #F4F7FB;
-    width: 100%;
-    height: 40px;
-    margin-top: 10px;
-    padding: 10px;
-    border: 2px solid #000;
+.main .profile-pic {
+  height: auto;
+  width: 400px;
+  object-fit: cover;
 }
- 
 
-  .radio-btn {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .radio-btn div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .radio-btn .main>input {
-    width: auto;
-    height: auto;
-    margin-top: 0px;
-  }
-  
- 
- .right-container button {
-    background-color: #007bff;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-  }
-  
+.right-container {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.left-container {
+  width: 50%;
+  padding: 20px;
+}
+
+.form {
+  text-align: left;
+}
+
+.form-tab {
+  margin-top: 1rem;
+}
+
+.form-tab input {
+  border-radius: 10px;
+  border: 1px solid #D7DADB;
+  background-color: #F4F7FB;
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  padding: 10px;
+
+}
+
+#mystates {
+  border-radius: 10px;
+  background-color: #F4F7FB;
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 2px solid #000;
+}
+
+
+.radio-btn {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-btn div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radio-btn .main>input {
+  width: auto;
+  height: auto;
+  margin-top: 0px;
+}
+
+
+.right-container button {
+  background-color: #007bff;
+  border-radius: 10px;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+}
+
 
 /* terms conditions */
 
@@ -183,39 +187,56 @@
 
 
 
-.choosebuttons{
-  display: flex;gap: 20px;flex-wrap: wrap;margin-top: 20px;
+.choosebuttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
- .sellertype77{
-    font-size: 28px;
-    font-weight: 600;
-    color: #007bff;
-    margin-bottom: 5px;
+.sellertype77 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.active8465 {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background-color: #0356af !important;
+  color: rgb(255, 255, 255) !important;
+  margin: 20px 0px;
+}
+
+@media only screen and (max-width: 768px) {
+  .main {
+    flex-direction: column;
   }
 
-.active8465{width: 120px;display: flex; justify-content: center;align-items: center;gap: 15px; background-color: #0356af!important;color: rgb(255, 255, 255) !important;
-margin: 20px 0px;}
 
-  @media only screen and (max-width: 768px) {
-    .main {
-      flex-direction: column;
-    }
-  
-  
-    .right-container {
-      width: auto;
-    }
-  
-    .left-container {
+  .right-container {
+    width: auto;
+  }
+
+  .left-container {
     display: none;
-    }
-
-    .choosebuttons{
-      display: flex;flex-direction: column; gap: 10px;align-items: flex-start;margin-top: 30px;
-    }
-
-    .active8465{margin: 0px 0px;}
   }
-  
-  /* .menu{display: none;} */
+
+  .choosebuttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 30px;
+  }
+
+  .active8465 {
+    margin: 0px 0px;
+  }
+}
+
+/* .menu{display: none;} */
