@@ -51,12 +51,12 @@ const NavBar = () => {
 
         <h4 style={{ margin: '0px', textAlign: 'right' }} className='adminemail'></h4>
 
-        {togglesidebar ? <i className="fas fa-bars showsidebar" onClick={() => {
+        {togglesidebar ? <i className="fas fa-bars showsidebar" style={{ fontSize: '20px' }} onClick={() => {
           handleShowSidebar('0%')
           settogglesidebar(false)
         }}></i>
           :
-          <i className="fas fa-times showsidebar" style={{ color: 'red' }} onClick={() => {
+          <i className="fas fa-times showsidebar" style={{ fontSize: '20px', color: 'red' }} onClick={() => {
             handleShowSidebar('-100%')
             settogglesidebar(true)
           }}></i>

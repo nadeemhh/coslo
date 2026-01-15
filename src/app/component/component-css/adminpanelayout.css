@@ -3,6 +3,13 @@
      }
 
 
+     .navbar {
+
+         padding: 5px 10px;
+     }
+
+
+
      /* Responsive Design */
 
      @media (max-width: 1046px) {
