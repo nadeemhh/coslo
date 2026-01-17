@@ -4,206 +4,213 @@ import "../component/component-css/btnbadge.css";
 import "../component/component-css/navbar.css";
 import Button from '../component/button';
 import Link from 'next/link';
-import { useRouter,usePathname ,useSearchParams} from 'next/navigation';
-import { useState ,useEffect,useRef,Suspense} from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import BuyerAuthCheck from '../component/buyerauthcheck.js';
 import cartcountget from '../component/cartcountget.js';
-import { LoadScript, StandaloneSearchBox, useLoadScript } from '@react-google-maps/api';
+import { LoadScript, Autocomplete, useLoadScript } from '@react-google-maps/api';
 
 const libraries = ['places'];
 
+const karnatakaBounds = {
+  north: 18.476730,
+  south: 11.594558,
+  east: 78.588083,
+  west: 74.054398,
+};
+
 const NavBar = () => {
   const router = useRouter();
-    const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [user, setuser] = useState(null);
-   const iconRef = useRef(null);
-    const pathname = usePathname(); // detects route change
-const [selectedFilter, setSelectedFilter] = useState("product");
+  const iconRef = useRef(null);
+  const pathname = usePathname(); // detects route change
+  const [selectedFilter, setSelectedFilter] = useState("product");
   const [searchValue, setSearchValue] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(null);
-   const [isproperty, setisproperty] = useState(null);
+  const [isproperty, setisproperty] = useState(null);
   const searchBoxRef = useRef(null);
-    const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
+  const [selectedBengaluruPlace, setSelectedBengaluruPlace] = useState("");
 
-   const [bengaluruPlaces, setbengaluruPlaces] = useState([
-  "AECS Layout",
-  "Adugodi",
-  "Agram",
-  "Akshayanagar",
-  "Amruthahalli",
-  "Anand Nagar",
-  "Anekal",
-  "Anjanapura",
-  "Arakere",
-  "Ashok Nagar",
-  "Attibele",
-  "Bagalur",
-  "Banashankari",
-  "Banashankari Stage 2",
-  "Banashankari Stage 3",
-  "Banashankari Stage 5",
-  "Banashankari Stage 6",
-  "Banaswadi",
-  "Bannerghatta",
-  "Bannerghatta Road",
-  "Basavanagudi",
-  "Basaveshwaranagar",
-  "Begur",
-  "Bellandur",
-  "Benson Town",
-  "Bharath Nagar",
-  "Bidadi",
-  "Bilekahalli",
-  "Bommanahalli",
-  "Bommasandra",
-  "Brookefield",
-  "BTM Layout",
-  "CV Raman Nagar",
-  "Chamarajpet",
-  "Chandapura",
-  "Chikkabanavara",
-  "Chikkajala",
-  "Cooke Town",
-  "Cox Town",
-  "Cunningham Road",
-  "Dasarahalli",
-  "Devanahalli",
-  "Doddanekkundi",
-  "Domlur",
-  "Dommasandra",
-  "Ejipura",
-  "Electronic City",
-  "Frazer Town",
-  "Ganganagar",
-  "Girinagar",
-  "Gottigere",
-  "HAL Layout",
-  "HBR Layout",
-  "Hebbal",
-  "Hennur",
-  "Hoodi",
-  "Horamavu",
-  "Hompalaghatta",
-  "Hosa Road",
-  "Hosakerehalli",
-  "HRBR Layout",
-  "HSR Layout",
-  "Hulimavu",
-  "Indiranagar",
-  "ISRO Layout",
-  "ITPL",
-  "Jakkur",
-  "Jalahalli",
-  "Jayanagar",
-  "Jigani",
-  "JP Nagar",
-  "Kadubeesanahalli",
-  "Kadugodi",
-  "Kaggadasapura",
-  "Kalyan Nagar",
-  "Kammanahalli",
-  "Kanakapura Road",
-  "Kasturi Nagar",
-  "Kathriguppe",
-  "Kengeri",
-  "Kodihalli",
-  "Kodigehalli",
-  "Koramangala",
-  "KR Market",
-  "KR Puram",
-  "Kudlu Gate",
-  "Kumaraswamy Layout",
-  "Lalbagh Road",
-  "Lavelle Road",
-  "Lingarajapuram",
-  "Madiwala",
-  "Magadi Road",
-  "Mahadevapura",
-  "Majestic",
-  "Malleshpalya",
-  "Malleshwaram",
-  "Marathahalli",
-  "Mathikere",
-  "Mico Layout",
-  "Millers Road",
-  "Murugeshpalya",
-  "Mysore Road",
-  "Nagavara",
-  "Nagarabhavi",
-  "Nandi Hills",
-  "Padmanabhanagar",
-  "Peenya",
-  "Race Course Road",
-  "Rajajinagar",
-  "Rajarajeshwari Nagar",
-  "Ramamurthy Nagar",
-  "Richmond Town",
-  "RT Nagar",
-  "Sadashivanagar",
-  "Sahakar Nagar",
-  "Sanjay Nagar",
-  "Sarjapur",
-  "Shanti Nagar",
-  "Shivaji Nagar",
-  "Singasandra",
-  "Sunkadakatte",
-  "Thanisandra",
-  "Ulsoor",
-  "Uttarahalli",
-  "Varthur",
-  "Vasanth Nagar",
-  "Vidyaranyapura",
-  "Vijayanagar",
-  "Whitefield",
-  "Wilson Garden",
-  "Yelahanka",
-  "Yeswanthpur",
-  "Yeshwanthpur"
-]);
+  const [bengaluruPlaces, setbengaluruPlaces] = useState([
+    "AECS Layout",
+    "Adugodi",
+    "Agram",
+    "Akshayanagar",
+    "Amruthahalli",
+    "Anand Nagar",
+    "Anekal",
+    "Anjanapura",
+    "Arakere",
+    "Ashok Nagar",
+    "Attibele",
+    "Bagalur",
+    "Banashankari",
+    "Banashankari Stage 2",
+    "Banashankari Stage 3",
+    "Banashankari Stage 5",
+    "Banashankari Stage 6",
+    "Banaswadi",
+    "Bannerghatta",
+    "Bannerghatta Road",
+    "Basavanagudi",
+    "Basaveshwaranagar",
+    "Begur",
+    "Bellandur",
+    "Benson Town",
+    "Bharath Nagar",
+    "Bidadi",
+    "Bilekahalli",
+    "Bommanahalli",
+    "Bommasandra",
+    "Brookefield",
+    "BTM Layout",
+    "CV Raman Nagar",
+    "Chamarajpet",
+    "Chandapura",
+    "Chikkabanavara",
+    "Chikkajala",
+    "Cooke Town",
+    "Cox Town",
+    "Cunningham Road",
+    "Dasarahalli",
+    "Devanahalli",
+    "Doddanekkundi",
+    "Domlur",
+    "Dommasandra",
+    "Ejipura",
+    "Electronic City",
+    "Frazer Town",
+    "Ganganagar",
+    "Girinagar",
+    "Gottigere",
+    "HAL Layout",
+    "HBR Layout",
+    "Hebbal",
+    "Hennur",
+    "Hoodi",
+    "Horamavu",
+    "Hompalaghatta",
+    "Hosa Road",
+    "Hosakerehalli",
+    "HRBR Layout",
+    "HSR Layout",
+    "Hulimavu",
+    "Indiranagar",
+    "ISRO Layout",
+    "ITPL",
+    "Jakkur",
+    "Jalahalli",
+    "Jayanagar",
+    "Jigani",
+    "JP Nagar",
+    "Kadubeesanahalli",
+    "Kadugodi",
+    "Kaggadasapura",
+    "Kalyan Nagar",
+    "Kammanahalli",
+    "Kanakapura Road",
+    "Kasturi Nagar",
+    "Kathriguppe",
+    "Kengeri",
+    "Kodihalli",
+    "Kodigehalli",
+    "Koramangala",
+    "KR Market",
+    "KR Puram",
+    "Kudlu Gate",
+    "Kumaraswamy Layout",
+    "Lalbagh Road",
+    "Lavelle Road",
+    "Lingarajapuram",
+    "Madiwala",
+    "Magadi Road",
+    "Mahadevapura",
+    "Majestic",
+    "Malleshpalya",
+    "Malleshwaram",
+    "Marathahalli",
+    "Mathikere",
+    "Mico Layout",
+    "Millers Road",
+    "Murugeshpalya",
+    "Mysore Road",
+    "Nagavara",
+    "Nagarabhavi",
+    "Nandi Hills",
+    "Padmanabhanagar",
+    "Peenya",
+    "Race Course Road",
+    "Rajajinagar",
+    "Rajarajeshwari Nagar",
+    "Ramamurthy Nagar",
+    "Richmond Town",
+    "RT Nagar",
+    "Sadashivanagar",
+    "Sahakar Nagar",
+    "Sanjay Nagar",
+    "Sarjapur",
+    "Shanti Nagar",
+    "Shivaji Nagar",
+    "Singasandra",
+    "Sunkadakatte",
+    "Thanisandra",
+    "Ulsoor",
+    "Uttarahalli",
+    "Varthur",
+    "Vasanth Nagar",
+    "Vidyaranyapura",
+    "Vijayanagar",
+    "Whitefield",
+    "Wilson Garden",
+    "Yelahanka",
+    "Yeswanthpur",
+    "Yeshwanthpur"
+  ]);
 
   BuyerAuthCheck(setuser)
 
   console.log(isproperty)
-    // Handle Bengaluru place selection
+  // Handle Bengaluru place selection
   const handleBengaluruPlaceChange = (e) => {
     const selectedPlace = e.target.value;
     setSelectedBengaluruPlace(selectedPlace);
     // Store in localStorage if needed
-   // localStorage.setItem("selectedBengaluruPlace", selectedPlace);
+    // localStorage.setItem("selectedBengaluruPlace", selectedPlace);
     console.log("Selected Bengaluru Place:", selectedPlace);
 
-      if (selectedPlace.trim() !== "") {
-    
-    window.location.href = `/home/filters?query=${encodeURIComponent(selectedPlace)}&type=${'property'}`;
-    
+    if (selectedPlace.trim() !== "") {
+
+      window.location.href = `/home/filters?query=${encodeURIComponent(selectedPlace)}&type=${'property'}`;
+
     }
 
   };
 
   const placeholderMap = {
-  product: "Search Products",
-  property: "Enter address to Search Property",
-  service: "Search Services",
-};
+    product: "Search Products",
+    property: "Enter locality to search property",
+    service: "Search Services",
+  };
 
 
   const handleGoBack = () => {
     router.back(); // Navigate to the previous URL
   };
 
-    const handleShowSidebar = () => {
-      document.getElementById('sidebar').style.transform = 'translateY(0)';
-    };
+  const handleShowSidebar = () => {
+    document.getElementById('sidebar').style.transform = 'translateY(0)';
+  };
 
-      // ✅ Handles search on button click
+  // ✅ Handles search on button click
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
       const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
-        const selectedName = selectedOption.getAttribute("value"); 
-console.log(selectedName)
-    
-    window.location.href = `/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`;
+      const selectedName = selectedOption.getAttribute("value");
+      console.log(selectedName)
+
+      window.location.href = `/home/filters?query=${encodeURIComponent(searchQuery)}&type=${selectedName}`;
     }
   };
 
@@ -218,37 +225,37 @@ console.log(selectedName)
   useEffect(() => {
     cartcountget();
 
-      const onLoad = () => {
-   setTimeout(() => {
+    const onLoad = () => {
+      setTimeout(() => {
 
-    const productType = localStorage.getItem("productType");
-    
-if(productType){ setSelectedFilter(productType);}
-     
+        const productType = localStorage.getItem("productType");
 
-  }, 1000);
-  };
-
-  if (document.readyState === "complete") {
-    onLoad(); // already loaded
-  } else {
-    window.addEventListener("load", onLoad); // wait for full load
-    return () => window.removeEventListener("load", onLoad);
-  }
-
-  },[]);
+        if (productType) { setSelectedFilter(productType); }
 
 
-    useEffect(() => {
+      }, 1000);
+    };
+
+    if (document.readyState === "complete") {
+      onLoad(); // already loaded
+    } else {
+      window.addEventListener("load", onLoad); // wait for full load
+      return () => window.removeEventListener("load", onLoad);
+    }
+
+  }, []);
+
+
+  useEffect(() => {
     // Check if current path or search params contain property-related terms
-    const isPropertyPage = pathname.includes("property") || 
-                          pathname.includes("Real-Estate") || 
-                          searchParams.get('type') === 'property';
-    
+    const isPropertyPage = pathname.includes("property") ||
+      pathname.includes("Real-Estate") ||
+      searchParams.get('type') === 'property';
+
     setisproperty(isPropertyPage);
   }, [pathname, searchParams]); // Dependencies that trigger re-run
 
-  
+
 
 
   useEffect(() => {
@@ -260,29 +267,29 @@ if(productType){ setSelectedFilter(productType);}
     }
   }, [pathname]); // run on pag
 
-     
-/////////// google map search code start
+
+  /////////// google map search code start
 
 
   // Replace with your actual Google Maps API key
   const googleMapsApiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
 
-    // Use useLoadScript hook instead of LoadScript component
+  // Use useLoadScript hook instead of LoadScript component
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: googleMapsApiKey,
     libraries: libraries,
   });
 
 
-  const onLoadSearchBox = (ref) => {
-    searchBoxRef.current = ref;
+  const onLoadAutocomplete = (autocomplete) => {
+    searchBoxRef.current = autocomplete;
   };
 
-  const onPlacesChanged = () => {
+  const onPlaceChanged = () => {
     if (searchBoxRef.current) {
-      const places = searchBoxRef.current.getPlaces();
-      if (places && places.length > 0) {
-        const place = places[0];
+      const place = searchBoxRef.current.getPlace();
+
+      if (place.geometry) {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
         const address = place.formatted_address;
@@ -295,204 +302,191 @@ if(productType){ setSelectedFilter(productType);}
 
         setSelectedLocation(locationData);
         setSearchValue(address);
-        
+
         // Log the stored data
         console.log('Stored Location Data:', locationData);
 
-         if (searchValue.trim() !== "") {
-      const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
-        const selectedName = selectedOption.getAttribute("value"); 
-console.log(selectedName)
-    
-    window.location.href = `/home/filters?query=${encodeURIComponent(locationData.address)}&type=${'property'}`;
-    }
-      
+        if (searchValue.trim() !== "") {
+          const selectedOption = document.querySelector('.filtertype').options[document.querySelector('.filtertype').selectedIndex]; // Get selected <option>
+          const selectedName = selectedOption.getAttribute("value");
+          console.log(selectedName)
+
+          window.location.href = `/home/filters?query=${encodeURIComponent(locationData.address)}&type=${'property'}&longitude=${lng}&latitude=${lat}`;
+        }
       }
     }
   };
 
-  
+
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
   };
 
-/////////// google map search code end
+  /////////// google map search code end
 
 
-    return (
-      <>
-        {/* <span>nav bar</span>
+  return (
+    <>
+      {/* <span>nav bar</span>
         <button className="show-btn" onClick={handleShowSidebar}>
           Show
         </button> */}
 
-<nav className="navbar">
-      <div className="navbar-container navbar-container-row">
-        
-      <div className='bnamehide'>
-      <a href="/home">
-        <div className="logo logocontainer">
-           <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
-         <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
-          <h1>coslomart</h1>
-         {isproperty && <p style={{color:'#1389F0',fontSize:'15px',marginLeft:'2px'}}>properties</p>}
-         </div>
-        </div>
-        </a>
-        
-        {user === null &&  <a href="/home/login" className="loginbut">
-     Buyer Login
-        </a>}
+      <nav className="navbar">
+        <div className="navbar-container navbar-container-row">
 
-        </div>
+          <div className='bnamehide'>
+            <a href="/home">
+              <div className="logo logocontainer">
+                <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <h1>coslomart</h1>
+                  {isproperty && <p style={{ color: '#1389F0', fontSize: '15px', marginLeft: '2px' }}>properties</p>}
+                </div>
+              </div>
+            </a>
 
-        <a href="/home">
-        <div className="logo logocontainer logodesk">
-         <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
-         <div style={{display:'flex',flexDirection:'column',alignItems:'flex-start'}}>
-          <h1>coslomart</h1>
-         {isproperty && <p style={{color:'#1389F0',fontSize:'17px',marginLeft:'2px'}}>properties</p>}
-         </div>
-        </div>
-        </a>
+            {user === null && <a href="/home/login" className="loginbut">
+              Buyer Login
+            </a>}
 
-<div className="search-pre">
-        {/* <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/> */}
-
-        <div className="search-bar">
-          <div className="dropdown" style={{borderRight:'1.5px solid #9c9c9c'}}>
-            {!isproperty ? (
-              <select 
-                name="" 
-                id="" 
-                className="dropdown-btn filtertype"   
-                value={selectedFilter}
-                onChange={(e) => {
-                  setSelectedFilter(e.target.value)
-                  localStorage.setItem("productType",e.target.value)
-                }}
-              >
-                <option value="product">Products</option>
-                <option value="property">Property</option>
-                <option value="service">Service</option>
-              </select>
-            ) : (
-              // Show Bengaluru places dropdown when isproperty is true
-              <select 
-                name="" 
-                id="" 
-                className="dropdown-btn filtertype location-filter"   
-                value={selectedBengaluruPlace}
-                onChange={handleBengaluruPlaceChange}
-                style={{width:'125px'}}
-              >
-                <option value="">Select Locality</option>
-                {bengaluruPlaces.map((place, index) => (
-                  <option key={index} value={place}>
-                    {place}
-                  </option>
-                ))}
-              </select>
-            )}
-          
           </div>
 
-          <input type="text"   placeholder={placeholderMap[selectedFilter]}
-   className={`SearchProducts ${selectedFilter === "property" ? "hideelement" : ""}`}  value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-/> 
+          <a href="/home">
+            <div className="logo logocontainer logodesk">
+              <img src="\images\coslologonav.png" alt="logo" width={"40px"} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <h1>coslomart</h1>
+                {isproperty && <p style={{ color: '#1389F0', fontSize: '17px', marginLeft: '2px' }}>properties</p>}
+              </div>
+            </div>
+          </a>
 
-<div className="locationsearchdiv">
+          <div className="search-pre">
+            {/* <img src="\icons\pre.svg" alt="go back"  className="show" onClick={handleGoBack}/> */}
+
+            <div className="search-bar">
+              <div className="dropdown" style={{ borderRight: '1.5px solid #9c9c9c' }}>
+
+                <select
+                  name=""
+                  id=""
+                  className="dropdown-btn filtertype"
+                  value={selectedFilter}
+                  onChange={(e) => {
+                    setSelectedFilter(e.target.value)
+                    localStorage.setItem("productType", e.target.value)
+                  }}
+                >
+                  <option value="product">Products</option>
+                  <option value="property">Property</option>
+                  <option value="service">Service</option>
+                </select>
 
 
-         {isLoaded && (
-    <div style={{ display: selectedFilter === "property" ? "block" : "none" }}>
-      <StandaloneSearchBox
-        onLoad={onLoadSearchBox}
-        onPlacesChanged={onPlacesChanged}
-      >
-              <input
-                type="text"
-                  className={`SearchProducts ${selectedFilter !== "property" ? "hideelement" : ""}`}  
-                value={searchValue}
-                onChange={handleInputChange}
-                placeholder={placeholderMap[selectedFilter]}
+              </div>
+
+              <input type="text" placeholder={placeholderMap[selectedFilter]}
+                className={`SearchProducts ${selectedFilter === "property" ? "hideelement" : ""}`} value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
-             </StandaloneSearchBox>
-    </div>
-  )}
 
-      
-    </div>
+              <div className="locationsearchdiv">
 
-       {selectedFilter !== "property" &&   <button className="search-btn" style={{marginRight:'10px'}} onClick={handleSearch}>
-         {!isproperty && <img  ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />}
-          </button>}
+
+                {isLoaded && (
+                  <div style={{ display: selectedFilter === "property" ? "block" : "none" }}>
+                    <Autocomplete
+                      onLoad={onLoadAutocomplete}
+                      onPlaceChanged={onPlaceChanged}
+                      options={{
+                        types: ['locality', 'sublocality'],
+                        componentRestrictions: { country: "in" },
+                        bounds: karnatakaBounds,
+                        strictBounds: true
+                      }}
+                    >
+                      <input
+                        type="text"
+                        className={`SearchProducts ${selectedFilter !== "property" ? "hideelement" : ""}`}
+                        value={searchValue}
+                        onChange={handleInputChange}
+                        placeholder={placeholderMap[selectedFilter]}
+                      />
+                    </Autocomplete>
+                  </div>
+                )}
+
+
+              </div>
+
+              {selectedFilter !== "property" && <button className="search-btn" style={{ marginRight: '10px' }} onClick={handleSearch}>
+                {!isproperty && <img ref={iconRef} src="\icons\newsearchicon.svg" alt="search icon" />}
+              </button>}
+            </div>
+          </div>
+
+
+          <div className="action-buttons hide">
+
+            {user ? <>
+
+              <Link href="/user/orders">
+                <div className="profile0">
+                  <img
+                    src={user.profilePicture}
+                    alt="Profile"
+                    className="profile-image0"
+                  />
+                  <div className="profile-info0">
+                    <p style={{ fontWeight: '600' }}>Welcome {user.name}</p>
+                    <p>My Account & Orders</p>
+                  </div>
+                </div>
+              </Link>
+
+              {!isproperty && <Link href="/home/cart">
+                <button className="btn_abc123">
+                  <span className="btn_text88">Cart</span>
+                  <img src="\icons\carticon.svg" alt="cart-icon" className="btn_icon" />
+                  <span className="btn_badge77"></span>
+                </button>
+              </Link>}
+
+            </>
+              :
+
+              <>
+                <a href="/auth/sup-manu/choose">
+                  <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
+                </a>
+
+                <a href="/home/createaccount">
+                  <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
+                </a>
+
+                <a href="/home/login" style={{ border: "1px solid #0097ff", borderRadius: '4px' }} >
+                  <Button backgroundColor='#ffffff' textColor="black" >Buyer Login</Button>
+                </a>
+              </>}
+
+          </div>
+
+
+
         </div>
-        </div>
-       
-       
-        <div className="action-buttons hide">
-       
-       {user ? <> 
-       
-       <Link href="/user/orders">
-        <div className="profile0">
-        <img
-          src={user.profilePicture}
-          alt="Profile"
-          className="profile-image0"
-        />
-        <div className="profile-info0">
-          <p style={{fontWeight:'600'}}>Welcome {user.name}</p>
-         <p>My Account & Orders</p>
-        </div>
-      </div>
-      </Link>
 
-          {!isproperty && <Link href="/home/cart">
-      <button className="btn_abc123">
-  <span className="btn_text88">Cart</span>
-  <img src="\icons\carticon.svg" alt="cart-icon" className="btn_icon" />
-  <span className="btn_badge77"></span>
-</button>
-          </Link>}
-
-     </> 
-:
-
-<>
-<a href="/auth/sup-manu/choose">
-          <Button rightIcon="\icons\right.svg" className='hide'>Want to Sell</Button>
-          </a>
-
-        <a href="/home/createaccount">
-      <Button rightIcon="\icons\right.svg" className='hide'> Want to Buy</Button>
-          </a>
-
-          <a href="/home/login"  style={{border:"1px solid #0097ff",borderRadius: '4px'}} >
-        <Button backgroundColor = '#ffffff' textColor="black" >Buyer Login</Button>
-        </a>
-          </>}
-         
-        </div>
-
-       
-
-      </div>
-
-    </nav>
-      </>
-    );
-  };
+      </nav>
+    </>
+  );
+};
 
 
-  export default function NavBarPage() {
-      return (
-        <Suspense fallback={<div>Loading...</div>}>
-          <NavBar />
-        </Suspense>
-      );
-    }
-  
+export default function NavBarPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NavBar />
+    </Suspense>
+  );
+}
