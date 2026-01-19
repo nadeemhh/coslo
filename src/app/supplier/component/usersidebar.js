@@ -10,85 +10,92 @@ const Usersidebar = () => {
   const [currentPath, setCurrentPath] = useState('');
   const [menuItems, setmenuItems] = useState([]);
   const [iscosload, setiscosload] = useState(false);
-  const [issuperadmin,setissuperadmin] = useState(false);
+  const [issuperadmin, setissuperadmin] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState({});
 
-  useAuthCheck('/auth/sup-manu/login','token');
+  useAuthCheck('/auth/sup-manu/login', 'token');
 
   useEffect(() => {
 
-let sellerdata =JSON.parse(localStorage.getItem('sellerdata'))
-let serviceChargeAccepted=sellerdata.serviceChargeAccepted||false;
-console.log(sellerdata.sellerType)
+    let sellerdata = JSON.parse(localStorage.getItem('sellerdata'))
+    let serviceChargeAccepted = sellerdata.serviceChargeAccepted || false;
+    console.log(sellerdata.sellerType)
 
-localStorage.setItem('productType',sellerdata.sellerType.toLowerCase())
+    localStorage.setItem('productType', sellerdata.sellerType.toLowerCase())
 
     const admindata = JSON.parse(localStorage.getItem('sellerdata'))?.role;
     const iscoslo = admindata === 'COSLO_SELLER';
 
-if(iscoslo){
+    if (iscoslo) {
 
-  setmenuItems([   { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
-    { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' }])
+      setmenuItems([{ path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+      { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
+      { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' }])
 
-    setiscosload(iscoslo);
+      setiscosload(iscoslo);
 
-}else{
+    } else {
 
-const typeMap = {
-  Product: ['My Products','fas fa-box'],
-  Property: ['My Properties','fas fa-building'],
-  Service: ['My Services','fas fa-tools']
-};
+      const typeMap = {
+        Product: ['My Products', 'fas fa-box'],
+        Property: ['My Properties', 'fas fa-building'],
+        Service: ['My Services', 'fas fa-tools']
+      };
 
-let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
+      let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
 
-  setmenuItems([
-    { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1]||'fas fa-box', label: listingtype}, ])
+      setmenuItems([
+        { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1] || 'fas fa-box', label: listingtype },])
 
-  if(sellerdata.sellerType ==='Property' && !serviceChargeAccepted){
-  setmenuItems(prevMenuItems =>[
-      ...prevMenuItems,
-    { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' } ])
-  }
-  
-  if(sellerdata.sellerType ==='Product'){
-setmenuItems(prevMenuItems => [
-  { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    ...prevMenuItems,
-    { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
-    { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
-       { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
-         { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-    { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' } ,
-           { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
-            { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
-  ])
-}
+      if (sellerdata.sellerType === 'Property' && !serviceChargeAccepted) {
+        setmenuItems(prevMenuItems => [
+          ...prevMenuItems,
+          { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }])
+      } else {
 
-if(sellerdata.sellerType ==='Service'){
-setmenuItems(prevMenuItems => [
-  { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-    ...prevMenuItems,
-    { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
-       { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
-           { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
-           { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
-  ])
-}
+        setmenuItems(prevMenuItems => [
+          ...prevMenuItems,
+          { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' }]
+        )
+
+      }
+
+      if (sellerdata.sellerType === 'Product') {
+        setmenuItems(prevMenuItems => [
+          { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+          ...prevMenuItems,
+          { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
+          { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
+          { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+          { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
+          { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+          { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
+        ])
+      }
+
+      if (sellerdata.sellerType === 'Service') {
+        setmenuItems(prevMenuItems => [
+          { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+          ...prevMenuItems,
+          { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
+          { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+          { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
+        ])
+      }
 
 
-}
+    }
 
-    console.log(window.location.pathname,iscoslo,admindata)
+    console.log(window.location.pathname, iscoslo, admindata)
     // Set the current path when the component mounts
     if (typeof window !== 'undefined') {
       setCurrentPath(window.location.pathname);
     }
 
-    if(localStorage.getItem('issuperadmin')==='true'){
+    if (localStorage.getItem('issuperadmin') === 'true') {
       setissuperadmin(true)
     }
   }, []);
@@ -104,7 +111,7 @@ setmenuItems(prevMenuItems => [
 
 
 
-   const toggleExpandMenu = (label) => {
+  const toggleExpandMenu = (label) => {
     setExpandedMenus(prev => ({
       ...prev,
       [label]: !prev[label]
@@ -112,8 +119,8 @@ setmenuItems(prevMenuItems => [
   };
 
 
-  
-  
+
+
   const isChildActive = (childmenu) => {
     return childmenu && childmenu.some(child => child.path === currentPath);
   };
@@ -124,7 +131,7 @@ setmenuItems(prevMenuItems => [
     if (item.path === null && item.childmenu) {
       const isExpanded = expandedMenus[item.label];
       const hasActiveChild = isChildActive(item.childmenu);
-      
+
       return (
         <div key={item.label}>
           {/* Parent menu item that toggles child visibility */}
@@ -136,12 +143,12 @@ setmenuItems(prevMenuItems => [
             <i className={item.icon}></i>
             <span>{item.label}</span>
             {/* Arrow indicator for expandable menus */}
-            <i 
+            <i
               className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}
               style={{ marginLeft: 'auto', fontSize: '12px' }}
             ></i>
           </div>
-          
+
           {/* Child menu items (shown when parent is expanded) */}
           {isExpanded && (
             <div style={{ marginLeft: '20px' }}>
@@ -151,7 +158,7 @@ setmenuItems(prevMenuItems => [
         </div>
       );
     }
-    
+
     // Handle regular menu items with direct paths
     return (
       <a href={item.path} key={item.path}>
@@ -169,32 +176,32 @@ setmenuItems(prevMenuItems => [
 
   return (
     <div className="side-bar sidebar" id="sidebar">
-  
-  
- {menuItems.length !== 0 && 
-<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px',flexWrap:'wrap'}}><img src="\images\coslologo.png" alt="" style={{width:'80px'}}/>
-<label style={{fontWeight:'600'}}>Coslomart Seller Admin</label></div>
-}
+
+
+      {menuItems.length !== 0 &&
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}><img src="\images\coslologo.png" alt="" style={{ width: '80px' }} />
+          <label style={{ fontWeight: '600' }}>Coslomart Seller Admin</label></div>
+      }
 
 
       {/* Menu Items */}
       <div className="menu">
 
-      {menuItems.map((item) => renderMenuItem(item))}
+        {menuItems.map((item) => renderMenuItem(item))}
 
-{issuperadmin === false && <div className='menu-item' onClick={handleLogout}>
-              <i className='fas fa-sign-out-alt' style={{color:'red'}}></i>
-              <span>Log Out</span>
-            </div>
-            }
+        {issuperadmin === false && <div className='menu-item' onClick={handleLogout}>
+          <i className='fas fa-sign-out-alt' style={{ color: 'red' }}></i>
+          <span>Log Out</span>
+        </div>
+        }
 
-<p style={{textAlign:'left',marginTop:'40px',marginBottom:'15px',fontSize:'18px'}}>Support</p>
-<a href="/supplier/CustomerSupport">
+        <p style={{ textAlign: 'left', marginTop: '40px', marginBottom: '15px', fontSize: '18px' }}>Support</p>
+        <a href="/supplier/CustomerSupport">
 
-<div className="menu-item" style={{backgroundColor:'#E8FFF3',color:'#179757',border:'1px solid #179757'}}><i className="fas fa-headset">
-  </i><span>Customer Support</span>
-</div>
-  </a>
+          <div className="menu-item" style={{ backgroundColor: '#E8FFF3', color: '#179757', border: '1px solid #179757' }}><i className="fas fa-headset">
+          </i><span>Customer Support</span>
+          </div>
+        </a>
       </div>
     </div>
   );
