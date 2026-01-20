@@ -246,11 +246,11 @@ export default function page() {
               {subscriptionHistory.map((subscriptionHistoryin, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>{subscriptionHistoryin.plan}</td>
-                  <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
-                  <td>{subscriptionHistoryin.paymentInfo.status}</td>
-                  <td>{subscriptionHistoryin.paymentInfo.paymentMethod}</td>
-                  <td>{subscriptionHistoryin.paymentInfo.amount}</td>
+                  <td>{subscriptionHistoryin.plan || 'N/A'}</td>
+                  <td>{extractDate(subscriptionHistoryin.paymentDate) || 'N/A'}</td>
+                  <td>{subscriptionHistoryin.paymentInfo.status || 'N/A'}</td>
+                  <td>{subscriptionHistoryin.paymentInfo.paymentMethod || 'N/A'}</td>
+                  <td>{subscriptionHistoryin.paymentInfo.amount || 'N/A'}</td>
 
                 </tr>
               ))}
