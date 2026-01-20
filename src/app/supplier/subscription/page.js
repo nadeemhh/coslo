@@ -237,7 +237,7 @@ export default function page() {
                 <th>##</th>
                 <th>Plan</th>
                 <th>Payment Date</th>
-                <th>Email</th>
+                <th>Payment Status</th>
                 <th>Payment Method</th>
                 <th>Amount</th>
               </tr>
@@ -248,7 +248,7 @@ export default function page() {
                   <td>{index + 1}</td>
                   <td>{subscriptionHistoryin.plan}</td>
                   <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
-                  <td>{subscriptionHistoryin.seller.email}</td>
+                  <td>{subscriptionHistoryin.paymentInfo.status}</td>
                   <td>{subscriptionHistoryin.paymentInfo.paymentMethod}</td>
                   <td>{subscriptionHistoryin.paymentInfo.amount}</td>
 
