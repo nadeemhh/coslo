@@ -7,6 +7,7 @@ import enableshiprocket from '../../../component/enableshiprocket.js';
 import IndianStates from '../../../component/indianstate.js'
 import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
 import PropertyPlansTable from '../../../component/PropertyPlansTable.js';
+import planstables from '../../../component/planstables.js';
 
 function ImageUploader({ title, images, setImages, id }) {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -48,9 +49,7 @@ function ImageUploader({ title, images, setImages, id }) {
 
 function Signup() {
   const [confirmationOpen, setconfirmationOpen] = useState(false);
-  const [waitconfirmationOpen, setwaitconfirmationOpen] = useState(false);
   const [stopapicall, setstopapicall] = useState(true);
-  const [referenceId, setreferenceId] = useState(false);
   const [gstImages, setGstImages] = useState([]);
   const [gstverified, setgstverified] = useState(false);
   const [sellertype, setsellertype] = useState('');
@@ -62,21 +61,19 @@ function Signup() {
     email: "",
     phoneNo: "",
     company: "",
+    gstNo: "",
+    SubscriptionType: "FREE",
+    role: "",
+    password: "",
+    panNumber: "",
     location: "",
     city: "",
     state: "",
     pincode: "",
-    gstNo: "",
-    DeliveryType: "",
-    SubscriptionType: "FREE",
-    role: "",
-    ComplianceNo: "",
-    password: "",
-    panNumber: "",
-    AccountHolderName: "",
-    AccountNumber: "",
-    IFSCCode: "",
-    BankName: "",
+    // AccountHolderName: "",
+    // AccountNumber: "",
+    // IFSCCode: "",
+    // BankName: "",
     serviceChargeAccepted: null,
     purchasePlan: ''
 
@@ -131,11 +128,6 @@ function Signup() {
     setconfirmationOpen(!confirmationOpen);
   };
 
-  const waittoggleconfirmation = () => {
-
-    setwaitconfirmationOpen(!waitconfirmationOpen);
-  };
-
 
 
 
@@ -163,8 +155,9 @@ function Signup() {
     formData.append("password", user.password);
     formData.append("businessType", user.role);
     formData.append("subscriptionPlan", user.SubscriptionType);
-    formData.append("panNumber", user.panNumber);
-    formData.append("qualityCert", user.ComplianceNo);
+    if (sellertype !== 'Product') {
+      formData.append("panNumber", user.panNumber);
+    }
     formData.append("sellertype", sellertype);
     formData.append("businessName", user.company);
     formData.append("purchasePlan", user.purchasePlan);
@@ -184,18 +177,16 @@ function Signup() {
 
       formData.append("gstNumber", user.gstNo);
 
-      if (sellertype !== 'Service') {
-        formData.append("deliveryType", user.DeliveryType);
+      if (sellertype === 'Service') {
+        formData.append("address[addressLine]", user.location);
+        formData.append("address[city]", user.city);
+        formData.append("address[state]", user.state);
+        formData.append("address[pincode]", user.pincode);
+        // formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
+        // formData.append("bankDetails[accountNumber]", user.AccountNumber);
+        // formData.append("bankDetails[ifscCode]", user.IFSCCode);
+        // formData.append("bankDetails[bankName]", user.BankName);
       }
-
-      formData.append("address[addressLine]", user.location);
-      formData.append("address[city]", user.city);
-      formData.append("address[state]", user.state);
-      formData.append("address[pincode]", user.pincode);
-      formData.append("bankDetails[accountHolderName]", user.AccountHolderName);
-      formData.append("bankDetails[accountNumber]", user.AccountNumber);
-      formData.append("bankDetails[ifscCode]", user.IFSCCode);
-      formData.append("bankDetails[bankName]", user.BankName);
 
       if (gstImages.length > 0 && gstImages[0] instanceof File) {
         formData.append("gstCertificateFile", gstImages[0]);
@@ -315,115 +306,7 @@ function Signup() {
 
 
 
-  function InitiateBankVerification(businessNamefromgst, tradeNamefromgst) {
 
-    // Initiate Bank Verification
-
-    console.log('Initiate Bank Verification')
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank/${user.AccountNumber}/${user.IFSCCode}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
-          });
-        }
-      })
-      .then((data) => {
-
-        console.log(data)
-
-        if (data.success && data.status === "IN_PROCESS") {
-
-          console.log(data.success, data.status)
-
-          setwaitconfirmationOpen(true)
-          setreferenceId(data.referenceId)
-          checkbankstatus(data.referenceId, businessNamefromgst, tradeNamefromgst)
-          document.querySelector('.loaderoverlay').style.display = 'none';
-        } else {
-          alert(data.error)
-          document.querySelector('.loaderoverlay').style.display = 'none';
-        }
-
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(err)
-        alert(err.message || err.error || 'Failed to submit the form.')
-      });
-
-
-  }
-
-
-  function checkbankstatus(refId, businessNamefromgst, tradeNamefromgst) {
-
-    console.log(refId)
-
-    setTimeout(() => {
-
-      console.log('check bank status')
-
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/kyc/bank-status/${refId}`)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((errorData) => {
-              throw new Error(errorData.message || errorData.error || 'Failed to submit the form.');
-            });
-          }
-        })
-        .then((data) => {
-
-          console.log(data)
-
-          if (data.success && data.status === "COMPLETED") {
-
-            console.log(data.accountHolderName?.trim().toLowerCase(), businessNamefromgst?.trim().toLowerCase(), tradeNamefromgst?.trim().toLowerCase())
-
-            if (data.accountHolderName?.trim().toLowerCase() === businessNamefromgst?.trim().toLowerCase() || data.accountHolderName?.trim().toLowerCase() === tradeNamefromgst?.trim().toLowerCase()) {
-
-              console.log(data.accountHolderName, businessNamefromgst, tradeNamefromgst)
-
-              setUser(prevUser => ({
-                ...prevUser,
-                AccountHolderName: data.accountHolderName
-              }));
-
-              alert('You have been verified successfully. Please fill in the other details below to create your account.')
-              setgstverified(true)
-              setwaitconfirmationOpen(false)
-
-
-            } else {
-              alert("The name did not match with the bank name and GST name.")
-              setwaitconfirmationOpen(false)
-
-            }
-
-          } else if (data.success === false) {
-
-            alert(data.message)
-            setwaitconfirmationOpen(false)
-          } else {
-            alert(data.error)
-            setwaitconfirmationOpen(false)
-
-          }
-
-        })
-        .catch((err) => {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          console.log(err)
-          alert(err.message || err.error || 'Failed to submit the form.')
-        });
-
-    }, 35000);
-  }
 
   // stop scrool when active input
   usePreventNumberInputScroll()
@@ -444,32 +327,14 @@ function Signup() {
 
           if (gstverified || sellertype === 'Property') {
 
-            if (sellertype !== 'Property') {
+            if (sellertype === 'Service') {
               if (!document.querySelector('#mystates').selectedIndex) {
                 alert('Select State/UT')
                 return;
               }
             }
 
-            if (user.phoneNo.length < 10 || user.phoneNo.length > 10) {
-              alert('enter 10 digit phone number')
-              return;
-            }
-
-            if (user.phoneNo.startsWith('0')) {
-              alert('Remove the 0 at the beginning of the phone number.')
-              return;
-            }
-
-
-            if (sellertype === 'Product') {
-              if (!user.role) {
-                alert('Select a role: whether you are a supplier or a manufacturer.')
-                return;
-              }
-            }
-
-            else if (sellertype === 'Property') {
+            if (sellertype === 'Property') {
 
               if (user.serviceChargeAccepted === null) {
                 alert('Please Select Payment Modal')
@@ -478,14 +343,6 @@ function Signup() {
 
               if (!user.role) {
                 alert('Select a role: Are you an individual or an organization?')
-                return;
-              }
-            }
-
-
-            if (sellertype === 'Product') {
-              if (!user.DeliveryType) {
-                alert('Select a delivery type: whether you will deliver your product to buyers or you want Coslo to deliver it to them.')
                 return;
               }
             }
@@ -527,7 +384,7 @@ function Signup() {
               <input type="text" name="password" id="boldinput66" value={user.password} onChange={handleOnChange} required />
             </div>
 
-            {sellertype !== 'Property' && <>
+            {/* {sellertype === 'Service' && <>
               <div className="form-tab">
                 <label htmlFor="BankName">Your Bank Name (optional)</label>
                 <input type="text" name="BankName" id="boldinput66" value={user.BankName} onChange={handleOnChange} />
@@ -547,24 +404,18 @@ function Signup() {
                 <label htmlFor="IFSCCode">IFSC Code (optional)</label>
                 <input type="text" id="boldinput66" name="IFSCCode" value={user.IFSCCode} onChange={handleOnChange} />
               </div>
-            </>}
+            </>} */}
 
-
-            <div className="form-tab">
+            {sellertype !== 'Product' && <div className="form-tab">
               <label htmlFor="panNumber">Enter Pan Number</label>
               <input type="text" id="boldinput66" name="panNumber" value={user.panNumber} onChange={handleOnChange} required />
+            </div>}
 
-            </div>
-
-
-
-
-
-
-            {sellertype !== 'Property' && <> <div className="form-tab">
-              <label htmlFor="location">{sellertype === 'Product' ? <>Enter Pickup Address</> : <>Enter Address</>}</label>
-              <input type="text" name="location" id="boldinput66" value={user.location} onChange={handleOnChange} required />
-            </div>
+            {sellertype === 'Service' && <>
+              <div className="form-tab">
+                <label htmlFor="location">Enter Address</label>
+                <input type="text" name="location" id="boldinput66" value={user.location} onChange={handleOnChange} required />
+              </div>
 
               <div className="form-tab">
                 <label htmlFor="location">Enter City</label>
@@ -578,70 +429,43 @@ function Signup() {
                 <label htmlFor="location">Enter Pincode</label>
                 <input type="text" name="pincode" id="boldinput66" value={user.pincode} onChange={handleOnChange} required />
               </div>
+            </>}
+
+            {sellertype !== 'Property' && <>
 
 
 
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', flexWrap: 'wrap', marginTop: '20px' }}>
 
-              {/* GST Certificate Uploader */}
-              <ImageUploader
-                title="Upload GST Certificate"
-                images={gstImages}
-                setImages={setGstImages}
-                id="gstUploader"
-              />
+                {/* GST Certificate Uploader */}
+                <ImageUploader
+                  title="Upload GST Certificate"
+                  images={gstImages}
+                  setImages={setGstImages}
+                  id="gstUploader"
+                />
+                {sellertype === 'Product' && <>
 
-              {sellertype === 'Product' && <> <div className="form-tab">
-                <label htmlFor="ComplianceNo">Enter Quality Certificate Number</label>
-                <input type="text" name="ComplianceNo" id="boldinput66" value={user.ComplianceNo} onChange={handleOnChange} />
+                  {/* Compliance Certificate Uploader */}
+                  <ImageUploader
+                    title="Upload Quality Certificate"
+                    images={complianceImages}
+                    setImages={setComplianceImages}
+                    id="complianceUploader"
+                  />
+                </>}
               </div>
 
-                {/* Compliance Certificate Uploader */}
-                <ImageUploader
-                  title="Upload Quality Certificate"
-                  images={complianceImages}
-                  setImages={setComplianceImages}
-                  id="complianceUploader"
-                />
-
-
-                <div className="radio-tab">
-                  <p style={{ marginTop: '50px', marginBottom: '10px' }}>
-                    <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Role:</span> <span>whether you are a supplier or a manufacturer.</span>
-                  </p>
-
-                  <div className='fo2'>
-                    <input type='radio' className='btn' name='role' value={"SUPPLIER"} onChange={handleOnChange} />
-                    <label>Supplier</label>
-                  </div>
-                  <div className='fo2'>
-                    <input type='radio' className='btn' name='role' value={"MANUFACTURER"} onChange={handleOnChange} />
-                    <label>Manufacturer</label>
-                  </div>
-                </div>
-
-                <div className="radio-tab" style={{ marginBottom: '40px' }}>
-
-                  <p style={{ marginBottom: '10px' }}>
-                    <span htmlFor='DeliveryType' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Delivery Type:</span> <span> whether you will deliver your product to buyers or you want Coslo to deliver it to them.</span>
-                  </p>
-
-                  <div className='fo2'>
-                    <input type='radio' className='btn' name='DeliveryType' value={"COSLO"} onChange={handleOnChange} />
-                    <label>Coslo Provided Delivery</label>
-                  </div>
-                  <div className='fo2'>
-                    <input type='radio' className='btn' name='DeliveryType' value={"SELF"} onChange={handleOnChange} />
-                    <label>Self Delivery Model</label>
-                  </div>
-                </div></>}
 
               <div className="form-tab">
                 <label htmlFor="company">Enter Company Name</label>
                 <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} readOnly />
               </div>
-
             </>
             }
+
+
+
 
 
             {sellertype === 'Property' && <> <div className="radio-tab">
@@ -718,6 +542,28 @@ function Signup() {
 
           </div>}
 
+          {sellertype === 'Product' && gstverified && <div className="radio-tab">
+            <p style={{ marginTop: '30px', marginBottom: '10px' }}>
+              <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Subscription Plan :</span>
+            </p>
+            <div className='fo2'>
+              <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, purchasePlan: 'MONTHLY' }))} />
+              <label>Monthly</label>
+            </div>
+
+            <div className='fo2'>
+              <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, purchasePlan: 'YEARLY' }))} />
+              <label>Yearly</label>
+            </div>
+
+            <div className='fo2'>
+              <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, purchasePlan: '' }))} />
+              <label>Free</label>
+            </div>
+
+          </div>}
+
+
 
 
           {(sellertype !== 'Property' && gstverified === false) && <div className="form-tab">
@@ -742,10 +588,6 @@ function Signup() {
 
         {confirmationOpen && (
           <TermsCard toggleconfirmation={toggleconfirmation} handleSubmit={handleSubmit} policydata={policydata} />
-        )}
-
-        {waitconfirmationOpen && (
-          <Waitwindow checkbankstatus={checkbankstatus} referenceId={referenceId} companyname={user.company} />
         )}
       </div>
     </div>
@@ -798,44 +640,3 @@ const TermsCard = ({ toggleconfirmation, handleSubmit, policydata }) => {
 
 
 
-const Waitwindow = ({ checkbankstatus, referenceId, companyname }) => {
-
-  const [timeLeft, setTimeLeft] = useState(40);
-
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
-  return (
-
-    <div className="modal-overlay">
-
-      <div className="terms-card065">
-
-        <div className="terms-content065">
-
-          <h3>Please wait... Within 40 seconds, ₹1 will be credited to your account.</h3>
-          {timeLeft > 0 ?
-            <div className="countdown-container">
-              <p className="countdown-text">Time Left: {timeLeft}s</p>
-            </div>
-
-            :
-            <button style={{ textAlign: 'left', marginTop: '10px', border: '1px solid black', backgroundColor: 'green', padding: '5px 10px', color: 'white', border: 'none', borderRadius: '5px' }} onClick={(e) => {
-              setTimeLeft(40)
-              checkbankstatus(referenceId, companyname)
-            }}>Retry</button>
-          }
-
-        </div>
-      </div>
-    </div>
-
-  );
-};

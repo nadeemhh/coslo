@@ -389,7 +389,7 @@ const page = () => {
                 <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-', '').replace('-AD', '') : (inquiry.interested_in || 'N/A')}</td>
                 <td>
 
-                  {inquiry.lookingfor.length > 0 ? <button
+                  {inquiry?.lookingfor?.length > 0 ? <button
                     className="showPropertiesBtn676"
                     onClick={() => (openPropertyModal676(inquiry._id))}
                   >

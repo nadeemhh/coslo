@@ -1,5 +1,5 @@
 .main-content {
-    padding: 0px;
+  padding: 0px;
 }
 
 .orders-container {
@@ -12,16 +12,17 @@
 }
 
 .table-wrapper {
-    overflow-x: auto;
-  max-height: calc(100vh - 200px);  /* ← Added here */
-  overflow-y: auto;  
+  overflow-x: auto;
+  max-height: calc(100vh - 200px);
+  /* ← Added here */
+  overflow-y: auto;
 
 }
 
 .orders-table {
   width: 100%;
   border-collapse: collapse;
-min-width: 1000px;
+  min-width: 1000px;
 }
 
 .orders-table th,
@@ -56,7 +57,7 @@ min-width: 1000px;
   border: none;
   cursor: pointer;
   color: #007bff;
-  
+
 }
 
 .orders-table td .edit-btn:hover {
@@ -75,26 +76,26 @@ min-width: 1000px;
   white-space: nowrap;
 }
 
-.delivered{
-font-size: 14px;
-background-color: #c5f6dd;
-color: #179757;
-margin-bottom: 10px;
-padding: 5px 10px;
-border-radius: 5px;
-border: none;
-white-space: nowrap;
+.delivered {
+  font-size: 14px;
+  background-color: #c5f6dd;
+  color: #179757;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  white-space: nowrap;
 }
 
-.returned{
-font-size: 14px;
-background-color: #F8EAEA;
-color: #EC5959;
-margin-bottom: 10px;
-padding: 5px 10px;
-border-radius: 5px;
-border: none;
-white-space: nowrap;
+.returned {
+  font-size: 14px;
+  background-color: #F8EAEA;
+  color: #EC5959;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  white-space: nowrap;
 }
 
 .cancel-btn {
@@ -116,7 +117,7 @@ white-space: nowrap;
   height: 23px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -146,15 +147,15 @@ white-space: nowrap;
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(22px);
   -ms-transform: translateX(22px);
   transform: translateX(22px);
@@ -196,6 +197,7 @@ input:checked + .slider:before {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  z-index: 10;
 }
 
 .modal-container {
@@ -282,9 +284,9 @@ input:checked + .slider:before {
 
 
 /* Responsive Design */
-  @media (max-width: 768px) {
-.orders-container {
-  padding: 10px !important;
-}
-
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 10px !important;
   }
+
+}

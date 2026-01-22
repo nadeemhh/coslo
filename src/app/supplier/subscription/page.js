@@ -209,7 +209,7 @@ export default function page() {
             <label className="change-plan-label" htmlFor="plan-select">
               Change Plan:
             </label>
-            <select id="plan-select" className="plan-select" value={cplan} onChange={handleChange}>
+            <select id="plan-select" className="plan-select" value="" onChange={handleChange}>
               <option value="">Select Plan</option>
               <option value="MONTHLY">Monthly</option>
               <option value="YEARLY">Yearly</option>
