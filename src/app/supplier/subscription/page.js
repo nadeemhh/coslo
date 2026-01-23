@@ -182,7 +182,7 @@ export default function page() {
 
 
         <div className="subscription-container">
-          <div className="subscription-box">
+          <div className="subscription-box slideupanimate">
             <div className={data.validityLeft ? "plan-details" : "plan-detailsex"}>
 
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -195,9 +195,25 @@ export default function page() {
                 </div>
 
               </div>
+
+              {data.plan === 'FREE' && <div style={{ lineHeight: "1.6" }}>
+                <p style={{ fontSize: "16px", fontWeight: "600", margin: "10px 0px" }}>
+                  To get customer leads, choose a monthly or yearly subscription.
+                </p>
+
+                <ul style={{ paddingLeft: "20px", fontSize: "15px" }}>
+                  <li>
+                    <strong>Monthly subscription:</strong> {sellertype === 'Property' ? '1 to 5' : '15 to 20'} leads per month
+                  </li>
+                  <li>
+                    <strong>Yearly subscription:</strong> {sellertype === 'Property' ? '10 to 15' : '25 to 30'} leads per month
+                  </li>
+                </ul>
+              </div>}
+
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div className="details">
-                  <span className="general-subscription">General Subscription </span>
+                  {data.plan !== 'FREE' && <span className="general-subscription">General Subscription </span>}
                   {data.plan !== 'FREE' && (data.validityLeft ? <span className="validity"> Validity : {data.validityLeft} Days Left</span> : <span className="validityex"> Validity : <strong>Expired</strong></span>)}
                 </div>
                 {data.plan !== 'TRIAL' && data.plan !== 'FREE' && <button className={data.validityLeft ? "pay-button" : "pay-buttonex"} onClick={() => { PayCurrentPlan(data.plan) }} style={{ marginTop: '20px' }}> Pay Current Plan <i className="fas fa-arrow-right"></i></button>}
@@ -205,6 +221,7 @@ export default function page() {
             </div>
             {/* <button className="cancel-button"  onClick={toggleconfirmation}>Cancel Subscription</button> */}
           </div>
+
           <div className="change-plan-section">
             <label className="change-plan-label" htmlFor="plan-select">
               Change Plan:
@@ -215,14 +232,15 @@ export default function page() {
               <option value="YEARLY">Yearly</option>
             </select>
           </div>
+
           {data.plan !== 'FREE' && <div className="current-plan">
             <span className="current-plan-label">Current Plan :</span>{" "}
             <span className="current-plan-dates">{extractDate(data.currentPeriod.startDate)} <span style={{ color: 'black' }}> &nbsp; / &nbsp; </span> {extractDate(data.currentPeriod.endDate)}</span>
           </div>}
 
-          {data.nextPeriod && <div className="next-plan">
+          {data?.nextPeriod?.status !== "PAYMENT_PENDING" && <div className="next-plan">
             <span className="current-plan-label">Next Plan Starts From :</span>{" "}
-            <span className="current-plan-dates">{extractDate(data.nextPeriod.startDate)} <span style={{ color: 'black' }}> &nbsp; / &nbsp; </span> {extractDate(data.nextPeriod.endDate)}</span>
+            <span className="current-plan-dates">{extractDate(data?.nextPeriod?.startDate)} <span style={{ color: 'black' }}> &nbsp; / &nbsp; </span> {extractDate(data?.nextPeriod?.endDate)}</span>
           </div>
           }
 

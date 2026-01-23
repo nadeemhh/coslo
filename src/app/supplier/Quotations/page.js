@@ -11,6 +11,7 @@ export default function page() {
   const [hasMore, setHasMore] = useState(true);
   const [productType, setproductType] = useState('');
   const [searchquery, setsearchquery] = useState([]);
+  const [sellerType, setsellertype] = useState('');
 
   const handledata = () => {
 
@@ -22,7 +23,10 @@ export default function page() {
 
     let sellerType = JSON.parse(localStorage.getItem('sellerdata')).sellerType
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/?sellerType=${sellerType}&page=${page}&limit=25${filter}`, {
+    let url = sellerType === 'Property' ? `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/property-leads/?page=${page}&limit=25${filter}` : `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/?sellerType=${sellerType}&page=${page}&limit=25${filter}`;
+
+
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -72,6 +76,8 @@ export default function page() {
     str = str.charAt(0).toUpperCase() + str.slice(1)
     setproductType(str)
 
+    setsellertype(JSON.parse(localStorage.getItem('sellerdata')).sellerType)
+
   }, [page, searchquery]);
 
 
@@ -109,7 +115,7 @@ export default function page() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
         <div style={{ textAlign: 'left' }}>
-          <button style={{ textAlign: 'left', border: '1px solid black', backgroundColor: 'white', padding: '5px 10px' }}>
+          {sellerType !== 'Property' && <button style={{ textAlign: 'left', border: '1px solid black', backgroundColor: 'white', padding: '5px 10px' }}>
 
             <i className="fas fa-filter" style={{ marginRight: '10px' }}></i>
 
@@ -122,7 +128,7 @@ export default function page() {
               <option value="completed" name="status">completed</option>
               <option value="pending" name="status">pending</option>
             </select>
-          </button>
+          </button>}
 
           {searchquery.length > 0 && <button style={{ textAlign: 'left', margin: '20px', border: '1px solid black', backgroundColor: 'red', padding: '5px 10px', color: 'white', border: 'none', borderRadius: '5px' }} onClick={() => { location.reload(); }}>Remove Filters</button>}
 
@@ -139,11 +145,12 @@ export default function page() {
               <th>##</th>
               <th>Name</th>
               <th>Date</th>
-              <th>Email</th>
               <th>Phone</th>
+              {sellerType === 'Property' && <th>Location</th>}
+              <th>Email</th>
               <th>{productType}</th>
-              <th>Status</th>
-              <th>Details</th>
+              {sellerType !== 'Property' && <th>Status</th>}
+              {sellerType !== 'Property' && <th>Details</th>}
             </tr>
           </thead>
           <tbody>
@@ -151,23 +158,27 @@ export default function page() {
 
               <tr key={index}>
                 <td>#{index + 1}</td>
-                <td>{order.buyer}</td>
+                <td>{sellerType !== 'Property' ? order.buyer : order.name}</td>
                 <td>{extractDate(order.date)}</td>
                 <td>
-                  {order.email || 'Email not provided'}
+                  {order.phone || 'N/A'}
                 </td>
+                {sellerType === 'Property' && <td>
+                  {order.location || 'N/A'}
+                </td>}
                 <td>
-                  {order.phone || 'phone not provided'}
+                  {order.email || 'N/A'}
                 </td>
+
                 <td>
-                  {order.product}
+                  {order.product || 'N/A'}
                 </td>
-                <td className={order.status}>{order.status}</td>
-                <td>
+                {sellerType !== 'Property' && <td className={order.status}>{order.status || 'N/A'}</td>}
+                {sellerType !== 'Property' && <td>
                   <Link href={`/supplier/Quotations/Quotations-details?id=${order.id}`}>
                     <i className="fas fa-external-link-alt" style={{ color: 'black' }}></i>
                   </Link>
-                </td>
+                </td>}
               </tr>
             ))}
           </tbody>
