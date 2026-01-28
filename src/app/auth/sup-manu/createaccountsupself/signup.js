@@ -152,7 +152,7 @@ function Signup() {
     formData.append("name", user.name);
     formData.append("email", user.email);
     formData.append("phone", user.phoneNo);
-    formData.append("password", user.password);
+    // formData.append("password", user.password);
     formData.append("businessType", user.role);
     formData.append("subscriptionPlan", user.SubscriptionType);
     if (sellertype !== 'Product') {
@@ -374,15 +374,16 @@ function Signup() {
               <label htmlFor="email">Enter Email ID</label>
               <input type="email" name="email" id="boldinput66" value={user.email} onChange={handleOnChange} required />
             </div>
+
             <div className="form-tab">
               <label htmlFor="phoneNo">Enter Phone Number</label>
               <input type="number" name="phoneNo" id="boldinput66" placeholder="+91" value={user.phoneNo} onChange={handleOnChange} required />
             </div>
 
-            <div className="form-tab">
+            {/* <div className="form-tab">
               <label htmlFor="password">Create Account Password</label>
               <input type="text" name="password" id="boldinput66" value={user.password} onChange={handleOnChange} required />
-            </div>
+            </div> */}
 
             {/* {sellertype === 'Service' && <>
               <div className="form-tab">

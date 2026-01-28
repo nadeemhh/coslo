@@ -294,7 +294,7 @@ const RealEstateForm = () => {
               <div className="c818-input-wrapper">
                 <i className="fa fa-rupee-sign c818-icon"></i>
                 <input
-                  type="text"
+                  type="number"
                   name="budget"
                   value={formData.budget}
                   onChange={handleInputChange}

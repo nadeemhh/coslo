@@ -1,6 +1,6 @@
 'use client'
 import { useParams, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "../../../CreateAccount.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,8 +23,7 @@ function ResetPassword() {
     });
   };
 
-  const handleLVerify = (e) => {
-    e.preventDefault();
+  const handleLVerify = () => {
 
     document.querySelector('.loaderoverlay').style.display = 'flex';
 
@@ -109,6 +108,12 @@ function ResetPassword() {
       });
   };
 
+  useEffect(() => {
+
+    handleLVerify();
+
+  }, []);
+
   return (
     <div className='main' >
       <div className="left-container">
@@ -123,7 +128,7 @@ function ResetPassword() {
           <h1 className="">Verify Your Account</h1>
           {error && <p style={{ color: 'red', padding: '10px' }}>{error}</p>}
 
-          <button className="form-tab" onClick={handleLVerify}>Verify ➜</button>
+          {/* <button className="form-tab" onClick={handleLVerify}>Verify ➜</button> */}
         </div>
       </div>
     </div>
