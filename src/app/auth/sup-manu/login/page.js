@@ -220,7 +220,7 @@ function Login() {
           {error && <p style={{ color: 'red' }}>{error}</p>}
 
           {step === 1 && (
-            <>
+            <div className="slideleftanimate">
               <div className="form-tab">
                 <label>Enter Phone Number</label>
                 <input
@@ -232,13 +232,13 @@ function Login() {
                 />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
-                <button className="form-tab" onClick={handleSendOtp}>Get Verification Code ➜</button>
+                <button className="form-tab" onClick={handleSendOtp}>Get OTP ➜</button>
               </div>
-            </>
+            </div>
           )}
 
           {step === 2 && (
-            <>
+            <div className="slideleftanimate">
               <div className="form-tab">
                 <label>Enter Verification Code</label>
                 <input
@@ -255,17 +255,17 @@ function Login() {
                     onClick={handleResendOtp}
                     style={{ background: 'none', border: 'none', color: '#1389F0', cursor: 'pointer', padding: 0 }}
                   >
-                    Resend Code
+                    Resend OTP
                   </button>
                 ) : (
-                  <span>Resend code in {formatTime(timer)}</span>
+                  <span>Resend OTP in {formatTime(timer)}</span>
                 )}
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
                 <button className="form-tab" onClick={handleVerifyOtp}>Login ➜</button>
               </div>
-            </>
+            </div>
           )}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>

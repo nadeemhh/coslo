@@ -386,7 +386,7 @@ const page = () => {
                     {inquiry.phone_number || 'N/A'}
                   </a>
                 </td>
-                <td>{inquiry?.adDetails?.adName.startsWith('SP-') ? inquiry?.adDetails?.adName.replace('SP-', '').replace('-AD', '') : (inquiry.interested_in || 'N/A')}</td>
+                <td>{inquiry?.adDetails?.adName?.startsWith('SP-') ? inquiry?.adDetails?.adName?.replace('SP-', '').replace('-AD', '') : (inquiry?.interested_in || 'N/A')}</td>
                 <td>
 
                   {inquiry?.lookingfor?.length > 0 ? <button
