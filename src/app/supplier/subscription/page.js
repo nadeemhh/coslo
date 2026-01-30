@@ -238,7 +238,7 @@ export default function page() {
             <span className="current-plan-dates">{extractDate(data.currentPeriod.startDate)} <span style={{ color: 'black' }}> &nbsp; / &nbsp; </span> {extractDate(data.currentPeriod.endDate)}</span>
           </div>}
 
-          {data?.nextPeriod?.status !== "PAYMENT_PENDING" && <div className="next-plan">
+          {data?.nextPeriod && data?.nextPeriod?.status !== "PAYMENT_PENDING" && <div className="next-plan">
             <span className="current-plan-label">Next Plan Starts From :</span>{" "}
             <span className="current-plan-dates">{extractDate(data?.nextPeriod?.startDate)} <span style={{ color: 'black' }}> &nbsp; / &nbsp; </span> {extractDate(data?.nextPeriod?.endDate)}</span>
           </div>
@@ -254,7 +254,7 @@ export default function page() {
               <tr>
                 <th>##</th>
                 <th>Plan</th>
-                <th>Payment Date</th>
+                <th>Date</th>
                 <th>Payment Status</th>
                 <th>Payment Method</th>
                 <th>Amount</th>

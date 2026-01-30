@@ -58,7 +58,6 @@ function Signup() {
   const [error, setError] = useState('');
   const [user, setUser] = useState({
     name: "",
-    email: "",
     phoneNo: "",
     company: "",
     gstNo: "",
@@ -150,7 +149,7 @@ function Signup() {
 
     // Append text fields as shown in the image
     formData.append("name", user.name);
-    formData.append("email", user.email);
+    // formData.append("email", user.email);
     formData.append("phone", user.phoneNo);
     // formData.append("password", user.password);
     formData.append("businessType", user.role);
@@ -370,10 +369,10 @@ function Signup() {
               <input type="text" name="name" id="boldinput66" value={user.name} onChange={handleOnChange} required />
             </div>
 
-            <div className="form-tab">
+            {/* <div className="form-tab">
               <label htmlFor="email">Enter Email ID</label>
               <input type="email" name="email" id="boldinput66" value={user.email} onChange={handleOnChange} required />
-            </div>
+            </div> */}
 
             <div className="form-tab">
               <label htmlFor="phoneNo">Enter Phone Number</label>
