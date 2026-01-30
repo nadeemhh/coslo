@@ -20,7 +20,7 @@ const NavBar = () => {
 
     if (typeof window !== "undefined") {
 
-      document.querySelector('.adminemail').textContent = JSON.parse(localStorage.getItem("sellerdata"))?.email || "";
+      document.querySelector('.adminemail').textContent = JSON.parse(localStorage.getItem("sellerdata"))?.name || "";
 
       if (localStorage.getItem('issuperadmin') === 'true') {
         setissuperadmin(true)
