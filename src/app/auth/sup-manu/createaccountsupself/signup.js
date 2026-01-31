@@ -406,7 +406,7 @@ function Signup() {
               </div>
             </>} */}
 
-            {sellertype !== 'Product' && <div className="form-tab">
+            {sellertype !== 'Product' && sellertype !== 'Property' && <div className="form-tab">
               <label htmlFor="panNumber">Enter Pan Number</label>
               <input type="text" id="boldinput66" name="panNumber" value={user.panNumber} onChange={handleOnChange} required />
             </div>}
@@ -483,6 +483,14 @@ function Signup() {
               </div>
             </div>
 
+
+              {user.role === 'Individual' && <>  <div className="form-tab">
+                <label htmlFor="panNumber">Enter Pan Number</label>
+                <input type="text" id="boldinput66" name="panNumber" value={user.panNumber} onChange={handleOnChange} required />
+              </div>
+              </>
+              }
+
               {user.role === 'Organization' && <> <div className="form-tab">
                 <label htmlFor="company">Enter Company Name</label>
                 <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} required />
@@ -504,7 +512,7 @@ function Signup() {
               </p>
               <div className='fo2'>
                 <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, serviceChargeAccepted: true, purchasePlan: '' }))} />
-                <label>2% Commision</label>
+                <label>2% Service charge</label>
               </div>
 
               <div className='fo2'>
