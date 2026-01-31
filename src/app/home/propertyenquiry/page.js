@@ -165,6 +165,7 @@ const RealEstateForm = () => {
       budget: formData.budget,
       tags: formData.tags,
       productType: 'property',
+      Requirement: document.querySelector(".c818-checked")?.children[1]?.textContent || 'property',
       source: new URLSearchParams(window.location.search).get("source") || 'our website lead',
       event_id: fbTrackingParams.event_id,
       fbp: fbTrackingParams.fbp,
