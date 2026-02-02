@@ -3,17 +3,17 @@ import './page.css'
 import '../../../component/component-css/cartcard.css'
 // import "../../../component/component-css/ui.css";
 import Link from 'next/link';
-import  { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Goback from '../../../back.js'
- import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
-    import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
-        import AmenitiesSelector from '../../../component/AmenitiesSelector.js';
-    import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
-    import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
-         import PropertyListingForm from '../../../component/PropertyListingForm.js';
+import usePreventNumberInputScroll from '../../../component/usePreventNumberInputScroll.js';
+import SelectedAttributeArray from '../../../component/selectedAttributeArray.js';
+import AmenitiesSelector from '../../../component/AmenitiesSelector.js';
+import getCategoryNestingLevel from '../../../component/getCategoryNestingLevel.js';
+import PropertyLocationForm from '../../../component/PropertyLocationForm.js';
+import PropertyListingForm from '../../../component/PropertyListingForm.js';
 
 import dynamic from 'next/dynamic';
- const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
+const QuillEditor = dynamic(() => import('../../../component/QuillEditor.js'), { ssr: false });
 
 
 
@@ -22,46 +22,46 @@ export default function Page() {
   const [userData, setUserData] = useState({
     productData: {
       productName: "",
-      primaryAttribute:"",
-      productType:"",
+      primaryAttribute: "",
+      productType: "",
       description: "",
       productVideo: "",
-      pdfFile:"",
-      latitude:"",
-      longitude:"",
-      approvalType:"",
-      khataType:"",
-      images:[],
+      pdfFile: "",
+      latitude: "",
+      longitude: "",
+      approvalType: "",
+      khataType: "",
+      images: [],
       commonAttributes: [],
-      reasonForReturn:[],
-      ammenties:[],
+      reasonForReturn: [],
+      ammenties: [],
       category: "",
-      tag:"",
-      BrandName:"",
-      amazoneProductUrl:"",
-      canCall:true,
-      canBook:true,
+      tag: "",
+      BrandName: "",
+      amazoneProductUrl: "",
+      canCall: true,
+      canBook: true,
     },
     variationsData: [
-    
+
     ],
   });
 
-    const [AllAttributes, setAllAttributes] = useState([]);
+  const [AllAttributes, setAllAttributes] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
 
   const [ModalOpen, setModalOpen] = useState(false);
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [Compareprice, setCompareprice] = useState(false);
-  const [showinput,setshowinput]=useState(true);
-  const [showinput2,setshowinput2]=useState(false);
+  const [showinput, setshowinput] = useState(true);
+  const [showinput2, setshowinput2] = useState(false);
 
   const [changeurl, setchangeurl] = useState(false);
   const [addcategory, setAddCategory] = useState(false);
   const [subcategory, setsubcategory] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [Attributes,setAttributes]=useState(1)
-  const [commonAttributes,setcommonAttributes]=useState(1)
+  const [Attributes, setAttributes] = useState(1)
+  const [commonAttributes, setcommonAttributes] = useState(1)
   const [showDeliveryFeeInput, setShowDeliveryFeeInput] = useState(!userData.productData.isDeliveryFree);
   const [showReturnDaysInput, setShowReturnDaysInput] = useState(userData.productData.isReturnAvailable);
   const [productimages, setproductimages] = useState([]);
@@ -72,14 +72,14 @@ export default function Page() {
   const [updateindex, setupdateindex] = useState(false);
   const [productupdate, setproductupdate] = useState(false);
   const [preimages, setpreimages] = useState([]);
-  const [tags,settags] = useState([]);
-   const [selectedtag,setselectedtag] = useState('');
+  const [tags, settags] = useState([]);
+  const [selectedtag, setselectedtag] = useState('');
   const [selectedPricingIndex, setSelectedPricingIndex] = useState(null);
   const [primaryGroup, setPrimaryGroup] = useState('');
-   const [showMap, setshowMap] = useState(false);
- const [selectedAmenities, setSelectedAmenities] = useState([]);
-const [LocationformData, setLocationFormData] = useState(null);
-const [propertyVideo, setPropertyVideo] = useState(null);   
+  const [showMap, setshowMap] = useState(false);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [LocationformData, setLocationFormData] = useState(null);
+  const [propertyVideo, setPropertyVideo] = useState(null);
   const [propertyvariations, setpropertyvariations] = useState([{
     id: Date.now(),
     totalSqft: '',
@@ -91,7 +91,7 @@ const [propertyVideo, setPropertyVideo] = useState(null);
 
 
 
- const handleVideoUpload = (files) => {
+  const handleVideoUpload = (files) => {
     const fileArray = Array.from(files);
     if (fileArray.length > 0) {
       // Store the actual File object, not base64
@@ -99,15 +99,15 @@ const [propertyVideo, setPropertyVideo] = useState(null);
     }
   };
 
-const removeVideo = () => {
+  const removeVideo = () => {
     setPropertyVideo(null);
   };
 
 
   const handleVideoSubmit = async (id) => {
 
-        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'flex';}
-       
+    if (productupdate) { document.querySelector('.loaderoverlay').style.display = 'flex'; }
+
 
     const formData = new FormData();
 
@@ -117,11 +117,11 @@ const removeVideo = () => {
     }
 
     try {
-       const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/updateproductvideo/${id}`, {
         method: 'PUT',
-         headers: {
+        headers: {
           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
         },
         body: formData
@@ -130,21 +130,21 @@ const removeVideo = () => {
       if (response.ok) {
         const result = await response.json();
         console.log('Success:', result);
-        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
+        if (productupdate) { document.querySelector('.loaderoverlay').style.display = 'none'; }
         // Handle success (show message, redirect, etc.)
       } else {
-        if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
+        if (productupdate) { document.querySelector('.loaderoverlay').style.display = 'none'; }
         console.error('Error:', response.statusText);
         // Handle error
       }
     } catch (error) {
-      if(productupdate){document.querySelector('.loaderoverlay').style.display = 'none';}
+      if (productupdate) { document.querySelector('.loaderoverlay').style.display = 'none'; }
       console.error('Error submitting form:', error);
       // Handle error
     }
   };
 
-console.log(selectedPricingIndex)
+  console.log(selectedPricingIndex)
 
   const [pricings, setPricings] = useState([
     { netPrice: 1290, stock: 250 },
@@ -157,31 +157,31 @@ console.log(selectedPricingIndex)
   console.log(userData)
 
 
-function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_remove) {
-  return array.filter(obj => {
-    const isMatch = matchingNames.includes(obj[propertyName]);
-    return keep_or_remove === 1 ? isMatch : !isMatch;
-  });
-}
+  function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_remove) {
+    return array.filter(obj => {
+      const isMatch = matchingNames.includes(obj[propertyName]);
+      return keep_or_remove === 1 ? isMatch : !isMatch;
+    });
+  }
 
 
   const refreshCategories = (productType) => {
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/category/`)
       .then((response) => response.json())
-      .then((data) =>{
-     console.log(data)
+      .then((data) => {
+        console.log(data)
 
-     if(productType==='property'){
-  data = filterObjectsByProperty(data, "name", ["Real Estate"],1);
-     }
+        if (productType === 'property') {
+          data = filterObjectsByProperty(data, "name", ["Real Estate"], 1);
+        }
 
-      if(productType==='product'){
-  data = filterObjectsByProperty(data, "name", ["Real Estate","Services"],0);
-     }
+        if (productType === 'product') {
+          data = filterObjectsByProperty(data, "name", ["Real Estate", "Services"], 0);
+        }
 
-     if(productType==='service'){
-  data = filterObjectsByProperty(data, "name", ["Services"],1);
-     }
+        if (productType === 'service') {
+          data = filterObjectsByProperty(data, "name", ["Services"], 1);
+        }
 
         setCategories(data)
       })
@@ -193,54 +193,54 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
   /// get tags
 
 
-    const gettag = (productType) => {
-     
-  
-      document.querySelector('.loaderoverlay').style.display='flex';
-  
-     const token = localStorage.getItem('token');
-  
-  
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-        },
+  const gettag = (productType) => {
+
+
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+
+    const token = localStorage.getItem('token');
+
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tag/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((errorData) => {
-              throw new Error(errorData.message || 'Failed. Please try again.');
-            });
-          }
-        })
-        .then((data) => {
-              console.log(data)
-               if(productType==='property'){
-                data= filterObjectsByProperty(data, "tagName", ["Plots","Villa","Apartments"],1);
-               }
+      .then((data) => {
+        console.log(data)
+        if (productType === 'property') {
+          data = filterObjectsByProperty(data, "tagName", ["Plots", "Villa", "Apartments"], 1);
+        }
 
-               if(productType==='product'){
-                data= filterObjectsByProperty(data, "tagName", ["Plots","Villa","Apartments"],0);
-               }
+        if (productType === 'product') {
+          data = filterObjectsByProperty(data, "tagName", ["Plots", "Villa", "Apartments"], 0);
+        }
 
-               if(productType==='service'){
-                data= filterObjectsByProperty(data, "tagName", ["service"],1);
-               }
+        if (productType === 'service') {
+          data = filterObjectsByProperty(data, "tagName", ["service"], 1);
+        }
 
-              settags([...data])
-             document.querySelector('.loaderoverlay').style.display='none';
+        settags([...data])
+        document.querySelector('.loaderoverlay').style.display = 'none';
 
-         
-        })
-        .catch((err) => {
-          document.querySelector('.loaderoverlay').style.display='none';
-          console.log(err)
-        });
-    };
+
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+      });
+  };
 
   //////
 
@@ -249,7 +249,7 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
 
   useEffect(() => {
 
-  let productType=new URLSearchParams(window.location.search).get("ptype");
+    let productType = new URLSearchParams(window.location.search).get("ptype");
     refreshCategories(productType); // Load categories on mount
     setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
     const pid = new URLSearchParams(window.location.search).get("pid");
@@ -257,44 +257,44 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
 
 
     console.log(pid)
-    if(pid){
+    if (pid) {
       getproductdetails(pid)
-    }else{
+    } else {
       setshowMap(true)
     }
 
     fetchAttributes(productType)
     gettag(productType)
 
-    
+
 
   }, []);
-  
+
   const toggleCompareprice = () => {
-  
+
     setCompareprice(!Compareprice);
   };
 
   const toggleAddCategory = (data) => {
-   
+
     setsubcategory(data)
     setAddCategory(!addcategory);
   };
 
 
   const toggleconfirmation = () => {
-  
+
     setconfirmationOpen(!confirmationOpen);
   };
 
-  const toggleModal = (update=true) => {
-  
+  const toggleModal = (update = true) => {
+
     setModalOpen(!ModalOpen);
-    if(update){
+    if (update) {
       setAttributes(1)
       addPriceSlabs()
     }
-   
+
   };
 
 
@@ -302,30 +302,30 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
   const handleImageUpload = (event) => {
 
     const myfiles = Array.from(event.target.files);
-    setproductimages((prevImages) =>{
+    setproductimages((prevImages) => {
       setVariation((prev) => ({
         ...prev,
         productImages: [...prevImages, ...myfiles],
       }));
       return [...prevImages, ...myfiles];
-      
-      });
+
+    });
 
     const files = Array.from(event.target.files);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...imageUrls]);
 
-    
+
   };
 
 
-   const handleImagefilrtourlconvert = (file) => {
+  const handleImagefilrtourlconvert = (file) => {
 
-     if (!(file instanceof File)) {
-    throw new Error("Input must be a File object");
-  }
-  return URL.createObjectURL(file);
-    
+    if (!(file instanceof File)) {
+      throw new Error("Input must be a File object");
+    }
+    return URL.createObjectURL(file);
+
   };
 
 
@@ -342,21 +342,21 @@ function filterObjectsByProperty(array, propertyName, matchingNames, keep_or_rem
 
   const removepreImage = (index) => {
 
-    
+
 
     setpreimages(preimages.filter((_, i) => i !== index))
 
     setVariation((prev) => ({
       ...prev,
       awsImages: preimages.filter((_, i) => i !== index),
-     deleteImages:[...(prev.deleteImages || []), preimages.find((_, i) => i === index)],
+      deleteImages: [...(prev.deleteImages || []), preimages.find((_, i) => i === index)],
     }));
   };
 
 
 
-console.log(productimages,images)
-  
+  console.log(productimages, images)
+
 
   const addPricing = () => {
     setPricings([...pricings, { netPrice: 1290, stock: 250 }]);
@@ -383,68 +383,68 @@ console.log(productimages,images)
   };
 
 
-    // Add a new reason item
-    const addreason = () => {
-      setUserData((prevState) => ({
+  // Add a new reason item
+  const addreason = () => {
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        reasonForReturn: [
+          ...prevState.productData.reasonForReturn,
+          "",
+        ],
+      },
+    }));
+  };
+
+  // Add a new ammenties item
+  const addammenties = () => {
+    setUserData((prevState) => ({
+      ...prevState,
+      productData: {
+        ...prevState.productData,
+        ammenties: [
+          ...prevState.productData.ammenties,
+          { AmenitieImage: null, AmenitieName: '' },
+        ],
+      },
+    }));
+  };
+
+  // Handle input change for ammenties
+  const handleammentiesChange = (index, value) => {
+
+    setUserData((prevState) => {
+      const updatedammenties = [...prevState.productData.ammenties];
+
+      // If value contains $, split into array
+      if (value.includes('$')) {
+        const splitValues = value.split('$').map(item => item.trim()).filter(Boolean);
+        updatedammenties.splice(index, 1, ...splitValues); // Replace the one item with many
+      } else {
+        updatedammenties[index] = { AmenitieImage: null, AmenitieName: value }; // Just set as string
+      }
+
+
+      return {
         ...prevState,
         productData: {
           ...prevState.productData,
-          reasonForReturn: [
-            ...prevState.productData.reasonForReturn,
-            "", 
-          ],
+          ammenties: updatedammenties,
         },
-      }));
-    };
+      };
+    });
 
-    // Add a new ammenties item
-    const addammenties = () => {
-      setUserData((prevState) => ({
-        ...prevState,
-        productData: {
-          ...prevState.productData,
-          ammenties: [
-            ...prevState.productData.ammenties,
-            {AmenitieImage:null,AmenitieName:''}, 
-          ],
-        },
-      }));
-    };
-
-     // Handle input change for ammenties
-    const handleammentiesChange = (index,value) => {
-
-      setUserData((prevState) => {
-        const updatedammenties = [...prevState.productData.ammenties];
-
-         // If value contains $, split into array
-    if (value.includes('$')) {
-    const splitValues = value.split('$').map(item => item.trim()).filter(Boolean);
-      updatedammenties.splice(index, 1, ...splitValues); // Replace the one item with many
-    } else {
-      updatedammenties[index] = {AmenitieImage: null,AmenitieName:value}; // Just set as string
-    }
-
-  
-        return {
-          ...prevState,
-          productData: {
-            ...prevState.productData,
-            ammenties: updatedammenties,
-          },
-        };
-      });
-
-    };
+  };
 
 
 
-    // remove ammenties 
+  // remove ammenties 
 
   function removeammenties(index) {
-   
+
     let updatedammenties = userData.productData.ammenties.filter((_, i) => i !== index);
-    console.log(index,updatedammenties)
+    console.log(index, updatedammenties)
     setUserData((prevState) => ({
       ...prevState,
       productData: {
@@ -473,21 +473,21 @@ console.log(productimages,images)
   };
 
 
-    // Handle input change for reason
-    const handlereasonChange = (index,value) => {
-      setUserData((prevState) => {
-        const updatedreason = [...prevState.productData.reasonForReturn];
-        updatedreason[index] = value; // Update specific field
-  
-        return {
-          ...prevState,
-          productData: {
-            ...prevState.productData,
-            reasonForReturn: updatedreason,
-          },
-        };
-      });
-    };
+  // Handle input change for reason
+  const handlereasonChange = (index, value) => {
+    setUserData((prevState) => {
+      const updatedreason = [...prevState.productData.reasonForReturn];
+      updatedreason[index] = value; // Update specific field
+
+      return {
+        ...prevState,
+        productData: {
+          ...prevState.productData,
+          reasonForReturn: updatedreason,
+        },
+      };
+    });
+  };
 
 
   const handleProductDataChange = (field, value) => {
@@ -507,79 +507,79 @@ console.log(productimages,images)
     stock: "",
     lowStockThreshold: "",
     gst: "",
-    serviceName:"",
-    duration:{value:"",unit:"minutes"},
+    serviceName: "",
+    duration: { value: "", unit: "minutes" },
     repeatBuyerDiscount: "",
     priceSlabs: [],
     attributes: [],
     dimensions: { length: "", width: "", height: "" },
-    weight:"",
-    divertIndividualOrder: false,
-      isReturnable: false,
-          returnDays: 3,
-          productImages:[]
-  });
-
-console.log(variation)
-
-
-const defaultSlabs = [ 
-  {
-    type: "individual",
-    min: "",
-    max: "",
-    discount: "",
-    deliveryFee: ""
-  },
-  ...(userData.productData.productType === "product"
-    ?[{
-    type: "retailer",
-    min: "",
-    max: "",
-    discount: "",
-    deliveryFee: ""
-  },
-  {
-    type: "wholesaler",
-    min: "",
-    max: "",
-    discount: "",
-    deliveryFee: ""
-  },]
-  :
-  [])
-];
-
-// Function to handle adding the default price slabs
-const addPriceSlabs = () => {
-  setVariation({ ...variation, priceSlabs: defaultSlabs });
-};
-
-// Function to remove a specific price slab (current one clicked)
-const removePriceSlab = (index) => {
-   console.log()
-  const updatedSlabs = variation.priceSlabs.filter((_, i) => i !== index);
-  //setVariation({ ...variation, priceSlabs: updatedSlabs });
-
-  setVariation({
-    mrp: "",
-    stock: "",
-    gst: "",
-    serviceName:"",
-    duration:{value:"",unit:"minutes"},
-    lowStockThreshold: "",
-    repeatBuyerDiscount: "",
-    priceSlabs: [],
-    attributes: [],
-    dimensions: { length: "", width: "", height: "" },
-    weight:"",
+    weight: "",
     divertIndividualOrder: false,
     isReturnable: false,
-        returnDays: 3,
-        productImages:[]
+    returnDays: 3,
+    productImages: []
   });
-  setShowReturnDaysInput(false);
-};
+
+  console.log(variation)
+
+
+  const defaultSlabs = [
+    {
+      type: "individual",
+      min: "",
+      max: "",
+      discount: "",
+      deliveryFee: ""
+    },
+    ...(userData.productData.productType === "product"
+      ? [{
+        type: "retailer",
+        min: "",
+        max: "",
+        discount: "",
+        deliveryFee: ""
+      },
+      {
+        type: "wholesaler",
+        min: "",
+        max: "",
+        discount: "",
+        deliveryFee: ""
+      },]
+      :
+      [])
+  ];
+
+  // Function to handle adding the default price slabs
+  const addPriceSlabs = () => {
+    setVariation({ ...variation, priceSlabs: defaultSlabs });
+  };
+
+  // Function to remove a specific price slab (current one clicked)
+  const removePriceSlab = (index) => {
+    console.log()
+    const updatedSlabs = variation.priceSlabs.filter((_, i) => i !== index);
+    //setVariation({ ...variation, priceSlabs: updatedSlabs });
+
+    setVariation({
+      mrp: "",
+      stock: "",
+      gst: "",
+      serviceName: "",
+      duration: { value: "", unit: "minutes" },
+      lowStockThreshold: "",
+      repeatBuyerDiscount: "",
+      priceSlabs: [],
+      attributes: [],
+      dimensions: { length: "", width: "", height: "" },
+      weight: "",
+      divertIndividualOrder: false,
+      isReturnable: false,
+      returnDays: 3,
+      productImages: []
+    });
+    setShowReturnDaysInput(false);
+  };
 
 
   // Handle input changes for variation details
@@ -601,60 +601,60 @@ const removePriceSlab = (index) => {
     } else {
       processedValue = Number(value); // Keep as string if it's neither boolean nor numeric
     }
-  
+
     setVariation((prev) => ({ ...prev, [key]: processedValue }));
     // setVariation((prev) => ({ ...prev, [key]: Number(value) }));
   };
 
-   // Handle changes for nested dimensions
-   const handleDimensionChange = (dimensionKey, value) => {
+  // Handle changes for nested dimensions
+  const handleDimensionChange = (dimensionKey, value) => {
 
-   if(value < 0){
-    value=0;
-   }
+    if (value < 0) {
+      value = 0;
+    }
 
     setVariation((prev) => ({
       ...prev,
-      dimensions: { ...prev.dimensions, [dimensionKey]: value !== ''? Number(value):'' },
+      dimensions: { ...prev.dimensions, [dimensionKey]: value !== '' ? Number(value) : '' },
     }));
   };
 
 
-   // Handle changes for service
-   const handleserviceChange = (serviceKey, value) => {
+  // Handle changes for service
+  const handleserviceChange = (serviceKey, value) => {
 
-  if(serviceKey==="serviceName"){
-   setVariation((prev) => ({
-      ...prev,
-      serviceName:value,
-    }));
-  }else{
-   setVariation((prev) => ({
-      ...prev,
-      duration: { ...prev.duration, [serviceKey]: serviceKey!== "value"?value:Number(value) },
-    }));
-  }
+    if (serviceKey === "serviceName") {
+      setVariation((prev) => ({
+        ...prev,
+        serviceName: value,
+      }));
+    } else {
+      setVariation((prev) => ({
+        ...prev,
+        duration: { ...prev.duration, [serviceKey]: serviceKey !== "value" ? value : Number(value) },
+      }));
+    }
 
- 
+
   };
 
 
 
-   const handleRealstateChange = (Realstatedata, value) => {
+  const handleRealstateChange = (Realstatedata, value) => {
 
-   if(value < 0){
-    value=0;
-   }
+    if (value < 0) {
+      value = 0;
+    }
 
     setVariation((prev) => ({
       ...prev,
-      realEstateData: { ...prev.realEstateData, [Realstatedata]: value !== ''? Number(value):'' },
+      realEstateData: { ...prev.realEstateData, [Realstatedata]: value !== '' ? Number(value) : '' },
     }));
   };
 
   // Handle changes for nested attributes inside variation
   const handleNestedChange = (parentKey, index, key, value) => {
-   
+
     setVariation((prev) => {
       const updatedArray = [...prev[parentKey]];
       updatedArray[index][key] = value;
@@ -679,31 +679,31 @@ const removePriceSlab = (index) => {
   };
 
   // Save the current variation to variationsData
-  const saveVariation = (update=false) => {
+  const saveVariation = (update = false) => {
 
- if(userData.productData.productType !== "service"){
-  let hasdefaultAttribute = checkdefaultAttribute(variation)
+    if (userData.productData.productType !== "service") {
+      let hasdefaultAttribute = checkdefaultAttribute(variation)
 
-    if(!hasdefaultAttribute){
-      alert(`select one ${primaryGroup} Attribute`)
-      return;
+      if (!hasdefaultAttribute) {
+        alert(`select one ${primaryGroup} Attribute`)
+        return;
+      }
     }
-  }
 
-    
+
     const filteredVariation = { ...variation };
     if (filteredVariation.returnDays === '' || filteredVariation.returnDays === 0) {
       delete filteredVariation.returnDays;
     }
 
     if (filteredVariation.repeatBuyerDiscount === '') {
-      filteredVariation.repeatBuyerDiscount=0;
+      filteredVariation.repeatBuyerDiscount = 0;
     }
 
-  
+
     setUserData((prevState) => {
       let updatedVariations = [...prevState.variationsData];
-  
+
       if (update) {
         // Replace the item at updateIndex
         updatedVariations[updateindex] = filteredVariation;
@@ -712,35 +712,35 @@ const removePriceSlab = (index) => {
         // Append a new variation
         updatedVariations.push(filteredVariation);
       }
-  
+
       return {
         ...prevState,
         variationsData: updatedVariations,
       };
     });
-    
+
 
     setVariation({
       mrp: "",
       stock: "",
       gst: "",
-      serviceName:"",
-      duration:{value:"",unit:"minutes"},
+      serviceName: "",
+      duration: { value: "", unit: "minutes" },
       lowStockThreshold: "",
       repeatBuyerDiscount: "",
       priceSlabs: [],
       attributes: [],
       dimensions: { length: "", width: "", height: "" },
-      weight:"",
+      weight: "",
       divertIndividualOrder: false,
       isReturnable: false,
-          returnDays: 3,
-          productImages:[]
+      returnDays: 3,
+      productImages: []
     });
-  
+
     setproductimages([])
-setImages([])
-setpreimages([])
+    setImages([])
+    setpreimages([])
 
     // Close modal
     setModalOpen(!ModalOpen);
@@ -749,197 +749,197 @@ setpreimages([])
 
 
 
-  
-  
+
+
 
   const handleSubmit = async () => {
 
 
-   try{
+    try {
 
-    userData.productData.category=document.querySelector('.active342').getAttribute('categoryid');
+      userData.productData.category = document.querySelector('.active342').getAttribute('categoryid');
 
-  }catch(er){
-    alert('Select Category')
-    return;
-  }
-
-   if(getCategoryNestingLevel(categories,userData.productData.category) !== 1){
-     alert(' Select a child category.')
-    return;
-  }
-
-   if(userData.productData.productName === ""){
-    alert('enter product name')
-    return;
-  }
-
-  if(userData.productData.tag === "" || userData.productData.tag === null){
-    alert('select a tag')
-    return;
-  }
-
-  if(userData.variationsData.length===0 && userData.productData.productType !== "property"){
-    alert('Add Price')
-    return;
-  }
-
-
-  
-     let userDatacopy =structuredClone(userData);
-    
-    // Handle location for property type
-  if(userData.productData.productType === "property"){
-    const locationData = await handlelocationSubmit();
-    if (!locationData) {
-      alert('Enter all location details')
+    } catch (er) {
+      alert('Select Category')
       return;
     }
-    // Directly assign the location data to the copy
-    userDatacopy.productData.location = locationData;
-    userDatacopy.variationsData = propertyvariations;
-  }
 
+    if (getCategoryNestingLevel(categories, userData.productData.category) !== 1) {
+      alert(' Select a child category.')
+      return;
+    }
 
+    if (userData.productData.productName === "") {
+      alert('enter product name')
+      return;
+    }
 
+    if (userData.productData.tag === "" || userData.productData.tag === null) {
+      alert('select a tag')
+      return;
+    }
 
-
-  function cleanVariationData(variationsDataRemove,productDataRemove) {
-  const keysToRemove = variationsDataRemove;
-  const keysToRemoveproductData = productDataRemove;
-
-  userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
-
-    if(!variation?.duration?.value){
-   delete variation.duration
+    if (userData.variationsData.length === 0 && userData.productData.productType !== "property") {
+      alert('Add Price')
+      return;
     }
 
 
-    const cleaned = { ...variation };
-    keysToRemove.forEach(key => delete cleaned[key]);
-    return cleaned;
-  });
+
+    let userDatacopy = structuredClone(userData);
+
+    // Handle location for property type
+    if (userData.productData.productType === "property") {
+      const locationData = await handlelocationSubmit();
+      if (!locationData) {
+        alert('Enter all location details')
+        return;
+      }
+      // Directly assign the location data to the copy
+      userDatacopy.productData.location = locationData;
+      userDatacopy.variationsData = propertyvariations;
+    }
 
 
-   
-    keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
-
-}
 
 
 
-  if(userData.productData.productType === "property"){
+    function cleanVariationData(variationsDataRemove, productDataRemove) {
+      const keysToRemove = variationsDataRemove;
+      const keysToRemoveproductData = productDataRemove;
+
+      userDatacopy.variationsData = userDatacopy.variationsData.map(variation => {
+
+        if (!variation?.duration?.value) {
+          delete variation.duration
+        }
 
 
-// Call the function
-cleanVariationData([],["commonAttributes","amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","canCall","canBook"]);
+        const cleaned = { ...variation };
+        keysToRemove.forEach(key => delete cleaned[key]);
+        return cleaned;
+      });
 
-  }
 
 
-  
-  if(userData.productData.productType === "product"){
+      keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
 
-// Call the function
-cleanVariationData(["serviceName", "duration"],["location", "ammenties", "khataType", "approvalType","canCall","canBook"]);
+    }
 
-  }
 
-  if(userData.productData.productType === "service"){
 
-// Call the function
-cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"],["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude","primaryAttribute"]);
+    if (userData.productData.productType === "property") {
 
-  }
-  
-  
+
+      // Call the function
+      cleanVariationData([], ["commonAttributes", "amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude", "canCall", "canBook"]);
+
+    }
+
+
+
+    if (userData.productData.productType === "product") {
+
+      // Call the function
+      cleanVariationData(["serviceName", "duration"], ["location", "ammenties", "khataType", "approvalType", "canCall", "canBook"]);
+
+    }
+
+    if (userData.productData.productType === "service") {
+
+      // Call the function
+      cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight", "repeatBuyerDiscount"], ["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude", "primaryAttribute"]);
+
+    }
+
+
 
     async function convertImagesToBase64(productData) {
 
       const variations = productData.variationsData;
-  
+
       const convertToBase64 = (file) => {
-          return new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = () => resolve(reader.result);
-              reader.onerror = (error) => reject(error);
-          });
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
       };
-  
+
       for (const variation of variations) {
-          const images = variation.productImages;
-  
-          for (let i = 0; i < images.length; i++) {
-              const imageFile = images[i];
-  
-              if (imageFile instanceof File) { // Check if the item is a File object
-                  try {
-                      const base64String = await convertToBase64(imageFile);
-                      images[i] =  base64String; // Replace the file with Base64
-                  } catch (error) {
-                      console.error('Error converting image to Base64:', error);
-                  }
-              }
+        const images = variation.productImages;
+
+        for (let i = 0; i < images.length; i++) {
+          const imageFile = images[i];
+
+          if (imageFile instanceof File) { // Check if the item is a File object
+            try {
+              const base64String = await convertToBase64(imageFile);
+              images[i] = base64String; // Replace the file with Base64
+            } catch (error) {
+              console.error('Error converting image to Base64:', error);
+            }
           }
+        }
       }
-  
+
       return productData;
-  }
-  
-  // Example usage
-  // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
-   if(userData.productData.productType !== "property"){
-  convertImagesToBase64(userDatacopy).then((result) => {
-      console.log('Converted Product Data:', result);
-     postdata(result)
-  });
-}else{
-  postdata(userDatacopy)
-}
-
-
-   console.log(userDatacopy)
-
-  async function postdata(data) {
-   
-    try {
-      document.querySelector('.loaderoverlay').style.display='flex';
-
-      const token = localStorage.getItem('token');
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-        },
-        body: JSON.stringify(data),
-      });
-  
-      if (response.ok) {
-          let data = await response.json();
-      await handleVideoSubmit(data.data._id)
-
-  document.querySelector('.loaderoverlay').style.display='none';
-        alert("Product added successfully!");
-      window.location='/supplier/Products';
-
-      } else {
-        const errorData = await response.json();
-        document.querySelector('.loaderoverlay').style.display='none';
-        alert("Failed to add Product: " + errorData.message);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      document.querySelector('.loaderoverlay').style.display='none';
-      alert("Something went wrong!");
     }
-  }
+
+    // Example usage
+    // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
+    if (userData.productData.productType !== "property") {
+      convertImagesToBase64(userDatacopy).then((result) => {
+        console.log('Converted Product Data:', result);
+        postdata(result)
+      });
+    } else {
+      postdata(userDatacopy)
+    }
+
+
+    console.log(userDatacopy)
+
+    async function postdata(data) {
+
+      try {
+        document.querySelector('.loaderoverlay').style.display = 'flex';
+
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/create`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          let data = await response.json();
+          await handleVideoSubmit(data.data._id)
+
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          alert(`${userData.productData.productType} added successfully!`);
+          window.location = '/supplier/Products';
+
+        } else {
+          const errorData = await response.json();
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          alert("Failed to add Product: " + errorData.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert("Something went wrong!");
+      }
+    }
 
 
   };
-  
+
 
   /////////////////////// update pricing
 
@@ -947,456 +947,458 @@ cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "pric
 
   const updatePricing = (index) => {
     let selectedVariations = userData.variationsData.filter((_, i) => i === index);
- 
-    selectedVariations=selectedVariations[0];
+
+    selectedVariations = selectedVariations[0];
     console.log(selectedVariations)
-    setVariation({...selectedVariations});
+    setVariation({ ...selectedVariations });
     let newState = selectedVariations.isReturnable;
     setShowReturnDaysInput(newState);
 
     setproductimages([...selectedVariations.productImages])
     const files = Array.from(selectedVariations.productImages);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
-setImages([...imageUrls])
+    setImages([...imageUrls])
 
-try{
-  setpreimages([...selectedVariations.awsImages])
-}catch(err){
-  setpreimages([])
-}
+    try {
+      setpreimages([...selectedVariations.awsImages])
+    } catch (err) {
+      setpreimages([])
+    }
 
 
     setisupdate(true)
     setupdateindex(index)
     toggleModal(false);
-    
+
 
   };
 
 
-    const copyPricing = (index) => {
+  const copyPricing = (index) => {
     let selectedVariations = userData.variationsData.filter((_, i) => i === index);
- 
-    selectedVariations=selectedVariations[0];
-    console.log(selectedVariations)
-   const { _id, ...rest } = selectedVariations;
 
-setVariation({
-  ...rest,
-  attributes: [],
-});
+    selectedVariations = selectedVariations[0];
+    console.log(selectedVariations)
+    const { _id, ...rest } = selectedVariations;
+
+    setVariation({
+      ...rest,
+      attributes: [],
+    });
     let newState = selectedVariations.isReturnable;
     setShowReturnDaysInput(newState);
-    
+
   };
 
 
-console.log(variation)
+  console.log(variation)
 
 
 
-function getproductdetails(productId) {
+  function getproductdetails(productId) {
 
-    
-  console.log(productId);
-  
-  const token = localStorage.getItem('token');
 
-      document.querySelector('.loaderoverlay').style.display = 'flex';
+    console.log(productId);
 
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin/${productId}`, {
-        method: 'GET',
-         headers: {
+    const token = localStorage.getItem('token');
+
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin/${productId}`, {
+      method: 'GET',
+      headers: {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
       }
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((errorData) => {
-             
-              throw new Error(errorData.error || 'Failed');
-            });
-          }
-        })
-        .then((data) => {
-       
+      .then((data) => {
+
 
         // Modify variations dynamically
-data.data.variations.forEach(variation => {
-  variation.awsImages = [...variation.productImages];  // Copy productImages to awsImages
-  variation.productImages = [];  // Clear productImages
-  variation.deleteImages = []; 
-});
+        data.data.variations.forEach(variation => {
+          variation.awsImages = [...variation.productImages];  // Copy productImages to awsImages
+          variation.productImages = [];  // Clear productImages
+          variation.deleteImages = [];
+        });
 
-if(!data.data.productType){
-data.data.productType="product"
-}
+        if (!data.data.productType) {
+          data.data.productType = "product"
+        }
 
-if(data.data.productType==='property'){
-  setpropertyvariations([...data.data.variations])
-    data.data.awsImages = [...data.data.images];
-    data.data.images=[];
-  data.data.deleteImages = [];
-}
+        if (data.data.productType === 'property') {
+          setpropertyvariations([...data.data.variations])
+          data.data.awsImages = [...data.data.images];
+          data.data.images = [];
+          data.data.deleteImages = [];
+        }
 
-console.log(data.data,data.data.productType)
+        console.log(data.data, data.data.productType)
 
 
         const { variations, ...filteredData } = data.data;
 
-        setUserData({productData: filteredData,
-          variationsData: [...data.data.variations]})
-      
-          setproductupdate(true)
+        setUserData({
+          productData: filteredData,
+          variationsData: [...data.data.variations]
+        })
 
-          setPrimaryGroup(data.data.primaryAttribute)
-setselectedtag(data.data?.tagName)
-       // setisdata(true)
+        setproductupdate(true)
+
+        setPrimaryGroup(data.data.primaryAttribute)
+        setselectedtag(data.data?.tagName)
+        // setisdata(true)
         setshowMap(true)
-setSelectedAmenities(data.data.ammenties)
+        setSelectedAmenities(data.data.ammenties)
 
 
         document.querySelector('.loaderoverlay').style.display = 'none';
-        })
-        .catch((err) => {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          console.log(err)
-         
-         
-        });
-  
-    
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+
+
+      });
+
+
   }
 
 
 
 
-  function postnewVariation(newVariation=false) {
+  function postnewVariation(newVariation = false) {
 
-    if(userData.productData.productType !== "service"){
-   let hasdefaultAttribute = checkdefaultAttribute(variation)
+    if (userData.productData.productType !== "service") {
+      let hasdefaultAttribute = checkdefaultAttribute(variation)
 
-    if(!hasdefaultAttribute){
-      alert(`select one ${primaryGroup} Attribute`)
-      return;
+      if (!hasdefaultAttribute) {
+        alert(`select one ${primaryGroup} Attribute`)
+        return;
+      }
     }
-  }
 
 
-    let updatevariation =structuredClone(variation);
-
-
-
-
-  function cleanVariationData(variationsDataRemove) {
-  const keysToRemove = variationsDataRemove;
-
-    const cleaned = { ...updatevariation };
-    keysToRemove.forEach(key => delete cleaned[key]);
-    return cleaned;
-
-}
+    let updatevariation = structuredClone(variation);
 
 
 
-  if(userData.productData.productType === "property"){
-    
-     if (Array.isArray(updatevariation.priceSlabs)) {
-    updatevariation.priceSlabs.forEach(slab => {
-      if (slab.max === "") slab.max = 0;
-      if (slab.discount === "") slab.discount = 0;
-      if (slab.deliveryFee === "") slab.deliveryFee = 0;
-    });
-  }
-  
 
-// Call the function
-cleanVariationData([
-    "gst",
-    "stock",
-    "serviceName",
-    "duration",
-    "lowStockThreshold",
-    "repeatBuyerDiscount",
-    "dimensions",
-    "weight",
-    "divertIndividualOrder",
-    "isReturnable",
-    "returnDays"
-  ]);
+    function cleanVariationData(variationsDataRemove) {
+      const keysToRemove = variationsDataRemove;
 
-  }
+      const cleaned = { ...updatevariation };
+      keysToRemove.forEach(key => delete cleaned[key]);
+      return cleaned;
+
+    }
 
 
-  
-  if(userData.productData.productType === "product"){
 
-// Call the function
-cleanVariationData(["serviceName", "duration"]);
+    if (userData.productData.productType === "property") {
 
-  }
+      if (Array.isArray(updatevariation.priceSlabs)) {
+        updatevariation.priceSlabs.forEach(slab => {
+          if (slab.max === "") slab.max = 0;
+          if (slab.discount === "") slab.discount = 0;
+          if (slab.deliveryFee === "") slab.deliveryFee = 0;
+        });
+      }
 
-  if(userData.productData.productType === "service"){
 
-// Call the function
-cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight","repeatBuyerDiscount"]);
+      // Call the function
+      cleanVariationData([
+        "gst",
+        "stock",
+        "serviceName",
+        "duration",
+        "lowStockThreshold",
+        "repeatBuyerDiscount",
+        "dimensions",
+        "weight",
+        "divertIndividualOrder",
+        "isReturnable",
+        "returnDays"
+      ]);
 
-  }
-  
-  
+    }
+
+
+
+    if (userData.productData.productType === "product") {
+
+      // Call the function
+      cleanVariationData(["serviceName", "duration"]);
+
+    }
+
+    if (userData.productData.productType === "service") {
+
+      // Call the function
+      cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight", "repeatBuyerDiscount"]);
+
+    }
+
+
 
 
 
 
     async function convertImagesToBase64(productData) {
       const variations = [productData];
-  
+
       const convertToBase64 = (file) => {
-          return new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = () => resolve(reader.result);
-              reader.onerror = (error) => reject(error);
-          });
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
       };
-  
+
       for (const variation of variations) {
-          const images = variation.productImages;
-  
-          for (let i = 0; i < images.length; i++) {
-              const imageFile = images[i];
-  
-              if (imageFile instanceof File) { // Check if the item is a File object
-                  try {
-                      const base64String = await convertToBase64(imageFile);
-                      images[i] =  base64String; // Replace the file with Base64
-                  } catch (error) {
-                      console.error('Error converting image to Base64:', error);
-                  }
-              }
+        const images = variation.productImages;
+
+        for (let i = 0; i < images.length; i++) {
+          const imageFile = images[i];
+
+          if (imageFile instanceof File) { // Check if the item is a File object
+            try {
+              const base64String = await convertToBase64(imageFile);
+              images[i] = base64String; // Replace the file with Base64
+            } catch (error) {
+              console.error('Error converting image to Base64:', error);
+            }
           }
+        }
       }
-  
+
       return productData;
-  }
-  
-  // Example usage
-  // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
-  convertImagesToBase64(updatevariation).then((result) => {
+    }
+
+    // Example usage
+    // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
+    convertImagesToBase64(updatevariation).then((result) => {
       console.log('Converted Product Data:', result);
       postdata(result)
-  });
+    });
 
-  
-  async function postdata(data) {
-   
+
+    async function postdata(data) {
+
+      try {
+        document.querySelector('.loaderoverlay').style.display = 'flex';
+
+        const token = localStorage.getItem('token');
+        let pid = new URLSearchParams(window.location.search).get("pid");
+
+        let uploadurl = newVariation ? `${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}` : `${process.env.NEXT_PUBLIC_BASE_URL}/product/updateVariation/${pid}/${data._id}`;
+
+        const response = await fetch(uploadurl, {
+          method: newVariation ? "POST" : "PUT",
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          alert(`${userData.productData.productType} Updated successfully!`);
+          //     window.location=`/supplier/Products/add-update-product?pid=${pid}`;
+          window.location.reload();
+
+        } else {
+          const errorData = await response.json();
+          document.querySelector('.loaderoverlay').style.display = 'none';
+          alert("Failed to Update Product: " + errorData.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert("Something went wrong!");
+      }
+    }
+
+  }
+
+
+
+  async function Updateproductdetails() {
+
+    if (userData.productData.tag === "" || userData.productData.tag === null) {
+      alert('select a tag')
+      return;
+    }
+
+
+    let userDatacopy = structuredClone(userData);
+
+    // Handle location for property type
+    if (userData.productData.productType === "property") {
+      const locationData = await handlelocationSubmit();
+      if (!locationData) {
+        alert('Enter all location details')
+        return;
+      }
+      // Directly assign the location data to the copy
+      userDatacopy.productData.location = locationData;
+    }
+
+
+
+
+    function cleanVariationData(productDataRemove) {
+
+      const keysToRemoveproductData = productDataRemove;
+
+
+      keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
+
+    }
+
+
+
+    if (userData.productData.productType === "property") {
+
+      userDatacopy.variationsData.forEach(variation => {
+        if (Array.isArray(variation.priceSlabs)) {
+          variation.priceSlabs.forEach(slab => {
+            if (slab.max === "") slab.max = 0;
+            if (slab.discount === "") slab.discount = 0;
+            if (slab.deliveryFee === "") slab.deliveryFee = 0;
+          });
+        }
+      });
+
+
+      // Call the function
+      cleanVariationData(["amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude"]);
+
+    }
+
+
+
+    if (userData.productData.productType === "product") {
+
+      // Call the function
+      cleanVariationData(["location", "ammenties", "khataType", "approvalType"]);
+
+    }
+
+    if (userData.productData.productType === "service") {
+
+      // Call the function
+      cleanVariationData(["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude"]);
+
+    }
+
+
     try {
-      document.querySelector('.loaderoverlay').style.display='flex';
+      document.querySelector('.loaderoverlay').style.display = 'flex';
 
       const token = localStorage.getItem('token');
+
       let pid = new URLSearchParams(window.location.search).get("pid");
 
-      let uploadurl= newVariation ? `${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}` : `${process.env.NEXT_PUBLIC_BASE_URL}/product/updateVariation/${pid}/${data._id}`;
 
-      const response = await fetch(uploadurl, {
-        method: newVariation ? "POST" : "PUT",
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/updateproduct/${pid}`, {
+        method: "PUT",
         headers: {
           'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(userDatacopy.productData),
       });
-  
+
       if (response.ok) {
-  document.querySelector('.loaderoverlay').style.display='none';
-        alert("Product Updated successfully!");
- //     window.location=`/supplier/Products/add-update-product?pid=${pid}`;
- window.location.reload();
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert(`${userData.productData.productType} Updated successfully!`);
+
 
       } else {
         const errorData = await response.json();
-        document.querySelector('.loaderoverlay').style.display='none';
+        document.querySelector('.loaderoverlay').style.display = 'none';
         alert("Failed to Update Product: " + errorData.message);
       }
     } catch (error) {
       console.error("Error:", error);
-      document.querySelector('.loaderoverlay').style.display='none';
+      document.querySelector('.loaderoverlay').style.display = 'none';
       alert("Something went wrong!");
     }
-  }
 
   }
-
-
-
-async function Updateproductdetails() {
-   
-  if(userData.productData.tag === "" || userData.productData.tag === null){
-    alert('select a tag')
-    return;
-  }
-
-
-   let userDatacopy =structuredClone(userData);
-
-      // Handle location for property type
-  if(userData.productData.productType === "property"){
-    const locationData = await handlelocationSubmit();
-    if (!locationData) {
-      alert('Enter all location details')
-      return;
-    }
-    // Directly assign the location data to the copy
-    userDatacopy.productData.location = locationData;
-  }
-
-
-  
-  
-  function cleanVariationData(productDataRemove) {
-
-  const keysToRemoveproductData = productDataRemove;
-
-   
-    keysToRemoveproductData.forEach(key => delete userDatacopy.productData[key]);
-
-}
-
-
-
-  if(userData.productData.productType === "property"){
-    
-    userDatacopy.variationsData.forEach(variation => {
-  if (Array.isArray(variation.priceSlabs)) {
-    variation.priceSlabs.forEach(slab => {
-      if (slab.max === "") slab.max = 0;
-      if (slab.discount === "") slab.discount = 0;
-      if (slab.deliveryFee === "") slab.deliveryFee = 0;
-    });
-  }
-});
-
-
-// Call the function
-cleanVariationData(["amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
-
-  }
-
-
-  
-  if(userData.productData.productType === "product"){
-
-// Call the function
-cleanVariationData(["location", "ammenties", "khataType", "approvalType"]);
-
-  }
-
-  if(userData.productData.productType === "service"){
-
-// Call the function
-cleanVariationData(["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn","BrandName","latitude","longitude"]);
-
-  }
-  
-
-  try {
-    document.querySelector('.loaderoverlay').style.display='flex';
-
-    const token = localStorage.getItem('token');
-    
-    let pid = new URLSearchParams(window.location.search).get("pid");
-
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/updateproduct/${pid}`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      },
-      body: JSON.stringify(userDatacopy.productData),
-    });
-
-    if (response.ok) {
-document.querySelector('.loaderoverlay').style.display='none';
-      alert("Product Updated successfully!");
-
-
-    } else {
-      const errorData = await response.json();
-      document.querySelector('.loaderoverlay').style.display='none';
-      alert("Failed to Update Product: " + errorData.message);
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    document.querySelector('.loaderoverlay').style.display='none';
-    alert("Something went wrong!");
-  }
-
-}
 
 
   function deletevariation(vid) {
 
-    
+
     const token = localStorage.getItem('token');
-  
+
     let pid = new URLSearchParams(window.location.search).get("pid");
 
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}/${vid}`, {
-          method: 'DELETE',
-           headers: {
-          'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-        }
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              return response.json().then((errorData) => {
-               
-                throw new Error(errorData.error || 'Failed');
-              });
-            }
-          })
-          .then((data) => {
-         
-  
-          alert(data.message)
-          window.location.reload();
-          })
-          .catch((err) => {
-            document.querySelector('.loaderoverlay').style.display = 'none';
-            console.log(err)
-           
-           
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}/${vid}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
+      }
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+
+            throw new Error(errorData.error || 'Failed');
           });
-    
-      
-    }
+        }
+      })
+      .then((data) => {
 
 
- // stop scrool when active input
+        alert(data.message)
+        window.location.reload();
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+
+
+      });
+
+
+  }
+
+
+  // stop scrool when active input
   usePreventNumberInputScroll()
 
 
 
   function removeattribute(index) {
-   
+
     let updatedattributes = variation.attributes.filter((_, i) => i !== index);
 
-     setVariation({...variation,attributes:updatedattributes})
+    setVariation({ ...variation, attributes: updatedattributes })
 
   }
 
 
   function removecommanattribute(index) {
-   
+
     let updatedcommanattributes = userData.productData.commonAttributes.filter((_, i) => i !== index);
-    
+
     setUserData((prevState) => ({
       ...prevState,
       productData: {
@@ -1410,9 +1412,9 @@ document.querySelector('.loaderoverlay').style.display='none';
 
 
   function removereason(index) {
-   
+
     let updatedreason = userData.productData.reasonForReturn.filter((_, i) => i !== index);
-    console.log(index,updatedreason)
+    console.log(index, updatedreason)
     setUserData((prevState) => ({
       ...prevState,
       productData: {
@@ -1426,23 +1428,23 @@ document.querySelector('.loaderoverlay').style.display='none';
 
 
   function remopriceslab(index) {
-   
-    if(variation.priceSlabs.length!==1){
+
+    if (variation.priceSlabs.length !== 1) {
 
       let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
 
-     setVariation({...variation,priceSlabs:updatedslab})
-    }else{
+      setVariation({ ...variation, priceSlabs: updatedslab })
+    } else {
       alert('You need to add at least one price slab.')
     }
-    
+
 
   }
 
 
   /// primary attribute group
 
-   const handlePrimaryGroupChange = (groupName) => {
+  const handlePrimaryGroupChange = (groupName) => {
     setPrimaryGroup(groupName);
 
     userData.productData.primaryAttribute = groupName;
@@ -1450,7 +1452,7 @@ document.querySelector('.loaderoverlay').style.display='none';
 
   const resetPrimaryGroup = () => {
     setPrimaryGroup('');
-     userData.productData.primaryAttribute = '';
+    userData.productData.primaryAttribute = '';
   };
 
 
@@ -1460,18 +1462,18 @@ document.querySelector('.loaderoverlay').style.display='none';
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/attribute`);
       let data = await res.json();
       console.log(data)
-       
-if(productType==='property'){
-      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"],1);
-}
 
-if(productType==='product'){
-      data = filterObjectsByProperty(data, "GroupName", ["area","appartment"],0);
-}
+      if (productType === 'property') {
+        data = filterObjectsByProperty(data, "GroupName", ["area", "appartment"], 1);
+      }
 
-// if(productType==='service'){
-//       data = filterObjectsByProperty(data, "GroupName", ["area","appartment"]);
-// }
+      if (productType === 'product') {
+        data = filterObjectsByProperty(data, "GroupName", ["area", "appartment"], 0);
+      }
+
+      // if(productType==='service'){
+      //       data = filterObjectsByProperty(data, "GroupName", ["area","appartment"]);
+      // }
 
       setAllAttributes(data);
     } catch (err) {
@@ -1479,18 +1481,18 @@ if(productType==='product'){
     }
   };
 
-  
 
 
 
-function checkdefaultAttribute(variation) {
-  for (let attr of variation.attributes) {
-    if (attr.hasOwnProperty('defaultAttribute')) {
-      return true;
+
+  function checkdefaultAttribute(variation) {
+    for (let attr of variation.attributes) {
+      if (attr.hasOwnProperty('defaultAttribute')) {
+        return true;
+      }
     }
+    return false;
   }
-  return false;
-}
 
 
   const handlePDFUpload = (e) => {
@@ -1517,94 +1519,94 @@ function checkdefaultAttribute(variation) {
     document.getElementById("pdfUploadInput787").click();
   };
 
- console.log(userData.productData?.location?.coordinates[0])
+  console.log(userData.productData?.location?.coordinates[0])
 
 
 
- // Handle location form submission
+  // Handle location form submission
   const handlelocationSubmit = async () => {
-    
 
-    if(!LocationformData.location.address||!LocationformData.location.city||!LocationformData.location.state||!LocationformData.location.area){ 
-     
-   return false;
-  }
+
+    if (!LocationformData.location.address || !LocationformData.location.city || !LocationformData.location.state || !LocationformData.location.area) {
+
+      return false;
+    }
 
 
     const geocode = async () => {
-       return new Promise((resolve, reject) => {
-      const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
-      const address = LocationformData.location.address;
-      console.log(address)
+      return new Promise((resolve, reject) => {
+        const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
+        const address = LocationformData.location.address;
+        console.log(address)
 
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
-        )}&key=${apiKey}`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (data.results.length > 0) {
-            console.log("Full Response:", data);
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+            address
+          )}&key=${apiKey}`
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.results.length > 0) {
+              console.log("Full Response:", data);
 
-           const longNames = data?.results[0]?.address_components
-  .map(comp => comp?.long_name)
-  .join(", ");
+              const longNames = data?.results[0]?.address_components
+                .map(comp => comp?.long_name)
+                .join(", ");
 
-console.log(longNames);
+              console.log(longNames);
 
- // Prepare data for backend
-    const location= {
-        geoJsonType: "Point",
-        address: LocationformData.location.address,
-        coordinates:[LocationformData.location.longitude,LocationformData.location.latitude],
-         state:LocationformData.location.state,
-      city:LocationformData.location.city,
-      area:LocationformData.location.area,
-      googleAddress:longNames,
-      };
+              // Prepare data for backend
+              const location = {
+                geoJsonType: "Point",
+                address: LocationformData.location.address,
+                coordinates: [LocationformData.location.longitude, LocationformData.location.latitude],
+                state: LocationformData.location.state,
+                city: LocationformData.location.city,
+                area: LocationformData.location.area,
+                googleAddress: longNames,
+              };
 
-console.log(location)
+              console.log(location)
 
- setUserData((prevState) => ({
-      ...prevState,
-      productData: {
-        ...prevState.productData,
-        ['location']: location,
-      },
-    }));
-   
-  
-resolve(location);
+              setUserData((prevState) => ({
+                ...prevState,
+                productData: {
+                  ...prevState.productData,
+                  ['location']: location,
+                },
+              }));
 
-          } else {
-            console.log("No results found.");
+
+              resolve(location);
+
+            } else {
+              console.log("No results found.");
               reject(new Error("No results found"));
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching geocode data:", error.message);
-           reject(error);
-        });
-        });
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching geocode data:", error.message);
+            reject(error);
+          });
+      });
     };
 
     const locationData = await geocode(); // Wait for geocode to complete
-return locationData;
-   
+    return locationData;
+
   };
 
 
-  
 
-const handlepropertyimageUpload = (files) => {
-  const fileArray = Array.from(files);
-  
+
+  const handlepropertyimageUpload = (files) => {
+    const fileArray = Array.from(files);
+
     // For images, read all files and collect results
     const promises = fileArray.map(file => {
       return new Promise((resolve) => {
@@ -1613,23 +1615,24 @@ const handlepropertyimageUpload = (files) => {
         reader.readAsDataURL(file);
       });
     });
-        
+
     Promise.all(promises).then(results => {
-          setUserData((prevState) => ({
-      ...prevState,
-      productData: {
-        ...prevState.productData,
-        images: [...userData.productData.images,...results],
-      },
-    }));})
-  
-};
+      setUserData((prevState) => ({
+        ...prevState,
+        productData: {
+          ...prevState.productData,
+          images: [...userData.productData.images, ...results],
+        },
+      }));
+    })
+
+  };
 
 
-    const removepropertyImage = (imgIndex) => {
+  const removepropertyImage = (imgIndex) => {
 
 
-     setUserData((prevState) => ({
+    setUserData((prevState) => ({
       ...prevState,
       productData: {
         ...prevState.productData,
@@ -1640,14 +1643,14 @@ const handlepropertyimageUpload = (files) => {
   };
 
 
- const removepropertyawsImage = (imgIndex) => {
-  
-      setUserData((prevState) => ({
+  const removepropertyawsImage = (imgIndex) => {
+
+    setUserData((prevState) => ({
       ...prevState,
       productData: {
         ...prevState.productData,
         awsImages: prevState.productData.awsImages.filter((_, i) => i !== imgIndex),
-        deleteImages: [...prevState.productData.deleteImages ,prevState.productData.awsImages[imgIndex]]
+        deleteImages: [...prevState.productData.deleteImages, prevState.productData.awsImages[imgIndex]]
       },
     }))
   };
@@ -1659,231 +1662,231 @@ const handlepropertyimageUpload = (files) => {
     <div className="order-details">
       <div className="header">
         <button className="back-button">
-        <Goback/>
+          <Goback />
         </button>
-        <h2>Add/Update {userData.productData.productType||''}</h2>
-     
+        <h2>Add/Update {userData.productData.productType || ''}</h2>
+
       </div>
 
       <div className="add-product-container">
-      <div className={productupdate ? 'basic-info2' : 'basic-info'}>
-        <h2>Basic Information</h2>
+        <div className={productupdate ? 'basic-info2' : 'basic-info'}>
+          <h2>Basic Information</h2>
 
-{/* /// select product type  */}
+          {/* /// select product type  */}
 
-       {!productupdate && <div className="input-group">
+          {!productupdate && <div className="input-group">
 
-  <select className="form-input" value={selectedtag || ""} style={{width:'100%'}}   onChange={(e) => {
-   
-      let id=e.target.children[e.target.selectedIndex].getAttribute('id');
-    handleProductDataChange("tag", id)
-    setselectedtag(e.target.value)
-  }
-  }>
+            <select className="form-input" value={selectedtag || ""} style={{ width: '100%' }} onChange={(e) => {
 
-    {userData.productData.productType !== 'property'? <option value="">Select a Tag</option> : <option value="">Select Property Type</option>}
-      {tags.map((data, index) => (
-        <option value={data.tagName} id={data._id} key={index}>
-          {data.tagName}
-        </option>
-      ))}
+              let id = e.target.children[e.target.selectedIndex].getAttribute('id');
+              handleProductDataChange("tag", id)
+              setselectedtag(e.target.value)
+            }
+            }>
 
-    </select>
+              {userData.productData.productType !== 'property' ? <option value="">Select a Tag</option> : <option value="">Select Property Type</option>}
+              {tags.map((data, index) => (
+                <option value={data.tagName} id={data._id} key={index}>
+                  {data.tagName}
+                </option>
+              ))}
 
-   </div>}
+            </select>
 
-{userData.productData.productType === 'property' && <PropertyListingForm listingType={selectedtag} propertyvariations={propertyvariations} setpropertyvariations={setpropertyvariations} productupdate={productupdate}/>}
+          </div>}
+
+          {userData.productData.productType === 'property' && <PropertyListingForm listingType={selectedtag} propertyvariations={propertyvariations} setpropertyvariations={setpropertyvariations} productupdate={productupdate} />}
 
 
-        <div className="input-group">
-          <label htmlFor="product-name">Enter {userData.productData.productType} Name *</label>
-          <input id="product-name" type="text" placeholder=""    value={userData.productData.productName || ""}
-          onChange={(e) => handleProductDataChange("productName", e.target.value)}/>
-        </div>
-        {/* <div className="input-group">
+          <div className="input-group">
+            <label htmlFor="product-name">Enter {userData.productData.productType} Name *</label>
+            <input id="product-name" type="text" placeholder="" value={userData.productData.productName || ""}
+              onChange={(e) => handleProductDataChange("productName", e.target.value)} />
+          </div>
+          {/* <div className="input-group">
           <label htmlFor="brand-name">Enter Brand Name *</label>
           <input id="brand-name" type="text" placeholder="John Doe" value={userData.productData.BrandName || ""}
           onChange={(e) => handleProductDataChange("BrandName", e.target.value)}/>
         </div> */}
-        <div className="input-group">
-          <label htmlFor="description">Enter {userData.productData.productType} Description</label>
-          {/* <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
+          <div className="input-group">
+            <label htmlFor="description">Enter {userData.productData.productType} Description</label>
+            {/* <textarea id="description" placeholder="Explain the product" value={userData.productData.description || ""}
           onChange={(e) => handleProductDataChange("description", e.target.value)}></textarea> */}
-          
-          <QuillEditor value={userData.productData.description || ""} onChange={(value) => handleProductDataChange("description", value)}  editorwidth={'200px'}/>
-        </div>
 
-{userData.productData.productType === "property" && <> <div className="input-group">
-          <label htmlFor="khataType">khata Type</label>
-          <input id="product-video" type="text" placeholder=""    value={userData.productData?.khataType || ""}
-          onChange={(e) => handleProductDataChange("khataType", e.target.value)} />
-        </div>
+            <QuillEditor value={userData.productData.description || ""} onChange={(value) => handleProductDataChange("description", value)} editorwidth={'200px'} />
+          </div>
 
-         <div className="input-group">
-          <label htmlFor="approvalType">Approval Type</label>
-          <input id="product-video" type="text" placeholder=""    value={userData.productData?.approvalType || ""}
-          onChange={(e) => handleProductDataChange("approvalType", e.target.value)} />
-        </div>
-        </>}
+          {userData.productData.productType === "property" && <> <div className="input-group">
+            <label htmlFor="khataType">khata Type</label>
+            <input id="product-video" type="text" placeholder="" value={userData.productData?.khataType || ""}
+              onChange={(e) => handleProductDataChange("khataType", e.target.value)} />
+          </div>
 
-         <div className="input-group">
-          <label htmlFor="productVideo">{userData.productData.productType} Video Youtube Url</label>
-          <input id="product-video" type="text" placeholder=""    value={userData.productData?.productVideo || ""}
-          onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
-        </div>
-        
-
-  <div className="upload-container787" style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
-{userData.productData.productType === "property" && <div>
-<label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
-           <i className="fa fa-image"></i> Upload {userData.productData.productType} Images
-            <input
-              type="file"
-                accept="image/*"
-                multiple
-              onChange={(e) => handlepropertyimageUpload(e.target.files)}
-            />
-          </label>
-
-          {(userData.productData?.images?.length > 0 ||
-  userData.productData?.awsImages?.length > 0)  && <div style={{margin:'25px 0px'}}>
-            <div className="preview-container-878">
-              {userData.productData.images.map((img, imgIndex) => (
-                <div key={imgIndex} className="preview-item-878">
-                  <img src={img} alt={`Property ${imgIndex + 1}`} />
-                  <button
-                    className="preview-remove-878"
-                    onClick={() => removepropertyImage(imgIndex)}
-                  >
-                    <i className="fa fa-times"></i>
-                  </button>
-                </div>
-              ))}
-
- {userData.productData?.awsImages?.map((img, imgIndex) => (
-                <div key={imgIndex} className="preview-item-878">
-                  <img src={img} alt={`Property ${imgIndex + 1}`} />
-                  <button
-                    className="preview-remove-878"
-                    onClick={() => removepropertyawsImage(imgIndex)}
-                  >
-                    <i className="fa fa-times"></i>
-                  </button>
-                </div>
-              ))}
-
+            <div className="input-group">
+              <label htmlFor="approvalType">Approval Type</label>
+              <input id="product-video" type="text" placeholder="" value={userData.productData?.approvalType || ""}
+                onChange={(e) => handleProductDataChange("approvalType", e.target.value)} />
             </div>
+          </>}
+
+          <div className="input-group">
+            <label htmlFor="productVideo">{userData.productData.productType} Video Youtube Url</label>
+            <input id="product-video" type="text" placeholder="" value={userData.productData?.productVideo || ""}
+              onChange={(e) => handleProductDataChange("productVideo", e.target.value)} />
+          </div>
+
+
+          <div className="upload-container787" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            {userData.productData.productType === "property" && <div>
+              <label className="upload-btn-878" style={{ backgroundColor: '#007bff' }}>
+                <i className="fa fa-image"></i> Upload {userData.productData.productType} Images
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => handlepropertyimageUpload(e.target.files)}
+                />
+              </label>
+
+              {(userData.productData?.images?.length > 0 ||
+                userData.productData?.awsImages?.length > 0) && <div style={{ margin: '25px 0px' }}>
+                  <div className="preview-container-878">
+                    {userData.productData.images.map((img, imgIndex) => (
+                      <div key={imgIndex} className="preview-item-878">
+                        <img src={img} alt={`Property ${imgIndex + 1}`} />
+                        <button
+                          className="preview-remove-878"
+                          onClick={() => removepropertyImage(imgIndex)}
+                        >
+                          <i className="fa fa-times"></i>
+                        </button>
+                      </div>
+                    ))}
+
+                    {userData.productData?.awsImages?.map((img, imgIndex) => (
+                      <div key={imgIndex} className="preview-item-878">
+                        <img src={img} alt={`Property ${imgIndex + 1}`} />
+                        <button
+                          className="preview-remove-878"
+                          onClick={() => removepropertyawsImage(imgIndex)}
+                        >
+                          <i className="fa fa-times"></i>
+                        </button>
+                      </div>
+                    ))}
+
+                  </div>
+                </div>}
             </div>}
-</div>}
 
-  <div className="video-upload-section-878">
+            <div className="video-upload-section-878">
 
-          
-          <label className="upload-btn-878" style={{backgroundColor:'#007bff'}}>
-            <i className="fa fa-video-camera"></i> Upload {userData.productData.productType} Video
-            <input
-              type="file"
-              accept="video/*"
-              onChange={(e) => handleVideoUpload(e.target.files)}
-            />
-          </label>
 
-          {(propertyVideo || (productupdate === true && userData.productData.productVideo)) && (
-            <div className="preview-container-878" style={{ margin: '25px 0px',padding:'10px',display:'flex',flexDirection:'column',gap:'15px'}}>
-              <div className="preview-item-878" style={{height:'150px',width:'150px'}}>
-                <video src={propertyVideo===null ? userData.productData.productVideo : URL.createObjectURL(propertyVideo)} controls />
-                  {!productupdate && <button
-                  className="preview-remove-878"
-                  onClick={removeVideo}
-                >
-                <i className="fa fa-times"></i>
-                </button>}
-              </div>
-           {productupdate && propertyVideo!==null && <button style={{padding:'5px 15px',backgroundColor:'#11a411',outline:'none',color:'white',borderRadius:'5px'}} onClick={()=>(handleVideoSubmit(userData.productData._id))}>save video</button>}
+              <label className="upload-btn-878" style={{ backgroundColor: '#007bff' }}>
+                <i className="fa fa-video-camera"></i> Upload {userData.productData.productType} Video
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={(e) => handleVideoUpload(e.target.files)}
+                />
+              </label>
+
+              {(propertyVideo || (productupdate === true && userData.productData.productVideo)) && (
+                <div className="preview-container-878" style={{ margin: '25px 0px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  <div className="preview-item-878" style={{ height: '150px', width: '150px' }}>
+                    <video src={propertyVideo === null ? userData.productData.productVideo : URL.createObjectURL(propertyVideo)} controls />
+                    {!productupdate && <button
+                      className="preview-remove-878"
+                      onClick={removeVideo}
+                    >
+                      <i className="fa fa-times"></i>
+                    </button>}
+                  </div>
+                  {productupdate && propertyVideo !== null && <button style={{ padding: '5px 15px', backgroundColor: '#11a411', outline: 'none', color: 'white', borderRadius: '5px' }} onClick={() => (handleVideoSubmit(userData.productData._id))}>save video</button>}
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
 
-    <div>
-      <input
-        id="pdfUploadInput787"
-        type="file"
-        accept="application/pdf"
-        onChange={handlePDFUpload}
-        style={{ display: "none" }}
-      />
-    { userData.productData.productType !== "service" && <button onClick={triggerFileInput} className="upload-btn787">
-        <i className="fas fa-file-upload icon787"></i>{userData.productData.productType === "product"? <>Upload Catalogue PDF</>:<>Upload Document PDF</>}
-      </button>}
-      {userData.productData.pdfFile && (
-        <p className="upload-status787">PDF uploaded successfully</p>
-      )}
-      </div>
+            <div>
+              <input
+                id="pdfUploadInput787"
+                type="file"
+                accept="application/pdf"
+                onChange={handlePDFUpload}
+                style={{ display: "none" }}
+              />
+              {userData.productData.productType !== "service" && <button onClick={triggerFileInput} className="upload-btn787">
+                <i className="fas fa-file-upload icon787"></i>{userData.productData.productType === "product" ? <>Upload Catalogue PDF</> : <>Upload Document PDF</>}
+              </button>}
+              {userData.productData.pdfFile && (
+                <p className="upload-status787">PDF uploaded successfully</p>
+              )}
+            </div>
 
 
-    </div>
+          </div>
 
           {userData.productData.productType === "service" && <div
-      style={{
-        display: "flex",
-        gap: "30px",
-        maxWidth: "220px",
-        whiteSpace:'nowrap',
-        marginTop:'50px'
-      }}
-    >
-      {/* Call Option */}
-      <label
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "5px",
-          cursor: "pointer",
-        }}
-      >
-        <input
-          type="checkbox"
-          style={{
-            transform: "scale(1.5)",
-            marginRight: "6px",
-            cursor: "pointer",
-          }}
-             onChange={(e) => {
-               handleProductDataChange("canCall", e.target.checked)
-          }}
-          checked={userData.productData?.canCall}
-        />
-        <span>Call Option</span>
-      </label>
+            style={{
+              display: "flex",
+              gap: "30px",
+              maxWidth: "220px",
+              whiteSpace: 'nowrap',
+              marginTop: '50px'
+            }}
+          >
+            {/* Call Option */}
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="checkbox"
+                style={{
+                  transform: "scale(1.5)",
+                  marginRight: "6px",
+                  cursor: "pointer",
+                }}
+                onChange={(e) => {
+                  handleProductDataChange("canCall", e.target.checked)
+                }}
+                checked={userData.productData?.canCall}
+              />
+              <span>Call Option</span>
+            </label>
 
-      {/* Book Now Option */}
-      <label
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "5px",
-          cursor: "pointer",
-        }}
-      >
-        <input
-          type="checkbox"
-          style={{
-            transform: "scale(1.5)",
-            marginRight: "6px",
-            cursor: "pointer",
-          }}
-             onChange={(e) => {
-                handleProductDataChange("canBook", e.target.checked)
-          }}
-           checked={userData.productData?.canBook}
+            {/* Book Now Option */}
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="checkbox"
+                style={{
+                  transform: "scale(1.5)",
+                  marginRight: "6px",
+                  cursor: "pointer",
+                }}
+                onChange={(e) => {
+                  handleProductDataChange("canBook", e.target.checked)
+                }}
+                checked={userData.productData?.canBook}
 
-        />
-        <span>Book Now Option</span>
-      </label>
-    </div>}
+              />
+              <span>Book Now Option</span>
+            </label>
+          </div>}
 
-        {/* <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
+          {/* <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
 
         <i
         className="fas fa-plus-circle"
@@ -1925,59 +1928,59 @@ const handlepropertyimageUpload = (files) => {
         </div>
       ))} */}
 
-<br/>
+          <br />
 
-{userData.productData.productType === "product" &&
-<>
-<label htmlFor="product-video" style={{marginRight:'10px'}}>Add reasons for product return</label>
+          {userData.productData.productType === "product" &&
+            <>
+              <label htmlFor="product-video" style={{ marginRight: '10px' }}>Add reasons for product return</label>
 
-<i
-className="fas fa-plus-circle"
-style={{ color: "green", fontSize: "20px", cursor: "pointer" ,margin:'20px 0px'}}
-onClick={addreason}
-></i>
+              <i
+                className="fas fa-plus-circle"
+                style={{ color: "green", fontSize: "20px", cursor: "pointer", margin: '20px 0px' }}
+                onClick={addreason}
+              ></i>
 
-{userData.productData.reasonForReturn && userData.productData.reasonForReturn.map((item, index) => (
-<div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
-  <div className="form-group">
-  <div style={{display:'flex',justifyContent:'space-between'}}>
+              {userData.productData.reasonForReturn && userData.productData.reasonForReturn.map((item, index) => (
+                <div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
+                  <div className="form-group">
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-    <label className="form-label">Reason {index+1}</label>
-    <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-          onClick={()=>{removereason(index)}}></i>
-          </div>
-    <div className="range-container">
-      <input
-        type="text"
-        className="form-input small-input"
-        placeholder="Write Reason"
-        style={{ width: "100px" }}
-        value={item}
-        onChange={(e) => handlereasonChange(index, e.target.value)}
-      />
+                      <label className="form-label">Reason {index + 1}</label>
+                      <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                        onClick={() => { removereason(index) }}></i>
+                    </div>
+                    <div className="range-container">
+                      <input
+                        type="text"
+                        className="form-input small-input"
+                        placeholder="Write Reason"
+                        style={{ width: "100px" }}
+                        value={item}
+                        onChange={(e) => handlereasonChange(index, e.target.value)}
+                      />
 
 
-   
-    </div>
-  </div>
-</div>
-))}
-</>
-}
 
- 
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          }
 
- {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities} propertyAmenities={userData.productData.ammenties} setUserData={setUserData}/>}
-       
 
-      </div>
-      
 
-    {!productupdate &&  <div className="add-category-location" style={{height:'650px',overflowY:'auto'}}>
-        <div className="add-category">
-          <h2>Available Categories</h2>
-         
-          {/* <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginBottom:'30px'}}>
+          {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities} propertyAmenities={userData.productData.ammenties} setUserData={setUserData} />}
+
+
+        </div>
+
+
+        {!productupdate && <div className="add-category-location" style={{ height: '650px', overflowY: 'auto' }}>
+          <div className="add-category">
+            <h2>Available Categories</h2>
+
+            {/* <div className="category-actions" style={{display:'flex',justifyContent:'space-between',marginBottom:'30px'}}>
         
         <button className="create-new" onClick={()=>toggleAddCategory(false)}>
          Create Category
@@ -1990,268 +1993,271 @@ onClick={addreason}
           </div> */}
 
 
-          <div className="category-actions">
-           
-          <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+            <div className="category-actions">
 
-       {addcategory && <Addcategory  subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>}
+              <NestedDropdown342 categories={categories} changeurl={setchangeurl} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
 
-          </div>
-
-        
-
-        </div>
-
-
-      </div>}
-    </div>
-
- 
-  {showMap && <PropertyLocationForm setUserData={setUserData} show={userData.productData.productType} userlocation={userData.productData?.location ? {  location: {
-      address: userData.productData.location.address,
-      latitude: userData.productData.location.coordinates[1], // Default to Mumbai
-      longitude: userData.productData.location.coordinates[0],
-      state:userData.productData.location?.state||'',
-      city:userData.productData.location?.city||'',
-      area:userData.productData.location?.area||'',
-      googleAddress:userData.productData.location?.googleAddress||'',
-    }} : {
-
-    location: {
-      address: '',
-      latitude: 19.0760, // Default to Mumbai
-      longitude: 72.8777,
-      state:"",
-      city:"",
-      area:"",
-      googleAddress:"",
-    }
-  }}
-  
-  formData={LocationformData} setFormData={setLocationFormData}
-  />
-}
-
-
-<div style={{width:'100%',display:'flex',justifyContent:'flex-start'}}>
-  
-    {productupdate &&  <button className="update-button" style={{display:'flex',justifyContent:'center',alignItems:'center',gap:'15px',margin:'40px 10px'}} onClick={()=>{Updateproductdetails()}}>Update</button>}
-
-    </div>
-
-{userData.productData.productType !== "property" && <div className="container" style={{marginTop:'50px'}}>
-      <div className="pricing-section">
-       {!userData.variationsData.length === 0 && <h2 className="section-title">Pricing</h2>}
-        {userData.variationsData.map((pricing, index) => {
-          
-          return(
-          <div key={index} className="pricing-item" style={{border:pricing.stock ===0 ? '2px solid #ff0000':'1px solid #818181',width:'fit-content'}}>
-            <span>
-              {index + 1}. Net Price:<><span style={{color:'#1389F0'}}> ₹{pricing.mrp}</span></> {userData.productData.productType === "product" && <>/ Stock:<span style={{color:'#1389F0'}}>{pricing.stock}</span></>}
-            </span>
-            <div className="actions">
-
- <div style={{display:'flex',alignItems:"center",gap:'5px',marginRight:'20px'}}> 
-                      <p>{pricing.attributes.map(attr => attr.value).join(", ")}</p>
-               </div>
-               
-               <div style={{display:'flex',alignItems:"center",gap:'5px',marginRight:'20px'}}> 
-                <img src={
-    (Array.isArray(pricing?.awsImages) && pricing.awsImages[0]) ||
-    (Array.isArray(pricing?.productImages) && pricing?.productImages.length>0  && handleImagefilrtourlconvert(pricing.productImages[0])) ||
-    "/images/noimgavl.jpg" 
-  } width={'50px'} alt="" />
-               </div>
-
-              
-  <div style={{display:'flex',alignItems:"center", gap:'5px',marginRight:'20px'}}>
-    <label>copy</label>
-      <input
-  type="checkbox"
-  checked={selectedPricingIndex === index}
-  onChange={(e) => {
-    if (e.target.checked) {
-      setSelectedPricingIndex(index);
-      copyPricing(index);
-    } else {
-      setSelectedPricingIndex(null);
-    }
-  }}
-/>
-   </div>
-              <button className="edit-btn" onClick={() => updatePricing(index)}>
-                <i className="fas fa-edit"></i>
-              </button>
-
-           { productupdate ? <button className="delete-btn" onClick={() => deletevariation(pricing._id)}>
-                <i className="fas fa-trash-alt"></i>
-              </button> :  <button className="delete-btn" onClick={() => removePricing(index)}>
-                <i className="fas fa-trash-alt"></i>
-              </button>}
+              {addcategory && <Addcategory subcategory={subcategory} toggleaddcategory={toggleAddCategory} refreshCategories={refreshCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />}
 
             </div>
+
+
+
           </div>
-        )}
-        
-        )}
 
 
-      
-
-          {/* Primary Group Selection */}
-     {userData.productData.productType !== "service" && (!primaryGroup ? (
-        <div style={{ marginBottom: '20px' }}>
-          <h4 style={{ marginBottom: '5px',whiteSpace:'nowrap' }}>Select Primary Attribute:</h4>
-          <select
-            className="select-attribute-671"
-            value=""
-            onChange={(e) => handlePrimaryGroupChange(e.target.value)}
-            style={{ marginBottom: '10px' }}
-          >
-            <option value="">-- Attributes --</option>
-            {AllAttributes.map((attr, idx) => (
-              <option key={idx} value={attr.GroupName}>
-               {idx+1}. {attr.GroupName}
-              </option>
-            ))}
-          </select>
-        </div>
-      ) : (
-        <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px',width:'fit-content',whiteSpace:'nowrap' }}>
-          <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
-          
-         { userData.variationsData.length === 0 && <i className="fas fa-sync"
-            onClick={resetPrimaryGroup}
-            style={{ 
-              margin:'5px',
-              padding: '5px 10px', 
-              backgroundColor: '#dc3545', 
-              color: 'white', 
-              border: 'none', 
-              borderRadius: '3px',
-              cursor: 'pointer',
-              fontSize: '12px'
-            }}
-          ></i>}
-        </div>
-      ))}
-
-        {primaryGroup &&  <button className="add-btn" onClick={()=>{
-   
-   function reset() {
-
-    toggleModal(false)
-      setSelectedPricingIndex(null);
-   }
-
-          selectedPricingIndex===null ? toggleModal() : reset()
-
-          }}>
-          Add Variation <i className="fas fa-plus"></i>
-        </button>}
+        </div>}
+      </div>
 
 
-       { userData.productData.productType === "service" && <button className="add-btn" onClick={()=>{
-   
-   function reset() {
+      {showMap && <PropertyLocationForm setUserData={setUserData} show={userData.productData.productType} userlocation={userData.productData?.location ? {
+        location: {
+          address: userData.productData.location.address,
+          latitude: userData.productData.location.coordinates[1], // Default to Mumbai
+          longitude: userData.productData.location.coordinates[0],
+          state: userData.productData.location?.state || '',
+          city: userData.productData.location?.city || '',
+          area: userData.productData.location?.area || '',
+          googleAddress: userData.productData.location?.googleAddress || '',
+        }
+      } : {
 
-    toggleModal(false)
-      setSelectedPricingIndex(null);
-   }
+        location: {
+          address: '',
+          latitude: 19.0760, // Default to Mumbai
+          longitude: 72.8777,
+          state: "",
+          city: "",
+          area: "",
+          googleAddress: "",
+        }
+      }}
 
-          selectedPricingIndex===null ? toggleModal() : reset()
+        formData={LocationformData} setFormData={setLocationFormData}
+      />
+      }
 
-          }}>
-          Add Variation <i className="fas fa-plus"></i>
-        </button>}
+
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+
+        {productupdate && <button className="update-button" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', margin: '40px 10px' }} onClick={() => { Updateproductdetails() }}>Update</button>}
 
       </div>
-    
-    </div>}
+
+      {userData.productData.productType !== "property" && <div className="container" style={{ marginTop: '50px' }}>
+        <div className="pricing-section">
+          {!userData.variationsData.length === 0 && <h2 className="section-title">Pricing</h2>}
+          {userData.variationsData.map((pricing, index) => {
+
+            return (
+              <div key={index} className="pricing-item" style={{ border: pricing.stock === 0 ? '2px solid #ff0000' : '1px solid #818181', width: 'fit-content' }}>
+                <span>
+                  {index + 1}. Net Price:<><span style={{ color: '#1389F0' }}> ₹{pricing.mrp}</span></> {userData.productData.productType === "product" && <>/ Stock:<span style={{ color: '#1389F0' }}>{pricing.stock}</span></>}
+                </span>
+                <div className="actions">
+
+                  <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
+                    <p>{pricing.attributes.map(attr => attr.value).join(", ")}</p>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
+                    <img src={
+                      (Array.isArray(pricing?.awsImages) && pricing.awsImages[0]) ||
+                      (Array.isArray(pricing?.productImages) && pricing?.productImages.length > 0 && handleImagefilrtourlconvert(pricing.productImages[0])) ||
+                      "/images/noimgavl.jpg"
+                    } width={'50px'} alt="" />
+                  </div>
+
+
+                  <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
+                    <label>copy</label>
+                    <input
+                      type="checkbox"
+                      checked={selectedPricingIndex === index}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedPricingIndex(index);
+                          copyPricing(index);
+                        } else {
+                          setSelectedPricingIndex(null);
+                        }
+                      }}
+                    />
+                  </div>
+                  <button className="edit-btn" onClick={() => updatePricing(index)}>
+                    <i className="fas fa-edit"></i>
+                  </button>
+
+                  {productupdate ? <button className="delete-btn" onClick={() => deletevariation(pricing._id)}>
+                    <i className="fas fa-trash-alt"></i>
+                  </button> : <button className="delete-btn" onClick={() => removePricing(index)}>
+                    <i className="fas fa-trash-alt"></i>
+                  </button>}
+
+                </div>
+              </div>
+            )
+          }
+
+          )}
 
 
 
-    <div className="action-buttons">
 
-    {  !productupdate && <><button className="cancel-button" onClick={()=>{location.reload();}}>Cancel</button>
-        <button className="update-button" onClick={handleSubmit} style={{textTransform:'capitalize'}}>Add {userData.productData.productType}</button>
+          {/* Primary Group Selection */}
+          {userData.productData.productType !== "service" && (!primaryGroup ? (
+            <div style={{ marginBottom: '20px' }}>
+              <h4 style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>Select Primary Attribute:</h4>
+              <select
+                className="select-attribute-671"
+                value=""
+                onChange={(e) => handlePrimaryGroupChange(e.target.value)}
+                style={{ marginBottom: '10px' }}
+              >
+                <option value="">-- Attributes --</option>
+                {AllAttributes.map((attr, idx) => (
+                  <option key={idx} value={attr.GroupName}>
+                    {idx + 1}. {attr.GroupName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px', width: 'fit-content', whiteSpace: 'nowrap' }}>
+              <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
+
+              {userData.variationsData.length === 0 && <i className="fas fa-sync"
+                onClick={resetPrimaryGroup}
+                style={{
+                  margin: '5px',
+                  padding: '5px 10px',
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '3px',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              ></i>}
+            </div>
+          ))}
+
+          {primaryGroup && <button className="add-btn" onClick={() => {
+
+            function reset() {
+
+              toggleModal(false)
+              setSelectedPricingIndex(null);
+            }
+
+            selectedPricingIndex === null ? toggleModal() : reset()
+
+          }}>
+            Add Variation <i className="fas fa-plus"></i>
+          </button>}
+
+
+          {userData.productData.productType === "service" && <button className="add-btn" onClick={() => {
+
+            function reset() {
+
+              toggleModal(false)
+              setSelectedPricingIndex(null);
+            }
+
+            selectedPricingIndex === null ? toggleModal() : reset()
+
+          }}>
+            Add Variation <i className="fas fa-plus"></i>
+          </button>}
+
+        </div>
+
+      </div>}
+
+
+
+      <div className="action-buttons">
+
+        {!productupdate && <><button className="cancel-button" onClick={() => { location.reload(); }}>Cancel</button>
+          <button className="update-button" onClick={handleSubmit} style={{ textTransform: 'capitalize' }}>Add {userData.productData.productType}</button>
         </>}
       </div>
 
 
-     
-      
+
+
       {ModalOpen && (
         <div className="modal-overlay">
-          <form className="form" style={{ height: "90vh", overflowY: "auto"}}  onSubmit={(e)=>{
-                e.preventDefault();
+          <form className="form" style={{ height: "90vh", overflowY: "auto" }} onSubmit={(e) => {
+            e.preventDefault();
 
-                isupdate ? (productupdate?postnewVariation():saveVariation(true)) : saveVariation()
-                
-                
-                }}>
-        
+            isupdate ? (productupdate ? postnewVariation() : saveVariation(true)) : saveVariation()
 
 
-{ userData.productData.productType === "service" && <>
+          }}>
 
 
-  <div className="form-group">
-              <label className="form-label">Service Name</label>
-              <input
-                type="text"
-                className="form-input"
-                value={variation.serviceName}
-                required
-                onChange={(e) => handleserviceChange("serviceName", e.target.value)}
-              />
-            </div>
 
-<div style={{display:'flex',justifyContent:'space-between',gap:'15px',marginBottom:'20px'}}>
+            {userData.productData.productType === "service" && <>
+
+
               <div className="form-group">
-              <label className="form-label">Duration</label>
-              <input
-                type="number"
-                className="form-input"
-                value={variation.duration.value}
-                
-                onChange={(e) => handleserviceChange("value", e.target.value)}
-              />
-            </div>
+                <label className="form-label">Service Name</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  value={variation.serviceName}
+                  required
+                  onChange={(e) => handleserviceChange("serviceName", e.target.value)}
+                />
+              </div>
 
-          <div className="form-group">
-              <label className="form-label">Unit</label>
-            <select className="form-input" value={variation.duration.unit || ""} onChange={(e) => handleserviceChange("unit", e.target.value)}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '15px', marginBottom: '20px' }}>
+                <div className="form-group">
+                  <label className="form-label">Duration</label>
+                  <input
+                    type="number"
+                    className="form-input"
+                    value={variation.duration.value}
 
-          <option value="minutes">Minutes</option>
-          <option value="hours">Hours</option>
-         <option value="days">Days</option>
-         <option value="weeks">Weeks</option>
-         <option value="months">Months</option>
+                    onChange={(e) => handleserviceChange("value", e.target.value)}
+                  />
+                </div>
 
-      </select>
-        </div>
+                <div className="form-group">
+                  <label className="form-label">Unit</label>
+                  <select className="form-input" value={variation.duration.unit || ""} onChange={(e) => handleserviceChange("unit", e.target.value)}>
 
-      </div>
+                    <option value="minutes">Minutes</option>
+                    <option value="hours">Hours</option>
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
 
-       <div className="form-group">
-              <label className="form-label">GST %</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 10%"
-                value={variation.gst}
-                required
-                onChange={(e) => handleVariationChange("gst", e.target.value)}
-              />
-            </div>
+                  </select>
+                </div>
 
-            
-</>
-}
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">GST %</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Eg. 10%"
+                  value={variation.gst}
+                  required
+                  onChange={(e) => handleVariationChange("gst", e.target.value)}
+                />
+              </div>
+
+
+            </>
+            }
 
             <div className="form-group">
-              <label className="form-label">{userData.productData.productType === "property" ?'Per sq ft cost':userData.productData.productType === "service" ?'Price':'Mrp'}</label>
+              <label className="form-label">{userData.productData.productType === "property" ? 'Per sq ft cost' : userData.productData.productType === "service" ? 'Price' : 'Mrp'}</label>
               <input
                 type="number"
                 className="form-input"
@@ -2263,382 +2269,384 @@ onClick={addreason}
 
 
 
-         { userData.productData.productType === "product" && <>
-         
-          <div className="form-group">
-              <label className="form-label">GST %</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 10%"
-                value={variation.gst}
-                required
-                onChange={(e) => handleVariationChange("gst", e.target.value)}
-              />
+            {userData.productData.productType === "product" && <>
+
+              <div className="form-group">
+                <label className="form-label">GST %</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Eg. 10%"
+                  value={variation.gst}
+                  required
+                  onChange={(e) => handleVariationChange("gst", e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Stock Keeping Unit</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Eg. 1000"
+                  value={variation.stock}
+                  onChange={(e) => handleVariationChange("stock", e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Low Stock Threshold</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Eg. 10"
+                  value={variation.lowStockThreshold}
+                  onChange={(e) => handleVariationChange("lowStockThreshold", e.target.value)}
+                  required
+                />
+              </div>
+
+
+              {/* Repeat Buyer Discount */}
+              <div className="form-group">
+                <label className="form-label">Repeat Buyer Discount % (Optional)</label>
+                <input
+                  type="number"
+                  className="form-input"
+                  placeholder="Enter additional discount in (%)"
+                  value={variation.repeatBuyerDiscount}
+                  onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
+
+                />
+              </div>
+            </>}
+
+
+            <p style={{ marginTop: '20px', textAlign: 'left' }}>Add Images</p>
+            <div className="image-uploader" style={{ marginBottom: '10px' }}>
+
+              <div className="add-image">
+                <input
+                  type="file"
+                  id="imageInput"
+                  multiple
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                />
+                <label htmlFor="imageInput" className="add-image-label">
+                  <img src="\icons\upcross.svg" alt="" width={'30px'} />
+                  <p>Add Image</p>
+                </label>
+              </div>
+              <div className="image-preview">
+                {images.map((image, index) => (
+                  <div className="image-container" key={index}>
+                    <img src={image} alt={`preview-${index}`} />
+                    <button
+                      className="remove-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeImage(index)
+                      }}
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                ))}
+
+                {preimages.map((image, index) => (
+                  <div className="image-container" key={index}>
+                    <img src={image} alt={`preview-${index}`} />
+                    <button
+                      className="remove-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removepreImage(index)
+                      }}
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+
+
             </div>
-         
-          <div className="form-group">
-              <label className="form-label">Stock Keeping Unit</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 1000"
-                value={variation.stock}
-                onChange={(e) => handleVariationChange("stock", e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Low Stock Threshold</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Eg. 10"
-                value={variation.lowStockThreshold}
-                onChange={(e) => handleVariationChange("lowStockThreshold", e.target.value)}
-                required
-              />
-            </div>
-
-
-            {/* Repeat Buyer Discount */}
-            <div className="form-group">
-              <label className="form-label">Repeat Buyer Discount % (Optional)</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="Enter additional discount in (%)"
-                value={variation.repeatBuyerDiscount}
-                onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
-                
-              />
-            </div>
-            </> }
-
-
-            <p style={{marginTop:'20px',textAlign:'left'}}>Add Images</p>
-    <div className="image-uploader" style={{marginBottom:'10px'}}>
- 
-      <div className="add-image">
-        <input
-          type="file"
-          id="imageInput"
-          multiple
-          onChange={handleImageUpload}
-          accept="image/*"
-        />
-        <label htmlFor="imageInput" className="add-image-label">
-        <img src="\icons\upcross.svg" alt=""  width={'30px'}/>
-          <p>Add Image</p>
-        </label>
-      </div>
-      <div className="image-preview">
-        {images.map((image, index) => (
-          <div className="image-container" key={index}>
-            <img src={image} alt={`preview-${index}`} />
-            <button
-              className="remove-button"
-              onClick={(e) => {
-                e.preventDefault();
-                removeImage(index)}}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        ))}
-
-{preimages.map((image, index) => (
-          <div className="image-container" key={index}>
-            <img src={image} alt={`preview-${index}`} />
-            <button
-              className="remove-button"
-              onClick={(e) => {
-                e.preventDefault();
-                removepreImage(index)}}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
-        ))}
-      </div>
-      
-      
-
-    </div>
 
 
             {/* Add Attributes */}
-          {userData.productData.productType !== "service" &&  <div style={{display:"flex",gap:'10px',alignItems:'center'}}>
-          
-            <SelectedAttributeArray attributes={AllAttributes} primaryGroup={primaryGroup} addAttribute={addAttribute} currentattributes={variation.attributes}/>
-</div>}
+            {userData.productData.productType !== "service" && <div style={{ display: "flex", gap: '10px', alignItems: 'center' }}>
+
+              <SelectedAttributeArray attributes={AllAttributes} primaryGroup={primaryGroup} addAttribute={addAttribute} currentattributes={variation.attributes} />
+            </div>}
 
 
-            
-
-        {userData.productData.productType === "product" && <>
-        <div className="quantity-range" style={{marginTop:'40px'}}>
-          <div className="form-group">
-            <strong className="form-label" style={{marginBottom:'15px'}}>Add Dimensions in centimeter</strong>
-            <div className="range-container">
-
-            <div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
-              <p>Length</p>
-              
-              <input
-                type="number"
-                className="form-input small-input"
-                required
-                placeholder=""
-                style={{width:'60px'}}
-                value={variation.dimensions.length}
-                onChange={(e) => handleDimensionChange("length", e.target.value)}
-              />
-            
-            </div>
-
-            <div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
-            <p>Height</p>
-              <input
-                type="number"
-                className="form-input small-input"
-                placeholder=""
-                required
-                style={{width:'60px'}}
-                value={variation.dimensions.height}
-                onChange={(e) => handleDimensionChange("height", e.target.value)}
-              />
-                  
-            </div>
-
-<div style={{display:"flex",flexDirection:'column',gap:'10px',justifyContent:'center'}}> 
-<p>Width</p>
-               <input
-                type="number"
-                className="form-input small-input"
-                placeholder=""
-                required
-                style={{width:'60px'}}
-                value={variation.dimensions.width}
-                onChange={(e) => handleDimensionChange("width", e.target.value)}
-              />
-                  
-            </div>
-            </div>
-          </div>
-          </div>
 
 
- {/* weight */}
-          <div className="quantity-range">
-          <div className="form-group">
-            <strong className="form-label">Add weight in kg</strong>
-            <div className="range-container">
-            
-               <input
-                type="number"
-                className="form-input small-input"
-                placeholder="In kg"
-                required
-                value={variation.weight}
-                onChange={(e) => handleVariationChange("weight", e.target.value)}
-              />
-            </div>
-          </div>
-          </div>
-          </> }
+            {userData.productData.productType === "product" && <>
+              <div className="quantity-range" style={{ marginTop: '40px' }}>
+                <div className="form-group">
+                  <strong className="form-label" style={{ marginBottom: '15px' }}>Add Dimensions in centimeter</strong>
+                  <div className="range-container">
+
+                    <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
+                      <p>Length</p>
+
+                      <input
+                        type="number"
+                        className="form-input small-input"
+                        required
+                        placeholder=""
+                        style={{ width: '60px' }}
+                        value={variation.dimensions.length}
+                        onChange={(e) => handleDimensionChange("length", e.target.value)}
+                      />
+
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
+                      <p>Height</p>
+                      <input
+                        type="number"
+                        className="form-input small-input"
+                        placeholder=""
+                        required
+                        style={{ width: '60px' }}
+                        value={variation.dimensions.height}
+                        onChange={(e) => handleDimensionChange("height", e.target.value)}
+                      />
+
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
+                      <p>Width</p>
+                      <input
+                        type="number"
+                        className="form-input small-input"
+                        placeholder=""
+                        required
+                        style={{ width: '60px' }}
+                        value={variation.dimensions.width}
+                        onChange={(e) => handleDimensionChange("width", e.target.value)}
+                      />
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              {/* weight */}
+              <div className="quantity-range">
+                <div className="form-group">
+                  <strong className="form-label">Add weight in kg</strong>
+                  <div className="range-container">
+
+                    <input
+                      type="number"
+                      className="form-input small-input"
+                      placeholder="In kg"
+                      required
+                      value={variation.weight}
+                      onChange={(e) => handleVariationChange("weight", e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </>}
 
 
             {/* Add Price Slabs */}
-        {userData.productData.productType !== "service" &&  (variation.priceSlabs.length > 0 &&   <strong className="form-label" style={{fontSize:'18px',margin:'15px 0px',color:'#1389F0'}}>Add Price Slabs</strong>)}
-            
-          
-         {userData.productData.productType !== "service" &&   (variation.priceSlabs.map((slab, index) => (
-        <div className="quantity-range" key={index}>
-          <div className="form-group">
-        { userData.productData.productType === "product" && <div style={{display:'flex',justifyContent:'space-between'}}>
+            {userData.productData.productType !== "service" && (variation.priceSlabs.length > 0 && <strong className="form-label" style={{ fontSize: '18px', margin: '15px 0px', color: '#1389F0' }}>Add Price Slabs</strong>)}
 
-            <strong className="form-label" style={{ marginBottom: "10px" }}>
-              Type: {slab.type==='individual'?(userData.productData.productType === "product"
-?'individual / retailer':'individual'):(slab.type==='retailer'?'wholesaler':'wholesaler - Bulk Qty')}
-            </strong>
-            
-            <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-                  onClick={()=>{remopriceslab(index)}}></i>
+
+            {userData.productData.productType !== "service" && (variation.priceSlabs.map((slab, index) => (
+              <div className="quantity-range" key={index}>
+                <div className="form-group">
+                  {userData.productData.productType === "product" && <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
+                    <strong className="form-label" style={{ marginBottom: "10px" }}>
+                      Type: {slab.type === 'individual' ? (userData.productData.productType === "product"
+                        ? 'individual / retailer' : 'individual') : (slab.type === 'retailer' ? 'wholesaler' : 'wholesaler - Bulk Qty')}
+                    </strong>
+
+                    <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
+                      onClick={() => { remopriceslab(index) }}></i>
 
                   </div>}
 
-            <label className="form-label">{userData.productData.productType === "product" ?'Enter Quantity Range':'Total sq ft'}</label>
-            <div className="range-container">
-              <input
-                type="number"
-                className="form-input small-input"
-                placeholder={userData.productData.productType === "product" ? "Lower Limit":""}
-                style={{ width: "100px" }}
-                value={slab.min||''}
-                onChange={(e) => {
-                  const updatedSlabs = structuredClone([...variation.priceSlabs]);
-                  updatedSlabs[index].min = Number(e.target.value);
-                  setVariation({ ...variation, priceSlabs: updatedSlabs });
-                }}
-                required
-              />
+                  <label className="form-label">{userData.productData.productType === "product" ? 'Enter Quantity Range' : 'Total sq ft'}</label>
+                  <div className="range-container">
+                    <input
+                      type="number"
+                      className="form-input small-input"
+                      placeholder={userData.productData.productType === "product" ? "Lower Limit" : ""}
+                      style={{ width: "100px" }}
+                      value={slab.min || ''}
+                      onChange={(e) => {
+                        const updatedSlabs = structuredClone([...variation.priceSlabs]);
+                        updatedSlabs[index].min = Number(e.target.value);
+                        setVariation({ ...variation, priceSlabs: updatedSlabs });
+                      }}
+                      required
+                    />
 
-            {userData.productData.productType === "product" && <>
-            <span className="range-icon">
-                <i className="fas fa-arrow-right"></i>
-              </span>
-              <input
-                type="number"
-                className="form-input small-input"
-                placeholder="Upper Limit"
-                style={{ width: "100px" }}
-                value={slab.max||''}
-                onChange={(e) => {
-                  const updatedSlabs = [...variation.priceSlabs];
-                  updatedSlabs[index].max = Number(e.target.value);
-                  setVariation({ ...variation, priceSlabs: updatedSlabs });
-                }}
-                required
-              />
-              </> }
+                    {userData.productData.productType === "product" && <>
+                      <span className="range-icon">
+                        <i className="fas fa-arrow-right"></i>
+                      </span>
+                      <input
+                        type="number"
+                        className="form-input small-input"
+                        placeholder="Upper Limit"
+                        style={{ width: "100px" }}
+                        value={slab.max || ''}
+                        onChange={(e) => {
+                          const updatedSlabs = [...variation.priceSlabs];
+                          updatedSlabs[index].max = Number(e.target.value);
+                          setVariation({ ...variation, priceSlabs: updatedSlabs });
+                        }}
+                        required
+                      />
+                    </>}
 
-            </div>
-          </div>
+                  </div>
+                </div>
 
-      { userData.productData.productType === "product" &&  <> <div className="form-group">
-            <label className="form-label">Enter Discount (%)</label>
-            <input
-              type="number"
-              className="form-input"
-              placeholder="Enter discount"
-              value={slab.discount}
-              onChange={(e) => {
+                {userData.productData.productType === "product" && <> <div className="form-group">
+                  <label className="form-label">Enter Discount (%)</label>
+                  <input
+                    type="number"
+                    className="form-input"
+                    placeholder="Enter discount"
+                    value={slab.discount}
+                    onChange={(e) => {
 
-                if(e.target.value < 0){
-                  e.target.value=0;
-                 }
+                      if (e.target.value < 0) {
+                        e.target.value = 0;
+                      }
 
-                const updatedSlabs = [...variation.priceSlabs];
-                updatedSlabs[index].discount = e.target.value !== ''? Number(e.target.value) : '';
-                setVariation({ ...variation, priceSlabs: updatedSlabs });
-              }}
-              
-            />
-          </div>
+                      const updatedSlabs = [...variation.priceSlabs];
+                      updatedSlabs[index].discount = e.target.value !== '' ? Number(e.target.value) : '';
+                      setVariation({ ...variation, priceSlabs: updatedSlabs });
+                    }}
 
-          <div className="form-group">
-            <label className="form-label">Enter Delivery Fee</label>
-            <input
-              type="number"
-              className="form-input"
-              placeholder="Delivery Fee"
-              value={slab.deliveryFee}
-              onChange={(e) => {
-                
-                if(e.target.value < 0){
-                  e.target.value=0;
-                 }
+                  />
+                </div>
 
-                const updatedSlabs = [...variation.priceSlabs];
-                updatedSlabs[index].deliveryFee = e.target.value !== '' ? Number(e.target.value) : '';
-                setVariation({ ...variation, priceSlabs: updatedSlabs });
-              }}
-              required
-            />
-          </div> </>}
+                  <div className="form-group">
+                    <label className="form-label">Enter Delivery Fee</label>
+                    <input
+                      type="number"
+                      className="form-input"
+                      placeholder="Delivery Fee"
+                      value={slab.deliveryFee}
+                      onChange={(e) => {
 
-        </div>
-      )))
-}
+                        if (e.target.value < 0) {
+                          e.target.value = 0;
+                        }
+
+                        const updatedSlabs = [...variation.priceSlabs];
+                        updatedSlabs[index].deliveryFee = e.target.value !== '' ? Number(e.target.value) : '';
+                        setVariation({ ...variation, priceSlabs: updatedSlabs });
+                      }}
+                      required
+                    />
+                  </div> </>}
+
+              </div>
+            )))
+            }
 
 
-              {/* Enable Return with Max Days */}
+            {/* Enable Return with Max Days */}
             {userData.productData.productType === "product" &&
-  <> <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-        <label>Enable Return</label>
-        {showReturnDaysInput && (
-          <input
-            type="number"
-            placeholder="Enter Max Days"
-            className="input-group"
-            style={{ width: "70px", marginBottom: "0px" }}
-            value={variation.returnDays}
-            onChange={(e) => {
-              console.log(e.target.value)
-            //   if(Number(e.target.value)<1 || variation.returnDays === null){
-            //     handleVariationChange("returnDays",'1')
-            //   }else{
-            //   handleVariationChange("returnDays", e.target.value)
-            // }
-            }}
-            required
-          />
-        )}
+              <> <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
+                <label>Enable Return</label>
+                {showReturnDaysInput && (
+                  <input
+                    type="number"
+                    placeholder="Enter Max Days"
+                    className="input-group"
+                    style={{ width: "70px", marginBottom: "0px" }}
+                    value={variation.returnDays}
+                    onChange={(e) => {
+                      console.log(e.target.value)
+                      //   if(Number(e.target.value)<1 || variation.returnDays === null){
+                      //     handleVariationChange("returnDays",'1')
+                      //   }else{
+                      //   handleVariationChange("returnDays", e.target.value)
+                      // }
+                    }}
+                    required
+                  />
+                )}
 
-{variation.isReturnable && <label>Days</label>}
+                {variation.isReturnable && <label>Days</label>}
 
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={variation.isReturnable}
-            onChange={() => {
-              const newState = !variation.isReturnable;
-              setShowReturnDaysInput(newState);
-              handleVariationChange("isReturnable", newState);
-              // if (!newState) {
-              //   handleVariationChange("returnDays", null); // Reset return days if return is disabled
-              // }
-            }}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={variation.isReturnable}
+                    onChange={() => {
+                      const newState = !variation.isReturnable;
+                      setShowReturnDaysInput(newState);
+                      handleVariationChange("isReturnable", newState);
+                      // if (!newState) {
+                      //   handleVariationChange("returnDays", null); // Reset return days if return is disabled
+                      // }
+                    }}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
 
-      {/* Divert Small Order */}
-      <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-        <label>Divert Individual Order to Coslomart</label>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={variation.divertIndividualOrder}
-            onChange={() => handleVariationChange("divertIndividualOrder", !variation.divertIndividualOrder)}
-          />
-          <span className="slider round"></span>
-        </label>
-      </div>
-     </>
-}
+                {/* Divert Small Order */}
+                <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
+                  <label>Divert Individual Order to Coslomart</label>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      checked={variation.divertIndividualOrder}
+                      onChange={() => handleVariationChange("divertIndividualOrder", !variation.divertIndividualOrder)}
+                    />
+                    <span className="slider round"></span>
+                  </label>
+                </div>
+              </>
+            }
 
             <div className="button-group">
 
 
-            {isupdate === false && <button
-          type="button"
-          className="cancel-button"
-          onClick={() => {
-            // Remove current slab when cancel button is clicked
-            if (variation.priceSlabs.length > 0) {
-              removePriceSlab(variation.priceSlabs.length - 1);
-            }
+              {isupdate === false && <button
+                type="button"
+                className="cancel-button"
+                onClick={() => {
+                  // Remove current slab when cancel button is clicked
+                  if (variation.priceSlabs.length > 0) {
+                    removePriceSlab(variation.priceSlabs.length - 1);
+                  }
 
-            setproductimages([])
-setImages([])
+                  setproductimages([])
+                  setImages([])
 
-            setModalOpen(!ModalOpen); // Close the modal
-            
-          }}
-        >
-          Cancel
-        </button>}
+                  setModalOpen(!ModalOpen); // Close the modal
+
+                }}
+              >
+                Cancel
+              </button>}
 
 
-             {isupdate ? <button type="submit" className="save-button">
+              {isupdate ? <button type="submit" className="save-button">
                 Update Price
-              </button> : (productupdate ? <button type="submit" className="save-button" onClick={()=>{postnewVariation(true)}}>
+              </button> : (productupdate ? <button type="submit" className="save-button" onClick={() => { postnewVariation(true) }}>
                 Save Price
-              </button> :<button type="submit" className="save-button">
+              </button> : <button type="submit" className="save-button">
                 Save Price
               </button>)}
 
@@ -2650,42 +2658,42 @@ setImages([])
 
 
 
-{confirmationOpen && (
+      {confirmationOpen && (
         <div className="modal-overlay">
- 
-           <div className="confirmation-box">
-      <div className="icon">
-        {/* Replace the src below with the actual path to your image */}
-        <img
-          src="\icons\svggg.png"
-          alt="Icon"
-          className="icon-image"
-        />
-      </div>
-      <p className="message">Are you sure ?</p>
-      <div className="button-group">
-        <button className="button no-button" onClick={toggleconfirmation}>No</button>
-        <button className="button yes-button">Yes</button>
-      </div>
-    </div>
-             </div>
+
+          <div className="confirmation-box">
+            <div className="icon">
+              {/* Replace the src below with the actual path to your image */}
+              <img
+                src="\icons\svggg.png"
+                alt="Icon"
+                className="icon-image"
+              />
+            </div>
+            <p className="message">Are you sure ?</p>
+            <div className="button-group">
+              <button className="button no-button" onClick={toggleconfirmation}>No</button>
+              <button className="button yes-button">Yes</button>
+            </div>
+          </div>
+        </div>
       )}
 
 
-   
+
     </div>
   );
 }
 
 
 
-function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeCategory, setActiveCategory}) {
+function Addcategory({ toggleaddcategory, refreshCategories, subcategory, activeCategory, setActiveCategory }) {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
   const [categoryImages, setCategoryImages] = useState([]);
   const [categoryimages, setcategoryimages] = useState([]);
 
-  console.log(categoryimages,categoryImages)
+  console.log(categoryimages, categoryImages)
   const handleImageUpload = (event) => {
     const files = Array.from(event.target.files);
     setCategoryImages(files);
@@ -2705,23 +2713,23 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
       alert("Please fill all fields and upload an image.");
 
       return;
-    
+
     }
-  
+
     const formData = new FormData();
     formData.append("name", categoryName);
     // formData.append("description", categoryDescription);
     formData.append("categoryImage", categoryImages[0]); // Only sending one file
-  if(subcategory){
-   let id = document.querySelector('.active342').getAttribute('categoryid');
-   console.log(id)
-    formData.append("parent", id);
-  }
+    if (subcategory) {
+      let id = document.querySelector('.active342').getAttribute('categoryid');
+      console.log(id)
+      formData.append("parent", id);
+    }
     // Append multiple images
-  // categoryImages.forEach((image, index) => {
-  //   formData.append("categoryImage", image); // Ensure your backend supports multiple images
-  // });
-  
+    // categoryImages.forEach((image, index) => {
+    //   formData.append("categoryImage", image); // Ensure your backend supports multiple images
+    // });
+
     try {
       const token = localStorage.getItem('token');
 
@@ -2732,7 +2740,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
         },
         body: formData,
       });
-  
+
       if (response.ok) {
         alert("Category added successfully!");
         setActiveCategory(null)
@@ -2747,7 +2755,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
       alert("Something went wrong!");
     }
   };
-  
+
 
   return (
     <div className="modal-overlay">
@@ -2763,7 +2771,7 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </div>
-          
+
           {/* <div className="input-group">
           <label htmlFor="description">Enter Description</label>
           <textarea className='form-input' placeholder="Explain the category" value={categoryDescription} onChange={(e) => setCategoryDescription(e.target.value)}></textarea>
@@ -2771,34 +2779,34 @@ function Addcategory({ toggleaddcategory, refreshCategories ,subcategory,activeC
 
           <div className="image-uploader">
 
-{categoryImages.length < 1 && <div className="add-image">
- <input
-   type="file"
-   id="categoryImageInput"
-   onChange={handleImageUpload}
-   accept="image/*"
- />
- <label htmlFor="categoryImageInput" className="add-image-label">
- <img src="\icons\upcross.svg" alt=""  width={'30px'}/>
-   <p>Add Image</p>
- </label>
-</div>}
+            {categoryImages.length < 1 && <div className="add-image">
+              <input
+                type="file"
+                id="categoryImageInput"
+                onChange={handleImageUpload}
+                accept="image/*"
+              />
+              <label htmlFor="categoryImageInput" className="add-image-label">
+                <img src="\icons\upcross.svg" alt="" width={'30px'} />
+                <p>Add Image</p>
+              </label>
+            </div>}
 
 
-<div className="image-preview" style={{width:'auto'}}>
- {categoryimages.map((image, index) => (
-   <div className="image-container" key={index}>
-     <img src={image} alt={`preview-${index}`} />
-     <button
-       className="remove-button"
-       onClick={() => removeImagec(index)}
-     >
-       <i className="fas fa-times"></i>
-     </button>
-   </div>
- ))}
-</div>
-</div>
+            <div className="image-preview" style={{ width: 'auto' }}>
+              {categoryimages.map((image, index) => (
+                <div className="image-container" key={index}>
+                  <img src={image} alt={`preview-${index}`} />
+                  <button
+                    className="remove-button"
+                    onClick={() => removeImagec(index)}
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
 
 
 
@@ -2833,10 +2841,10 @@ const generatePaths = (categories, parentPath = '') => {
 };
 
 
-const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCategory}) => {
- 
+const NestedDropdown342 = ({ changeurl, categories, activeCategory, setActiveCategory }) => {
+
   const [openCategories, setOpenCategories] = useState([]);
-//  const [activeCategory, setActiveCategory] = useState(null);
+  //  const [activeCategory, setActiveCategory] = useState(null);
 
 
 
@@ -2861,14 +2869,14 @@ const NestedDropdown342 = ({changeurl,categories,activeCategory, setActiveCatego
 
           return (
             <li key={category.id}>
-              <div className={`category-item342 ${isActive ? "active342" : ""}`}  categoryid={category.id} >
+              <div className={`category-item342 ${isActive ? "active342" : ""}`} categoryid={category.id} >
                 {hasChildren ? (
                   <button className="toggle-icon342" onClick={() => toggleCategory(category.id)}>
-                    {isOpen ? <i className="fas fa-minus" style={{fontSize:'17px',color:'#9b9b9b'}}></i> : <i className="fas fa-plus" style={{fontSize:'17px',color:'#9b9b9b'}}></i>}
+                    {isOpen ? <i className="fas fa-minus" style={{ fontSize: '17px', color: '#9b9b9b' }}></i> : <i className="fas fa-plus" style={{ fontSize: '17px', color: '#9b9b9b' }}></i>}
                   </button>
                 ) : (
                   <span className="cross-icon342">
-                    <i className="fas fa-plus" style={{ visibility: "hidden" ,fontSize:'17px',color:'#9b9b9b'}}></i>
+                    <i className="fas fa-plus" style={{ visibility: "hidden", fontSize: '17px', color: '#9b9b9b' }}></i>
                   </span>
                 )}
                 <span onClick={() => setActive(category.id)} className="category-name342">

@@ -5,7 +5,7 @@ import "../../../CreateAccount.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function ResetPassword() {
+function page() {
   const params = useParams();
   const token = params.token;
   const sellerid = params.sellerid;
@@ -66,6 +66,7 @@ function ResetPassword() {
         }
       } catch (error) {
         console.error('Error starting subscription:', error);
+        window.location.href = '/auth/sup-manu/login';
       }
 
     }
@@ -104,7 +105,8 @@ function ResetPassword() {
       })
       .catch((err) => {
         document.querySelector('.loaderoverlay').style.display = 'none';
-        setError(err.message);
+        window.location.href = '/auth/sup-manu/login';
+        // setError(err.message);
       });
   };
 
@@ -135,4 +137,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword
+export default page
