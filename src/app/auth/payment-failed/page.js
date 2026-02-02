@@ -1,7 +1,15 @@
+'use client'
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import './page.css'
 
 function Page() {
+
+
+  useEffect(() => {
+    localStorage.removeItem("token")
+  }, []);
+
 
 
   return (

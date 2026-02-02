@@ -66,6 +66,7 @@ function page() {
         }
       } catch (error) {
         console.error('Error starting subscription:', error);
+        localStorage.removeItem("token")
         window.location.href = '/auth/sup-manu/login';
       }
 
@@ -105,6 +106,7 @@ function page() {
       })
       .catch((err) => {
         document.querySelector('.loaderoverlay').style.display = 'none';
+        localStorage.removeItem("token")
         window.location.href = '/auth/sup-manu/login';
         // setError(err.message);
       });
