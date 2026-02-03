@@ -1564,7 +1564,7 @@ export default function Page() {
               const location = {
                 geoJsonType: "Point",
                 address: LocationformData.location.address,
-                coordinates: [LocationformData.location.longitude, LocationformData.location.latitude],
+                coordinates: [data?.results[0]?.geometry?.location?.lng, data?.results[0]?.geometry?.location?.lat],
                 state: LocationformData.location.state,
                 city: LocationformData.location.city,
                 area: LocationformData.location.area,

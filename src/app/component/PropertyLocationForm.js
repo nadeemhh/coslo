@@ -188,7 +188,7 @@ const PropertyLocationForm = ({ setUserData, show, userlocation, formData, setFo
   // Handle places changed (address selection)
   const onPlacesChanged = useCallback(() => {
 
-    console.log(searchBoxRef.current);
+    console.log("searchBoxRef.current", searchBoxRef.current);
     if (searchBoxRef.current) {
       const places = searchBoxRef.current.getPlaces();
       console.log(places);

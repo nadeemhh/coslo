@@ -17,87 +17,95 @@ const Usersidebar = () => {
 
   useEffect(() => {
 
-    let sellerdata = JSON.parse(localStorage.getItem('sellerdata'))
-    let serviceChargeAccepted = sellerdata.serviceChargeAccepted || false;
-    console.log(sellerdata.sellerType)
+    try {
 
-    localStorage.setItem('productType', sellerdata.sellerType.toLowerCase())
+      let sellerdata = JSON.parse(localStorage.getItem('sellerdata'))
+      let serviceChargeAccepted = sellerdata.serviceChargeAccepted || false;
+      console.log(sellerdata.sellerType)
 
-    const admindata = JSON.parse(localStorage.getItem('sellerdata'))?.role;
-    const iscoslo = admindata === 'COSLO_SELLER';
+      localStorage.setItem('productType', sellerdata.sellerType.toLowerCase())
 
-    if (iscoslo) {
+      const admindata = JSON.parse(localStorage.getItem('sellerdata'))?.role;
+      const iscoslo = admindata === 'COSLO_SELLER';
 
-      setmenuItems([{ path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-      { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
-      { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' }])
+      if (iscoslo) {
 
-      setiscosload(iscoslo);
+        setmenuItems([{ path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+        { path: '/supplier/Set-Profit-Margin', icon: 'fas fa-percent', label: 'Set Profit Margin' },
+        { path: '/supplier/orders', icon: 'fas fa-shopping-cart', label: 'Orders' }])
 
-    } else {
+        setiscosload(iscoslo);
 
-      const typeMap = {
-        Product: ['My Products', 'fas fa-box'],
-        Property: ['My Properties', 'fas fa-building'],
-        Service: ['My Services', 'fas fa-tools']
-      };
-
-      let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
-
-      setmenuItems([
-        { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1] || 'fas fa-box', label: listingtype },])
-
-      if (sellerdata.sellerType === 'Property' && !serviceChargeAccepted) {
-        setmenuItems(prevMenuItems => [
-          ...prevMenuItems,
-          { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }])
       } else {
 
-        setmenuItems(prevMenuItems => [
-          ...prevMenuItems,
-          { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' }]
-        )
+        const typeMap = {
+          Product: ['My Products', 'fas fa-box'],
+          Property: ['My Properties', 'fas fa-building'],
+          Service: ['My Services', 'fas fa-tools']
+        };
+
+        let listingtype = typeMap[sellerdata.sellerType][0] || 'Product';
+
+        setmenuItems([
+          { path: '/supplier/Products', icon: typeMap[sellerdata.sellerType][1] || 'fas fa-box', label: listingtype },])
+
+        if (sellerdata.sellerType === 'Property' && !serviceChargeAccepted) {
+          setmenuItems(prevMenuItems => [
+            ...prevMenuItems,
+            { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+            { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }])
+        } else {
+
+          setmenuItems(prevMenuItems => [
+            ...prevMenuItems,
+            { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' }]
+          )
+
+        }
+
+        if (sellerdata.sellerType === 'Product') {
+          setmenuItems(prevMenuItems => [
+            { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+            ...prevMenuItems,
+            { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
+            { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
+            { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+            { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
+            { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
+            { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+            { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
+          ])
+        }
+
+        if (sellerdata.sellerType === 'Service') {
+          setmenuItems(prevMenuItems => [
+            { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
+            ...prevMenuItems,
+            { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
+            { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+            { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+            { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
+          ])
+        }
+
 
       }
 
-      if (sellerdata.sellerType === 'Product') {
-        setmenuItems(prevMenuItems => [
-          { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-          ...prevMenuItems,
-          { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
-          { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
-          { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
-          { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
-          { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
-          { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
-        ])
+      console.log(window.location.pathname, iscoslo, admindata)
+      // Set the current path when the component mounts
+      if (typeof window !== 'undefined') {
+        setCurrentPath(window.location.pathname);
       }
 
-      if (sellerdata.sellerType === 'Service') {
-        setmenuItems(prevMenuItems => [
-          { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
-          ...prevMenuItems,
-          { path: '/supplier/serviceorders', icon: 'fas fa-receipt', label: 'Orders' },
-          { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
-          { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
-          { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }
-        ])
+      if (localStorage.getItem('issuperadmin') === 'true') {
+        setissuperadmin(true)
       }
 
+    } catch (er) {
+      window.location.href = '/auth/sup-manu/login';
 
     }
 
-    console.log(window.location.pathname, iscoslo, admindata)
-    // Set the current path when the component mounts
-    if (typeof window !== 'undefined') {
-      setCurrentPath(window.location.pathname);
-    }
-
-    if (localStorage.getItem('issuperadmin') === 'true') {
-      setissuperadmin(true)
-    }
   }, []);
 
   const handleLogout = () => {
