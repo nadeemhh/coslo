@@ -53,12 +53,14 @@ const Usersidebar = () => {
           setmenuItems(prevMenuItems => [
             ...prevMenuItems,
             { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
-            { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' }])
+            { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
+            { path: '/supplier/learn', icon: 'fas fa-graduation-cap', label: 'Learn' }])
         } else {
 
           setmenuItems(prevMenuItems => [
             ...prevMenuItems,
-            { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' }]
+            { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' },
+            { path: '/supplier/learn', icon: 'fas fa-graduation-cap', label: 'Learn' }]
           )
 
         }
