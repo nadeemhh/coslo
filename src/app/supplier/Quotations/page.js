@@ -147,7 +147,7 @@ export default function page() {
               <th>Date</th>
               <th>Phone</th>
               {sellerType === 'Property' && <th>Location</th>}
-              <th>Email</th>
+
               <th>{productType}</th>
               {sellerType !== 'Property' && <th>Status</th>}
               {sellerType !== 'Property' && <th>Details</th>}
@@ -166,9 +166,6 @@ export default function page() {
                 {sellerType === 'Property' && <td>
                   {order.location || 'N/A'}
                 </td>}
-                <td>
-                  {order.email || 'N/A'}
-                </td>
 
                 <td>
                   {order.product || 'N/A'}
