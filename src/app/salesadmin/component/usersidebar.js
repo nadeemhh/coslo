@@ -9,12 +9,13 @@ import useAuthCheck from '../../useAuthCheck.js';
 const AdminDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
 
-  useAuthCheck('/auth/saleslogin','salestoken');
-  
+  useAuthCheck('/auth/saleslogin', 'salestoken');
+
   useEffect(() => {
 
     const baseMenuItems = [
-        { path: '/salesadmin/leads', icon: 'fas fa-users', label: 'Leads' }
+      { path: '/salesadmin/leads', icon: 'fas fa-users', label: 'Buyer Leads' },
+      { path: '/salesadmin/sellerleads', icon: 'fas fa-users', label: 'Seller Leads' }
     ];
 
 
@@ -34,7 +35,7 @@ const AdminDashboard = () => {
 };
 
 
-const Usersidebar = ({menuItems}) => {
+const Usersidebar = ({ menuItems }) => {
   const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
@@ -44,16 +45,16 @@ const Usersidebar = ({menuItems}) => {
   }, []);
 
   const handleLogout = () => {
-     
+
     localStorage.removeItem('salestoken');
     window.location.href = '/auth/saleslogin';
   };
 
   return (
-    <div className="side-bar sidebar" id="sidebar" style={{height:'100%'}}>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
-      <label>Coslomart Sales Admin</label></div>
-      
+    <div className="side-bar sidebar" id="sidebar" style={{ height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}><img src="\images\coslologo.png" alt="" style={{ width: '50px' }} />
+        <label>Coslomart Sales Admin</label></div>
+
       {/* Menu Items */}
       <div className="menu">
         {menuItems.map((item) => (
@@ -71,7 +72,7 @@ const Usersidebar = ({menuItems}) => {
           <span>Log Out</span>
         </div>
 
-    
+
       </div>
     </div>
   );
