@@ -305,6 +305,7 @@ const SellerLeadsPage = () => {
                             <th>Date</th>
                             <th>Name</th>
                             <th>Phone</th>
+                            <th>Seller exist</th>
                             <th>Listing Type</th>
                             <th>WhatsApp Consent</th>
                             <th>Call Status</th>
@@ -323,6 +324,7 @@ const SellerLeadsPage = () => {
                                         {lead.phone}
                                     </a>
                                 </td>
+                                <td>{`${lead?.phoneExist === true ? 'Yes' : 'No'}`}</td>
                                 <td>{lead.listingType || 'N/A'}</td>
                                 <td>{lead.whatsAppConsent || 'N/A'}</td>
 
