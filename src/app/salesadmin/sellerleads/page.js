@@ -305,9 +305,11 @@ const SellerLeadsPage = () => {
                             <th>Date</th>
                             <th>Name</th>
                             <th>Phone</th>
-                            <th>Seller exist</th>
+                            <th>Seller registered</th>
                             <th>Listing Type</th>
-                            <th>WhatsApp Consent</th>
+                            <th>Selected Plan</th>
+                            <th>Total Properties</th>
+
                             <th>Call Status</th>
                             <th>Follow-up Date</th>
                             <th>Comments</th>
@@ -326,7 +328,9 @@ const SellerLeadsPage = () => {
                                 </td>
                                 <td>{`${lead?.phoneExist === true ? 'Yes' : 'No'}`}</td>
                                 <td>{lead.listingType || 'N/A'}</td>
-                                <td>{lead.whatsAppConsent || 'N/A'}</td>
+
+                                <td>{lead?.selectedPlan || 'N/A'}</td>
+                                <td>{`${lead?.totalProperties}`}</td>
 
                                 <td>
                                     <select
