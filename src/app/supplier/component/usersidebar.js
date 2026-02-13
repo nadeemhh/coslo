@@ -57,11 +57,13 @@ const Usersidebar = () => {
             { path: '/supplier/learn', icon: 'fas fa-graduation-cap', label: 'Learn' }])
         } else {
 
-          setmenuItems(prevMenuItems => [
-            ...prevMenuItems,
-            { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' },
-            { path: '/supplier/learn', icon: 'fas fa-graduation-cap', label: 'Learn' }]
-          )
+          if (sellerdata.sellerType === 'Property') {
+            setmenuItems(prevMenuItems => [
+              ...prevMenuItems,
+              { path: '/supplier/servicecharges', icon: 'fas fa-rupee-sign', label: 'Service Charges' },
+              { path: '/supplier/learn', icon: 'fas fa-graduation-cap', label: 'Learn' }]
+            )
+          }
 
         }
 
@@ -69,13 +71,13 @@ const Usersidebar = () => {
           setmenuItems(prevMenuItems => [
             { path: '/supplier/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
             ...prevMenuItems,
-            { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
-            { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
-            { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
+            // { path: '/supplier/productorders', icon: 'fas fa-receipt', label: 'Orders' },
+            // { path: '/supplier/Return', icon: 'fas fa-reply', label: 'Return Requests' },
+            // { path: '/supplier/cancelorders', icon: 'fas fa-ban', label: 'Cancel Requests' },
             { path: '/supplier/Quotations', icon: 'fas fa-envelope', label: 'Quotations' },
             { path: '/supplier/subscription', icon: 'fas fa-rupee-sign', label: 'Subscription' },
-            { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
-            { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
+            // { path: '/supplier/verification', icon: 'fas fa-check-circle', label: 'Bank Verification' },
+            // { path: '/supplier/payments', icon: 'fas fa-coins', label: 'Payments' },
           ])
         }
 

@@ -8,13 +8,13 @@ import Mygloballoader from '../Mygloballoader.js'
 
 
 export const metadata = {
-  title: "coslomart Store - Best Online Shopping",
-  description: "Shop the latest products at the best prices. Fast shipping and great discounts!",
-  keywords: "ecommerce, online shopping, best deals, fast delivery",
+  title: "Best eCommerce Platform for Properties, Products, and Services",
+  description: "A unified eCommerce platform designed to buy, sell, and manage properties, products, and services seamlessly.",
+  keywords: "property marketplace, service marketplace platform, product marketplace, best deals",
   icons: {
     icon: "/images/coslomartfavicon.jpg",
   }
- 
+
 };
 
 export default function RootLayout({ children }) {
@@ -22,33 +22,33 @@ export default function RootLayout({ children }) {
 
     <html lang="en">
       <head>
-      <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    rel="stylesheet"
-  />
-            </head>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          rel="stylesheet"
+        />
+      </head>
       <body>
-      
+
         <>
-    {/* Wrapper */}
-    <div className="mycontainer">
-      <NavBar />
+          {/* Wrapper */}
+          <div className="mycontainer">
+            <NavBar />
 
-      {/* Content Wrapper */}
-      <div className="content-wrapper">
-        <Sidebar />
-        <MainContent>
-        { children }
-        </MainContent>
-      </div>
+            {/* Content Wrapper */}
+            <div className="content-wrapper">
+              <Sidebar />
+              <MainContent>
+                {children}
+              </MainContent>
+            </div>
 
-      <Footer />
-    </div>
+            <Footer />
+          </div>
 
-    <MobileFooter />
-  </>
-       
-<Mygloballoader/>
+          <MobileFooter />
+        </>
+
+        <Mygloballoader />
 
       </body>
     </html>

@@ -1,280 +1,257 @@
 'use client'
 import './page.css'
-import Link from 'next/link';
-import { useState,useEffect } from "react";
-
+import { useState, useEffect } from "react";
 
 export default function Page() {
+  const [data, setdata] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedBanner, setSelectedBanner] = useState(null);
+  const [newImages, setNewImages] = useState([]);
+  const [redirectUrl, setRedirectUrl] = useState("");
+  const [editRedirectUrl, setEditRedirectUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [data,setdata] = useState(null);
-  const [productimages, setproductimages] = useState([]);
-  const [images, setImages] = useState([]);
-
-
-
-  
-  console.log(data,images,productimages)
-
-  
-  const handleImageUpload = (event) => {
-
-    const myfiles = Array.from(event.target.files);
-    setproductimages((prevImages) => [...prevImages, ...myfiles])
- 
-    const files = Array.from(event.target.files);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setImages((prevImages) => [...prevImages, ...imageUrls]);
-
-    
-  };
-
-  const removeImage = (index) => { 
-
-    setproductimages(productimages.filter((_, i) => i !== index));
-    setImages(images.filter((_, i) => i !== index));
-
-  };
-
-
-  const removepreImage = (id,index) => {
-
-    console.log(id)
-    deletebanner(id)
-    setdata(data.filter((_, i) => i !== index))
-
-  };
-
-
+  useEffect(() => {
+    getbanners();
+  }, []);
 
   const getbanners = () => {
- 
-  
-  document.querySelector('.loaderoverlay').style.display='flex';
- 
+    setLoading(true);
     const token = localStorage.getItem('admintoken');
-  
     fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`, {
-        method: 'GET',
-        headers: {
-          ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-        },
-      })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message || 'Failed. Please try again.');
-          });
-        }
-      })
-      .then((data) => {
-            
-   console.log(data)
-   setdata(data.data)
-   
-   document.querySelector('.loaderoverlay').style.display='none';
-       
-      })
-      .catch((err) => {
-      
-        alert(err.message);
-        document.querySelector('.loaderoverlay').style.display='none';
-      });
-  };
-  
-
-   useEffect(() => {
-    getbanners();
-        
-       },[]);
-
-
-
-  const send = async () => {
-
-    async function convertImagesToBase64(imagesArray) {
-        const convertToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = (error) => reject(error);
-            });
-        };
-    
-        const base64Images = [];
-    
-        for (const imageObj of imagesArray) {
-            try {
-                // Convert image-like object to an actual File object
-                
-    
-                // Convert to Base64
-                const base64String = await convertToBase64(imageObj);
-                base64Images.push(base64String);
-            } catch (error) {
-                console.error("Error converting image to Base64:", error);
-            }
-        }
-    
-        return base64Images;
-    }
-    
-    // Example usage
-    // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
-    convertImagesToBase64(productimages).then((result) => {
-        console.log('Converted Product Data:', result);
-    postdata(result)
-    });
-    
-  document.querySelector('.loaderoverlay').style.display='flex';
-  
-  console.log(data)
-   
-
-    
-    async function postdata(data) {
-console.log(data)
-
- const token = localStorage.getItem('admintoken');
-  
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      },
-      body: JSON.stringify({images:data}),
+      headers: { ...(token && { Authorization: `Bearer ${token}` }) },
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-            throw new Error(errorData.message ||errorData.error || 'Failed. Please try again.');
-          });
-        }
-      })
+      .then((res) => res.json())
       .then((data) => {
-            alert(data.message)
-            document.querySelector('.loaderoverlay').style.display='none';
-       
+        setdata(data.data || []);
+        setLoading(false);
       })
       .catch((err) => {
-      alert(err.message || err.error)
-        console.log(err)
-        document.querySelector('.loaderoverlay').style.display='none';
+        console.error(err);
+        setLoading(false);
       });
+  };
 
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setNewImages([files[0]]);
     }
   };
 
+  const removeNewImage = (index) => {
+    setNewImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
-  async function deletebanner(id) {
+  const handleAddSubmit = async () => {
+    if (newImages.length === 0) return alert("Please select images");
 
-     const token = localStorage.getItem('admintoken');
-     
+    setLoading(true);
+    const token = localStorage.getItem('admintoken');
 
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner?bannerId=${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-          }
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              return response.json().then((errorData) => {
-                throw new Error(errorData.message || 'Failed. Please try again.');
-              });
-            }
-          })
-          .then((data) => {
-                alert(data.message)
-                document.querySelector('.loaderoverlay').style.display='none';
-           
-          })
-          .catch((err) => {
-          
-            console.log(err)
-            document.querySelector('.loaderoverlay').style.display='none';
-          });
-    
-        }
+    const convertToBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
 
-  
+    const base64Images = await Promise.all(newImages.map(convertToBase64));
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ images: base64Images, redirectUrl }),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert(result.message);
+        setIsModalOpen(false);
+        setNewImages([]);
+        setRedirectUrl("");
+        getbanners();
+      } else {
+        alert(result.message || "Failed to add banner");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error adding banner");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditSubmit = async () => {
+    if (!selectedBanner) return;
+    setLoading(true);
+    const token = localStorage.getItem('admintoken');
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ bannerId: selectedBanner._id, redirectUrl: editRedirectUrl }),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert(result.message);
+        setIsEditModalOpen(false);
+        setSelectedBanner(null);
+        getbanners();
+      } else {
+        alert(result.message || "Failed to update banner");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error updating banner");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure?")) return;
+    setLoading(true);
+    const token = localStorage.getItem('admintoken');
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/banner?bannerId=${id}`, {
+        method: 'DELETE',
+        headers: { ...(token && { Authorization: `Bearer ${token}` }) },
+      });
+      const result = await res.json();
+      if (res.ok) {
+        alert(result.message);
+        getbanners();
+      } else {
+        alert(result.message || "Failed to delete");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting banner");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openEditModal = (banner) => {
+    setSelectedBanner(banner);
+    setEditRedirectUrl(banner.redirectUrl || "");
+    setIsEditModalOpen(true);
+  };
 
   return (
-    <div className="order-details">
-    
+    <div className="banner-page">
+      <div className="header" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <h2 style={{ fontSize: "1.5rem" }}>Home Page Banners</h2>
+        <button className="add-btn" onClick={() => setIsModalOpen(true)}>
+          <i className="fas fa-plus"></i> Add Banner
+        </button>
+      </div>
 
-   { data &&  <div className="add-product-container">
-      <div className="basic-info" >
-        <h2 style={{textAlign:'left'}}>Upload Home Page Banners</h2>
-        
-
-        <div className="image-uploader" style={{marginBottom:'50px'}}>
- 
- <div className="add-image">
-   <input
-     type="file"
-     id="imageInput"
-     multiple
-     onChange={handleImageUpload}
-     accept="image/*"
-   />
-   <label htmlFor="imageInput" className="add-image-label">
-   <img src="\icons\upcross.svg" alt=""  width={'30px'}/>
-     <p>Add Image</p>
-   </label>
- </div>
- <div className="image-preview">
-   {images.map((image, index) => (
-     <div className="image-container" key={index}>
-       <img src={image} alt={`preview-${index}`} />
-       <button
-         className="remove-button"
-         onClick={(e) => {
-           e.preventDefault();
-           removeImage(index)}}
-       >
-         <i className="fas fa-times"></i>
-       </button>
-     </div>
-   ))}
-
-{data.map((image, index) => (
-          <div className="image-container" key={index}>
-            <img src={image.url} alt={`preview-${index}`} />
-            <button
-              className="remove-button"
-              onClick={(e) => {
-                e.preventDefault();
-                removepreImage(image._id,index)}}
-            >
-              <i className="fas fa-times"></i>
-            </button>
+      <div className="banner-grid">
+        {data.map((banner) => (
+          <div key={banner._id} className="banner-card">
+            <img src={banner.url} alt="Banner" className="banner-img" />
+            <div className="banner-info">
+              <p className="redirect-url" title={banner.redirectUrl}>
+                <i className="fas fa-link"></i> {banner.redirectUrl || "No URL"}
+              </p>
+            </div>
+            <div className="banner-actions">
+              <button className="edit-action" onClick={() => openEditModal(banner)}>
+                <i className="fas fa-edit"></i> Edit
+              </button>
+              <button className="delete-action" onClick={() => handleDelete(banner._id)}>
+                <i className="fas fa-trash"></i> Delete
+              </button>
+            </div>
           </div>
         ))}
-
-
- </div>
- 
- </div>
-        <button className="create-new" onClick={()=>send()}>
-        Update
-             <i className="fas fa-arrow-right"></i>
-            </button>
+        {data.length === 0 && !loading && <p>No banners found.</p>}
       </div>
-      
-    </div>}
 
+      {/* Add Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Add New Banner</h3>
+            <div className="form-group">
+              <label className="file-upload-label">
+                <i className="fas fa-cloud-upload-alt"></i>
+                <span style={{ marginLeft: "10px" }}>Click to Upload Image</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <div className="preview-grid">
+                {newImages.map((file, idx) => (
+                  <div key={idx} className="preview-item">
+                    <img src={URL.createObjectURL(file)} alt="preview" />
+                    <button onClick={() => removeNewImage(idx)}>×</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Redirect URL</label>
+              <input
+                type="text"
+                placeholder="https://example.com"
+                value={redirectUrl}
+                onChange={(e) => setRedirectUrl(e.target.value)}
+              />
+            </div>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setIsModalOpen(false)}>Cancel</button>
+              <button className="save-btn" onClick={handleAddSubmit} disabled={loading}>
+                {loading ? "Saving..." : "Save Banners"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Edit Banner URL</h3>
+            <div className="preview-single">
+              <img src={selectedBanner?.url} alt="Current Banner" />
+            </div>
+            <div className="form-group">
+              <label>Redirect URL</label>
+              <input
+                type="text"
+                value={editRedirectUrl}
+                onChange={(e) => setEditRedirectUrl(e.target.value)}
+              />
+            </div>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setIsEditModalOpen(false)}>Cancel</button>
+              <button className="save-btn" onClick={handleEditSubmit} disabled={loading}>
+                {loading ? "Updating..." : "Update URL"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {loading && <div className="loaderoverlay" style={{ display: 'flex' }}>
+        <div className="loader"></div>
+      </div>}
     </div>
   );
 }
-
