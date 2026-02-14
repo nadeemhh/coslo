@@ -375,7 +375,7 @@ function Signup() {
             </div> */}
 
             <div className="form-tab">
-              <label htmlFor="phoneNo">Enter Phone Number</label>
+              <label htmlFor="phoneNo">Enter Phone Number <span style={{ fontSize: '12px', color: '#36be00', marginTop: '10px', fontWeight: '600' }}>(connected with WhatsApp)</span></label>
               <input type="number" name="phoneNo" id="boldinput66" placeholder="+91" value={user.phoneNo} onChange={handleOnChange} required />
             </div>
 
