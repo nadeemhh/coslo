@@ -288,7 +288,7 @@ const PropertyPlansTable = ({ user, setUser }) => {
         <thead className="header876">
           <tr>
             <th className="header876-title876">FEATURES PRICE</th>
-            <th className="header876-price876" style={{ color: '#003d6b' }}>₹ {currentPlan.price}</th>
+            <th className="header876-price876" style={{ color: '#003d6b' }}>₹{currentPlan.price} <p style={{ fontSize: '12px', color: '#ffffffff', fontWeight: '600' }}>+ 18% GST</p> </th>
           </tr>
         </thead>
         <tbody>
