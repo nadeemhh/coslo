@@ -61,7 +61,7 @@ function Signup() {
     phoneNo: "",
     company: "",
     gstNo: "",
-    SubscriptionType: "FREE",
+    SubscriptionType: "",
     role: "",
     password: "",
     panNumber: "",
@@ -152,13 +152,18 @@ function Signup() {
     // formData.append("email", user.email);
     formData.append("phone", user.phoneNo);
     // formData.append("password", user.password);
-    formData.append("businessType", user.role);
-    formData.append("subscriptionPlan", user.SubscriptionType);
-    if (sellertype !== 'Product') {
+    formData.append("SellerRole", user.role);
+
+    if (user.SubscriptionType) {
+      formData.append("subscriptionPlan", user.SubscriptionType);
+    }
+
+    if (sellertype !== 'Product' && sellertype !== 'Property') {
+
       formData.append("panNumber", user.panNumber);
     }
+
     formData.append("sellertype", sellertype);
-    formData.append("businessName", user.company);
     formData.append("purchasePlan", user.purchasePlan);
 
     if (sellertype === 'Property') {
@@ -167,8 +172,9 @@ function Signup() {
 
     }
 
-    if (sellertype === 'Property' && user.role === 'Organization') {
+    if (sellertype !== 'Property') {
       formData.append("gstNumber", user.gstNo);
+      formData.append("businessName", user.company);
 
     }
 
@@ -468,7 +474,7 @@ function Signup() {
 
 
 
-            {sellertype === 'Property' && <> <div className="radio-tab">
+            {sellertype === 'Property' && <div className="radio-tab">
               <p style={{ marginTop: '30px', marginBottom: '10px' }}>
                 <span htmlFor='role' style={{ textAlign: 'left', fontSize: '19px', fontWeight: '600', }}>Select Role:</span> <span>Are you an individual or an organization?</span>
               </p>
@@ -481,30 +487,7 @@ function Signup() {
                 <input type='radio' className='btn' name='role' value={"Organization"} onChange={handleOnChange} />
                 <label>Organization</label>
               </div>
-            </div>
-
-
-              {user.role === 'Individual' && <>  <div className="form-tab">
-                <label htmlFor="panNumber">Enter Pan Number</label>
-                <input type="text" id="boldinput66" name="panNumber" value={user.panNumber} onChange={handleOnChange} required />
-              </div>
-              </>
-              }
-
-              {user.role === 'Organization' && <> <div className="form-tab">
-                <label htmlFor="company">Enter Company Name</label>
-                <input type="text" id="boldinput66" name="company" value={user.company} onChange={handleOnChange} required />
-              </div>
-
-                <div className="form-tab">
-                  <label htmlFor="gstNo">Enter GST Number</label>
-
-                  <input type="text" id="boldinput66" name="gstNo" value={user.gstNo} onChange={handleOnChange} required />
-
-                </div>
-              </>
-              }
-            </>}
+            </div>}
 
             {sellertype === 'Property' && <div className="radio-tab">
               <p style={{ marginTop: '30px', marginBottom: '10px' }}>
@@ -521,7 +504,7 @@ function Signup() {
               </div>
 
               <div className='fo2'>
-                <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, serviceChargeAccepted: false, purchasePlan: '' }))} />
+                <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, serviceChargeAccepted: false, purchasePlan: '', SubscriptionType: 'FREE' }))} />
                 <label>Free</label>
               </div>
 
@@ -565,7 +548,7 @@ function Signup() {
             </div>
 
             <div className='fo2'>
-              <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, purchasePlan: '' }))} />
+              <input type='radio' className='btn' name='Modal' onClick={() => (setUser({ ...user, purchasePlan: '', SubscriptionType: 'FREE' }))} />
               <label>Free</label>
             </div>
 
