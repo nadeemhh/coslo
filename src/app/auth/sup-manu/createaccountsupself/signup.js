@@ -618,7 +618,7 @@ const TermsCard = ({ toggleconfirmation, handleSubmit, policydata }) => {
         </div>
         <div className="terms-footer065">
           <button className="accept-btn065" onClick={handleSubmit}>Accept</button>
-          <button className="decline-btn065" style={{ background: '#EC5959' }} onClick={toggleconfirmation}>Decline</button>
+          {/* <button className="decline-btn065" style={{ background: '#EC5959' }} onClick={toggleconfirmation}>Decline</button> */}
         </div>
       </div>
     </div>
