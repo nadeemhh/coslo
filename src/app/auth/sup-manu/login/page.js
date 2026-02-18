@@ -1,22 +1,18 @@
 'use client'
 import "../../CreateAccount.css";
-import { useParams, useSearchParams } from 'next/navigation';
 
 import { useState, useEffect } from 'react';
 
 
 function Login() {
 
-  const params = useParams();
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [step, setStep] = useState(1); // 1: Phone, 2: OTP
   const [timer, setTimer] = useState(600); // 600 seconds = 10 minutes
   const [canResend, setCanResend] = useState(false);
-  const searchParams = useSearchParams();
-  const purchasePlan = searchParams.get('purchasePlan');
-  console.log(purchasePlan)
+
 
   useEffect(() => {
     let interval;
@@ -100,6 +96,11 @@ function Login() {
       .then((data) => {
         console.log('=>', data)
         localStorage.setItem('sellerdata', JSON.stringify(data));
+
+        const searchParams = new URLSearchParams(window.location.search);
+        const purchasePlan = searchParams.get('purchasePlan');
+
+        console.log(purchasePlan)
 
         if (purchasePlan) {
 
