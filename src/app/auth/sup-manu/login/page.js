@@ -1,15 +1,22 @@
 'use client'
 import "../../CreateAccount.css";
+import { useParams, useSearchParams } from 'next/navigation';
+
 import { useState, useEffect } from 'react';
+
 
 function Login() {
 
+  const params = useParams();
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [step, setStep] = useState(1); // 1: Phone, 2: OTP
   const [timer, setTimer] = useState(600); // 600 seconds = 10 minutes
   const [canResend, setCanResend] = useState(false);
+  const searchParams = useSearchParams();
+  const purchasePlan = searchParams.get('purchasePlan');
+  console.log(purchasePlan)
 
   useEffect(() => {
     let interval;
@@ -28,6 +35,47 @@ function Login() {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
+
+
+  async function handlebuy(plan, sellertoken) {
+    console.log(plan)
+
+    // Check if token exists in localStorage
+    const token = sellertoken;
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/start`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ plan: plan })
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        console.log(data);
+        alert(data.error)
+        return;
+      }
+
+      // Assuming the response returns a JSON with the payment URL
+      const data = await response.json();
+
+      const paymentUrl = data.paymentUrl;
+      if (paymentUrl) {
+        // Redirect to the payment URL
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.error('Error starting subscription:', error);
+      localStorage.removeItem("token")
+      window.location.href = '/auth/sup-manu/login';
+    }
+
+  }
+
 
   const handlesellerdata = () => {
 
@@ -53,12 +101,10 @@ function Login() {
         console.log('=>', data)
         localStorage.setItem('sellerdata', JSON.stringify(data));
 
-        // Check if a revert query is present in the URL
-        const searchParams = new URLSearchParams(window.location.search);
-        const revert = searchParams.get('revert');
+        if (purchasePlan) {
 
-        if (revert === 'planspage') {
-          window.location.href = '/#cosloplans';
+          handlebuy(purchasePlan, token)
+
         } else {
           if (data.sellerType === "Property") {
             window.location.href = '/supplier/Products';

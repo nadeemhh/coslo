@@ -138,6 +138,7 @@ function Signup() {
 
 
 
+
   const handleSubmit = async () => {
 
 
@@ -235,15 +236,11 @@ function Signup() {
 
         console.log(data)
 
-        if (user.DeliveryType === 'COSLO') {
-
-          enableshiprocket(data.sellerId, '/home', 'We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
-
+        if (user.purchasePlan) {
+          window.location.href = `/auth/sup-manu/login?purchasePlan=${user.purchasePlan}`;
         } else {
-          window.location.href = '/home';
-          alert('We have sent a link to your WhatsApp to verify your account. Open WhatsApp and click the link to complete verification.')
+          window.location.href = '/auth/sup-manu/login'
         }
-
 
 
 

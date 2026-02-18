@@ -12,11 +12,11 @@ import ProductVariations from '../../../../component/ProductVariations.js'
 import formatNumberIndian from '../../../../component/formatNumberIndian.js'
 import Viewerproductpage from '../../../../component/viewerproductpage.js'
 import { useParams } from "next/navigation";
-import { useRef ,useState,useEffect,Suspense} from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 
- function Productpagecontant() {
-      const searchParams = useParams();
-    const id = searchParams.id; // Get the 'id' from the URL
+function Productpagecontant() {
+  const searchParams = useParams();
+  const id = searchParams.id; // Get the 'id' from the URL
   const [isuser, setisuser] = useState(false);
   const productsContainerRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,93 +25,93 @@ import { useRef ,useState,useEffect,Suspense} from 'react';
   const [ModalOpen, setModalOpen] = useState(false);
   const [returnmodal, setreturnmodal] = useState(false);
   const [pageUrl, setPageUrl] = useState('');
-  const [data,setdata] = useState(null);
-  const [isdata,setisdata] = useState(false);
-  const [showslab,setshowslab] = useState(0);
-  const [saved,setsaved] = useState(0);
-  const [amazonproduct,setamazonproduct] = useState(null);
-const [activeIndex, setActiveIndex] = useState(0);
+  const [data, setdata] = useState(null);
+  const [isdata, setisdata] = useState(false);
+  const [showslab, setshowslab] = useState(0);
+  const [saved, setsaved] = useState(0);
+  const [amazonproduct, setamazonproduct] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const [showAll, setShowAll] = useState(false);
   const [shouldShowButton, setShouldShowButton] = useState(false);
   const ammentiescontainerRef = useRef(null);
 
 
-console.log(data);
+  console.log(data);
 
 
 
   const toggleModal = () => {
-  
+
     setModalOpen(!ModalOpen);
   };
 
 
 
 
-const scrollBy = 50; // moderate scroll amount
+  const scrollBy = 50; // moderate scroll amount
 
-const scrollLeft = () => {
-  if (activeIndex > 0) {
-    const newIndex = activeIndex - 1;
-    setActiveIndex(newIndex);
-    updateActiveImage(newIndex);
+  const scrollLeft = () => {
+    if (activeIndex > 0) {
+      const newIndex = activeIndex - 1;
+      setActiveIndex(newIndex);
+      updateActiveImage(newIndex);
 
-    if (productsContainerRef.current) {
-      productsContainerRef.current.scrollBy({
-        left: -scrollBy,
-        behavior: 'smooth',
-      });
+      if (productsContainerRef.current) {
+        productsContainerRef.current.scrollBy({
+          left: -scrollBy,
+          behavior: 'smooth',
+        });
+      }
     }
-  }
-};
+  };
 
-const scrollRight = () => {
-  const images = data?.variations[showslab]?.productImages || data?.images || [];
-  if (activeIndex < images.length - 1) {
-    const newIndex = activeIndex + 1;
-    setActiveIndex(newIndex);
-    updateActiveImage(newIndex);
+  const scrollRight = () => {
+    const images = data?.variations[showslab]?.productImages || data?.images || [];
+    if (activeIndex < images.length - 1) {
+      const newIndex = activeIndex + 1;
+      setActiveIndex(newIndex);
+      updateActiveImage(newIndex);
 
-    if (productsContainerRef.current) {
-      productsContainerRef.current.scrollBy({
-        left: scrollBy,
-        behavior: 'smooth',
-      });
+      if (productsContainerRef.current) {
+        productsContainerRef.current.scrollBy({
+          left: scrollBy,
+          behavior: 'smooth',
+        });
+      }
     }
-  }
-};
+  };
 
-const handleThumbnailClick = (event) => {
-  const thumbnails = document.querySelectorAll('.thumbnail-container img');
-  thumbnails.forEach((img) => img.removeAttribute('id'));
+  const handleThumbnailClick = (event) => {
+    const thumbnails = document.querySelectorAll('.thumbnail-container img');
+    thumbnails.forEach((img) => img.removeAttribute('id'));
 
-  const clickedImage = event.target;
+    const clickedImage = event.target;
 
-  if (!clickedImage.classList.contains("thumbnail-container")) {
-    clickedImage.id = 'active';
-    const index = [...thumbnails].indexOf(clickedImage);
-    setActiveIndex(index);
+    if (!clickedImage.classList.contains("thumbnail-container")) {
+      clickedImage.id = 'active';
+      const index = [...thumbnails].indexOf(clickedImage);
+      setActiveIndex(index);
 
-    const mainImage = document.querySelector('.main-image');
-    if (mainImage) {
-      mainImage.src = clickedImage.src;
+      const mainImage = document.querySelector('.main-image');
+      if (mainImage) {
+        mainImage.src = clickedImage.src;
+      }
     }
-  }
-};
+  };
 
-const updateActiveImage = (index) => {
-  const thumbnails = document.querySelectorAll('.thumbnail-container img');
-  thumbnails.forEach((img) => img.removeAttribute('id'));
+  const updateActiveImage = (index) => {
+    const thumbnails = document.querySelectorAll('.thumbnail-container img');
+    thumbnails.forEach((img) => img.removeAttribute('id'));
 
-  if (thumbnails[index]) {
-    thumbnails[index].id = 'active';
-    const mainImage = document.querySelector('.main-image');
-    if (mainImage) {
-      mainImage.src = thumbnails[index].src;
+    if (thumbnails[index]) {
+      thumbnails[index].id = 'active';
+      const mainImage = document.querySelector('.main-image');
+      if (mainImage) {
+        mainImage.src = thumbnails[index].src;
+      }
     }
-  }
-};
+  };
 
 
   const handleZoomClick = () => {
@@ -134,229 +134,229 @@ const updateActiveImage = (index) => {
 
   function getproductdetails(productId) {
 
-    
+
     console.log(productId);
-    
-        document.querySelector('.loaderoverlay').style.display = 'flex';
 
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${productId}`)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              return response.json().then((errorData) => {
-               
-                throw new Error(errorData.error || 'Failed');
-              });
-            }
-          })
-          .then((data) => {
-          console.log(data.data)
+    document.querySelector('.loaderoverlay').style.display = 'flex';
 
-          if(!data?.data?.productType){
-        data.data.productType="product";
-          }
-         
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${productId}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
 
-          setdata(data.data)
-          setisdata(true)
-           setproductType(data.data.productType)
-        
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          })
-          .catch((err) => {
-            document.querySelector('.loaderoverlay').style.display = 'none';
-            console.log(err)
-           
-           
+            throw new Error(errorData.error || 'Failed');
           });
-    
-      
-    }
-
-   
- 
-    function getamazonprice(url) {
-console.log(url)
-    if(!url.startsWith('http')){
-return;
-    }
-      
-         
-  
-          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/compare?url=${url}`)
-            .then((response) => {
-              if (response.ok) {
-                return response.json();
-              } else {
-                return response.json().then((errorData) => {
-                 
-                  throw new Error(errorData.error || 'Failed');
-                });
-              }
-            })
-            .then((data) => {
-            console.log(data.data)
-           
-            //setamazonproduct(data.data)
-          
-          
-            })
-            .catch((err) => {
-           
-              console.log(err)
-             
-             
-            });
-      
-        
-      }
-
-      
-
-
-function addtowishlist(productId) {
-  
-
-      document.querySelector('.loaderoverlay').style.display = 'flex';
-    
-    
-      const token = localStorage.getItem('buyertoken');
-  
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist?productId=${productId}`, {
-        method: 'POST',
-         headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }
+        }
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((errorData) => {
-             
-              throw new Error(errorData.error || 'Failed');
-            });
-          }
-        })
-        .then((data) => {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          alert(data.message)
-        })
-        .catch((err) => {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          console.log(err)
-          alert(err);
-         
-        });
-  
-    
+      .then((data) => {
+        console.log(data.data)
+
+        if (!data?.data?.productType) {
+          data.data.productType = "product";
+        }
+
+
+        setdata(data.data)
+        setisdata(true)
+        setproductType(data.data.productType)
+
+        document.querySelector('.loaderoverlay').style.display = 'none';
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+
+
+      });
+
+
   }
 
 
-  
- 
 
-
-useEffect(() => {
-  
-  scrollToElement('navbar')
-  // Get the current page URL when the component mounts
-  setPageUrl(window.location.href);
-  console.log(window.location.href)
-  
-//   function getCookie(name) {
-//     let cookies = document.cookie.split("; ");
-//     for (let cookie of cookies) {
-//         let [key, value] = cookie.split("=");
-//         if (key === name) return value;
-//     }
-//     return null;
-// }
-
-// Check if "token" exists
-if (localStorage.getItem("buyertoken")) {
-   setisuser(true)
-}
-
-
-  getproductdetails(id)
-
-
- 
-}, []);
+  function getamazonprice(url) {
+    console.log(url)
+    if (!url.startsWith('http')) {
+      return;
+    }
 
 
 
-function setproductType(productType) {
-  localStorage.setItem("productType",productType)
-}
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/compare?url=${url}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
 
-const sendquotation = () => {
- 
-      const name = document.querySelector('.modalform input[name="name"]').value;
-      const phone = document.querySelector('.modalform input[name="phone"]').value;
-  
-      console.log( name, phone);
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data.data)
 
-document.querySelector('.loaderoverlay').style.display='flex';
-
-
-  const userData = {
-    name,
-    phone,
-    source:new URLSearchParams(window.location.search).get("source")||'our website lead'
-  };
-
-console.log('send quotation',userData)
+        //setamazonproduct(data.data)
 
 
-  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/leadQuotation/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return response.json().then((errorData) => {
-          throw new Error(errorData.message || 'Failed. Please try again.');
-        });
+      })
+      .catch((err) => {
+
+        console.log(err)
+
+
+      });
+
+
+  }
+
+
+
+
+  function addtowishlist(productId) {
+
+
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+
+
+    const token = localStorage.getItem('buyertoken');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/buyer/wishlist?productId=${productId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
       }
     })
-    .then((data) => {
-          
-          alert(data.message)
-          document.querySelector('.loaderoverlay').style.display='none';
-          toggleModal()
-     
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+
+            throw new Error(errorData.error || 'Failed');
+          });
+        }
+      })
+      .then((data) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        alert(data.message)
+      })
+      .catch((err) => {
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        console.log(err)
+        alert(err);
+
+      });
+
+
+  }
+
+
+
+
+
+
+  useEffect(() => {
+
+    scrollToElement('navbar')
+    // Get the current page URL when the component mounts
+    setPageUrl(window.location.href);
+    console.log(window.location.href)
+
+    //   function getCookie(name) {
+    //     let cookies = document.cookie.split("; ");
+    //     for (let cookie of cookies) {
+    //         let [key, value] = cookie.split("=");
+    //         if (key === name) return value;
+    //     }
+    //     return null;
+    // }
+
+    // Check if "token" exists
+    if (localStorage.getItem("buyertoken")) {
+      setisuser(true)
+    }
+
+
+    getproductdetails(id)
+
+
+
+  }, []);
+
+
+
+  function setproductType(productType) {
+    localStorage.setItem("productType", productType)
+  }
+
+  const sendquotation = () => {
+
+    const name = document.querySelector('.modalform input[name="name"]').value;
+    const phone = document.querySelector('.modalform input[name="phone"]').value;
+
+    console.log(name, phone);
+
+    document.querySelector('.loaderoverlay').style.display = 'flex';
+
+
+    const userData = {
+      name,
+      phone,
+      source: new URLSearchParams(window.location.search).get("source") || 'our website lead'
+    };
+
+    console.log('send quotation', userData)
+
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/quotation/leadQuotation/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
     })
-    .catch((err) => {
-    
-      alert(err.message);
-      document.querySelector('.loaderoverlay').style.display='none';
-    });
-};
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Failed. Please try again.');
+          });
+        }
+      })
+      .then((data) => {
+
+        alert(data.message)
+        document.querySelector('.loaderoverlay').style.display = 'none';
+        toggleModal()
+
+      })
+      .catch((err) => {
+
+        alert(err.message);
+        document.querySelector('.loaderoverlay').style.display = 'none';
+      });
+  };
 
 
-function formatPhoneNumber(number) {
-  number = number.toString(); // Ensure it's a string
-  number.replace('+','')
+  function formatPhoneNumber(number) {
+    number = number.toString(); // Ensure it's a string
+    number.replace('+', '')
 
-  return number.startsWith("91") ? number : "91" + number;
-}
+    return number.startsWith("91") ? number : "91" + number;
+  }
 
- // stop scrool when active input
+  // stop scrool when active input
   usePreventNumberInputScroll()
 
 
   function isScreenWidthLessOrEqual(maxWidth) {
-  return window.innerWidth <= maxWidth;
-}
+    return window.innerWidth <= maxWidth;
+  }
 
 
 
@@ -366,393 +366,391 @@ function formatPhoneNumber(number) {
     }
   }, [data?.ammenties]);
 
-   
+
   return (
     <> {isdata &&
-    <>
-      {/* <p className='breadcumb'>Electronics / Gadgets / Nanocharge Batt..</p> */}
+      <>
+        {/* <p className='breadcumb'>Electronics / Gadgets / Nanocharge Batt..</p> */}
 
-      <div className="product-container">
-        {/* Left Section - Product Image */}
-        <div className="product-image-section">
-          <div className='imgparent'>
-            <img
-              src="\icons\zoom.svg"
-              alt="Zoom Icon"
-              style={{
-                position: 'absolute',
-                bottom: '0',
-                right: '0',
-                padding: '3px',
-                background: 'white',
-                cursor: 'pointer',
-                borderRadius: '2px',
-              }}
-              onClick={handleZoomClick}
-            />
+        <div className="product-container">
+          {/* Left Section - Product Image */}
+          <div className="product-image-section">
+            <div className='imgparent'>
+              <img
+                src="\icons\zoom.svg"
+                alt="Zoom Icon"
+                style={{
+                  position: 'absolute',
+                  bottom: '0',
+                  right: '0',
+                  padding: '3px',
+                  background: 'white',
+                  cursor: 'pointer',
+                  borderRadius: '2px',
+                }}
+                onClick={handleZoomClick}
+              />
 
-            <img
-              src={data?.variations[showslab]?.productImages?.[0] || data?.images?.[0] || '/images/noimgavl.jpg'}
-              alt="Product Image"
-              className="main-image"
-            />
+              <img
+                src={data?.variations[showslab]?.productImages?.[0] || data?.images?.[0] || '/images/noimgavl.jpg'}
+                alt="Product Image"
+                className="main-image"
+              />
+            </div>
+
+            <div className="wideslp">
+              <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
+
+              <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
+                {(data?.variations[showslab]?.productImages || data?.images || []).map((url, index) => (
+                  <img
+                    src={url}
+                    alt={`Thumbnail ${index + 1}`}
+                    id={index === activeIndex ? 'active' : ''}
+                    key={index}
+                  />
+                ))}
+              </div>
+
+              <img src="\icons\smallright.svg" alt="Scroll Right" onClick={scrollRight} />
+            </div>
+
+
+
           </div>
 
-          <div className="wideslp">
-            <img src="\icons\smallleft.svg" alt="Scroll Left" onClick={scrollLeft} />
-
-            <div className="thumbnail-container" ref={productsContainerRef} onClick={handleThumbnailClick}>
-  {(data?.variations[showslab]?.productImages || data?.images || []).map((url, index) => (
-    <img
-      src={url}
-      alt={`Thumbnail ${index + 1}`}
-      id={index === activeIndex ? 'active' : ''}
-      key={index}
-    />
-  ))}
-</div>
-
-            <img src="\icons\smallright.svg" alt="Scroll Right" onClick={scrollRight} />
-          </div>
+          {/* Right Section - Product Details */}
+          <div className="product-details89" style={{ padding: '0px' }}>
+            <p className='productname'>{data.productName}</p>
+            <div className="seller">
 
 
-
-        </div>
-
- {/* Right Section - Product Details */}
- <div className="product-details89" style={{padding:'0px'}}>
-          <p className='productname'>{data.productName}</p>
-          <div className="seller">
-          
-            
-          {/* {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
+              {/* {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <button className="verified">
           Recommended
          <img src="\icons\veri.svg" width={'12px'} alt="" />
         </button>} */}
 
 
-          {isuser &&   <div className='mylocationp' style={{cursor:'pointer'}} onClick={()=>(addtowishlist(data._id))}>
-   <span className="location">
- ❤️
-  add to wishlist
-          </span> 
-  
-          </div>}
+              {isuser && <div className='mylocationp' style={{ cursor: 'pointer' }} onClick={() => (addtowishlist(data._id))}>
+                <span className="location">
+                  ❤️
+                  add to wishlist
+                </span>
 
-          
-          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && (data.sellerDetails?.complianceCertificateFile && <a
-      href={data.sellerDetails.complianceCertificateFile}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-          <div className='mylocationp'>
-   <span className="location">
-  <img src="\icons\Compliance.svg" width={'15px'} alt="" />
-  {data.productType === "product" ? <>Quality Certificate</> : <>Legally Verified</> }
-          </span> 
-  
-          </div>
-
-          </a>)}
-
-          <a
-      href={`https://api.whatsapp.com/send?text=Check%20this%20out%20${encodeURIComponent(pageUrl)}`}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-          <div className='mylocationp'>
-   <span className="location">
-  <img src="\icons\share.svg" width={'15px'} alt="" />
-  Share
-          </span> 
-  
-          </div>
-
-          </a>
-
-         
-          {data.sellerDetails.subscription.plan !== 'FREE' &&  data.sellerDetails.subscription.status === "ACTIVE" && <a href={`https://wa.me/+91${data.sellerDetails.phone}`}>
-          <div className='mylocationp'>
-   <span className="location">
-  <img src="\icons\whatsappi.svg" width={'18px'} alt="" />
-  Contact
-          </span> 
-  
-          </div>
-          </a>}
-  
-          </div>
-          
-{data?.location?.address && <div className="pricing" style={{display:'flex',flexWrap:"wrap",alignItems:'flex-start'}}>
-   <i className="fas fa-map-marker-alt" style={{color:"#00bc10",fontSize:'20px'}}></i>
-  <p style={{fontSize:'20px'}}>Address  </p>
-  <a  href={`https://www.google.com/maps?q=${data.location.coordinates[1]},${data.location.coordinates[0]}`}
-  target="_blank"
-  rel="noopener noreferrer" style={{fontSize:'20px',color:"rgb(9, 124, 225)",textAlign:'left'}}>{data.location.address}</a>
-</div>}
-
-{/* Pricing Section */}
-<div className="pricing">
-         
-          <span className="price-mrp">MRP</span>
-             <span className="current-price" style={{fontSize:'25px',fontWeight:'600'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))}</span>
-          </div>
+              </div>}
 
 
-          <div className="priceTableContainer565">
-     {data.variations.length > 0 && <table className="priceTable565">
-      <thead className="tableHeader565" style={{background:'#dee1e4'}}>
-      <tr className="headerRow565">
-          <th className="tableCell565">Per sqft cost</th>
-          <th className="tableCell565">Total sqft</th>
-          <th className="tableCell565">Total cost</th>
-        </tr>
-
-      </thead>
-      <tbody className="tableBody565" style={{background:'white'}}>
-        <tr className="tableRow565">
-          <td className="tableCell565">₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost))}</td>
-          <td className="tableCell565">{data.variations[showslab].totalSqft}</td>
-          <td className="tableCell565" style={{fontSize:'18px',fontWeight:'600',color:'#097CE1'}}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))} </td>
-        </tr>
-      
-      </tbody>
-    </table>}
-    </div>
-
-<div className="technical-details" style={{display:'flex',gap:'15px',alignItems:'flex-start',flexWrap:'wrap',textAlign:'left',marginTop:'40px'}}>
-  
- <div className="container522">
-      
-        <div className="attribute-section522">
-
-          <div className="attribute-label522">
-           size
-          </div>
-
-          <div className="attribute-options522">
-             {data?.variations.map((variation,index) => (
-                <div
-                  key={index}
-                  className={`attribute-box522 ${
-                       showslab===index
-                        ? 'selected522' 
-                        : ''
-                  }`}
-                  onClick={() =>(setshowslab(index))}
-                >
-
-                  <p>{variation.bhkTypes.length?<>{variation.bhkTypes} - </>:''}{variation.totalSqft} sqft</p> 
+              {data.sellerDetails?.complianceCertificateFile && <a
+                href={data.sellerDetails.complianceCertificateFile}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className='mylocationp'>
+                  <span className="location">
+                    <img src="\icons\Compliance.svg" width={'15px'} alt="" />
+                    {data.productType === "product" ? <>Quality Certificate</> : <>Legally Verified</>}
+                  </span>
 
                 </div>
-             ))}
-         
-          </div>
-        </div>
-  
 
-    </div>
+              </a>}
 
- {(data.khataType || data.approvalType) &&  <div className="property-info-container-656">
-     {data.approvalType && <div className="info-box-656">
-        <h4 className="label-656">Approval</h4>
-        <span className="value-pill-656">{data.approvalType}</span>
-      </div>}
+              <a
+                href={`https://api.whatsapp.com/send?text=Check%20this%20out%20${encodeURIComponent(pageUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className='mylocationp'>
+                  <span className="location">
+                    <img src="\icons\share.svg" width={'15px'} alt="" />
+                    Share
+                  </span>
 
-     { data.khataType && <div className="info-box-656">
-        <h4 className="label-656">Khata</h4>
-        <span className="value-pill-656">{data.khataType}</span>
-      </div>}
+                </div>
 
-    </div>}
+              </a>
 
-</div>
 
-{/* amenities */}
-{  (data?.ammenties && data?.ammenties.length !== 0) && (
-      <div className="amenities-container-parent-878">
-        <p className='attribute-label522'>Amenities</p>
+              <a href={`https://wa.me/+91${data.sellerDetails.phone}`}>
+                <div className='mylocationp'>
+                  <span className="location">
+                    <img src="\icons\whatsappi.svg" width={'18px'} alt="" />
+                    Contact
+                  </span>
 
-        <div
-          className={`amenities-container-878 ${showAll ? 'expanded' : ''} ${shouldShowButton && !showAll ? 'has-shadow' : ''}`}
-          ref={ammentiescontainerRef}
-        >
-          {data.ammenties.map((item, index) => (
-            <div key={index} className="amenity-item-878">
-              <span>{item.name}</span>
-              <i className="fas fa-check check-icon-878"></i>
+                </div>
+              </a>
+
             </div>
-          ))}
-        </div>
 
-        {shouldShowButton && (
-          <button
-            className="show-more-btn-878"
-            onClick={() => setShowAll(prev => !prev)}
-          >
-            {showAll ? 'Show Less' : 'Show More'}
-          </button>
-        )}
-      </div>
-    )
-  }
+            {data?.location?.address && <div className="pricing" style={{ display: 'flex', flexWrap: "wrap", alignItems: 'flex-start' }}>
+              <i className="fas fa-map-marker-alt" style={{ color: "#00bc10", fontSize: '20px' }}></i>
+              <p style={{ fontSize: '20px' }}>Address  </p>
+              <a href={`https://www.google.com/maps?q=${data.location.coordinates[1]},${data.location.coordinates[0]}`}
+                target="_blank"
+                rel="noopener noreferrer" style={{ fontSize: '20px', color: "rgb(9, 124, 225)", textAlign: 'left' }}>{data.location.address}</a>
+            </div>}
 
+            {/* Pricing Section */}
+            <div className="pricing">
 
-  
-          {/* Buttons */}
-          
-            <div className="button-group" style={{marginTop:'20px'}}>
-  
-            <button className="contact-supplier pb"  onClick={toggleModal} >
-            Request Quotation <i className="fas fa-arrow-right"></i>
-            </button>
-            
-            {data?.productType === "property" && data?.pdfFile && <a href={data.pdfFile} className="LegalDocument pb"   target="_blank" >
-            Document PDF <i className="fas fa-file-contract"></i>
-            </a>}
+              <span className="price-mrp">MRP</span>
+              <span className="current-price" style={{ fontSize: '25px', fontWeight: '600' }}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))}</span>
+            </div>
 
 
-{data?.productType === "property"  &&  <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
-            Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
-            </a>
-          }
+            <div className="priceTableContainer565">
+              {data.variations.length > 0 && <table className="priceTable565">
+                <thead className="tableHeader565" style={{ background: '#dee1e4' }}>
+                  <tr className="headerRow565">
+                    <th className="tableCell565">Per sqft cost</th>
+                    <th className="tableCell565">Total sqft</th>
+                    <th className="tableCell565">Total cost</th>
+                  </tr>
 
+                </thead>
+                <tbody className="tableBody565" style={{ background: 'white' }}>
+                  <tr className="tableRow565">
+                    <td className="tableCell565">₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost))}</td>
+                    <td className="tableCell565">{data.variations[showslab].totalSqft}</td>
+                    <td className="tableCell565" style={{ fontSize: '18px', fontWeight: '600', color: '#097CE1' }}>₹ {formatNumberIndian(Math.round(data.variations[showslab].perSqftCost * data.variations[showslab].totalSqft))} </td>
+                  </tr>
+
+                </tbody>
+              </table>}
+            </div>
+
+            <div className="technical-details" style={{ display: 'flex', gap: '15px', alignItems: 'flex-start', flexWrap: 'wrap', textAlign: 'left', marginTop: '40px' }}>
+
+              <div className="container522">
+
+                <div className="attribute-section522">
+
+                  <div className="attribute-label522">
+                    size
+                  </div>
+
+                  <div className="attribute-options522">
+                    {data?.variations.map((variation, index) => (
+                      <div
+                        key={index}
+                        className={`attribute-box522 ${showslab === index
+                          ? 'selected522'
+                          : ''
+                          }`}
+                        onClick={() => (setshowslab(index))}
+                      >
+
+                        <p>{variation.bhkTypes.length ? <>{variation.bhkTypes} - </> : ''}{variation.totalSqft} sqft</p>
+
+                      </div>
+                    ))}
+
+                  </div>
+                </div>
+
+
+              </div>
+
+              {(data.khataType || data.approvalType) && <div className="property-info-container-656">
+                {data.approvalType && <div className="info-box-656">
+                  <h4 className="label-656">Approval</h4>
+                  <span className="value-pill-656">{data.approvalType}</span>
+                </div>}
+
+                {data.khataType && <div className="info-box-656">
+                  <h4 className="label-656">Khata</h4>
+                  <span className="value-pill-656">{data.khataType}</span>
+                </div>}
+
+              </div>}
+
+            </div>
+
+            {/* amenities */}
+            {(data?.ammenties && data?.ammenties.length !== 0) && (
+              <div className="amenities-container-parent-878">
+                <p className='attribute-label522'>Amenities</p>
+
+                <div
+                  className={`amenities-container-878 ${showAll ? 'expanded' : ''} ${shouldShowButton && !showAll ? 'has-shadow' : ''}`}
+                  ref={ammentiescontainerRef}
+                >
+                  {data.ammenties.map((item, index) => (
+                    <div key={index} className="amenity-item-878">
+                      <span>{item.name}</span>
+                      <i className="fas fa-check check-icon-878"></i>
+                    </div>
+                  ))}
+                </div>
+
+                {shouldShowButton && (
+                  <button
+                    className="show-more-btn-878"
+                    onClick={() => setShowAll(prev => !prev)}
+                  >
+                    {showAll ? 'Show Less' : 'Show More'}
+                  </button>
+                )}
+              </div>
+            )
+            }
+
+
+
+            {/* Buttons */}
+
+            <div className="button-group" style={{ marginTop: '20px' }}>
+
+              <button className="contact-supplier pb" onClick={toggleModal} >
+                Request Quotation <i className="fas fa-arrow-right"></i>
+              </button>
+
+              {data?.productType === "property" && data?.pdfFile && <a href={data.pdfFile} className="LegalDocument pb" target="_blank" >
+                Document PDF <i className="fas fa-file-contract"></i>
+              </a>}
+
+
+              {data?.productType === "property" && <a href={`https://wa.me/+91${data.sellerDetails.phone}`} className="whatsapp-supplier pb">
+                Chat With Seller  <img src="\icons\whatsappi.svg" width={'25px'} alt="" />
+              </a>
+              }
+
+            </div>
           </div>
+
         </div>
 
-      </div>
 
 
-
-      {isModalOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 200,
-          }}
-          onClick={closeModal}
-        >
+        {isModalOpen && (
           <div
             style={{
-              position: 'relative',
-              width: '80%',
-              height: '80%',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
               display: 'flex',
-              flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              zIndex: 200,
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={closeModal}
           >
-            <button
-              onClick={closeModal}
+            <div
               style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: 'none',
-                border: 'none',
-                color: 'red',
-                fontSize: '24px',
-                cursor: 'pointer',
-                zIndex: 210,
-                fontSize:'25px'
+                position: 'relative',
+                width: '80%',
+                height: '80%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <i className="fa fa-times"></i>
-            </button>
+              <button
+                onClick={closeModal}
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  background: 'none',
+                  border: 'none',
+                  color: 'red',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  zIndex: 210,
+                  fontSize: '25px'
+                }}
+              >
+                <i className="fa fa-times"></i>
+              </button>
 
-            <img
-              src={document.querySelector('.main-image').src}
-              alt="Zoomed Product"
-              style={{
-                transform: `scale(${zoomScale})`,
-                transition: 'transform 0.3s ease',
-                maxHeight: '80%',
-                maxWidth: '80%',
-                objectFit: 'contain',
-              }}
-            />
+              <img
+                src={document.querySelector('.main-image').src}
+                alt="Zoomed Product"
+                style={{
+                  transform: `scale(${zoomScale})`,
+                  transition: 'transform 0.3s ease',
+                  maxHeight: '80%',
+                  maxWidth: '80%',
+                  objectFit: 'contain',
+                }}
+              />
 
-            <div style={{ marginTop: '10px', display: 'flex', gap: '10px',zIndex: 210 }}>
-              <button onClick={handleZoomIn} style={{ padding: '2px 10px', fontSize: '16px', cursor: 'pointer',border:'2px solid black',backgroundColor:'white' }}>+</button>
-              <button onClick={handleZoomOut} style={{ padding: '2px 10px', fontSize: '16px', cursor: 'pointer' ,border:'2px solid black',backgroundColor:'white'}}>-</button>
+              <div style={{ marginTop: '10px', display: 'flex', gap: '10px', zIndex: 210 }}>
+                <button onClick={handleZoomIn} style={{ padding: '2px 10px', fontSize: '16px', cursor: 'pointer', border: '2px solid black', backgroundColor: 'white' }}>+</button>
+                <button onClick={handleZoomOut} style={{ padding: '2px 10px', fontSize: '16px', cursor: 'pointer', border: '2px solid black', backgroundColor: 'white' }}>-</button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-<Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location?{location:data?.location}:false} />
+        <Viewerproductpage productType={data.productType} productVideo={data?.productVideo} pdfFile={data?.pdfFile} propertyData={data?.location ? { location: data?.location } : false} />
 
-      <Reviews pid={data._id} description={data.description}/>
+        <Reviews pid={data._id} description={data.description} />
 
-      
-      {ModalOpen && (
-        <div className="modal-overlay">
-          <div className="mymodal-container">
-          <div style={{display:'flex',justifyContent:'flex-end'}}>
-          <button onClick={toggleModal} className="modal-close-btn">
-            <i className="fa fa-times"></i>
-          </button>
-          </div>
-            <h2>Property Inquiry</h2>
-            <form className='modalform' onSubmit={(e)=>{
 
-             e.preventDefault();
-              sendquotation()
+        {ModalOpen && (
+          <div className="modal-overlay">
+            <div className="mymodal-container">
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button onClick={toggleModal} className="modal-close-btn">
+                  <i className="fa fa-times"></i>
+                </button>
+              </div>
+              <h2>Property Inquiry</h2>
+              <form className='modalform' onSubmit={(e) => {
+
+                e.preventDefault();
+                sendquotation()
               }}>
-            <input type="text" name="name" placeholder="Type your name *" required />
-            <input type="number" name="phone" placeholder="Type your phone number*" required style={{marginBottom:'20px'}} />
-              <button type="submit">Submit</button>
-            </form>
+                <input type="text" name="name" placeholder="Type your name *" required />
+                <input type="number" name="phone" placeholder="Type your phone number*" required style={{ marginBottom: '20px' }} />
+                <button type="submit">Submit</button>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-  
-  {returnmodal && (
-        <div className="modal-overlay">
-          <div className="mymodal-container">
-          <div style={{display:'flex',justifyContent:'flex-end'}}>
-          <button onClick={()=>(setreturnmodal(false))} className="modal-close-btn">
-            <i className="fa fa-times"></i>
-          </button>
+        )}
+
+        {returnmodal && (
+          <div className="modal-overlay">
+            <div className="mymodal-container">
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <button onClick={() => (setreturnmodal(false))} className="modal-close-btn">
+                  <i className="fa fa-times"></i>
+                </button>
+              </div>
+              {data.variations[showslab].isReturnable && data?.reasonForReturn?.length > 0 && <div className="technical-details" style={{ textAlign: 'left' }}>
+
+                {data?.reasonForReturn?.length > 0 ? <p style={{ fontSize: '20px', color: '#007bff', fontWeight: '600' }}>Reasons to request a product return :-</p> : <></>}
+
+                {data?.reasonForReturn.map((data, index) => (
+
+                  <p key={index} style={{ fontSize: '17px' }}>{index + 1}. {data}</p>
+
+                ))}
+              </div>}
+            </div>
           </div>
-            {data.variations[showslab].isReturnable && data?.reasonForReturn?.length  > 0 && <div className="technical-details" style={{textAlign:'left'}}>
+        )}
 
- {data?.reasonForReturn?.length  > 0 ? <p style={{fontSize:'20px',color:'#007bff',fontWeight:'600'}}>Reasons to request a product return :-</p> : <></>}
-
-    {data?.reasonForReturn.map((data, index) => (
-
-<p key={index} style={{fontSize:'17px'}}>{index+1}. {data}</p>
-
-))}
-                    </div>}
-          </div>
-        </div>
-      )}
-
-    </>
+      </>
     } </>
   );
-  }
+}
 
 
-  
 
-  
-  export default function ProductpagecontantPage() {
-      return (
-        <Suspense fallback={<div></div>}>
-          <Productpagecontant />
-        </Suspense>
-      );
-    }
-  
+
+
+export default function ProductpagecontantPage() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <Productpagecontant />
+    </Suspense>
+  );
+}
