@@ -287,7 +287,7 @@ function Login() {
           {step === 2 && (
             <div className="slideleftanimate">
               <div className="form-tab">
-                <label>Enter Verification Code</label>
+                <label style={{ textTransform: 'none' }}>Enter verification code sent on <span style={{ color: '#36be00' }}>WhatsApp</span></label>
                 <input
                   type="text"
                   placeholder="Enter verification code"
