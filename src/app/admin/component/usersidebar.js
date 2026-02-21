@@ -9,8 +9,8 @@ import useAuthCheck from '../../useAuthCheck.js';
 const AdminDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
 
-  useAuthCheck('/auth/superadminlogin','admintoken');
-  
+  useAuthCheck('/auth/superadminlogin', 'admintoken');
+
   useEffect(() => {
     const admindata = JSON.parse(localStorage.getItem('admindata'))?.role;
     const isSuperAdmin = admindata === 'SUPER_ADMIN';
@@ -19,13 +19,13 @@ const AdminDashboard = () => {
       { path: '/admin/dashboard', icon: 'fas fa-home', label: 'Dashboard' },
       { path: '/admin/Employees', icon: 'fas fa-users', label: 'Employees' },
       { path: '/admin/PendingPayments', icon: 'fas fa-hourglass-half', label: 'Pending Payments' },
-      { path: '/admin/manufacturerssuppliers', icon: 'fas fa-industry', label: 'Manufacturers/Suppliers' },
+      { path: '/admin/sellers', icon: 'fas fa-industry', label: 'Sellers' },
       // { path: '/admin/Buyers', icon: 'fas fa-user', label: 'Buyers' },
       // { path: '/admin/PlatformDeliverables', icon: 'fas fa-truck', label: 'Platform Deliverables' },
       { path: '/admin/banners', icon: 'fas fa-image', label: 'Add Banner' },
-        { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' },
-            { path: '/admin/tags', icon: 'fas fa-tags', label: 'Create Tags' },
-                   { path: '/admin/quotation', icon: 'fas fa-file-invoice', label: 'Quotations' },
+      { path: '/admin/managecategories', icon: 'fas fa-th-large', label: 'Manage Categories' },
+      { path: '/admin/tags', icon: 'fas fa-tags', label: 'Create Tags' },
+      { path: '/admin/quotation', icon: 'fas fa-file-invoice', label: 'Quotations' },
       { path: '/admin/feedback', icon: 'fas fa-comment', label: 'Feedback' },
     ];
 
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 };
 
 
-const Usersidebar = ({menuItems}) => {
+const Usersidebar = ({ menuItems }) => {
   const [currentPath, setCurrentPath] = useState('');
 
   useEffect(() => {
@@ -60,8 +60,8 @@ const Usersidebar = ({menuItems}) => {
   }, []);
 
   const handleLogout = () => {
-     
-     document.cookie = "admintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+    document.cookie = "admintoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     localStorage.removeItem('admintoken');
     localStorage.removeItem('admindata')
     window.location.href = '/auth/superadminlogin';
@@ -69,9 +69,9 @@ const Usersidebar = ({menuItems}) => {
 
   return (
     <div className="side-bar sidebar" id="sidebar">
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'20px'}}><img src="\images\coslologo.png" alt="" style={{width:'50px'}}/>
-      <label>Coslomart Super Admin</label></div>
-      
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}><img src="\images\coslologo.png" alt="" style={{ width: '50px' }} />
+        <label>Coslomart Super Admin</label></div>
+
       {/* Menu Items */}
       <div className="menu">
         {menuItems.map((item) => (
@@ -90,7 +90,7 @@ const Usersidebar = ({menuItems}) => {
         </div>
 
         {/* Miscellaneous */}
-       
+
         <a href="/admin/PlatformCustomisation">
           <div className="menu-item" style={{ backgroundColor: '#E8FFF3', color: '#179757', border: '1px solid #179757' }}>
             <i className="fas fa-headset"></i>

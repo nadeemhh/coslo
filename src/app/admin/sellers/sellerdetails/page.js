@@ -6,12 +6,20 @@ import Link from 'next/link';
 import Goback from '../../../back.js'
 import { useState, useEffect } from "react";
 import extractDate from '../../../component/extdate.js'
+import slugifyurl from "../../../component/slugifyurl.js"
 
 export default function Page() {
 
   const [data, setdata] = useState({});
   const [showdata, setshowdata] = useState(false);
   const [subscriptionHistory, setsubscriptionHistory] = useState([]);
+
+  // Product states
+  const [products, setProducts] = useState([]);
+  const [productPage, setProductPage] = useState(1);
+  const [hasMoreProducts, setHasMoreProducts] = useState(true);
+  const [ptype, setPtype] = useState('property');
+  const [isFetchingProducts, setIsFetchingProducts] = useState(false);
 
 
   const handledata = () => {
@@ -44,6 +52,7 @@ export default function Page() {
         setdata(data)
         setshowdata(true)
         getsubscriptionHistory(data._id)
+        setPtype(data.sellerType)
         // Successfully logged in
         // window.location.href = '/Employee/Onboarding';
 
@@ -89,6 +98,74 @@ export default function Page() {
       });
   };
 
+  const fetchProducts = () => {
+    if (!data._id) return;
+    setIsFetchingProducts(true);
+    const token = localStorage.getItem('admintoken');
+
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/foradmin?productType=${ptype.toLowerCase()}&page=${productPage}&limit=20&sellerId=${data._id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    })
+      .then((response) => response.json())
+      .then((resData) => {
+        setIsFetchingProducts(false);
+        if (resData.data.length === 0) {
+          setHasMoreProducts(false);
+          setProducts(resData.data);
+        } else {
+          setProducts(resData.data);
+        }
+      })
+      .catch((err) => {
+        setIsFetchingProducts(false);
+        console.log(err);
+      });
+  };
+
+  const handleProductActive = async (id) => {
+    const token = localStorage.getItem('admintoken');
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/product/togglevisibility/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            ...(token && { Authorization: `Bearer ${token}` }),
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Product visibility toggled successfully!");
+        setProducts((prevData) =>
+          prevData.map((item) =>
+            item._id === id ? { ...item, isActive: !item.isActive } : item
+          )
+        );
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error toggling visibility:", error);
+      alert("Failed to update visibility. Please try again.");
+    }
+  };
+
+  const nextProductPage = () => {
+    setProductPage((prev) => prev + 1);
+  };
+
+  const prevProductPage = () => {
+    setProductPage((prev) => (prev > 1 ? prev - 1 : 1));
+    setHasMoreProducts(true);
+  };
+
 
 
 
@@ -96,6 +173,12 @@ export default function Page() {
     handledata();
 
   }, []);
+
+  useEffect(() => {
+    if (data._id) {
+      fetchProducts();
+    }
+  }, [data._id, ptype, productPage]);
 
 
   const handlesellerdata = (token) => {
@@ -240,9 +323,9 @@ export default function Page() {
           </div>
 
 
-          {data.isVerified && <button className="btnn visit-btn" onClick={() => { getsellertoken() }}>
+          <button className="btnn visit-btn" onClick={() => { getsellertoken() }}>
             Visit Seller <i className="fas fa-arrow-right"></i>
-          </button>}
+          </button>
 
         </div>
 
@@ -271,32 +354,71 @@ export default function Page() {
         </div>
 
 
+
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '50px' }}>
+          <h3 style={{ textTransform: 'capitalize' }}>{ptype}</h3>
+        </div>
+
         <div className="table-wrapper">
           <table className="orders-table">
             <thead>
-              <tr>
+              <tr style={{ position: 'sticky', top: '0', zIndex: '10' }}>
                 <th>##</th>
-                <th>Plan</th>
-                <th>Date</th>
-                {/* <th>Email</th> */}
-                <th>Payment Method</th>
-                <th>Amount</th>
+                <th>Thumbnail</th>
+                <th style={{ textTransform: 'capitalize' }}>{ptype} Name</th>
+                <th>Category Name</th>
+                <th>{ptype === 'property' ? 'Price per sqft' : (ptype === 'product' ? 'Price/Stock' : 'Price')}</th>
+                <th>Visit</th>
+                <th>Address</th>
               </tr>
             </thead>
             <tbody>
-              {subscriptionHistory.map((subscriptionHistoryin, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{subscriptionHistoryin.plan}</td>
-                  <td>{extractDate(subscriptionHistoryin.paymentDate)}</td>
-                  {/* <td>{subscriptionHistoryin.sellerEmail}</td> */}
-                  <td>{subscriptionHistoryin.paymentMethod}</td>
-                  <td>{subscriptionHistoryin.amount}</td>
-
+              {products.length === 0 && isFetchingProducts === false ? (
+                <tr>
+                  <td colSpan="9" style={{ textAlign: "center", padding: "20px", color: '#ed2f2f' }}>
+                    <strong>Nothing Found</strong>
+                  </td>
                 </tr>
-              ))}
+              ) :
+                (products.map((p, index) => (
+                  <tr key={index}>
+                    <td>{(productPage - 1) * 20 + index + 1}</td>
+                    <td><img src={p.productImage} className='productimage67' width={'80px'} height={'80px'} style={{ borderRadius: '50%', objectFit: 'cover' }} alt="" /></td>
+                    <td>{p.productName}</td>
+                    <td>{p.categoryName}</td>
+                    <td>
+                      {p.variations.map((vdata, i) => (
+                        <div key={i}>
+                          {ptype === 'Product' ?
+                            <p style={{ backgroundColor: vdata.stock !== 0 ? '#D9F0FF' : 'rgb(255 158 158)', padding: '5px', borderRadius: '5px', marginBottom: '5px' }}>
+                              {i + 1}. Net Price : <strong>₹{vdata.mrp.toFixed(2)}</strong> | Stock : <strong> {vdata.stock} Units</strong>
+                            </p> :
+                            <p style={{ backgroundColor: vdata.stock !== 0 ? '#D9F0FF' : 'rgb(255 158 158)', padding: '5px', borderRadius: '5px', marginBottom: '5px' }}>
+                              {i + 1}. Price : <strong>₹{vdata.perSqftCost.toFixed(2)} </strong> Per sq ft
+                            </p>
+                          }
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      <a href={`/home/${ptype.toLowerCase()}/${slugifyurl(p.productName)}/${p._id}`} target="_blank" style={{ color: 'blue' }}>visit page</a>
+                    </td>
+                    <td>{p.address}</td>
+                  </tr>
+                )))}
             </tbody>
           </table>
+        </div>
+
+        <div className="pagination">
+          <span className="pre" onClick={prevProductPage} style={{ cursor: "pointer", opacity: productPage === 1 ? 0.5 : 1 }}>
+            <i className="fas fa-arrow-left"></i> Previous
+          </span>
+          <span className="page-number">Page {productPage}</span>
+          {hasMoreProducts && <span className="next" onClick={nextProductPage} style={{ cursor: "pointer" }}>
+            Next <i className="fas fa-arrow-right"></i>
+          </span>}
         </div>
       </>}
     </div>

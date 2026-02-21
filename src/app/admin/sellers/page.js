@@ -9,6 +9,7 @@ export default function page() {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [sellerType, setSellerType] = useState("Property");
 
   const [confirmationOpen, setconfirmationOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -28,7 +29,7 @@ export default function page() {
     const token = localStorage.getItem('admintoken');
 
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/?page=${page}&limit=25`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/?page=${page}&limit=25&sellerType=${sellerType}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ export default function page() {
     const token = localStorage.getItem('admintoken');
 
 
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/search?searchTerm=${keyword}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/seller/search?searchTerm=${keyword}&sellerType=${sellerType}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ export default function page() {
 
   useEffect(() => {
     handledata();
-  }, [page]);
+  }, [page, sellerType]);
 
 
   const nextPage = () => {
@@ -132,27 +133,35 @@ export default function page() {
     <div className="orders-container">
       <div className="header">
 
-        <h3>Manufacturer/Supplier</h3>
+        <h3>Sellers</h3>
 
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', margin: '20px' }}>
 
-        {/* <div style={{textAlign:'left'}}>
-        <button style={{textAlign:'left',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
-        
-          
-      <select name="" id="" style={{border:'none'}}>
-        <option value="">Filters</option>
-      </select>
-      </button>
-      </div> */}
+        <div style={{ textAlign: 'left' }}>
+          <button style={{ textAlign: 'left', border: '1px solid black', backgroundColor: 'white', padding: '5px 10px', borderRadius: '5px' }}>
+
+            <i className="fas fa-filter" style={{ marginRight: '10px' }}></i>
+
+
+            <select
+              name="sellerType"
+              id="sellerType"
+              value={sellerType}
+              onChange={(e) => setSellerType(e.target.value)}
+              style={{ border: 'none', outline: 'none', background: 'transparent' }}
+            >
+              <option value="Property">Property sellers</option>
+              <option value="Product">Product sellers</option>
+              <option value="Service">Service sellers</option>
+            </select>
+          </button>
+        </div>
 
         <div style={{ backgroundColor: '#F4F7FB', display: 'flex', gap: '10px', padding: '10px', borderRadius: '10px' }}>
           <i className="fas fa-search" style={{ cursor: 'pointer' }}></i>
-          <input type="text" placeholder='Search by Name, phone number' style={{ border: 'none', outline: 'none', backgroundColor: '#F4F7FB' }} onChange={(e) => handlesearch(e.target.value)} />
+          <input type="text" placeholder='Search by Name, Phone number' style={{ border: 'none', outline: 'none', backgroundColor: '#F4F7FB' }} onChange={(e) => handlesearch(e.target.value)} />
         </div>
       </div>
 
@@ -161,12 +170,15 @@ export default function page() {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Date</th>
               <th>Name</th>
-              {/* <th>Email</th> */}
               <th>Mobile</th>
-              <th>GST</th>
-              <th>Company</th>
-              <th>Subscription</th>
+              <th>Plan</th>
+              <th>
+                {sellerType === 'Property' && 'Total Properties'}
+                {sellerType === 'Product' && 'Total Products'}
+                {sellerType === 'Service' && 'Total Services'}
+              </th>
               <th>Details</th>
             </tr>
           </thead>
@@ -175,19 +187,19 @@ export default function page() {
               data.map((seller, index) => (
                 <tr key={seller._id || index}>
                   <td>#{index + 1}</td>
+                  <td>{new Date(seller.createdAt).toLocaleDateString()}</td>
                   <td>{seller.name}</td>
-                  {/* <td>{seller.email}</td> */}
                   <td>{seller.phone}</td>
-                  <td>{seller.gstNumber}</td>
-                  <td>{seller.businessName}</td>
-                  {/* <td className={seller.status === 'APPROVED' ? 'Active' : 'Inactive'}>
-                  Active <span style={{ color: '#7A7D7E' }}>{seller.subscriptionPlan}</span>
-                  </td> */}
                   <td>
-                    {seller?.subscription?.plan}
+                    {seller.subscriptionPlan || seller?.subscription?.plan || 'FREE'}
                   </td>
                   <td>
-                    <Link href={`/admin/manufacturerssuppliers/manufacturerssuppliersdetails/?id=${seller._id}`}>
+                    {sellerType === 'Property' && (seller.totalProperties || 0)}
+                    {sellerType === 'Product' && (seller.totalProducts || 0)}
+                    {sellerType === 'Service' && (seller.totalServices || 0)}
+                  </td>
+                  <td>
+                    <Link href={`/admin/sellers/sellerdetails?id=${seller._id}`}>
                       <i className="fas fa-external-link-alt" style={{ color: 'black' }}></i>
                     </Link>
                   </td>
@@ -195,7 +207,7 @@ export default function page() {
               ))
             ) : (
               <tr>
-                <td colSpan="8" style={{ textAlign: 'center' }}>No data available</td>
+                <td colSpan="7" style={{ textAlign: 'center' }}>No data available</td>
               </tr>
             )}
           </tbody>

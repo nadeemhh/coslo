@@ -288,12 +288,13 @@ localStorage.setItem('productType',e.target.value)
               <th>Actions</th>
               <th>Visibility</th>
               <th>Visit</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 && isfetching === false ? (
               <tr>
-                <td colSpan="8" style={{ textAlign: "center", padding: "20px", color: '#ed2f2f' }}>
+                <td colSpan="9" style={{ textAlign: "center", padding: "20px", color: '#ed2f2f' }}>
                   <strong>Nothing Found</strong>
 
                 </td>
@@ -347,6 +348,7 @@ localStorage.setItem('productType',e.target.value)
                     <a href={`/home/property/${slugifyurl(data.productName)}/${data._id}`} target="_blank" style={{ color: 'blue' }}>visit page</a>
 
                   </td>
+                  <td>{data.address}</td>
 
                 </tr>
               )))}

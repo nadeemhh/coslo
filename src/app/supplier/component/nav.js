@@ -36,7 +36,7 @@ const NavBar = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('sellerdata');
 
-    window.location.href = '/admin/manufacturerssuppliers/';
+    window.location.href = '/admin/sellers/';
 
   };
 
