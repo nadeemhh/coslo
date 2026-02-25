@@ -23,7 +23,7 @@ export default function page() {
 
     let sellerType = JSON.parse(localStorage.getItem('sellerdata')).sellerType
 
-    let url = sellerType === 'Property' ? `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/property-leads/?page=${page}&limit=25${filter}` : `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/?sellerType=${sellerType}&page=${page}&limit=25${filter}`;
+    let url = sellerType === 'Property' ? `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/property-leads/?page=${page}&limit=25${filter}` : `${process.env.NEXT_PUBLIC_BASE_URL}/quotation/product-quotations?page=${page}&limit=25${filter}`;
 
 
     fetch(url, {
@@ -143,39 +143,49 @@ export default function page() {
           <thead>
             <tr>
               <th>##</th>
-              <th>Name</th>
               <th>Date</th>
+              <th>Name</th>
+
               <th>Phone</th>
+              {sellerType === 'Property' && <th>Interested In</th>}
               {sellerType === 'Property' && <th>Location</th>}
 
-              <th>{productType}</th>
-              {sellerType !== 'Property' && <th>Status</th>}
-              {sellerType !== 'Property' && <th>Details</th>}
+              {sellerType === 'Product' && <th>{productType}</th>}
+              {/* {sellerType !== 'Property' && <th>Status</th>}
+              {sellerType !== 'Property' && <th>Details</th>} */}
             </tr>
           </thead>
           <tbody>
-            {data.map((order, index) => (
+            {data.map((lead, index) => (
 
               <tr key={index}>
                 <td>#{index + 1}</td>
-                <td>{sellerType !== 'Property' ? order.buyer : order.name}</td>
-                <td>{extractDate(order.date)}</td>
-                <td>
-                  {order.phone || 'N/A'}
-                </td>
-                {sellerType === 'Property' && <td>
-                  {order.location || 'N/A'}
-                </td>}
+                <td>{extractDate(lead.createdAt || lead.date)}</td>
+                <td>{lead.name || 'N/A'}</td>
 
                 <td>
-                  {order.product || 'N/A'}
+                  {lead.phone || 'N/A'}
                 </td>
-                {sellerType !== 'Property' && <td className={order.status}>{order.status || 'N/A'}</td>}
+
+                {sellerType === 'Property' && <td>
+                  {lead?.tags[0]?.tagName || 'N/A'}
+                </td>}
+
+                {sellerType === 'Property' && <td>
+                  {lead?.location || 'N/A'}
+                </td>}
+
+                {sellerType === 'Product' &&
+                  <td>
+                    {lead?.tags[0]?.tagName || 'N/A'}
+                  </td>}
+
+                {/* {sellerType !== 'Property' && <td className={lead.status}>{lead.status || 'N/A'}</td>}
                 {sellerType !== 'Property' && <td>
-                  <Link href={`/supplier/Quotations/Quotations-details?id=${order.id}`}>
+                  <Link href={`/supplier/Quotations/Quotations-details?id=${lead._id || lead.id}`}>
                     <i className="fas fa-external-link-alt" style={{ color: 'black' }}></i>
                   </Link>
-                </td>}
+                </td>} */}
               </tr>
             ))}
           </tbody>

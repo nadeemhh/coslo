@@ -110,7 +110,7 @@ function Login() {
           if (data.sellerType === "Property") {
             window.location.href = '/supplier/Products';
           } else {
-            window.location.href = '/supplier/dashboard';
+            window.location.href = '/supplier/Products';
           }
 
         }
@@ -243,7 +243,7 @@ function Login() {
         if (data.sellerType === "Property") {
           window.location.href = '/supplier/Products';
         } else {
-          window.location.href = '/supplier/dashboard';
+          window.location.href = '/supplier/Products';
         }
       }
 

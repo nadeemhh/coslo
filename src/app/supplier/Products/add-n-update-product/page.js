@@ -41,7 +41,8 @@ export default function Page() {
       amazoneProductUrl: "",
       canCall: true,
       canBook: true,
-      priceRange: { minPrice: 0, maxPrice: 0 }
+      priceRange: { minPrice: 0, maxPrice: 0 },
+      moq: 0
     },
     variationsData: [
 
@@ -147,13 +148,6 @@ export default function Page() {
 
   console.log(selectedPricingIndex)
 
-  const [pricings, setPricings] = useState([
-    { netPrice: 1290, stock: 250 },
-    { netPrice: 1290, stock: 250 },
-    { netPrice: 1290, stock: 250 },
-  ]);
-
-  const Attributesitems = Array.from({ length: Attributes }, (_, index) => `Item ${index + 1}`);
 
   console.log(userData)
 
@@ -252,7 +246,6 @@ export default function Page() {
 
     let productType = new URLSearchParams(window.location.search).get("ptype");
     refreshCategories(productType); // Load categories on mount
-    setShowDeliveryFeeInput(!userData.productData.isDeliveryFree);
     const pid = new URLSearchParams(window.location.search).get("pid");
     handleProductDataChange("productType", productType)
 
@@ -271,10 +264,6 @@ export default function Page() {
 
   }, []);
 
-  const toggleCompareprice = () => {
-
-    setCompareprice(!Compareprice);
-  };
 
   const toggleAddCategory = (data) => {
 
@@ -359,14 +348,7 @@ export default function Page() {
   console.log(productimages, images)
 
 
-  const addPricing = () => {
-    setPricings([...pricings, { netPrice: 1290, stock: 250 }]);
-  };
 
-  const removePricing = (index) => {
-    const updatedVariations = userData.variationsData.filter((_, i) => i !== index);
-    setUserData({ ...userData, variationsData: updatedVariations });
-  };
 
 
   // Add a new common attribute item
@@ -398,63 +380,9 @@ export default function Page() {
     }));
   };
 
-  // Add a new ammenties item
-  const addammenties = () => {
-    setUserData((prevState) => ({
-      ...prevState,
-      productData: {
-        ...prevState.productData,
-        ammenties: [
-          ...prevState.productData.ammenties,
-          { AmenitieImage: null, AmenitieName: '' },
-        ],
-      },
-    }));
-  };
-
-  // Handle input change for ammenties
-  const handleammentiesChange = (index, value) => {
-
-    setUserData((prevState) => {
-      const updatedammenties = [...prevState.productData.ammenties];
-
-      // If value contains $, split into array
-      if (value.includes('$')) {
-        const splitValues = value.split('$').map(item => item.trim()).filter(Boolean);
-        updatedammenties.splice(index, 1, ...splitValues); // Replace the one item with many
-      } else {
-        updatedammenties[index] = { AmenitieImage: null, AmenitieName: value }; // Just set as string
-      }
-
-
-      return {
-        ...prevState,
-        productData: {
-          ...prevState.productData,
-          ammenties: updatedammenties,
-        },
-      };
-    });
-
-  };
 
 
 
-  // remove ammenties 
-
-  function removeammenties(index) {
-
-    let updatedammenties = userData.productData.ammenties.filter((_, i) => i !== index);
-    console.log(index, updatedammenties)
-    setUserData((prevState) => ({
-      ...prevState,
-      productData: {
-        ...prevState.productData,
-        ammenties: updatedammenties,
-      },
-    }));
-
-  }
 
 
   // Handle input change for common attributes
@@ -518,251 +446,6 @@ export default function Page() {
   }
 
 
-  const [variation, setVariation] = useState({
-    mrp: "",
-    stock: "",
-    lowStockThreshold: "",
-    gst: "",
-    serviceName: "",
-    duration: { value: "", unit: "minutes" },
-    repeatBuyerDiscount: "",
-    priceSlabs: [],
-    attributes: [],
-    dimensions: { length: "", width: "", height: "" },
-    weight: "",
-    divertIndividualOrder: false,
-    isReturnable: false,
-    returnDays: 3,
-    productImages: []
-  });
-
-  console.log(variation)
-
-
-  const defaultSlabs = [
-    {
-      type: "individual",
-      min: "",
-      max: "",
-      discount: "",
-      deliveryFee: ""
-    },
-    ...(userData.productData.productType === "product"
-      ? [{
-        type: "retailer",
-        min: "",
-        max: "",
-        discount: "",
-        deliveryFee: ""
-      },
-      {
-        type: "wholesaler",
-        min: "",
-        max: "",
-        discount: "",
-        deliveryFee: ""
-      },]
-      :
-      [])
-  ];
-
-  // Function to handle adding the default price slabs
-  const addPriceSlabs = () => {
-    setVariation({ ...variation, priceSlabs: defaultSlabs });
-  };
-
-  // Function to remove a specific price slab (current one clicked)
-  const removePriceSlab = (index) => {
-    console.log()
-    const updatedSlabs = variation.priceSlabs.filter((_, i) => i !== index);
-    //setVariation({ ...variation, priceSlabs: updatedSlabs });
-
-    setVariation({
-      mrp: "",
-      stock: "",
-      gst: "",
-      serviceName: "",
-      duration: { value: "", unit: "minutes" },
-      lowStockThreshold: "",
-      repeatBuyerDiscount: "",
-      priceSlabs: [],
-      attributes: [],
-      dimensions: { length: "", width: "", height: "" },
-      weight: "",
-      divertIndividualOrder: false,
-      isReturnable: false,
-      returnDays: 3,
-      productImages: []
-    });
-    setShowReturnDaysInput(false);
-  };
-
-
-  // Handle input changes for variation details
-  const handleVariationChange = (key, value) => {
-    console.log(value)
-
-    let processedValue;
-
-    if (value === '') {
-      processedValue = ''; // Allow empty input
-    }
-    else if (value < 0) {
-      processedValue = 0; // Allow empty input
-    }
-    else if (value === true) {
-      processedValue = true;  // Convert "true" string to boolean true
-    } else if (value === false) {
-      processedValue = false; // Convert "false" string to boolean false
-    } else {
-      processedValue = Number(value); // Keep as string if it's neither boolean nor numeric
-    }
-
-    setVariation((prev) => ({ ...prev, [key]: processedValue }));
-    // setVariation((prev) => ({ ...prev, [key]: Number(value) }));
-  };
-
-  // Handle changes for nested dimensions
-  const handleDimensionChange = (dimensionKey, value) => {
-
-    if (value < 0) {
-      value = 0;
-    }
-
-    setVariation((prev) => ({
-      ...prev,
-      dimensions: { ...prev.dimensions, [dimensionKey]: value !== '' ? Number(value) : '' },
-    }));
-  };
-
-
-  // Handle changes for service
-  const handleserviceChange = (serviceKey, value) => {
-
-    if (serviceKey === "serviceName") {
-      setVariation((prev) => ({
-        ...prev,
-        serviceName: value,
-      }));
-    } else {
-      setVariation((prev) => ({
-        ...prev,
-        duration: { ...prev.duration, [serviceKey]: serviceKey !== "value" ? value : Number(value) },
-      }));
-    }
-
-
-  };
-
-
-
-  const handleRealstateChange = (Realstatedata, value) => {
-
-    if (value < 0) {
-      value = 0;
-    }
-
-    setVariation((prev) => ({
-      ...prev,
-      realEstateData: { ...prev.realEstateData, [Realstatedata]: value !== '' ? Number(value) : '' },
-    }));
-  };
-
-  // Handle changes for nested attributes inside variation
-  const handleNestedChange = (parentKey, index, key, value) => {
-
-    setVariation((prev) => {
-      const updatedArray = [...prev[parentKey]];
-      updatedArray[index][key] = value;
-      return { ...prev, [parentKey]: updatedArray };
-    });
-  };
-
-  // Add a new empty price slab entry
-  // const addPriceSlab = () => {
-  //   setVariation((prev) => ({
-  //     ...prev,
-  //     priceSlabs: [...prev.priceSlabs, { min: "", max: "", price: "", Discount: "" }],
-  //   }));
-  // };
-
-  // Add a new empty attribute entry
-  const addAttribute = (newattribute) => {
-    setVariation((prev) => ({
-      ...prev,
-      attributes: [...newattribute],
-    }));
-  };
-
-  // Save the current variation to variationsData
-  const saveVariation = (update = false) => {
-
-    if (userData.productData.productType !== "service") {
-      let hasdefaultAttribute = checkdefaultAttribute(variation)
-
-      if (!hasdefaultAttribute) {
-        alert(`select one ${primaryGroup} Attribute`)
-        return;
-      }
-    }
-
-
-    const filteredVariation = { ...variation };
-    if (filteredVariation.returnDays === '' || filteredVariation.returnDays === 0) {
-      delete filteredVariation.returnDays;
-    }
-
-    if (filteredVariation.repeatBuyerDiscount === '') {
-      filteredVariation.repeatBuyerDiscount = 0;
-    }
-
-
-    setUserData((prevState) => {
-      let updatedVariations = [...prevState.variationsData];
-
-      if (update) {
-        // Replace the item at updateIndex
-        updatedVariations[updateindex] = filteredVariation;
-        setisupdate(false)
-      } else {
-        // Append a new variation
-        updatedVariations.push(filteredVariation);
-      }
-
-      return {
-        ...prevState,
-        variationsData: updatedVariations,
-      };
-    });
-
-
-    setVariation({
-      mrp: "",
-      stock: "",
-      gst: "",
-      serviceName: "",
-      duration: { value: "", unit: "minutes" },
-      lowStockThreshold: "",
-      repeatBuyerDiscount: "",
-      priceSlabs: [],
-      attributes: [],
-      dimensions: { length: "", width: "", height: "" },
-      weight: "",
-      divertIndividualOrder: false,
-      isReturnable: false,
-      returnDays: 3,
-      productImages: []
-    });
-
-    setproductimages([])
-    setImages([])
-    setpreimages([])
-
-    // Close modal
-    setModalOpen(!ModalOpen);
-    setShowReturnDaysInput(false);
-  };
-
 
 
 
@@ -795,26 +478,9 @@ export default function Page() {
       return;
     }
 
-    if (userData.variationsData.length === 0 && userData.productData.productType !== "property") {
-      alert('Add Price')
-      return;
-    }
-
 
 
     let userDatacopy = structuredClone(userData);
-
-    // Handle location for property type
-    if (userData.productData.productType === "property") {
-      const locationData = await handlelocationSubmit();
-      if (!locationData) {
-        alert('Enter all location details')
-        return;
-      }
-      // Directly assign the location data to the copy
-      userDatacopy.productData.location = locationData;
-      userDatacopy.variationsData = propertyvariations;
-    }
 
 
 
@@ -844,16 +510,6 @@ export default function Page() {
 
 
 
-    if (userData.productData.productType === "property") {
-
-
-      // Call the function
-      cleanVariationData([], ["amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude", "canCall", "canBook"]);
-
-    }
-
-
-
     if (userData.productData.productType === "product") {
 
       // Call the function
@@ -861,12 +517,6 @@ export default function Page() {
 
     }
 
-    if (userData.productData.productType === "service") {
-
-      // Call the function
-      cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight", "repeatBuyerDiscount"], ["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude", "primaryAttribute"]);
-
-    }
 
 
 
@@ -957,57 +607,8 @@ export default function Page() {
   };
 
 
-  /////////////////////// update pricing
-
-  //const [updatevariation, setupdateVariation] = useState(null);
-
-  const updatePricing = (index) => {
-    let selectedVariations = userData.variationsData.filter((_, i) => i === index);
-
-    selectedVariations = selectedVariations[0];
-    console.log(selectedVariations)
-    setVariation({ ...selectedVariations });
-    let newState = selectedVariations.isReturnable;
-    setShowReturnDaysInput(newState);
-
-    setproductimages([...selectedVariations.productImages])
-    const files = Array.from(selectedVariations.productImages);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setImages([...imageUrls])
-
-    try {
-      setpreimages([...selectedVariations.awsImages])
-    } catch (err) {
-      setpreimages([])
-    }
 
 
-    setisupdate(true)
-    setupdateindex(index)
-    toggleModal(false);
-
-
-  };
-
-
-  const copyPricing = (index) => {
-    let selectedVariations = userData.variationsData.filter((_, i) => i === index);
-
-    selectedVariations = selectedVariations[0];
-    console.log(selectedVariations)
-    const { _id, ...rest } = selectedVariations;
-
-    setVariation({
-      ...rest,
-      attributes: [],
-    });
-    let newState = selectedVariations.isReturnable;
-    setShowReturnDaysInput(newState);
-
-  };
-
-
-  console.log(variation)
 
 
 
@@ -1040,23 +641,9 @@ export default function Page() {
       .then((data) => {
 
 
-        // Modify variations dynamically
-        data.data.variations.forEach(variation => {
-          variation.awsImages = [...variation.productImages];  // Copy productImages to awsImages
-          variation.productImages = [];  // Clear productImages
-          variation.deleteImages = [];
-        });
-
-        if (!data.data.productType) {
-          data.data.productType = "product"
-        }
-
-        if (data.data.productType === 'property') {
-          setpropertyvariations([...data.data.variations])
-          data.data.awsImages = [...data.data.images];
-          data.data.images = [];
-          data.data.deleteImages = [];
-        }
+        data.data.awsImages = [...data.data.images];
+        data.data.images = [];
+        data.data.deleteImages = [];
 
         console.log(data.data, data.data.productType)
 
@@ -1065,17 +652,11 @@ export default function Page() {
 
         setUserData({
           productData: filteredData,
-          variationsData: [...data.data.variations]
         })
 
         setproductupdate(true)
 
-        setPrimaryGroup(data.data.primaryAttribute)
         setselectedtag(data.data?.tagName)
-        // setisdata(true)
-        setshowMap(true)
-        setSelectedAmenities(data.data.ammenties)
-
 
         document.querySelector('.loaderoverlay').style.display = 'none';
       })
@@ -1092,164 +673,6 @@ export default function Page() {
 
 
 
-  function postnewVariation(newVariation = false) {
-
-    if (userData.productData.productType !== "service") {
-      let hasdefaultAttribute = checkdefaultAttribute(variation)
-
-      if (!hasdefaultAttribute) {
-        alert(`select one ${primaryGroup} Attribute`)
-        return;
-      }
-    }
-
-
-    let updatevariation = structuredClone(variation);
-
-
-
-
-    function cleanVariationData(variationsDataRemove) {
-      const keysToRemove = variationsDataRemove;
-
-      const cleaned = { ...updatevariation };
-      keysToRemove.forEach(key => delete cleaned[key]);
-      return cleaned;
-
-    }
-
-
-
-    if (userData.productData.productType === "property") {
-
-      if (Array.isArray(updatevariation.priceSlabs)) {
-        updatevariation.priceSlabs.forEach(slab => {
-          if (slab.max === "") slab.max = 0;
-          if (slab.discount === "") slab.discount = 0;
-          if (slab.deliveryFee === "") slab.deliveryFee = 0;
-        });
-      }
-
-
-      // Call the function
-      cleanVariationData([
-        "gst",
-        "stock",
-        "serviceName",
-        "duration",
-        "lowStockThreshold",
-        "repeatBuyerDiscount",
-        "dimensions",
-        "weight",
-        "divertIndividualOrder",
-        "isReturnable",
-        "returnDays"
-      ]);
-
-    }
-
-
-
-    if (userData.productData.productType === "product") {
-
-      // Call the function
-      cleanVariationData(["serviceName", "duration"]);
-
-    }
-
-    if (userData.productData.productType === "service") {
-
-      // Call the function
-      cleanVariationData(["stock", "divertIndividualOrder", "lowStockThreshold", "priceSlabs", "isReturnable", "returnDays", "dimensions", "weight", "repeatBuyerDiscount"]);
-
-    }
-
-
-
-
-
-
-    async function convertImagesToBase64(productData) {
-      const variations = [productData];
-
-      const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = (error) => reject(error);
-        });
-      };
-
-      for (const variation of variations) {
-        const images = variation.productImages;
-
-        for (let i = 0; i < images.length; i++) {
-          const imageFile = images[i];
-
-          if (imageFile instanceof File) { // Check if the item is a File object
-            try {
-              const base64String = await convertToBase64(imageFile);
-              images[i] = base64String; // Replace the file with Base64
-            } catch (error) {
-              console.error('Error converting image to Base64:', error);
-            }
-          }
-        }
-      }
-
-      return productData;
-    }
-
-    // Example usage
-    // Assuming 'uploadedProductData' is your JSON object with actual File objects in productImages
-    convertImagesToBase64(updatevariation).then((result) => {
-      console.log('Converted Product Data:', result);
-      postdata(result)
-    });
-
-
-    async function postdata(data) {
-
-      try {
-        document.querySelector('.loaderoverlay').style.display = 'flex';
-
-        const token = localStorage.getItem('token');
-        let pid = new URLSearchParams(window.location.search).get("pid");
-
-        let uploadurl = newVariation ? `${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}` : `${process.env.NEXT_PUBLIC_BASE_URL}/product/updateVariation/${pid}/${data._id}`;
-
-        const response = await fetch(uploadurl, {
-          method: newVariation ? "POST" : "PUT",
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          alert(`${userData.productData.productType} Updated successfully!`);
-          //     window.location=`/supplier/Products/add-update-product?pid=${pid}`;
-          window.location.reload();
-
-        } else {
-          const errorData = await response.json();
-          document.querySelector('.loaderoverlay').style.display = 'none';
-          alert("Failed to Update Product: " + errorData.message);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        alert("Something went wrong!");
-      }
-    }
-
-  }
-
-
-
   async function Updateproductdetails() {
 
     if (userData.productData.tag === "" || userData.productData.tag === null) {
@@ -1259,17 +682,6 @@ export default function Page() {
 
 
     let userDatacopy = structuredClone(userData);
-
-    // Handle location for property type
-    if (userData.productData.productType === "property") {
-      const locationData = await handlelocationSubmit();
-      if (!locationData) {
-        alert('Enter all location details')
-        return;
-      }
-      // Directly assign the location data to the copy
-      userDatacopy.productData.location = locationData;
-    }
 
 
 
@@ -1285,25 +697,6 @@ export default function Page() {
 
 
 
-    if (userData.productData.productType === "property") {
-
-      userDatacopy.variationsData.forEach(variation => {
-        if (Array.isArray(variation.priceSlabs)) {
-          variation.priceSlabs.forEach(slab => {
-            if (slab.max === "") slab.max = 0;
-            if (slab.discount === "") slab.discount = 0;
-            if (slab.deliveryFee === "") slab.deliveryFee = 0;
-          });
-        }
-      });
-
-
-      // Call the function
-      cleanVariationData(["amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude"]);
-
-    }
-
-
 
     if (userData.productData.productType === "product") {
 
@@ -1312,12 +705,7 @@ export default function Page() {
 
     }
 
-    if (userData.productData.productType === "service") {
 
-      // Call the function
-      cleanVariationData(["location", "ammenties", "khataType", "approvalType", "amazoneProductUrl", "reasonForReturn", "BrandName", "latitude", "longitude"]);
-
-    }
 
 
     try {
@@ -1356,45 +744,6 @@ export default function Page() {
   }
 
 
-  function deletevariation(vid) {
-
-
-    const token = localStorage.getItem('token');
-
-    let pid = new URLSearchParams(window.location.search).get("pid");
-
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/variation/${pid}/${vid}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { Authorization: `Bearer ${token}` }), // Add token if it exists
-      }
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((errorData) => {
-
-            throw new Error(errorData.error || 'Failed');
-          });
-        }
-      })
-      .then((data) => {
-
-
-        alert(data.message)
-        window.location.reload();
-      })
-      .catch((err) => {
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        console.log(err)
-
-
-      });
-
-
-  }
 
 
   // stop scrool when active input
@@ -1402,13 +751,6 @@ export default function Page() {
 
 
 
-  function removeattribute(index) {
-
-    let updatedattributes = variation.attributes.filter((_, i) => i !== index);
-
-    setVariation({ ...variation, attributes: updatedattributes })
-
-  }
 
 
   function removecommanattribute(index) {
@@ -1443,34 +785,6 @@ export default function Page() {
   }
 
 
-  function remopriceslab(index) {
-
-    if (variation.priceSlabs.length !== 1) {
-
-      let updatedslab = variation.priceSlabs.filter((_, i) => i !== index);
-
-      setVariation({ ...variation, priceSlabs: updatedslab })
-    } else {
-      alert('You need to add at least one price slab.')
-    }
-
-
-  }
-
-
-  /// primary attribute group
-
-  const handlePrimaryGroupChange = (groupName) => {
-    setPrimaryGroup(groupName);
-
-    userData.productData.primaryAttribute = groupName;
-  };
-
-  const resetPrimaryGroup = () => {
-    setPrimaryGroup('');
-    userData.productData.primaryAttribute = '';
-  };
-
 
 
   const fetchAttributes = async (productType) => {
@@ -1501,16 +815,6 @@ export default function Page() {
 
 
 
-  function checkdefaultAttribute(variation) {
-    for (let attr of variation.attributes) {
-      if (attr.hasOwnProperty('defaultAttribute')) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-
   const handlePDFUpload = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
@@ -1539,88 +843,7 @@ export default function Page() {
 
 
 
-  // Handle location form submission
-  const handlelocationSubmit = async () => {
-
-
-    if (!LocationformData.location.address || !LocationformData.location.city || !LocationformData.location.state || !LocationformData.location.area) {
-
-      return false;
-    }
-
-
-    const geocode = async () => {
-      return new Promise((resolve, reject) => {
-        const apiKey = process.env.NEXT_PUBLIC_REACT_APP_Maps_API_KEY;
-        const address = LocationformData.location.address;
-        console.log(address)
-
-        fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-            address
-          )}&key=${apiKey}`
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then((data) => {
-            if (data.results.length > 0) {
-              console.log("Full Response:", data);
-
-              const longNames = data?.results[0]?.address_components
-                .map(comp => comp?.long_name)
-                .join(", ");
-
-              console.log(longNames);
-
-              // Prepare data for backend
-              const location = {
-                geoJsonType: "Point",
-                address: LocationformData.location.address,
-                coordinates: [data?.results[0]?.geometry?.location?.lng, data?.results[0]?.geometry?.location?.lat],
-                state: LocationformData.location.state,
-                city: LocationformData.location.city,
-                area: LocationformData.location.area,
-                googleAddress: longNames,
-              };
-
-              console.log(location)
-
-              setUserData((prevState) => ({
-                ...prevState,
-                productData: {
-                  ...prevState.productData,
-                  ['location']: location,
-                },
-              }));
-
-
-              resolve(location);
-
-            } else {
-              console.log("No results found.");
-              reject(new Error("No results found"));
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching geocode data:", error.message);
-            reject(error);
-          });
-      });
-    };
-
-    const locationData = await geocode(); // Wait for geocode to complete
-    return locationData;
-
-  };
-
-
-
-
-  const handlepropertyimageUpload = (files) => {
+  const handleproductimageUpload = (files) => {
     const fileArray = Array.from(files);
 
     // For images, read all files and collect results
@@ -1645,7 +868,7 @@ export default function Page() {
   };
 
 
-  const removepropertyImage = (imgIndex) => {
+  const removeproductImage = (imgIndex) => {
 
 
     setUserData((prevState) => ({
@@ -1659,7 +882,7 @@ export default function Page() {
   };
 
 
-  const removepropertyawsImage = (imgIndex) => {
+  const removeproductawsImage = (imgIndex) => {
 
     setUserData((prevState) => ({
       ...prevState,
@@ -1732,18 +955,7 @@ export default function Page() {
             <QuillEditor value={userData.productData.description || ""} onChange={(value) => handleProductDataChange("description", value)} editorwidth={'200px'} />
           </div>
 
-          {userData.productData.productType === "property" && <> <div className="input-group">
-            <label htmlFor="khataType">khata Type</label>
-            <input id="product-video" type="text" placeholder="" value={userData.productData?.khataType || ""}
-              onChange={(e) => handleProductDataChange("khataType", e.target.value)} />
-          </div>
 
-            <div className="input-group">
-              <label htmlFor="approvalType">Approval Type</label>
-              <input id="product-video" type="text" placeholder="" value={userData.productData?.approvalType || ""}
-                onChange={(e) => handleProductDataChange("approvalType", e.target.value)} />
-            </div>
-          </>}
 
           <div className="input-group" style={{ marginBottom: '20px', marginTop: '20px' }}>
             <label>Price Range</label>
@@ -1779,12 +991,18 @@ export default function Page() {
                   value={spec.value}
                   onChange={(e) => handleCommonAttributeChange(index, "value", e.target.value)}
                 />
-                <button type="button" onClick={() => removecommanattribute(index)} style={{ background: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer' }}>X</button>
+                <button type="button" onClick={() => removecommanattribute(index)} style={{ background: 'red', color: 'white', border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}>X</button>
               </div>
             ))}
             <button type="button" className='upload-btn-878' style={{ border: 'none' }} onClick={addCommonAttribute}>
               <i className="fas fa-plus"> </i> &nbsp; Add Specification
             </button>
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="MOQ">Enter MOQ</label>
+            <input id="MOQ" type="number" placeholder="" value={userData.productData.moq || ""}
+              onChange={(e) => handleProductDataChange("moq", e.target.value)} />
           </div>
 
 
@@ -1796,14 +1014,14 @@ export default function Page() {
 
 
           <div className="upload-container787" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            {userData.productData.productType === "property" && <div>
+            <div>
               <label className="upload-btn-878" style={{ backgroundColor: '#007bff' }}>
                 <i className="fa fa-image"></i> Upload {userData.productData.productType} Images
                 <input
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => handlepropertyimageUpload(e.target.files)}
+                  onChange={(e) => handleproductimageUpload(e.target.files)}
                 />
               </label>
 
@@ -1815,7 +1033,7 @@ export default function Page() {
                         <img src={img} alt={`Property ${imgIndex + 1}`} />
                         <button
                           className="preview-remove-878"
-                          onClick={() => removepropertyImage(imgIndex)}
+                          onClick={() => removeproductImage(imgIndex)}
                         >
                           <i className="fa fa-times"></i>
                         </button>
@@ -1827,7 +1045,7 @@ export default function Page() {
                         <img src={img} alt={`Property ${imgIndex + 1}`} />
                         <button
                           className="preview-remove-878"
-                          onClick={() => removepropertyawsImage(imgIndex)}
+                          onClick={() => removeproductawsImage(imgIndex)}
                         >
                           <i className="fa fa-times"></i>
                         </button>
@@ -1836,7 +1054,7 @@ export default function Page() {
 
                   </div>
                 </div>}
-            </div>}
+            </div>
 
             <div className="video-upload-section-878">
 
@@ -1886,106 +1104,7 @@ export default function Page() {
 
           </div>
 
-          {userData.productData.productType === "service" && <div
-            style={{
-              display: "flex",
-              gap: "30px",
-              maxWidth: "220px",
-              whiteSpace: 'nowrap',
-              marginTop: '50px'
-            }}
-          >
-            {/* Call Option */}
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                cursor: "pointer",
-              }}
-            >
-              <input
-                type="checkbox"
-                style={{
-                  transform: "scale(1.5)",
-                  marginRight: "6px",
-                  cursor: "pointer",
-                }}
-                onChange={(e) => {
-                  handleProductDataChange("canCall", e.target.checked)
-                }}
-                checked={userData.productData?.canCall}
-              />
-              <span>Call Option</span>
-            </label>
 
-            {/* Book Now Option */}
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                cursor: "pointer",
-              }}
-            >
-              <input
-                type="checkbox"
-                style={{
-                  transform: "scale(1.5)",
-                  marginRight: "6px",
-                  cursor: "pointer",
-                }}
-                onChange={(e) => {
-                  handleProductDataChange("canBook", e.target.checked)
-                }}
-                checked={userData.productData?.canBook}
-
-              />
-              <span>Book Now Option</span>
-            </label>
-          </div>}
-
-          {/* <label htmlFor="product-video" style={{marginRight:'10px'}}>Add Common Attributes</label>
-
-        <i
-        className="fas fa-plus-circle"
-        style={{ color: "green", fontSize: "20px", cursor: "pointer" ,margin:'20px 0px'}}
-        onClick={addCommonAttribute}
-      ></i>
-
-      {userData.productData.commonAttributes.map((item, index) => (
-        <div className="quantity-range" key={index} style={{ margin: "20px 0px" }}>
-          <div className="form-group">
-          <div style={{display:'flex',justifyContent:'space-between'}}>
-
-            <label className="form-label">Common Attributes</label>
-            <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-                  onClick={()=>{removecommanattribute(index)}}></i>
-                  </div>
-            <div className="range-container">
-              <input
-                type="text"
-                className="form-input small-input"
-                placeholder="Key"
-                style={{ width: "100px" }}
-                value={item.key}
-                onChange={(e) => handleCommonAttributeChange(index, "key", e.target.value)}
-              />
-
-              <input
-                type="text"
-                className="form-input small-input"
-                placeholder="Value"
-                style={{ width: "100px" }}
-                value={item.value}
-                onChange={(e) => handleCommonAttributeChange(index, "value", e.target.value)}
-              />
-
-           
-            </div>
-          </div>
-        </div>
-      ))} */}
 
           <br />
 
@@ -2029,7 +1148,6 @@ export default function Page() {
 
 
 
-          {userData.productData.productType === "property" && <AmenitiesSelector selectedAmenities={selectedAmenities} setSelectedAmenities={setSelectedAmenities} propertyAmenities={userData.productData.ammenties} setUserData={setUserData} />}
 
 
         </div>
@@ -2069,33 +1187,7 @@ export default function Page() {
       </div>
 
 
-      {
-        showMap && <PropertyLocationForm setUserData={setUserData} show={userData.productData.productType} userlocation={userData.productData?.location ? {
-          location: {
-            address: userData.productData.location.address,
-            latitude: userData.productData.location.coordinates[1], // Default to Mumbai
-            longitude: userData.productData.location.coordinates[0],
-            state: userData.productData.location?.state || '',
-            city: userData.productData.location?.city || '',
-            area: userData.productData.location?.area || '',
-            googleAddress: userData.productData.location?.googleAddress || '',
-          }
-        } : {
 
-          location: {
-            address: '',
-            latitude: 19.0760, // Default to Mumbai
-            longitude: 72.8777,
-            state: "",
-            city: "",
-            area: "",
-            googleAddress: "",
-          }
-        }}
-
-          formData={LocationformData} setFormData={setLocationFormData}
-        />
-      }
 
 
       <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
@@ -2104,140 +1196,6 @@ export default function Page() {
 
       </div>
 
-      {
-        userData.productData.productType !== "property" && <div className="container" style={{ marginTop: '50px' }}>
-          <div className="pricing-section">
-            {!userData.variationsData.length === 0 && <h2 className="section-title">Pricing</h2>}
-            {userData.variationsData.map((pricing, index) => {
-
-              return (
-                <div key={index} className="pricing-item" style={{ border: pricing.stock === 0 ? '2px solid #ff0000' : '1px solid #818181', width: 'fit-content' }}>
-                  <span>
-                    {index + 1}. Net Price:<><span style={{ color: '#1389F0' }}> ₹{pricing.mrp}</span></> {userData.productData.productType === "product" && <>/ Stock:<span style={{ color: '#1389F0' }}>{pricing.stock}</span></>}
-                  </span>
-                  <div className="actions">
-
-                    <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
-                      <p>{pricing.attributes.map(attr => attr.value).join(", ")}</p>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
-                      <img src={
-                        (Array.isArray(pricing?.awsImages) && pricing.awsImages[0]) ||
-                        (Array.isArray(pricing?.productImages) && pricing?.productImages.length > 0 && handleImagefilrtourlconvert(pricing.productImages[0])) ||
-                        "/images/noimgavl.jpg"
-                      } width={'50px'} alt="" />
-                    </div>
-
-
-                    <div style={{ display: 'flex', alignItems: "center", gap: '5px', marginRight: '20px' }}>
-                      <label>copy</label>
-                      <input
-                        type="checkbox"
-                        checked={selectedPricingIndex === index}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedPricingIndex(index);
-                            copyPricing(index);
-                          } else {
-                            setSelectedPricingIndex(null);
-                          }
-                        }}
-                      />
-                    </div>
-                    <button className="edit-btn" onClick={() => updatePricing(index)}>
-                      <i className="fas fa-edit"></i>
-                    </button>
-
-                    {productupdate ? <button className="delete-btn" onClick={() => deletevariation(pricing._id)}>
-                      <i className="fas fa-trash-alt"></i>
-                    </button> : <button className="delete-btn" onClick={() => removePricing(index)}>
-                      <i className="fas fa-trash-alt"></i>
-                    </button>}
-
-                  </div>
-                </div>
-              )
-            }
-
-            )}
-
-
-
-
-            {/* Primary Group Selection */}
-            {/* {userData.productData.productType !== "service" && (!primaryGroup ? (
-              <div style={{ marginBottom: '20px' }}>
-                <h4 style={{ marginBottom: '5px', whiteSpace: 'nowrap' }}>Select Primary Attribute:</h4>
-                <select
-                  className="select-attribute-671"
-                  value=""
-                  onChange={(e) => handlePrimaryGroupChange(e.target.value)}
-                  style={{ marginBottom: '10px' }}
-                >
-                  <option value="">-- Attributes --</option>
-                  {AllAttributes.map((attr, idx) => (
-                    <option key={idx} value={attr.GroupName}>
-                      {idx + 1}. {attr.GroupName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : (
-              <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px', width: 'fit-content', whiteSpace: 'nowrap' }}>
-                <h4>Primary Attribute: <span style={{ color: '#007bff' }}>{primaryGroup}</span></h4>
-
-                {userData.variationsData.length === 0 && <i className="fas fa-sync"
-                  onClick={resetPrimaryGroup}
-                  style={{
-                    margin: '5px',
-                    padding: '5px 10px',
-                    backgroundColor: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '3px',
-                    cursor: 'pointer',
-                    fontSize: '12px'
-                  }}
-                ></i>}
-              </div>
-            ))} */}
-
-            {primaryGroup && <button className="add-btn" onClick={() => {
-
-              function reset() {
-
-                toggleModal(false)
-                setSelectedPricingIndex(null);
-              }
-
-              selectedPricingIndex === null ? toggleModal() : reset()
-
-            }}>
-              Add Variation <i className="fas fa-plus"></i>
-            </button>}
-
-
-            {userData.productData.productType === "service" && <button className="add-btn" onClick={() => {
-
-              function reset() {
-
-                toggleModal(false)
-                setSelectedPricingIndex(null);
-              }
-
-              selectedPricingIndex === null ? toggleModal() : reset()
-
-            }}>
-              Add Variation <i className="fas fa-plus"></i>
-            </button>}
-
-          </div>
-
-        </div>
-      }
-
-
 
       <div className="action-buttons">
 
@@ -2245,507 +1203,6 @@ export default function Page() {
           <button className="update-button" onClick={handleSubmit} style={{ textTransform: 'capitalize' }}>Add {userData.productData.productType}</button>
         </>}
       </div>
-
-
-
-
-      {
-        ModalOpen && (
-          <div className="modal-overlay">
-            <form className="form" style={{ height: "90vh", overflowY: "auto" }} onSubmit={(e) => {
-              e.preventDefault();
-
-              isupdate ? (productupdate ? postnewVariation() : saveVariation(true)) : saveVariation()
-
-
-            }}>
-
-
-
-              {userData.productData.productType === "service" && <>
-
-
-                <div className="form-group">
-                  <label className="form-label">Service Name</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={variation.serviceName}
-                    required
-                    onChange={(e) => handleserviceChange("serviceName", e.target.value)}
-                  />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '15px', marginBottom: '20px' }}>
-                  <div className="form-group">
-                    <label className="form-label">Duration</label>
-                    <input
-                      type="number"
-                      className="form-input"
-                      value={variation.duration.value}
-
-                      onChange={(e) => handleserviceChange("value", e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Unit</label>
-                    <select className="form-input" value={variation.duration.unit || ""} onChange={(e) => handleserviceChange("unit", e.target.value)}>
-
-                      <option value="minutes">Minutes</option>
-                      <option value="hours">Hours</option>
-                      <option value="days">Days</option>
-                      <option value="weeks">Weeks</option>
-                      <option value="months">Months</option>
-
-                    </select>
-                  </div>
-
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">GST %</label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Eg. 10%"
-                    value={variation.gst}
-                    required
-                    onChange={(e) => handleVariationChange("gst", e.target.value)}
-                  />
-                </div>
-
-
-              </>
-              }
-
-              <div className="form-group">
-                <label className="form-label">{userData.productData.productType === "property" ? 'Per sq ft cost' : userData.productData.productType === "service" ? 'Price' : 'Mrp'}</label>
-                <input
-                  type="number"
-                  className="form-input"
-                  value={variation.mrp}
-                  onChange={(e) => handleVariationChange("mrp", e.target.value)}
-                  required
-                />
-              </div>
-
-
-
-              {userData.productData.productType === "product" && <>
-
-                <div className="form-group">
-                  <label className="form-label">GST %</label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Eg. 10%"
-                    value={variation.gst}
-                    required
-                    onChange={(e) => handleVariationChange("gst", e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Stock Keeping Unit</label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Eg. 1000"
-                    value={variation.stock}
-                    onChange={(e) => handleVariationChange("stock", e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Low Stock Threshold</label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Eg. 10"
-                    value={variation.lowStockThreshold}
-                    onChange={(e) => handleVariationChange("lowStockThreshold", e.target.value)}
-                    required
-                  />
-                </div>
-
-
-                {/* Repeat Buyer Discount */}
-                <div className="form-group">
-                  <label className="form-label">Repeat Buyer Discount % (Optional)</label>
-                  <input
-                    type="number"
-                    className="form-input"
-                    placeholder="Enter additional discount in (%)"
-                    value={variation.repeatBuyerDiscount}
-                    onChange={(e) => handleVariationChange("repeatBuyerDiscount", e.target.value)}
-
-                  />
-                </div>
-              </>}
-
-
-              <p style={{ marginTop: '20px', textAlign: 'left' }}>Add Images</p>
-              <div className="image-uploader" style={{ marginBottom: '10px' }}>
-
-                <div className="add-image">
-                  <input
-                    type="file"
-                    id="imageInput"
-                    multiple
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                  />
-                  <label htmlFor="imageInput" className="add-image-label">
-                    <img src="\icons\upcross.svg" alt="" width={'30px'} />
-                    <p>Add Image</p>
-                  </label>
-                </div>
-                <div className="image-preview">
-                  {images.map((image, index) => (
-                    <div className="image-container" key={index}>
-                      <img src={image} alt={`preview-${index}`} />
-                      <button
-                        className="remove-button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeImage(index)
-                        }}
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    </div>
-                  ))}
-
-                  {preimages.map((image, index) => (
-                    <div className="image-container" key={index}>
-                      <img src={image} alt={`preview-${index}`} />
-                      <button
-                        className="remove-button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removepreImage(index)
-                        }}
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-
-
-              </div>
-
-
-              {/* Add Attributes */}
-              {userData.productData.productType !== "service" && <div style={{ display: "flex", gap: '10px', alignItems: 'center' }}>
-
-                <SelectedAttributeArray attributes={AllAttributes} primaryGroup={primaryGroup} addAttribute={addAttribute} currentattributes={variation.attributes} />
-              </div>}
-
-
-
-
-              {userData.productData.productType === "product" && <>
-                <div className="quantity-range" style={{ marginTop: '40px' }}>
-                  <div className="form-group">
-                    <strong className="form-label" style={{ marginBottom: '15px' }}>Add Dimensions in centimeter</strong>
-                    <div className="range-container">
-
-                      <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
-                        <p>Length</p>
-
-                        <input
-                          type="number"
-                          className="form-input small-input"
-                          required
-                          placeholder=""
-                          style={{ width: '60px' }}
-                          value={variation.dimensions.length}
-                          onChange={(e) => handleDimensionChange("length", e.target.value)}
-                        />
-
-                      </div>
-
-                      <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
-                        <p>Height</p>
-                        <input
-                          type="number"
-                          className="form-input small-input"
-                          placeholder=""
-                          required
-                          style={{ width: '60px' }}
-                          value={variation.dimensions.height}
-                          onChange={(e) => handleDimensionChange("height", e.target.value)}
-                        />
-
-                      </div>
-
-                      <div style={{ display: "flex", flexDirection: 'column', gap: '10px', justifyContent: 'center' }}>
-                        <p>Width</p>
-                        <input
-                          type="number"
-                          className="form-input small-input"
-                          placeholder=""
-                          required
-                          style={{ width: '60px' }}
-                          value={variation.dimensions.width}
-                          onChange={(e) => handleDimensionChange("width", e.target.value)}
-                        />
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                {/* weight */}
-                <div className="quantity-range">
-                  <div className="form-group">
-                    <strong className="form-label">Add weight in kg</strong>
-                    <div className="range-container">
-
-                      <input
-                        type="number"
-                        className="form-input small-input"
-                        placeholder="In kg"
-                        required
-                        value={variation.weight}
-                        onChange={(e) => handleVariationChange("weight", e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </>}
-
-
-              {/* Add Price Slabs */}
-              {userData.productData.productType !== "service" && (variation.priceSlabs.length > 0 && <strong className="form-label" style={{ fontSize: '18px', margin: '15px 0px', color: '#1389F0' }}>Add Price Slabs</strong>)}
-
-
-              {userData.productData.productType !== "service" && (variation.priceSlabs.map((slab, index) => (
-                <div className="quantity-range" key={index}>
-                  <div className="form-group">
-                    {userData.productData.productType === "product" && <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
-                      <strong className="form-label" style={{ marginBottom: "10px" }}>
-                        Type: {slab.type === 'individual' ? (userData.productData.productType === "product"
-                          ? 'individual / retailer' : 'individual') : (slab.type === 'retailer' ? 'wholesaler' : 'wholesaler - Bulk Qty')}
-                      </strong>
-
-                      <i className="fas fa-times" style={{ color: "red", fontSize: "20px", cursor: "pointer" }}
-                        onClick={() => { remopriceslab(index) }}></i>
-
-                    </div>}
-
-                    <label className="form-label">{userData.productData.productType === "product" ? 'Enter Quantity Range' : 'Total sq ft'}</label>
-                    <div className="range-container">
-                      <input
-                        type="number"
-                        className="form-input small-input"
-                        placeholder={userData.productData.productType === "product" ? "Lower Limit" : ""}
-                        style={{ width: "100px" }}
-                        value={slab.min || ''}
-                        onChange={(e) => {
-                          const updatedSlabs = structuredClone([...variation.priceSlabs]);
-                          updatedSlabs[index].min = Number(e.target.value);
-                          setVariation({ ...variation, priceSlabs: updatedSlabs });
-                        }}
-                        required
-                      />
-
-                      {userData.productData.productType === "product" && <>
-                        <span className="range-icon">
-                          <i className="fas fa-arrow-right"></i>
-                        </span>
-                        <input
-                          type="number"
-                          className="form-input small-input"
-                          placeholder="Upper Limit"
-                          style={{ width: "100px" }}
-                          value={slab.max || ''}
-                          onChange={(e) => {
-                            const updatedSlabs = [...variation.priceSlabs];
-                            updatedSlabs[index].max = Number(e.target.value);
-                            setVariation({ ...variation, priceSlabs: updatedSlabs });
-                          }}
-                          required
-                        />
-                      </>}
-
-                    </div>
-                  </div>
-
-                  {userData.productData.productType === "product" && <> <div className="form-group">
-                    <label className="form-label">Enter Discount (%)</label>
-                    <input
-                      type="number"
-                      className="form-input"
-                      placeholder="Enter discount"
-                      value={slab.discount}
-                      onChange={(e) => {
-
-                        if (e.target.value < 0) {
-                          e.target.value = 0;
-                        }
-
-                        const updatedSlabs = [...variation.priceSlabs];
-                        updatedSlabs[index].discount = e.target.value !== '' ? Number(e.target.value) : '';
-                        setVariation({ ...variation, priceSlabs: updatedSlabs });
-                      }}
-
-                    />
-                  </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Enter Delivery Fee</label>
-                      <input
-                        type="number"
-                        className="form-input"
-                        placeholder="Delivery Fee"
-                        value={slab.deliveryFee}
-                        onChange={(e) => {
-
-                          if (e.target.value < 0) {
-                            e.target.value = 0;
-                          }
-
-                          const updatedSlabs = [...variation.priceSlabs];
-                          updatedSlabs[index].deliveryFee = e.target.value !== '' ? Number(e.target.value) : '';
-                          setVariation({ ...variation, priceSlabs: updatedSlabs });
-                        }}
-                        required
-                      />
-                    </div> </>}
-
-                </div>
-              )))
-              }
-
-
-              {/* Enable Return with Max Days */}
-              {userData.productData.productType === "product" &&
-                <> <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-                  <label>Enable Return</label>
-                  {showReturnDaysInput && (
-                    <input
-                      type="number"
-                      placeholder="Enter Max Days"
-                      className="input-group"
-                      style={{ width: "70px", marginBottom: "0px" }}
-                      value={variation.returnDays}
-                      onChange={(e) => {
-                        console.log(e.target.value)
-                        //   if(Number(e.target.value)<1 || variation.returnDays === null){
-                        //     handleVariationChange("returnDays",'1')
-                        //   }else{
-                        //   handleVariationChange("returnDays", e.target.value)
-                        // }
-                      }}
-                      required
-                    />
-                  )}
-
-                  {variation.isReturnable && <label>Days</label>}
-
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      checked={variation.isReturnable}
-                      onChange={() => {
-                        const newState = !variation.isReturnable;
-                        setShowReturnDaysInput(newState);
-                        handleVariationChange("isReturnable", newState);
-                        // if (!newState) {
-                        //   handleVariationChange("returnDays", null); // Reset return days if return is disabled
-                        // }
-                      }}
-                    />
-                    <span className="slider round"></span>
-                  </label>
-                </div>
-
-                  {/* Divert Small Order */}
-                  <div className="input-group" style={{ display: "flex", justifyContent: "space-between", border: "1px solid black", alignItems: "center", padding: "5px", borderRadius: "5px" }}>
-                    <label>Divert Individual Order to Coslomart</label>
-                    <label className="switch">
-                      <input
-                        type="checkbox"
-                        checked={variation.divertIndividualOrder}
-                        onChange={() => handleVariationChange("divertIndividualOrder", !variation.divertIndividualOrder)}
-                      />
-                      <span className="slider round"></span>
-                    </label>
-                  </div>
-                </>
-              }
-
-              <div className="button-group">
-
-
-                {isupdate === false && <button
-                  type="button"
-                  className="cancel-button"
-                  onClick={() => {
-                    // Remove current slab when cancel button is clicked
-                    if (variation.priceSlabs.length > 0) {
-                      removePriceSlab(variation.priceSlabs.length - 1);
-                    }
-
-                    setproductimages([])
-                    setImages([])
-
-                    setModalOpen(!ModalOpen); // Close the modal
-
-                  }}
-                >
-                  Cancel
-                </button>}
-
-
-                {isupdate ? <button type="submit" className="save-button">
-                  Update Price
-                </button> : (productupdate ? <button type="submit" className="save-button" onClick={() => { postnewVariation(true) }}>
-                  Save Price
-                </button> : <button type="submit" className="save-button">
-                  Save Price
-                </button>)}
-
-
-              </div>
-            </form>
-          </div>
-        )
-      }
-
-
-
-      {
-        confirmationOpen && (
-          <div className="modal-overlay">
-
-            <div className="confirmation-box">
-              <div className="icon">
-                {/* Replace the src below with the actual path to your image */}
-                <img
-                  src="\icons\svggg.png"
-                  alt="Icon"
-                  className="icon-image"
-                />
-              </div>
-              <p className="message">Are you sure ?</p>
-              <div className="button-group">
-                <button className="button no-button" onClick={toggleconfirmation}>No</button>
-                <button className="button yes-button">Yes</button>
-              </div>
-            </div>
-          </div>
-        )
-      }
-
-
 
     </div >
   );

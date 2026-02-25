@@ -212,42 +212,17 @@ export default function page() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h3 style={{ textTransform: 'capitalize' }}>{ptype}</h3>
 
-        {ptype && <Link href={`/supplier/Products/add-update-product?ptype=${ptype}`}>
+        {ptype && <a href={ptype === 'property' ? `/supplier/Products/add-update-product?ptype=${ptype}` : `/supplier/Products/add-n-update-product?ptype=${ptype}`}>
           <button className="AddProduct" style={{ textTransform: 'capitalize' }}>
             Add {ptype} &nbsp; <i className="fas fa-plus" style={{ marginRight: '10px' }}></i>
           </button>
-        </Link>}
+        </a>}
 
       </div>
 
       <div style={{ textAlign: 'left', marginBottom: '20px' }}>
 
-        {/* <AttributeForm/> */}
 
-
-
-        {/* <button style={{textAlign:'left',marginRight:'10px',border:'1px solid black',backgroundColor:'white',padding:'5px 10px'}}>
-      
-        <i className="fas fa-filter" style={{marginRight:'10px'}}></i>
-  
-      <select style={{border:'none'}} value={ptype} onChange={(e)=>{
-setdata([])
-setPage(1)
-setHasMore(true)
-setsearchquery([])
-setSelectedId(null)
-setsearchText('')
-setptype(e.target.value)
-localStorage.setItem('productType',e.target.value)
-
-      }}>
-        <option value="">Product Type</option>
-        <option value="property">Property</option>
-        <option value="product">Product</option>
-        <option value="service">Service</option>
-      </select>
-
-      </button> */}
 
         {ptype === 'product' && <button style={{ textAlign: 'left', border: '1px solid black', backgroundColor: 'white', padding: '5px 10px' }}>
 
@@ -284,17 +259,17 @@ localStorage.setItem('productType',e.target.value)
               <th>Thumbnail</th>
               <th style={{ textTransform: 'capitalize' }}>{ptype} Name</th>
               <th>Category Name</th>
-              <th>{ptype === 'property' ? 'Price per sqft' : (ptype === 'product' ? 'Price/Stock' : 'Price')}</th>
+              <th>{ptype === 'property' ? 'Price per sqft' : (ptype === 'product' ? 'Price range' : 'Price')}</th>
               <th>Actions</th>
               <th>Visibility</th>
               <th>Visit</th>
-              <th>Address</th>
+              {ptype === 'property' && <th>Address</th>}
             </tr>
           </thead>
           <tbody>
             {data.length === 0 && isfetching === false ? (
               <tr>
-                <td colSpan="9" style={{ textAlign: "center", padding: "20px", color: '#ed2f2f' }}>
+                <td colSpan={ptype === 'property' ? "9" : "8"} style={{ textAlign: "center", padding: "20px", color: '#ed2f2f' }}>
                   <strong>Nothing Found</strong>
 
                 </td>
@@ -307,24 +282,28 @@ localStorage.setItem('productType',e.target.value)
                   <td>{data.productName}</td>
                   <td>{data.categoryName}</td>
                   <td>
-                    {data.variations.map((vdata, i) => {
 
-                      return (
-                        <div key={i}>
 
-                          {ptype === 'product' ? <p style={{ backgroundColor: vdata.stock !== 0 ? '#D9F0FF' : 'rgb(255 158 158)', padding: '5px', borderRadius: '5px', marginBottom: '5px' }}>{i + 1}. Net Price :   <strong>₹{vdata.mrp.toFixed(2)}</strong>   |  Stock : <strong> {vdata.stock} Units</strong></p> :
+                    {ptype === 'product' && <p>{data.priceRange.minPrice} - {data.priceRange.maxPrice}</p>}
 
-                            <p style={{ backgroundColor: vdata.stock !== 0 ? '#D9F0FF' : 'rgb(255 158 158)', padding: '5px', borderRadius: '5px', marginBottom: '5px' }}>{i + 1}. Price :   <strong>₹{vdata.perSqftCost.toFixed(2)} </strong> Per sq ft </p>}
+                    {ptype === 'property' &&
+                      (
+                        data.variations.map((vdata, i) => {
 
-                        </div>
-                      )
-                    })}
+                          return (
+                            <div key={i}>
+                              <p style={{ backgroundColor: vdata.stock !== 0 ? '#D9F0FF' : 'rgb(255 158 158)', padding: '5px', borderRadius: '5px', marginBottom: '5px' }}>{i + 1}. Price :   <strong>₹{vdata.perSqftCost.toFixed(2)} </strong> Per sq ft </p>
+                            </div>
+                          )
+                        })
+                      )}
 
                   </td>
                   <td>
 
+
                     <img src="\icons\editp.svg" alt="edit" style={{ cursor: 'pointer' }} onClick={() => {
-                      window.location.href = `/supplier/Products/add-update-product?pid=${data._id}`;
+                      window.location.href = ptype === 'property' ? `/supplier/Products/add-update-product?pid=${data._id}` : `/supplier/Products/add-n-update-product?pid=${data._id}`;
                     }} />
 
 
@@ -345,10 +324,10 @@ localStorage.setItem('productType',e.target.value)
 
                   <td>
 
-                    <a href={`/home/property/${slugifyurl(data.productName)}/${data._id}`} target="_blank" style={{ color: 'blue' }}>visit page</a>
+                    <a href={`/home/${ptype.toLowerCase()}/${slugifyurl(data.productName)}/${data._id}`} target="_blank" style={{ color: 'blue' }}>visit page</a>
 
                   </td>
-                  <td>{data.address}</td>
+                  {ptype === 'property' && <td>{data.address}</td>}
 
                 </tr>
               )))}

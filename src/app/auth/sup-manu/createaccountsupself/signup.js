@@ -181,7 +181,6 @@ function Signup() {
 
     if (sellertype !== 'Property') {
 
-      formData.append("gstNumber", user.gstNo);
 
       if (sellertype === 'Service') {
         formData.append("address[addressLine]", user.location);
@@ -199,10 +198,7 @@ function Signup() {
       } else if (gstImages.length > 0 && gstImages[0].file instanceof File) {
         formData.append("gstCertificateFile", gstImages[0].file); // ✅ Extract actual File
       } else {
-        alert('Upload GST Certificate File')
-        toggleconfirmation();
-        document.querySelector('.loaderoverlay').style.display = 'none';
-        return;
+
       }
 
       if (complianceImages.length > 0 && complianceImages[0] instanceof File) {
