@@ -595,7 +595,7 @@ function Productpagecontant() {
             </div>
 
 
-            <div className="priceTableContainer565">
+            {data?.commonAttributes.length > 0 && <div className="priceTableContainer565">
               <table className="priceTable565">
                 <tbody className="tableBody565" style={{ background: 'white' }}>
                   <tr className="spec-title-row">
@@ -613,7 +613,7 @@ function Productpagecontant() {
                 </tbody>
               </table>
             </div>
-
+            }
 
 
 

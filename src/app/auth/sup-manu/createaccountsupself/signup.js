@@ -232,6 +232,8 @@ function Signup() {
 
         console.log(data)
 
+        localStorage.removeItem("token")
+
         if (user.purchasePlan) {
           window.location.href = `/auth/sup-manu/login?purchasePlan=${user.purchasePlan}`;
         } else {

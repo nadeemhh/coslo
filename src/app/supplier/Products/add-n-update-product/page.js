@@ -479,6 +479,16 @@ export default function Page() {
     }
 
 
+    if (Number(userData.productData.priceRange.minPrice) === 0 || Number(userData.productData.priceRange.maxPrice) === 0) {
+      alert('Enter min max price')
+      return;
+    }
+
+    if (Number(userData.productData.moq) === 0) {
+      alert('Enter MOQ')
+      return;
+    }
+
 
     let userDatacopy = structuredClone(userData);
 
