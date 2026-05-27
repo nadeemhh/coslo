@@ -7,7 +7,7 @@ import '../component-css/tab.css'
 
 const Productbyusertype = ({category_id=null}) => {
     const [products, setProducts] = useState([]);  
-    const [activeTab, setActiveTab] = useState("Individual");
+    const [activeTab, setActiveTab] = useState("Retailer/Wholesaler");
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [canscrool, setcanscrool] = useState(false);
