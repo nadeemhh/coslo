@@ -112,7 +112,7 @@ const Productbyusertype = ({category_id=null}) => {
                       scrollToElement('OurProducts55')
                       setHasMore(true);
                       setPage(1)
-                      setActiveTab("Individual")}}
+                      setActiveTab("Retailer/Wholesaler")}}
                 >
                     Individual / Retailer
                 </button>
