@@ -38,7 +38,7 @@ export default function Imageslider() {
       .then((data) => {
 
         console.log(data)
-        setImages(data.data)
+         setImages([...data.data].reverse());
 
         document.querySelector('.loaderoverlay').style.display = 'none';
 
